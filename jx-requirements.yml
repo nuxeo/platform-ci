@@ -4,6 +4,7 @@ cluster:
   gitName: github
   gitServer: https://github.com
   namespace: jx
+  provider: gke
 environments:
 - key: dev
 - key: staging
