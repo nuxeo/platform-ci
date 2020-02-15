@@ -2,9 +2,9 @@ export BRANCH_NAME ?= $(strip $(shell git rev-parse --abbrev-ref HEAD 2>/dev/nul
 export BUILD_NUMBER ?= latest
 
 export ORG ?= nuxeo
-export TEAM_NAMESPACE ?= nos
+export JX_NAMESPACE ?= nos
 export DOCKER_REGISTRY ?= localhost:5000
-export DOCKER_NAMESPACE ?= $(ORG)/$(TEAM_NAMESPACE)/jenkins-x
+export DOCKER_NAMESPACE ?= $(ORG)/$(JX_NAMESPACE)/jenkins-x
 
 export RELEASE_VERSION ?= $(shell jx-release-version 2>/dev/null || echo 0.0.0)
 export VERSION ?= $(RELEASE_VERSION)-$(BRANCH_NAME)-$(BUILD_NUMBER)
