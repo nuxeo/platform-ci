@@ -8,5 +8,6 @@ updatebot:
 	@:
 
 release: tag changelog updatebot
+	@:
 
 .PHONY: tag changelog updatebot release

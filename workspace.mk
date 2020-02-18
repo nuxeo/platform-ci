@@ -14,18 +14,21 @@ export SCM_REPO ?= $(shell git remote get-url origin)
 export SCM_REF ?= $(shell git show -s --pretty=format:'%h%d' 2>/dev/null ||echo unknown)
 
 
+help: ## targets help
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make <target>\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  %-15s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
+
+.PHONY: help
+
 # git setup
 
 git-credentials:
 	jx step git credentials
 	git config credential.helper store
 
-.PHONY: git-credentials
-
 git-fetch-tags: git-credentials
 	git fetch --tags --quiet
 
-.PHONY: git-fetch-tags
+.PHONY: git-credentials git-fetch-tags
 
 # helm setup
 
