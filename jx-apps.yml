@@ -2,7 +2,7 @@ apps:
 - name: stable/nginx-ingress
 - name: jenkins-operator/jenkins-operator
 - name: jenkins-x/jxboot-helmfile-resources
-  version: 0.0.53
+  version: 0.0.55
 - name: jenkins-x/nexus
 - name: jenkins-x/lighthouse
 - name: jenkins-x/tekton
