@@ -1,0 +1,21 @@
+bootConfigURL: https://github.com/jenkins-x-labs/jenkins-x-boot-config-jenkins
+cluster:
+  gitKind: github
+  gitName: github
+  gitServer: https://github.com
+  namespace: jx
+environments:
+- key: dev
+- key: staging
+  remoteCluster: false
+- key: production
+  remoteCluster: false
+gitops: true
+helmfile: true
+kaniko: true
+repository: nexus
+secretStorage: local
+versionStream:
+  ref: master
+  url: https://github.com/jstrachan/jenkins-x-versions.git
+webhook: lighthouse
