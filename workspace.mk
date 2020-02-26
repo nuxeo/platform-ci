@@ -7,7 +7,7 @@ export JX_NAMESPACE ?= $(TEAM)
 export DOCKER_REGISTRY ?= localhost:5000
 export DOCKER_NAMESPACE ?= $(ORG)/$(TEAM)/jenkins-x
 
-export RELEASE_VERSION ?= $(shell jx-release-version 2>/dev/null || echo 0.0.0)
+export RELEASE_VERSION ?= $(shell git rev-parse HEAD > /dev/null 2>&1 && jx-release-version 2>/dev/null || echo 0.0.0)
 export VERSION ?= $(RELEASE_VERSION)-$(BRANCH_NAME)-$(BUILD_NUMBER)
 
 export SCM_REPO ?= $(shell git remote get-url origin)
@@ -41,5 +41,10 @@ helm-setup:
 
 # pipeline stage target
 
-workspace: git-credentials git-fetch-tags helm-setup
+workspace: git-credentials git-fetch-tags helm-setup workspace.d
 	@:
+
+workspace.d:
+	@
+
+.PHONY: workspace workspace.d
