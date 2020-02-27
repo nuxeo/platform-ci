@@ -1,4 +1,7 @@
-%~image: skaffold.yaml
+%~image: skaffold.yaml %~image.d
 	skaffold build -f skaffold.yaml -b $*
 
-.PHONY: %~image
+%~image.d:
+	@:
+
+.PHONY: %~image %~image.d
