@@ -1,3 +1,5 @@
+top-dir=$(realpath $(dir $(lastword $(MAKEFILE_LIST)))/..)
+
 export BRANCH_NAME ?= $(strip $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown))
 export BUILD_NUMBER ?= latest
 
@@ -7,7 +9,7 @@ export JX_NAMESPACE ?= $(TEAM)
 export DOCKER_REGISTRY ?= localhost:5000
 export DOCKER_NAMESPACE ?= $(ORG)/$(TEAM)/jenkins-x
 
-export RELEASE_VERSION ?= $(shell git rev-parse HEAD > /dev/null 2>&1 && jx-release-version 2>/dev/null || echo 0.0.0)
+export RELEASE_VERSION ?= $(shell git rev-parse HEAD > /dev/null 2>&1 && jx-release-version -folder $(top-dir)/.. 2>/dev/null || echo 0.0.0)
 export VERSION ?= $(RELEASE_VERSION)-$(BRANCH_NAME)-$(BUILD_NUMBER)
 
 export SCM_REPO ?= $(shell git remote get-url origin)
