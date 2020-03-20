@@ -35,9 +35,12 @@ git-fetch-tags: git-credentials
 
 # helm setup
 
+export HELM_HOME ?= $(HOME)/.helm
+
 helm-setup:
+	rm -fr $(HELM_HOME) && mkdir -p $(HELM_HOME)
 	helm init --client-only
-	helm repo remove local
+	helm repo list | grep -q 'name: local' && helm repo remove local
 	helm repo add jenkins-x http://chartmuseum.jenkins-x.io
 
 .PHONY: helm-setup
