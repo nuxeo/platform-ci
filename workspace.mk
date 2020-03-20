@@ -40,7 +40,7 @@ export HELM_HOME ?= $(HOME)/.helm
 helm-setup:
 	rm -fr $(HELM_HOME) && mkdir -p $(HELM_HOME)
 	helm init --client-only
-	helm repo list | grep -q 'name: local' && helm repo remove local
+	helm repo list | grep -q 'local.*http://127.0.0.1:8879/charts' && helm repo remove local || true
 	helm repo add jenkins-x http://chartmuseum.jenkins-x.io
 
 .PHONY: helm-setup
