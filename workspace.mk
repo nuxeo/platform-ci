@@ -18,7 +18,7 @@ export SCM_REF ?= $(shell git show -s --pretty=format:'%h%d' 2>/dev/null ||echo 
 export CHART_REPOSITORY ?= http://jenkins-x-chartmuseum:8080
 
 help: ## targets help
-	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make <target>\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  %-15s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make <target>\n\nTargets:\n"} /^[a-zA-Z~_-]+:.*?##/ { printf "  %-15s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
 .PHONY: help
 
