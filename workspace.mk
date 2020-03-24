@@ -42,6 +42,9 @@ helm-setup:
 	helm init --client-only
 	helm repo list | grep -q 'local.*http://127.0.0.1:8879/charts' && helm repo remove local || true
 	helm repo add jenkins-x http://chartmuseum.jenkins-x.io
+	helm repo add storage.googleapis.com  https://storage.googleapis.com/chartmuseum.jenkins-x.io
+	helm repo add jenkins-x-chartmuseum   http://jenkins-x-chartmuseum:8080
+	helm repo update
 
 .PHONY: helm-setup
 
