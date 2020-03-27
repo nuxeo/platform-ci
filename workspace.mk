@@ -44,7 +44,7 @@ helm-setup:
 	helm repo add jenkins-x http://chartmuseum.jenkins-x.io
 	helm repo add storage.googleapis.com  https://storage.googleapis.com/chartmuseum.jenkins-x.io
 	helm repo add jenkins-x-chartmuseum   http://jenkins-x-chartmuseum:8080
-	helm repo update
+	helm repo update --debug
 
 .PHONY: helm-setup
 
