@@ -1,4 +1,4 @@
-bootConfigURL: https://github.com/jenkins-x-labs/jenkins-x-boot-config-jenkins
+bootConfigURL: https://github.com/pfouh/jx-nos-env
 cluster:
   clusterName: microk8s
   environmentGitOwner: pfouh
@@ -8,13 +8,10 @@ cluster:
   gitServer: https://github.com
   namespace: jx
   provider: kubernetes
-
 environments:
 - key: dev
-- key: staging
-  remoteCluster: false
-- key: production
-  remoteCluster: false
+  domain: 82.237.146.243.nip.io
+  repository: jx-nos-env
 gitops: true
 helmfile: true
 kaniko: true
