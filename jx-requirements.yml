@@ -18,5 +18,5 @@ repository: nexus
 secretStorage: local
 versionStream:
   ref: master
-  url: https://github.com/jenkins-x-labs/jenkins-x-versions.git
+  url: https://github.com/pfouh/jenkins-x-versions.git
 webhook: lighthouse
