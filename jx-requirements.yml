@@ -1,10 +1,14 @@
 bootConfigURL: https://github.com/jenkins-x-labs/jenkins-x-boot-config-jenkins
 cluster:
+  clusterName: microk8s
+  environmentGitOwner: pfouh
+  environmentGitPublic: true
   gitKind: github
   gitName: github
   gitServer: https://github.com
   namespace: jx
   provider: kubernetes
+
 environments:
 - key: dev
 - key: staging
