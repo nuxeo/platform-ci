@@ -1,7 +1,8 @@
 apps:
 - name: stable/nginx-ingress
 - name: jenkins-operator/jenkins-operator
-- name: jenkins-x/jxboot-helmfile-resources
+- name: nxmatic/jxlabs-nos-resources
+  version: 0.0.136-nxmatic
 - name: jenkins-x/nexus
 - name: jenkins-x/lighthouse
 - name: jenkins-x/tekton
@@ -11,3 +12,5 @@ apps:
 repositories:
 - name: jenkins-operator
   url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
+- name: nxmatic
+  url: https://nxmatic.github.io/jxlabs-nos-resources/

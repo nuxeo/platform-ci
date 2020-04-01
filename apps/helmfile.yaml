@@ -1,0 +1,73 @@
+bases:
+- ../environments.yaml
+helmDefaults:
+  atomic: true
+  devel: false
+  force: false
+  recreatePods: false
+  tillerless: false
+  timeout: 520
+  tls: false
+  verify: false
+  wait: true
+releases:
+- chart: jenkins-operator/jenkins-operator
+  name: jenkins-operator
+  namespace: jx
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /secrets/jx-boot/secrets.yaml
+- chart: nxmatic/jxlabs-nos-resources
+  name: jxlabs-nos-resources
+  namespace: jx
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /secrets/jx-boot/secrets.yaml
+  version: 0.0.136-nxmatic
+- chart: jenkins-x/nexus
+  name: nexus
+  namespace: jx
+  values:
+  - /secrets/jenkins-x-versions/apps/jenkins-x/nexus/values.yaml.gotmpl
+  - ../jx-requirements.values.yaml.gotmpl
+  - /secrets/jx-boot/secrets.yaml
+  version: 0.1.21
+- chart: jenkins-x/lighthouse
+  name: lighthouse
+  namespace: jx
+  values:
+  - /secrets/jenkins-x-versions/apps/jenkins-x/lighthouse/values.yaml.gotmpl
+  - ../jx-requirements.values.yaml.gotmpl
+  - /secrets/jx-boot/secrets.yaml
+  version: 0.0.493
+- chart: jenkins-x/tekton
+  name: tekton
+  namespace: jx
+  values:
+  - /secrets/jenkins-x-versions/apps/jenkins-x/tekton/values.yaml.gotmpl
+  - ../jx-requirements.values.yaml.gotmpl
+  - /secrets/jx-boot/secrets.yaml
+  version: 0.0.51
+- chart: jenkins-x/chartmuseum
+  name: chartmuseum
+  namespace: jx
+  values:
+  - /secrets/jenkins-x-versions/apps/jenkins-x/chartmuseum/values.yaml.gotmpl
+  - ../jx-requirements.values.yaml.gotmpl
+  - /secrets/jx-boot/secrets.yaml
+  version: 1.1.7
+- chart: ../jenkins-servers
+  name: jenkins-servers
+  namespace: jx
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /secrets/jx-boot/secrets.yaml
+repositories:
+- name: jenkins-operator
+  url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
+- name: jenkins-x
+  url: http://chartmuseum.jenkins-x.io
+- name: jenkins-x
+  url: https://storage.googleapis.com/chartmuseum.jenkins-x.io
+- name: nxmatic
+  url: https://nxmatic.github.io/jxlabs-nos-resources/

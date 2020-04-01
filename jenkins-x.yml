@@ -1,2 +1,2 @@
-buildPackGitURL: https://github.com/jenkins-x-labs/jenkins-x-kubernetes.git
 buildPack: environment-helmfile
+buildPackGitURL: https://github.com/jenkins-x-labs/jenkins-x-kubernetes.git

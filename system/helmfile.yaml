@@ -1,0 +1,28 @@
+bases:
+- ../environments.yaml
+helmDefaults:
+  atomic: true
+  devel: false
+  force: false
+  recreatePods: false
+  tillerless: false
+  timeout: 520
+  tls: false
+  verify: false
+  wait: true
+releases:
+- chart: stable/nginx-ingress
+  name: nginx-ingress
+  namespace: nginx
+  values:
+  - /secrets/jenkins-x-versions/apps/stable/nginx-ingress/values.yaml.gotmpl
+  - ../jx-requirements.values.yaml.gotmpl
+  - /secrets/jx-boot/secrets.yaml
+  version: 1.34.2
+repositories:
+- name: jenkins-operator
+  url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
+- name: nxmatic
+  url: https://nxmatic.github.io/jxlabs-nos-resources/
+- name: stable
+  url: https://kubernetes-charts.storage.googleapis.com

@@ -1,0 +1,59 @@
+jxRequirements:
+  autoUpdate:
+    enabled: false
+    schedule: ""
+  bootConfigURL: https://github.com/nxmatic/jxlabs-nos-env
+  cluster:
+    clusterName: microk8s
+    environmentGitOwner: nxmatic
+    environmentGitPublic: true
+    gitKind: github
+    gitName: github
+    gitServer: https://github.com
+    namespace: jx
+    provider: kubernetes
+  environments:
+  - ingress:
+      domain: 10.64.140.43.nip.io
+      externalDNS: false
+      namespaceSubDomain: -jx.
+      tls:
+        email: ""
+        enabled: false
+        production: false
+    key: dev
+    repository: jxlabs-nos-env
+  gitops: true
+  helmfile: true
+  ingress:
+    domain: 10.64.140.43.nip.io
+    externalDNS: false
+    namespaceSubDomain: -jx.
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  kaniko: true
+  repository: nexus
+  secretStorage: local
+  storage:
+    backup:
+      enabled: false
+      url: ""
+    logs:
+      enabled: false
+      url: ""
+    reports:
+      enabled: false
+      url: ""
+    repository:
+      enabled: false
+      url: ""
+  vault: {}
+  velero:
+    schedule: ""
+    ttl: ""
+  versionStream:
+    ref: master
+    url: https://github.com/nxmatic/jenkins-x-versions.git
+  webhook: lighthouse
