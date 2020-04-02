@@ -35,16 +35,20 @@ git-fetch-tags: git-credentials
 
 # helm setup
 
-export HELM_HOME ?= $(HOME)/.helm
+export HELM_HOME ?= $(realpath $(dir $(lastword $(MAKEFILE_LIST))))/.helm
 
-helm-setup:
+
+/usr/bin/strace:
+	yum install --assumeyes strace
+
+helm-setup: 
 	rm -fr $(HELM_HOME) && mkdir -p $(HELM_HOME)
 	helm init --client-only
 	helm repo list | grep -q 'local.*http://127.0.0.1:8879/charts' && helm repo remove local || true
 	helm repo add jenkins-x http://chartmuseum.jenkins-x.io
 	helm repo add storage.googleapis.com  https://storage.googleapis.com/chartmuseum.jenkins-x.io
 	helm repo add jenkins-x-chartmuseum   http://jenkins-x-chartmuseum:8080
-	helm repo update --debug
+	helm repo update
 
 .PHONY: helm-setup
 
