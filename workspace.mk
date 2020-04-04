@@ -10,7 +10,11 @@ export DOCKER_REGISTRY ?= localhost:5000
 export DOCKER_NAMESPACE ?= $(ORG)/$(TEAM)/jenkins-x
 
 export RELEASE_VERSION ?= $(shell git rev-parse HEAD > /dev/null 2>&1 && jx-release-version -folder $(top-dir)/.. 2>/dev/null || echo 0.0.0)
+ifneq ($(BRANCH_NAME), master)
 export VERSION ?= $(RELEASE_VERSION)-$(BRANCH_NAME)-$(BUILD_NUMBER)
+else
+export VERSION ?= $(RELEASE_VERSION)
+endif
 
 export SCM_REPO ?= $(shell git remote get-url origin)
 export SCM_REF ?= $(shell git show -s --pretty=format:'%h%d' 2>/dev/null ||echo unknown)
@@ -33,31 +37,17 @@ git-fetch-tags: git-credentials
 
 .PHONY: git-credentials git-fetch-tags
 
-# helm setup
-
-export HELM_HOME ?= $(realpath $(dir $(lastword $(MAKEFILE_LIST))))/.helm
-
-
-/usr/bin/strace:
-	yum install --assumeyes strace
-
-helm-setup: 
-	rm -fr $(HELM_HOME) && mkdir -p $(HELM_HOME)
-	helm init --client-only
-	helm repo list | grep -q 'local.*http://127.0.0.1:8879/charts' && helm repo remove local || true
-	helm repo add jenkins-x http://chartmuseum.jenkins-x.io
-	helm repo add storage.googleapis.com  https://storage.googleapis.com/chartmuseum.jenkins-x.io
-	helm repo add jenkins-x-chartmuseum   http://jenkins-x-chartmuseum:8080
-	helm repo update
-
-.PHONY: helm-setup
-
 # pipeline stage target
 
-workspace: git-credentials git-fetch-tags helm-setup workspace.d
+workspace: git-credentials git-fetch-tags workspace.d
 	@:
 
 workspace.d:
 	@
 
 .PHONY: workspace workspace.d
+
+# misc
+
+/usr/bin/strace:
+	yum install --assumeyes strace
