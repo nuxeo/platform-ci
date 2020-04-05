@@ -1,8 +1,8 @@
 tag:
-	jx step tag --version $(VERSION)
+	jx step tag --batch-mode --version=$(VERSION)
 
 changelog:
-	jx step changelog --version  v$(VERSION)
+	jx step changelog --batch-mode --version=v$(VERSION)
 
 updatebot:
 	@:
@@ -10,4 +10,4 @@ updatebot:
 release: tag changelog updatebot
 	@:
 
-.PHONY: tag changelog updatebot release
+.PHONY: changelog updatebot release
