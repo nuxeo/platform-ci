@@ -48,19 +48,19 @@ workspace: helm-setup
 
 .PHONY: helm-setup
 
-template: Chart.yaml requirements.yaml values
+helm~template: Chart.yaml requirements.yaml values
 	helm template --name nos $(values-options) .
 
-build: Chart.yaml requirements.yaml values
+helm~build: Chart.yaml requirements.yaml values
 	jx --verbose step helm build
 
-install: Chart.yaml requirements.yaml values
+helm~install: Chart.yaml requirements.yaml values
 	jx --verbose step helm install --name $(NAME) --namespace $(JX_NAMESPACE) .
 
-release: Chart.yaml requirements.yaml values
+helm~release: Chart.yaml requirements.yaml values
 	jx --verbose step helm release
 
-delete: 
+helm~delete: 
 	jx --verbose step helm delete $(NAME) --namespace $(JX_NAMESPACE)
 
-.PHONY: template build install release delete Chart.yaml
+.PHONY: helm~template helm~build helm~install helm~release helm~delete 
