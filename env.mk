@@ -7,6 +7,7 @@ $(eval $(1) := $$(shell $2))$($(1))
 endef
 
 export BRANCH_NAME ?= $(call shell-assign, BRANCH_NAME, git rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown)
+
 export BUILD_NUMBER ?= 0
 
 export ORG ?= nuxeo
@@ -27,4 +28,3 @@ export SCM_REPO := $(shell git remote get-url origin)
 export SCM_REF := $(shell git show -s --pretty=format:'%h%d' 2>/dev/null ||echo unknown)
 
 export CHART_REPOSITORY ?= http://jenkins-x-chartmuseum:8080
-
