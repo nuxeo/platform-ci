@@ -14,8 +14,8 @@ jxRequirements:
     provider: kubernetes
   environments:
   - ingress:
-      domain: 10.64.140.43.nip.io
-      externalDNS: false
+      domain: jxlabs-nos-env.build-jx-prod.build.nuxeo.com
+      externalDNS: true
       namespaceSubDomain: -jx.
       tls:
         email: ""
@@ -26,8 +26,8 @@ jxRequirements:
   gitops: true
   helmfile: true
   ingress:
-    domain: 10.64.140.43.nip.io
-    externalDNS: false
+    domain: jxlabs-nos-env.build-jx-prod.build.nuxeo.com
+    externalDNS: true
     namespaceSubDomain: -jx.
     tls:
       email: ""
@@ -55,5 +55,5 @@ jxRequirements:
     ttl: ""
   versionStream:
     ref: master
-    url: https://github.com/nxmatic/jenkins-x-versions.git
+    url: https://github.com/nxmatic/jxlabs-nos-versions.git
   webhook: lighthouse
