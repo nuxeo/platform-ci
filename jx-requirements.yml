@@ -54,5 +54,5 @@ velero:
   ttl: ""
 versionStream:
   ref: master
-  url: https://github.com/nxmatic/jenkins-x-versions.git
+  url: https://github.com/nxmatic/jxlabs-nos-versions.git
 webhook: lighthouse
