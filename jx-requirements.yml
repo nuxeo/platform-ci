@@ -13,8 +13,8 @@ cluster:
   provider: kubernetes
 environments:
 - ingress:
-    domain: 10.64.140.43.nip.io
-    externalDNS: false
+    domain: jxlabs-nos-env.build-jx-prod.build.nuxeo.com
+    externalDNS: true
     namespaceSubDomain: -jx.
     tls:
       email: ""
@@ -25,8 +25,8 @@ environments:
 gitops: true
 helmfile: true
 ingress:
-  domain: 10.64.140.43.nip.io
-  externalDNS: false
+  domain: jxlabs-nos-env.build-jx-prod.build.nuxeo.com
+  externalDNS: true
   namespaceSubDomain: -jx.
   tls:
     email: ""
