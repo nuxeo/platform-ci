@@ -1,0 +1,7 @@
+dependencies:
+- host: github.com
+  owner: nxmatic
+  repo: jx
+  url: https://github.com/nxmatic/jx.git
+  version: ""
+  versionURL: ""
