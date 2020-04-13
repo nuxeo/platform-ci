@@ -3,17 +3,20 @@ autoUpdate:
   schedule: ""
 bootConfigURL: https://github.com/nxmatic/jxlabs-nos-env
 cluster:
-  clusterName: microk8s
+  clusterName: jxlabs-nos
   environmentGitOwner: nxmatic
   environmentGitPublic: true
   gitKind: github
   gitName: github
   gitServer: https://github.com
   namespace: jx
-  provider: kubernetes
+  provider: gke
+  project: build-jx-prod
+  region: us-east1
+  zone: us-east1-b
 environments:
 - ingress:
-    domain: jxlabs-nos-env.build-jx-prod.build.nuxeo.com
+    domain: jxlabs-nos.build-jx-prod.build.nuxeo.com
     externalDNS: true
     namespaceSubDomain: -jx.
     tls:
@@ -25,7 +28,7 @@ environments:
 gitops: true
 helmfile: true
 ingress:
-  domain: jxlabs-nos-env.build-jx-prod.build.nuxeo.com
+  domain: jxlabs-nos.build-jx-prod.build.nuxeo.com
   externalDNS: true
   namespaceSubDomain: -jx.
   tls:
