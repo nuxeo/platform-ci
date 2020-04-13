@@ -11,12 +11,6 @@ helmDefaults:
   verify: false
   wait: true
 releases:
-- chart: jenkins-operator/jenkins-operator
-  name: jenkins-operator
-  namespace: jx
-  values:
-  - ../jx-requirements.values.yaml.gotmpl
-  - /secrets/jx-boot/secrets.yaml
 - chart: nxmatic/jxlabs-nos-resources
   name: jxlabs-nos-resources
   namespace: jx
@@ -68,11 +62,15 @@ releases:
   values:
   - ../jx-requirements.values.yaml.gotmpl
   - /secrets/jx-boot/secrets.yaml
+- chart: jenkins-operator/jenkins-operator
+  name: jenkins-operator
+  namespace: jx
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /secrets/jx-boot/secrets.yaml
 repositories:
 - name: jenkins-operator
   url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
-- name: jenkins-x
-  url: http://chartmuseum.jenkins-x.io
 - name: jenkins-x
   url: https://storage.googleapis.com/chartmuseum.jenkins-x.io
 - name: nxmatic
