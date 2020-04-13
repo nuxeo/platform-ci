@@ -1,6 +1,5 @@
 apps:
 - name: stable/nginx-ingress
-- name: jenkins-operator/jenkins-operator
 - name: nxmatic/jxlabs-nos-resources
   version: 0.0.136-nxmatic
 - name: jenkins-x/nexus
@@ -11,6 +10,7 @@ apps:
   repository: ".."
 - name: jx-app-ui
   repository: ".."
+- name: jenkins-operator/jenkins-operator
 repositories:
 - name: jenkins-operator
   url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
