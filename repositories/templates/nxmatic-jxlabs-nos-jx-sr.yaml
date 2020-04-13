@@ -1,0 +1,21 @@
+apiVersion: jenkins.io/v1
+kind: SourceRepository
+metadata:
+  creationTimestamp: null
+  labels:
+    owner: nxmatic
+    provider: github
+    repository: jxlabs-nos-jx
+  name: nxmatic-jxlabs-nos-jx
+spec:
+  description: Imported application for nxmatic/jxlabs-nos-jx
+  httpCloneURL: https://github.com/nxmatic/jxlabs-nos-jx.git
+  org: nxmatic
+  provider: https://github.com
+  providerKind: github
+  providerName: github
+  repo: jxlabs-nos-jx
+  scheduler:
+    kind: ""
+    name: ""
+  url: git@github.com:nxmatic/jxlabs-nos-jx
