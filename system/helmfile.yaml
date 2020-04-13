@@ -11,9 +11,16 @@ helmDefaults:
   verify: false
   wait: true
 releases:
+- chart: zloeber/namespace
+  name: namespace-nginx
+  namespace: jx
+  values:
+  - generated/nginx/values.yaml
 - chart: stable/nginx-ingress
   name: nginx-ingress
   namespace: nginx
+  needs:
+  - jx/namespace-nginx
   values:
   - /secrets/jenkins-x-versions/apps/stable/nginx-ingress/values.yaml.gotmpl
   - ../jx-requirements.values.yaml.gotmpl
@@ -26,3 +33,5 @@ repositories:
   url: https://nxmatic.github.io/jxlabs-nos-resources/
 - name: stable
   url: https://kubernetes-charts.storage.googleapis.com
+- name: zloeber
+  url: git+https://github.com/zloeber/helm-namespace@chart

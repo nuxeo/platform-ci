@@ -66,8 +66,6 @@ repositories:
 - name: jenkins-operator
   url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
 - name: jenkins-x
-  url: http://chartmuseum.jenkins-x.io
-- name: jenkins-x
   url: https://storage.googleapis.com/chartmuseum.jenkins-x.io
 - name: nxmatic
   url: https://nxmatic.github.io/jxlabs-nos-resources/
