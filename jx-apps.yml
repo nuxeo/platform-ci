@@ -9,6 +9,8 @@ apps:
 - name: jenkins-x/chartmuseum
 - name: jenkins-servers
   repository: ".."
+- name: jx-app-ui
+  repository: ".."
 repositories:
 - name: jenkins-operator
   url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
