@@ -11,3 +11,9 @@ dependencies:
   url: https://github.com/nxmatic/jxlabs-nos-jx.git
   version: ""
   versionURL: ""
+- host: github.com
+  owner: nxmatic
+  repo: jxlabs-nos-helmboot
+  url: https://github.com/nxmatic/jxlabs-nos-helmboot.git
+  version: ""
+  versionURL: ""
