@@ -8,7 +8,6 @@ apps:
 - name: jenkins-x/chartmuseum
 - name: jenkins-x/jxui
 - name: jenkins-operator/jenkins-operator
-  namespace: jenkins
 - name: jenkins-servers
   repository: ".."
 - name: repositories
