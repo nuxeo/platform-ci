@@ -4,6 +4,10 @@
 *.dll
 *.so
 *.dylib
+system/generated
+system/helmfile.yaml
+apps/generated
+apps/helmfile.yaml
 
 # Test binary, built with `go test -c`
 *.test
