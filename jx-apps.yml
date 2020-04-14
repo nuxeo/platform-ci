@@ -7,12 +7,12 @@ apps:
 - name: jenkins-x/tekton
 - name: jenkins-x/chartmuseum
 - name: jenkins-x/jxui
-- name: repositories
-  repository: ".."
-- name: jenkins-servers
-  repository: ".."
 - name: jenkins-operator/jenkins-operator
   namespace: jenkins
+- name: jenkins-servers
+  repository: ".."
+- name: repositories
+  repository: ".."
 repositories:
 - name: jenkins-operator
   url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
