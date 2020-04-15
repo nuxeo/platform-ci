@@ -1,5 +1,7 @@
 apps:
 - name: stable/nginx-ingress
+#- name: jenkins-x/external-dns
+#  namespace: jx-system
 - name: nxmatic/jxlabs-nos-resources
   version: 0.0.136-nxmatic
 - name: jenkins-x/nexus
@@ -8,6 +10,7 @@ apps:
 - name: jenkins-x/chartmuseum
 - name: jenkins-x/jxui
 - name: jenkins-operator/jenkins-operator
+  version: 0.1.1
 - name: jenkins-servers
   repository: ".."
 - name: repositories

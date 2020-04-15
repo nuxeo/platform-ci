@@ -29,6 +29,7 @@ environments:
 gitops: true
 helmfile: true
 ingress:
+  serviceType: LoadBalancer
   domain: jxlabs-nos.build-jx-prod.build.nuxeo.com
   externalDNS: true
   namespaceSubDomain: -jx.

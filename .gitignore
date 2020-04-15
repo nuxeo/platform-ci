@@ -15,8 +15,12 @@ apps/helmfile.yaml
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# edit backup files
+*~
+*.swp
+
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
 
 # IDEs
 .idea
