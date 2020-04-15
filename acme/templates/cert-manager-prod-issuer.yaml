@@ -1,0 +1,35 @@
+{{- if .Values.certmanager.enabled }}
+{{- if eq .Values.certmanager.production "true" }}
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: "{{ .Values.certmanager.email }}"
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - selector:
+        dnsNames:
+        - "*.{{ .Values.cluster.domain }}"
+        - "{{ .Values.cluster.domain }}"
+      # ACME DNS-01 provider configurations
+      dns01:
+{{- if eq .Values.cluster.provider "gke" }}
+        clouddns:
+          # The project in which to update the DNS zone
+          project: "{{ .Values.cluster.projectID }}"
+          # A secretKeyRef to a google cloud json service account
+          serviceAccountSecretRef:
+            name: external-dns-gcp-sa
+            key: credentials.json
+{{- end }}
+{{- if eq .Values.cluster.provider "eks" }}
+        route53:
+          region: {{ .Values.cluster.region }}
+{{- end }}
+{{- end }}
+{{- end }}

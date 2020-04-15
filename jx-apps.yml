@@ -10,6 +10,8 @@ apps:
   phase: system
 - name: nxmatic/jxlabs-nos-resources
   version: 0.0.136-nxmatic
+- name: acme
+  repository: ".."
 - name: jenkins-x/nexus
 - name: jenkins-x/lighthouse
 - name: jenkins-x/tekton

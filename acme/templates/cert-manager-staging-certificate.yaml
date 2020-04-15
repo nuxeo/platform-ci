@@ -1,0 +1,17 @@
+{{- if .Values.certmanager.enabled }}
+{{- if eq .Values.certmanager.production "false" }}
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: "tls-{{ .Values.cluster.domain | replace "." "-" }}-s"
+  labels:
+    jenkins.io/letsencrypt-service: staging
+spec:
+  secretName: "tls-{{ .Values.cluster.domain | replace "." "-" }}-s"
+  issuerRef:
+    name: letsencrypt-staging
+  commonName: "*.{{ .Values.cluster.domain }}"
+  dnsNames:
+  - "*.{{ .Values.cluster.domain }}"
+{{- end }}
+{{- end }}
