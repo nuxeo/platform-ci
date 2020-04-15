@@ -34,7 +34,6 @@ ingress:
   domain: jxlabs-nos.build-jx-prod.build.nuxeo.com
   externalDNS: true
   namespaceSubDomain: -jx.
-  serviceType: LoadBalancer
   tls:
     acme: true
     tlsSecretName: jx
