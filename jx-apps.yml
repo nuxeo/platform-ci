@@ -5,6 +5,9 @@ apps:
 - name: bitnami/external-dns
   namespace: jx-system
   phase: system
+- name: jetstack/cert-manager
+  namespace: jx-system
+  phase: system
 - name: nxmatic/jxlabs-nos-resources
   version: 0.0.136-nxmatic
 - name: jenkins-x/nexus

@@ -21,8 +21,8 @@ environments:
     externalDNS: true
     namespaceSubDomain: -jx.
     tls:
-      email: ""
-      enabled: false
+      email: "slacoin+jxlabs-nos@nuxeo.com"
+      enabled: true
       production: false
   key: dev
   repository: jxlabs-nos-env
@@ -34,8 +34,8 @@ ingress:
   externalDNS: true
   namespaceSubDomain: -jx.
   tls:
-    email: ""
-    enabled: false
+    email: "slacoin+jxlabs-nos@nuxeo.com"
+    enabled: true
     production: false
 kaniko: true
 repository: nexus
