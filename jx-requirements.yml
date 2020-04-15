@@ -21,8 +21,6 @@ environments:
     externalDNS: true
     namespaceSubDomain: -jx.
     tls:
-      acme: true
-      tlsSecretName: jx
       email: slacoin+jxlabs-nos@nuxeo.com
       enabled: true
       production: false
@@ -35,8 +33,6 @@ ingress:
   externalDNS: true
   namespaceSubDomain: -jx.
   tls:
-    acme: true
-    tlsSecretName: jx
     email: slacoin+jxlabs-nos@nuxeo.com
     enabled: true
     production: false
