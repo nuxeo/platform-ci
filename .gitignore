@@ -17,7 +17,7 @@ apps/helmfile.yaml
 
 # edit backup files
 *~
-*.swp
+.*.swp
 
 # Dependency directories (remove the comment below to include it)
 vendor/
