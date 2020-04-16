@@ -1,0 +1,3 @@
+name: jxlabs-nos-cluster
+runtime: nodejs
+description: GKE cluster for jxlabs nos

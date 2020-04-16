@@ -1,0 +1,6 @@
+/bin/
+/node_modules/
+/_cacache
+/_locks
+/anonymous-cli-metrics.json
+/.*
