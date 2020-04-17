@@ -1,0 +1,3 @@
+name: jxlabs-nos-cluster-control-plane
+runtime: nodejs
+description: jxlabs nos control plane

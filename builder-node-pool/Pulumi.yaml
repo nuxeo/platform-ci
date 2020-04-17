@@ -1,0 +1,3 @@
+name: jxlabs-nos-cluster-builder-node-pool
+runtime: nodejs
+description: jxlabs nos builder node pool

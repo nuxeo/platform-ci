@@ -53,7 +53,7 @@ const cluster = new gcp.container.Cluster("cluster", {
     removeDefaultNodePool: true,
     resourceLabels: {
         "created-by": createdBy,
-        "created-with": "terraform",
+        "created-with": "pulumi",
     },
 });
 const default_pool = new gcp.container.NodePool("default", {
@@ -170,13 +170,13 @@ const vault_sa_cloudkms_crypto_binding = new gcp.projects.IAMMember("vault-cloud
     member: `serviceAccount:${clusterName}-vt@${gcpProject}.iam.gserviceaccount.com`,
     role: "roles/cloudkms.cryptoKeyEncrypterDecrypter",
 });
-const vault_keyring = new gcp.kms.KeyRing("vault", {
+const vault_keyring = new gcp.kms.KeyRing("keyring", {
     location: gcpRegion,
     name: `${clusterName}`,
 });
 const vault_crypto_key = new gcp.kms.CryptoKey("vault", {
     keyRing: vault_keyring.selfLink,
-    name: `${clusterName}`,
+    name: "vault",
     rotationPeriod: "100000s",
 });
 const dns_sa = new gcp.serviceAccount.Account("dns", {
@@ -202,7 +202,7 @@ const cluster_dns_zone = new gcp.dns.ManagedZone("cluster", {
 //     rrdatas: []
 //     ttl: 300
 // })
-const letsencrypt_caas = new gcp.dns.RecordSet("letsencrypt_caas", {
+const letsencrypt_caas = new gcp.dns.RecordSet("letsencrypt-caas", {
     managedZone: pulumi.interpolate`${cluster_dns_zone.name}`,
     name: `${clusterName}.${gcpProject}.build.nuxeo.com.`,
     rrdatas: ["0 issue \"letsencrypt.org\""],

@@ -1,0 +1,11 @@
+{
+    "name": "jxlabs-nos-cluster-builder-node-pool",
+    "main": "index.js",
+    "dependencies": {
+        "@pulumi/gcp": "^2.0.0",
+        "@pulumi/pulumi": "^1.0.0"
+    },
+    "devDependencies": {
+        "lint": "^0.7.0"
+    }
+}
