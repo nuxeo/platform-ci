@@ -2,3 +2,4 @@ config:
   gcp:project: build-jx-prod
   gcp:region: us-east1
   gcp:zone: us-east1-b
+  jxlabs-nos-cluster-control-plane:masterVersion: "1.15"

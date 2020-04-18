@@ -1,4 +1,5 @@
-import { k8sConfig } from "./control-plane";
+import * as _ from "./control-plane";
 
 // Export the Kubeconfig so that clients can easily access our cluster.
-export let kubeConfig = k8sConfig;
+export let kubeConfig = _.k8sConfig;
+export let clusterName = _.clusterName;

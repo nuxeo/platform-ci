@@ -4,12 +4,14 @@ import * as pulumi from "@pulumi/pulumi";
 import * as _ from "./config"
 
 const cluster = new gcp.container.Cluster("cluster", {
+    name: `jxlabs-nos-${_.env}`,
     description: "jxlabs nos cluster",
     minMasterVersion: _.masterVersion,
-    enableKubernetesAlpha: (_.enableKubernetesAlpha === "true"),
-    enableLegacyAbac: (_.enableLegacyAbac === "true"),
+    enableKubernetesAlpha: _.enableKubernetesAlpha,
+    enableLegacyAbac: _.enableLegacyAbac,
     initialNodeCount: _.minNodeCount,
     removeDefaultNodePool: true,
+    location: gcp.config.zone,
     resourceLabels: {
         "created-by": _.createdBy,
         "created-with": "pulumi",
@@ -24,12 +26,12 @@ const default_pool = new gcp.container.NodePool("default", {
     cluster: cluster.name,
     location: cluster.location,
     management: {
-        autoRepair: (_.autoRepair === "true"),
-        autoUpgrade: (_.autoUpgrade === "true"),
+        autoRepair: _.autoRepair,
+        autoUpgrade: _.autoUpgrade,
     },
     name: "default-pool",
     nodeConfig: {
-        diskSizeGb: Number.parseFloat(_.nodeDiskSize),
+        diskSizeGb: _.nodeDiskSize,
         imageType: _.imageType,
         machineType: _.nodeMachineType,
         oauthScopes: [
@@ -41,17 +43,16 @@ const default_pool = new gcp.container.NodePool("default", {
             "https://www.googleapis.com/auth/logging.write",
             "https://www.googleapis.com/auth/monitoring",
         ],
-        preemptible: (_.nodePreemptible === "true"),
+        preemptible: _.nodePreemptible,
     },
     nodeCount: _.minNodeCount,
 });
 
-// Manufacture a GKE-style Kubeconfig. Note that this is slightly "different" because of the way GKE requires
-// gcloud to be in the picture for cluster authentication (rather than using the client cert/key directly).
-const k8sConfig = pulumi.
+
+export const k8sConfig = pulumi.
     all([cluster.name, cluster.endpoint, cluster.masterAuth]).
     apply(([name, endpoint, auth]) => {
-        const context = `${gcp.config.project}_${gcp.config.zone}_${_.clusterName} `;
+        const context = `${gcp.config.project}_${gcp.config.zone}_${cluster.name}`;
         return `apiVersion: v1
 clusters:
 - cluster:
@@ -79,10 +80,6 @@ name: gcp
 `;
     });
 
-// Export a Kubernetes provider instance that uses our cluster from above.
-const k8sProvider = new k8s.Provider("gkeK8s", {
+export const k8sProvider = new k8s.Provider("gkeK8s", {
     kubeconfig: k8sConfig,
 });
-
-export { k8sProvider };
-

@@ -1,0 +1,3 @@
+name: jxlabs-nos-cluster-dns
+runtime: nodejs
+description: jxlabs nos dns zone
