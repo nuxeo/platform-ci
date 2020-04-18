@@ -4,7 +4,8 @@
     "dependencies": {
         "@pulumi/gcp": "^3.0.1",
         "@pulumi/pulumi": "^2.0.0",
-        "@pulumi/kubernetes": "^2.0.0"
+        "@pulumi/kubernetes": "^2.0.0",
+        "@pulumi/kubernetesx": "^0.1.2"
     },
     "devDependencies": {
         "lint": "^0.7.0"

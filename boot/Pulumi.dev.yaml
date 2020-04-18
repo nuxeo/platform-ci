@@ -1,0 +1,19 @@
+config:
+  gcp:project: build-jx-prod
+  gcp:region: us-east1
+  gcp:zone: us-east1-b
+  jxlabs-nos-cluster-boot:bot: nxmatic
+  jxlabs-nos-cluster-boot:owner: nxmatic
+  jxlabs-nos-cluster-boot:secrets:
+    owner: nxmatic
+    adminUser:
+      password:
+        secure: AAABAN5E1w8FYfGRPOKXnD3WtC0BqUQZxyZo/WxMWJ6CVvzxLQ==
+      username: admin
+    hmacToken:
+      secure: AAABAL9+kVeE6MDbxjdZLA8VPhGbgoWKsJoFsNkVDnH4Ujg5oDYetovGeC03m71ZIkL5kxrwxRnCEEK+JPaA4WWSC7yqoMTJsQ==
+    pipelineUser:
+      username: nxmatic
+      email: slacoin+nxmatic@nuxeo.com
+      token:
+        secure: AAABALSiGPzTrRpI4RWBeTQTLJI1ZDzMdxq3iHkCVveMxPolZwDJx64mD5o/CXnCHou9t9UqVAvUvIsSIHh11a0n1XLoEVPz

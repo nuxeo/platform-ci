@@ -2,7 +2,7 @@ import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import { StackReference } from "@pulumi/pulumi";
 
-let config = new pulumi.Config();
+export let config = new pulumi.Config();
 
 export function rfc1035(value: string) {
     var input = value
