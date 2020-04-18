@@ -1,12 +1,32 @@
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import * as _ from "../config";
+import * as _ from "../control-plane/config"
 
 export const env = _.env;
 export const org = _.org;
+export const clusterName = _.clusterName;
 
-export const clusterName = _.stackReferenceOf('control-plane').requireOutput('clusterName');
-export const nodeMachineType = _.stringPropertyOf("nodeMachineType", () => "n1-standard-8");
+const providedOptions: _.NodePoolOptions = _.config.requireObject('controlPlane');
+
+export const controlPlane: ControlPlaneOptions = {
+    ... {
+        enableKubernetesAlpha: false,
+        enableLegacyAbac: false,
+        nodePool: {
+            imageType: 'COS-CONTAINERD',
+            machineType: 'n1-standard-8',
+            nodePreemptible: false,
+            autoRepair: true,
+            autoUpgrade: true,
+            nodeDiskSize: 100,
+            minNodeCount: 1,
+            maxNodeCount: 2
+        }
+    }, ...providedOptions
+};
+
+export const nodeMachineType = _.stringPropertyOf("nodeMachineType", () => "e2-standard-16");
 export const imageType = _.stringPropertyOf("imageType", () => "COS_CONTAINERD");
 export const minNodeCount = _.numberPropertyOf("minNodeCount", () => 1);
 export const maxNodeCount = _.numberPropertyOf("maxNodeCount", () => 3);

@@ -21,3 +21,17 @@ const storageOobjectCreatorBinding = new gcp.projects.IAMMember("kaniko-storage-
     member: `serviceAccount:${clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
     role: "roles/storage.objectCreator",
 });
+
+const kanikoSecretsData = kanikoKey;
+
+export const kanikoSecret = new Secret("kaniko-secret", {
+    metadata: {
+        name: "kaniko-secret",
+        namespace: "jx",
+        labels: { app: "helmboot" },
+    },
+    type: "Opaque",
+    data: {
+        'kaniko-secret': bootSecretsData
+    }
+});

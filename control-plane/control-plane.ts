@@ -2,14 +2,20 @@ import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import * as _ from "./config"
+import { StackReference } from "@pulumi/pulumi";
 
-const cluster = new gcp.container.Cluster("cluster", {
+let masterVersionOr = () =>
+    _.controlPlane.masterVersion || pulumi.output(gcp.container.getEngineVersions()).
+        latestMasterVersion.apply(v => `${v}`);
+
+
+export const cluster = new gcp.container.Cluster("cluster", {
     name: `jxlabs-nos-${_.env}`,
     description: "jxlabs nos cluster",
-    minMasterVersion: _.masterVersion,
-    enableKubernetesAlpha: _.enableKubernetesAlpha,
-    enableLegacyAbac: _.enableLegacyAbac,
-    initialNodeCount: _.minNodeCount,
+    minMasterVersion: _.controlPlane.masterVersion,
+    enableKubernetesAlpha: _.controlPlane.enableKubernetesAlpha,
+    enableLegacyAbac: _.controlPlane.enableLegacyAbac,
+    initialNodeCount: 1,
     removeDefaultNodePool: true,
     location: gcp.config.zone,
     resourceLabels: {
@@ -18,22 +24,22 @@ const cluster = new gcp.container.Cluster("cluster", {
     }
 });
 
-const default_pool = new gcp.container.NodePool("default", {
+export const nodePool = new gcp.container.NodePool("default", {
     autoscaling: {
-        maxNodeCount: _.maxNodeCount,
-        minNodeCount: _.minNodeCount,
+        maxNodeCount: _.controlPlane.nodePool.maxNodeCount,
+        minNodeCount: _.controlPlane.nodePool.minNodeCount,
     },
     cluster: cluster.name,
     location: cluster.location,
     management: {
-        autoRepair: _.autoRepair,
-        autoUpgrade: _.autoUpgrade,
+        autoRepair: _.controlPlane.nodePool.autoRepair,
+        autoUpgrade: _.controlPlane.nodePool.autoUpgrade,
     },
     name: "default-pool",
     nodeConfig: {
-        diskSizeGb: _.nodeDiskSize,
-        imageType: _.imageType,
-        machineType: _.nodeMachineType,
+        diskSizeGb: _.controlPlane.nodePool.nodeDiskSize,
+        imageType: _.controlPlane.nodePool.imageType,
+        machineType: _.controlPlane.nodePool.machineType,
         oauthScopes: [
             "https://www.googleapis.com/auth/cloud-platform",
             "https://www.googleapis.com/auth/compute",
@@ -43,9 +49,9 @@ const default_pool = new gcp.container.NodePool("default", {
             "https://www.googleapis.com/auth/logging.write",
             "https://www.googleapis.com/auth/monitoring",
         ],
-        preemptible: _.nodePreemptible,
+        preemptible: _.controlPlane.nodePool.nodePreemptible,
     },
-    nodeCount: _.minNodeCount,
+    nodeCount: _.controlPlane.nodePool.minNodeCount,
 });
 
 
@@ -79,7 +85,3 @@ token - key: '{.credential.access_token}'
 name: gcp
 `;
     });
-
-export const k8sProvider = new k8s.Provider("gkeK8s", {
-    kubeconfig: k8sConfig,
-});

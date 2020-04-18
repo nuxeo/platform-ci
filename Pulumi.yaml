@@ -1,6 +1,6 @@
-name: jxlabs-nos-infra-control-plane
+name: jxlabs-nos-infra
 runtime: nodejs
-description: jxlabs nos control plane
+description: jxlabs nos infra deployment
 template:
   config:
     gcp:project: 

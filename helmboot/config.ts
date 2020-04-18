@@ -23,6 +23,8 @@ interface BootConfig {
     repo: string
 }
 
+export let encode = (input: string): string => Buffer.from(input).toString("base64");
+
 export let env = _.env;
 export let config = _.config.requireObject<BootConfig>('boot-config');
 export let secrets = _.config.requireObject<BootSecrets>('boot-secrets');

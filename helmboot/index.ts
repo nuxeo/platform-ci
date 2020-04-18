@@ -1,4 +1,4 @@
-import * as _ from "./boot";
+import * as _ from "./helmboot";
 
 export let namespace = _.namespace;
 export let bootSecrets = _.bootSecrets;

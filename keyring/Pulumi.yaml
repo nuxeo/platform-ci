@@ -1,3 +1,3 @@
-name: jxlabs-nos-cluster-keyring
+name: jxlabs-nos-infra-keyring
 runtime: nodejs
 description: jxlabs nos keyring
