@@ -4,8 +4,10 @@ config:
   gcp:zone: us-east1-b
   jxlabs-nos-cluster-boot:bot: nxmatic
   jxlabs-nos-cluster-boot:owner: nxmatic
-  jxlabs-nos-cluster-boot:secrets:
+  jxlabs-nos-cluster-boot:boot-config:
     owner: nxmatic
+    repo: jxlabs-nos-boot
+  jxlabs-nos-cluster-boot:boot-secrets:
     adminUser:
       password:
         secure: AAABAN5E1w8FYfGRPOKXnD3WtC0BqUQZxyZo/WxMWJ6CVvzxLQ==

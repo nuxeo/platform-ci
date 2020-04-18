@@ -3,7 +3,7 @@ import * as pulumi from "@pulumi/pulumi";
 import { Input, Output } from "@pulumi/pulumi";
 import * as _ from "./config";
 
-export const ns = new k8s.core.v1.Namespace("jx",
+export const namespace = new k8s.core.v1.Namespace("jx",
     {
         metadata: {
             name: "jx"
@@ -13,7 +13,7 @@ export const ns = new k8s.core.v1.Namespace("jx",
 let encode = (input: string): string => Buffer.from(input).toString("base64");
 
 
-const gitUrlData: string = `https://${_.secrets.pipelineUser.username}:${_.secrets.pipelineUser.token}@github.com/${_.secrets.owner}/jxlabs-nos-boot.git`;
+const gitUrlData: string = `https://${_.secrets.pipelineUser.username}:${_.secrets.pipelineUser.token}@github.com/${_.config.owner}/${_.config.repo}.git`;
 
 export const gitUrlSecret = new k8s.core.v1.Secret("jx-boot-git-url", {
     metadata: {

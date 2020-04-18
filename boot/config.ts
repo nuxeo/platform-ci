@@ -12,12 +12,17 @@ interface PipelineUser {
     username: string
 }
 
-interface Secrets {
-    owner: string,
+interface BootSecrets {
     adminUser: AdminUser,
     hmacToken: string,
     pipelineUser: PipelineUser
 }
 
+interface BootConfig {
+    owner: string,
+    repo: string
+}
+
 export let env = _.env;
-export let secrets = _.config.requireObject<Secrets>('secrets');
+export let config = _.config.requireObject<BootConfig>('boot-config');
+export let secrets = _.config.requireObject<BootSecrets>('boot-secrets');
