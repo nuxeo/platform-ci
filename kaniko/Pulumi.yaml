@@ -1,0 +1,3 @@
+name: jxlabs-nos-cluster-kaniko
+runtime: nodejs
+description: jxlabs nos kaniko
