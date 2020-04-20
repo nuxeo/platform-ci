@@ -23,7 +23,7 @@ export const storageObjectCreatorBinding = new gcp.projects.IAMMember("kaniko-st
     role: "roles/storage.objectCreator",
 });
 
-const kanikoSecretsData = _.encode(serviceAccountKey.privateKey.get()));
+const kanikoSecretsData = _.encode(`${serviceAccountKey.privateKey}`);
 
 export const kanikoSecret = new k8s.core.v1.Secret("kaniko-secret", {
     metadata: {
