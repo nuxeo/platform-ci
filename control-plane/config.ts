@@ -36,7 +36,7 @@ export const controlPlane: ControlPlaneOptions = {
         enableKubernetesAlpha: false,
         enableLegacyAbac: false,
         nodePool: {
-            imageType: 'COS-CONTAINERD',
+            imageType: 'COS_CONTAINERD',
             machineType: 'n1-standard-8',
             nodePreemptible: false,
             autoRepair: true,
@@ -48,10 +48,3 @@ export const controlPlane: ControlPlaneOptions = {
     }, ...providedOptions
 };
 
-export const k8sProvider = () => {
-    _.withStackReferenceOf('control-node').then(ref =>
-        ref.requireOutputValue('k8sconfig')).then(k8sConfig =>
-            new k8s.Provider("gkeK8s", {
-                kubeconfig: k8sConfig,
-            }));
-}

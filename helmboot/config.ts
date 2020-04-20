@@ -18,13 +18,14 @@ interface BootSecrets {
     pipelineUser: PipelineUser
 }
 
-interface BootConfig {
+interface GithubConfig {
     owner: string,
     repo: string
 }
 
-export let encode = (input: string): string => Buffer.from(input).toString("base64");
+export const env = _.env;
+export const githubConfig = _.config.requireObject<GithubConfig>('githubConfig');
+export const bootSecrets = _.config.requireObject<BootSecrets>('bootSecrets');
+export const k8sProvider = _.k8sProvider();
 
-export let env = _.env;
-export let config = _.config.requireObject<BootConfig>('boot-config');
-export let secrets = _.config.requireObject<BootSecrets>('boot-secrets');
+export let encode = _.encode;

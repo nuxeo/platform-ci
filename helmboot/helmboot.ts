@@ -1,11 +1,7 @@
-
 import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
-
 import * as _ from "./config";
-import { stackReferenceOf } from "../config";
 
-import { Input, Output, StackReference, output } from "@pulumi/pulumi";
 import { Key } from "@pulumi/gcp/serviceAccount";
 import { Secret } from "@pulumi/kubernetes/core/v1";
 import { resolveProperties } from "@pulumi/pulumi/runtime";
@@ -15,10 +11,11 @@ export const namespace = new k8s.core.v1.Namespace("jx",
         metadata: {
             name: "jx"
         }
-    }, { aliases: ["urn:pulumi:dev::jxlabs-nos-cluster-boot::kubernetes:core/v1:Namespace::jx"] });
+    });
+    //provider: _.k8sProvider,, { aliases: ["urn:pulumi:dev::jxlabs-nos-cluster-boot::kubernetes:core/v1:Namespace::jx"] });
 
 const gitUrlData: string = _.encode(
-    `https://${_.secrets.pipelineUser.username}:${_.secrets.pipelineUser.token}@github.com/${_.config.owner}/${_.config.repo}.git`
+    `https://${_.bootSecrets.pipelineUser.username}:${_.bootSecrets.pipelineUser.token}@github.com/${_.githubConfig.owner}/${_.githubConfig.repo}.git`
 );
 
 export const gitUrlSecret = new k8s.core.v1.Secret("jx-boot-git-url", {
@@ -30,16 +27,17 @@ export const gitUrlSecret = new k8s.core.v1.Secret("jx-boot-git-url", {
     data: {
         "git-url": gitUrlData
     }});
+    //, { provider: _.k8sProvider});
 
 const bootSecretsData = _.encode(`secrets:
   adminUser:
-    password: ${_.secrets.adminUser.password}
-    username: ${_.secrets.adminUser.username}
-  hmacToken: ${_.secrets.hmacToken}
+    password: ${_.bootSecrets.adminUser.password}
+    username: ${_.bootSecrets.adminUser.username}
+  hmacToken: ${_.bootSecrets.hmacToken}
   pipelineUser:
-    email: ${_.secrets.pipelineUser.email}
-    username: ${_.secrets.pipelineUser.username}
-    token: ${_.secrets.pipelineUser.token}`);
+    email: ${_.bootSecrets.pipelineUser.email}
+    username: ${_.bootSecrets.pipelineUser.username}
+    token: ${_.bootSecrets.pipelineUser.token}`);
 
 export const bootSecrets = new k8s.core.v1.Secret("jx-boot-secrets", {
     metadata: {
@@ -52,17 +50,5 @@ export const bootSecrets = new k8s.core.v1.Secret("jx-boot-secrets", {
         'secrets.yaml': bootSecretsData
     }
 });
+//, { provider: _.k8sProvider});
 
-
-const controlPlaneReference = stackReferenceOf("control-plane");
-
-function* unwrapProperty(object: Object, name: string) {
-    yield Object.getOwnPropertyDescriptor(object, name).get();
-}
-
-let cluster = controlPlaneReference.getOutput("cluster").get();
-unwrapProperty(cluster, "id");
-
-let unwrapped = value.(value => unwrapProperty(value, name).next).
-
-console.info('*** unwrapped ***'.concat(unwrapped.toString()));

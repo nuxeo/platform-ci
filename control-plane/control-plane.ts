@@ -55,10 +55,10 @@ export const nodePool = new gcp.container.NodePool("default", {
 });
 
 
-export const k8sConfig = pulumi.
+export const k8sconfig = pulumi.
     all([cluster.name, cluster.endpoint, cluster.masterAuth]).
     apply(([name, endpoint, auth]) => {
-        const context = `${gcp.config.project}_${gcp.config.zone}_${cluster.name}`;
+        const context = `${gcp.config.project}_${gcp.config.zone}_${name}`;
         return `apiVersion: v1
 clusters:
 - cluster:
@@ -72,7 +72,8 @@ user: ${context}
 name: ${context}
 current-context: ${context}
 kind: Config
-preferences: {}
+preferences: 
+  colors: true
 users:
 - name: ${context}
 user:

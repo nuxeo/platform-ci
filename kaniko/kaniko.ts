@@ -1,37 +1,38 @@
 import * as gcp from "@pulumi/gcp";
-import { clusterName, rfc1035 } from "./config";
+import * as k8s from "@pulumi/kubernetes";
+import * as _ from "./config";
 
-const serviceAccount = new gcp.serviceAccount.Account("kaniko", {
-    accountId: rfc1035(`${clusterName}-ko`).id(),
-    displayName: `Kaniko service account for ${clusterName}`,
+export const serviceAccount = new gcp.serviceAccount.Account("kaniko", {
+    accountId: _.rfc1035(`${_.clusterName}-ko`).id(),
+    displayName: `Kaniko service account for ${_.clusterName}`,
 });
 export const serviceAccountKey = new gcp.serviceAccount.Key("kaniko", {
     publicKeyType: "TYPE_X509_PEM_FILE",
     serviceAccountId: serviceAccount.name,
 });
-const storageAdminBinding = new gcp.projects.IAMMember("kaniko-storage-admin-binding", {
-    member: `serviceAccount:${clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
+export const storageAdminBinding = new gcp.projects.IAMMember("kaniko-storage-admin-binding", {
+    member: `serviceAccount:${_.clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
     role: "roles/storage.admin",
 });
-const storageObjectAdminBinding = new gcp.projects.IAMMember("kaniko-storage-object-admin-binding", {
-    member: `serviceAccount:${clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
+export const storageObjectAdminBinding = new gcp.projects.IAMMember("kaniko-storage-object-admin-binding", {
+    member: `serviceAccount:${_.clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
     role: "roles/storage.objectAdmin",
 });
-const storageOobjectCreatorBinding = new gcp.projects.IAMMember("kaniko-storage-object-creator-binding", {
-    member: `serviceAccount:${clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
+export const storageObjectCreatorBinding = new gcp.projects.IAMMember("kaniko-storage-object-creator-binding", {
+    member: `serviceAccount:${_.clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
     role: "roles/storage.objectCreator",
 });
 
-const kanikoSecretsData = kanikoKey;
+const kanikoSecretsData = _.encode(serviceAccountKey.privateKey.get()));
 
-export const kanikoSecret = new Secret("kaniko-secret", {
+export const kanikoSecret = new k8s.core.v1.Secret("kaniko-secret", {
     metadata: {
         name: "kaniko-secret",
         namespace: "jx",
-        labels: { app: "helmboot" },
+        labels: { app: "helmboot" }
     },
     type: "Opaque",
     data: {
-        'kaniko-secret': bootSecretsData
+        'kaniko-secret': kanikoSecretsData
     }
 });

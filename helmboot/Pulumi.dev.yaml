@@ -2,12 +2,10 @@ config:
   gcp:project: build-jx-prod
   gcp:region: us-east1
   gcp:zone: us-east1-b
-  jxlabs-nos-cluster-boot:bot: nxmatic
-  jxlabs-nos-cluster-boot:owner: nxmatic
-  jxlabs-nos-cluster-boot:boot-config:
+  jxlabs-nos-infra-boot:bootConfig:
     owner: nxmatic
     repo: jxlabs-nos-boot
-  jxlabs-nos-cluster-boot:boot-secrets:
+  jxlabs-nos-cluster-boot:bootSecrets:
     adminUser:
       password:
         secure: AAABAN5E1w8FYfGRPOKXnD3WtC0BqUQZxyZo/WxMWJ6CVvzxLQ==
