@@ -1,0 +1,103 @@
+= jenkins-x full automated
+
+As this time, we're running a kind of jenkins-x environment which is based on a static jenkins master as pipeline engine.
+
+Problems about are as follow
+
+* we're hosted on a non-managed cluster
+* we're sharing the cluster with other teams
+* we're running a non-supported jenkins-x feature, ie: jenkins master pipeline engine
+
+For the future, we require having
+
+* a  
+* a fully automated infrastructure, all should follow the configuration as code principles
+
+So, here we're going to solve these problems by deploying a fresh infrastructure dedicated to our teams based on the
+helmboot 
+* infra
+
+
+[[free_the_world]][big goal]_free the world_
+
+NOTE: put a plant-uml schema here describing the repository involved in the deployment
+
+
+
+* first try
+
+oups la op
+
+```
+$ jxl boot run -b --git-url https://github.com/nxmatic/jxlabs-nos-boot --git-ref jxlabs-nos-staging --versions-repo https://github.com/nxmatic/jxlabs-nos-versions.git --versions-ref jxl-nos-staging --git-user nxmatic --git-token=$(pass coding/github-jxlabs-nos-token)
+...
+$ kubectl logs pod/jx-boot-vdljw
+error: failed to load secrets YAML /secrets/jx-boot/secrets.yaml: open /secrets/jx-boot/secrets.yaml: no such file or directory
+```
+the ``secrets/jx-boot-secrets`` map is present and has been checked by the command ``jxl boot secrets export -c``.
+the secret is not mounted in the boot pod by the chart, solved by patching the helm chart, mounting the secrets in the pod (jxl-boot~patch-001)
+
+* second try
+
+the bootstrap fails to retrieve the correct repository, it does not use the `jx-boot-git-url` we've injected in the namespace for.
+
+```
+{"level":"info","msg":"Creating boot config with defaults, as not in an existing boot directory with a git repository.","time":"2020-04-18T17:38:21Z"}
+{"level":"info","msg":"GitURL provided, overriding the current value: https://github.com/jenkins-x/jenkins-x-boot-config.git with https://nxmatic:db50ae0fa06568bd516ba879c080fd84ce7646d7@github.com/jenkins-x/jenkins-x-boot-helmfile-config.git","time":"2020-04-18T17:38:21Z"}
+{"level":"info","msg":"GitRef provided, overriding the current value: master with master","time":"2020-04-18T17:38:21Z"}
+{"level":"info","msg":"No Jenkins X pipeline file jenkins-x.yml or no jx boot requirements file jx-requirements.yml found. You are not running this command from inside a Jenkins X Boot git clone","time":"2020-04-18T17:38:21Z"}
+{"level":"info","msg":"Cloning https://nxmatic:db50ae0fa06568bd516ba879c080fd84ce7646d7@github.com/jenkins-x/jenkins-x-boot-helmfile-config.git @ master to jenkins-x-boot-helmfile-config\n","time":"2020-04-18T17:38:21Z"}
+{"level":"info","msg":"fetching branch master","time":"2020-04-18T17:38:22Z"}
+{"level":"info","msg":"Cloning the Jenkins X versions repo https://github.com/jenkins-x/jxr-versions.git with ref refs/heads/master to /secrets/jenkins-x-versions","time":"2020-04-18T17:38:22Z"}
+error: missing property: provider in file /jenkins-x-boot-helmfile-config/jx-requirements.yml
+```
+
+Was trying to upgrade, but I've deleted the release and re-installed. wrong, I missed the jx-requirements values injection. So I'm releasing the jxl-boot chart in our fork of jxl. I've uploaded the jxl chart and the container in the github pages
+of our jxl repository forked.
+
+* third try
+
+So I've ended up by launching the job using directly the command line. 
+
+```
+$ cd jxlabs-nos-boot
+$ helm -v 2 install jx-boot --set jxRequirements.cluster.provider=gke --set jxRequirements.cluster.project=build-jx-prod --set jxRequirements.cluster.clusterName=jxlabs-nos --set jxRequirements.bootConfigURL=https://github.com/nxmatic/jxlabs-nos-boot --version 0.0.183-dev+ad3bc0e /Users/nuxeo/Coding/nxmatic/jxlabs-nos-jxl/charts/jxl-boot
+...
+{"level":"info","msg":"Validating Kaniko secret in namespace jx","time":"2020-04-19T06:53:43Z"}
+{"level":"info","msg":"attempting to lazily create the deploy namespace jx","time":"2020-04-19T06:53:43Z"}
+{"level":"info","msg":"Configuring Kaniko service account jxlabs-nos-ko for project build-jx-prod","time":"2020-04-19T06:53:43Z"}
+{"level":"info","msg":"Unable to find service account jxlabs-nos-ko, checking if we have enough permission to create","time":"2020-04-19T06:53:44Z"}
+{"level":"info","msg":"Creating service account jxlabs-nos-ko","time":"2020-04-19T06:53:54Z"}
+{"level":"info","msg":"Assigning role roles/storage.admin","time":"2020-04-19T06:53:55Z"}
+error: failed to lazily create the kaniko secret in: jx: creating the service account: failed to run 'gcloud projects add-iam-policy-binding build-jx-prod --member serviceAccount:jxlabs-nos-ko@build-jx-prod.iam.gserviceaccount.com --role roles/storage.admin --project build-jx-prod' command in directory '', output: 'ERROR: (gcloud.projects.add-iam-policy-binding) User [129163454118-compute@developer.gserviceaccount.com] does not have permission to access project [build-jx-prod:setIamPolicy] (or it may not exist): Policy update access denied.'
+error: failed to interpret pipeline file /jxlabs-nos-boot/jenkins-x.yml: failed to run '/bin/sh -c jx step verify preinstall --disable-verify-packages' command in directory '/jxlabs-nos-boot', output: ''
+```
+
+So now, ((kaniko-secret)) we're missing the kaniko service account we've created for this cluster. going back to the infra project for provisioning the secret in the namespace. Also, it seems the deployment ((jx-boot-branch-pattern) took the master branch and not the staging. The jx-boot app has been destroyed at end. so I can't dig in logs anymore. the good is that all my reposiries are 
+well configured. We need also to specify the branch pattern, for isolating builds in clusters. We should then 
+include the cluster name in the statuses were setting up on github.
+
+* in progress
+I, inject secrets fork kaniko
+indexterm:[kaniko-secret]
+
+* done
+
+I, Can't specify the jx-boot chart version at command line. I need to override it in the version stream.
+indexterm:[jx-boot-chart-version]
+Can't specify the jx-boot chart version at command line. I need to override it in the version stream.
+I, 
+
+* todo
+I, boot from the branch
+indexterm:[jx-boot-branch]
+I, define a branch pattern for the cluster (ie: dev, qa, staging, prod). we could also have multiple organisations
+in github and forked repositories, could be better and I don't think it matter.
+I, boot from jxl command line ... 
+indexterm:[jx-boot]
+I, I'm waiting too long on helm update, I think they just forgot to do a head request on their huge index.yaml files. 
+The getter of index is contribuable, we could think about contributing anoter version before doing a pull-request about.
+indexterm:[helm-repo-update].
+I, create a pipeline in the `jxlabs-nos-notes` repository for building the site and having an asciidoc preview on it
+indexterm;[asciidoc-pipeline]
+
