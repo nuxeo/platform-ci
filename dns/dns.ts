@@ -1,7 +1,8 @@
 import * as gcp from "@pulumi/gcp";
+import * as pulumi from "@pulumi/pulumi";
 import { clusterName, rfc1035 } from "./config";
 
-var serviceAccountId: string = rfc1035(clusterName).id().concat("-dns");
+let serviceAccountId = rfc1035(clusterName).id().concat("-dns");
 
 export const serviceAccount = new gcp.serviceAccount.Account("dns", {
     accountId: serviceAccountId,
@@ -34,5 +35,3 @@ export const letsencryptCAARecord = new gcp.dns.RecordSet("letsencrypt-caa", {
     ttl: 300,
     type: "CAA",
 });
-
-

@@ -1,13 +1,14 @@
-define stack-make-template =
+export stack_make_template
+define stack_make_template =
 include ../make.d/env.mk
 include ../make.d/pulumi.mk
 endef
 
 %/Makefile:
-	@echo $${stack_makefile} > $<
+	echo "$${stack_make_template}" > $(@)
 
 define stack-rule-template =
-$(1)/%: $(1)/Makefile ; echo $(MAKE) -C $(1) $$(*)
+$(1)/%: $(1)/Makefile ; $(MAKE) -C $(1) $$(*)
 endef
 
 define depends-on-control-plane =
