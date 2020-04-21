@@ -13,25 +13,25 @@ export const withStackReferenceProvider = _.withStackReferenceProvider;
 
 
 export interface ControlPlaneOptions {
-    masterVersion: string;
-    enableKubernetesAlpha: boolean;
-    enableLegacyAbac: boolean;
+    masterVersion?: string;
+    enableKubernetesAlpha?: boolean;
+    enableLegacyAbac?: boolean;
 
-    nodePool: NodePoolOptions;
+    nodePool?: NodePoolOptions;
 }
 
 export interface NodePoolOptions {
-    imageType: string;
-    machineType: string;
-    nodePreemptible: boolean;
-    autoRepair: boolean;
-    autoUpgrade: boolean;
-    nodeDiskSize: number;
-    minNodeCount: number;
-    maxNodeCount: number;
+    imageType?: string;
+    machineType?: string;
+    nodePreemptible?: boolean;
+    autoRepair?: boolean;
+    autoUpgrade?: boolean;
+    nodeDiskSize?: number;
+    minNodeCount?: number;
+    maxNodeCount?: number;
 }
 
-const providedOptions: ControlPlaneOptions = _.config.requireObject('controlPlane');
+const providedOptions: ControlPlaneOptions = _.config.getObject('controlPlane')??{};
 
 export const controlPlane: ControlPlaneOptions = {
     ... {

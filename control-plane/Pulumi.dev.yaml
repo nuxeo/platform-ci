@@ -1,6 +1,0 @@
-config:
-  gcp:project: build-jx-prod
-  gcp:region: us-east1
-  gcp:zone: us-east1-b
-  jxlabs-nos-infra-control-plane:controlPlane:
-    masterVersion: "1.15"
