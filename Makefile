@@ -1,3 +1,6 @@
+include make.d/env.mk
+include make.d/macros.mk
+
 export stack_make_template
 define stack_make_template =
 include ../make.d/env.mk
@@ -29,4 +32,7 @@ define sub-stacks-targets =
 $(foreach stack,$(sub-stacks),$(stack)/$(1))
 endef
 
-all/%: control-plane/% $(call sub-stacks-targets,%); @ echo $(*)
+all/destroy@%: $(call reverse,$(call sub-stacks-targets,destroy@%)) control-plane/destroy@%; @:
+
+all/%: control-plane/% $(call sub-stacks-targets,%); @:
+
