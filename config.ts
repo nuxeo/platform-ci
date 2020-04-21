@@ -34,7 +34,6 @@ export class StackReferenceProvider<T> {
         return func(this.reference);
     }
 
-
 }
 
 export function withStackReferenceProvider<T>(name: string): StackReferenceProvider<T> {

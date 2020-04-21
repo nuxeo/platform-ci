@@ -7,7 +7,7 @@ export const env = _.env;
 export const org = _.org;
 
 
-const providedOptions: control_plane.NodePoolOptions = _.config.requireObject('nodePool');
+const providedOptions: control_plane.NodePoolOptions = _.config.getObject('nodePool')??{};
 
 export const options: control_plane.NodePoolOptions = {
     ... {
