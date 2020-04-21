@@ -1,9 +1,10 @@
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import * as _ from "./config";
+import * as controlPlane from "../control-plane/output";
 
 export const pool = new gcp.container.NodePool("builder", {
-    cluster: _.controlPlane.clusterName,
+    cluster: controlPlane.output.clusterName,
     name: "builder-pool",
     nodeCount: _.options.minNodeCount,
     autoscaling: {

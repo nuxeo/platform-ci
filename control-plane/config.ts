@@ -9,6 +9,8 @@ export const clusterName = _.clusterName;
 export const createdBy = _.createdBy;
 export const createdTimestamp = _.createdTimestamp;
 
+export const withStackReferenceProvider = _.withStackReferenceProvider;
+
 
 export interface ControlPlaneOptions {
     masterVersion: string;

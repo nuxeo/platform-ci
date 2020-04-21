@@ -22,12 +22,4 @@ export const options: control_plane.NodePoolOptions = {
     }, ...providedOptions
 };
 
-export interface ControlPlane {
-    clusterName
-}
 
-export const controlPlane: ControlPlane = _.withStackReferenceProvider<ControlPlane>('control-plane').apply(reference => {
-    return {
-        clusterName: pulumi.interpolate`${reference.getOutput('cluster').apply(v => v.name)}`
-    }
-});

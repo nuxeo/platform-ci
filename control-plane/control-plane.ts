@@ -86,3 +86,13 @@ token - key: '{.credential.access_token}'
 name: gcp
 `;
     });
+
+export interface ControlPlane {
+    clusterName: string
+}
+
+export const controlPlane: ControlPlane = _.withStackReferenceProvider<ControlPlane>('control-plane').apply(reference => {
+    return {
+        clusterName: pulumi.interpolate`${reference.getOutput('cluster').apply(v => v.name)}`
+    }
+});
