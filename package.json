@@ -1,5 +1,5 @@
 {
-    "name": "jxlabs-nos-cluster",
+    "name": "jxlabs-nos-infra",
     "main": "index.js",
     "dependencies": {
         "@pulumi/gcp": "^3.0.1",

@@ -15,10 +15,6 @@ export function rfc1035(value: string) {
     }
 }
 
-
-
-
-
 export let encode = (input: string): string => Buffer.from(input).toString("base64");
 
 export let env = pulumi.getStack();
@@ -27,8 +23,26 @@ export let clusterName = `jxlabs-nos-${env}`;
 export let createdBy = 'jxlabs-nos-cluster';
 export let createdTimestamp = Date.now();
 
-export let withStackReferenceOf = (x: string): StackReference =>
-    new StackReference(`${org}/jxlabs-nos-infra-${x}/${env}`);
+export class StackReferenceProvider<T> {
+    reference: StackReference;
+
+    constructor(name: string) {
+        this.reference = withStackReferenceOf(name);
+    }
+
+    apply(func: (reference: StackReference) => T): T {
+        return func(this.reference);
+    }
+
+
+}
+
+export function withStackReferenceProvider<T>(name: string): StackReferenceProvider<T> {
+    return new StackReferenceProvider(name);
+}
+
+export let withStackReferenceOf = (name: string): StackReference =>
+    new StackReference(`${org}/jxlabs-nos-infra-${name}/${env}`);
 
 export const k8sProvider = () =>
     new k8s.Provider("gkeK8s", {

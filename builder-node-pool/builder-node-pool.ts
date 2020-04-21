@@ -1,25 +1,26 @@
 import * as gcp from "@pulumi/gcp";
+import * as pulumi from "@pulumi/pulumi";
 import * as _ from "./config";
 
-const pool = new gcp.container.NodePool("builder", {
-    cluster: _.clusterName,
+export const pool = new gcp.container.NodePool("builder", {
+    cluster: _.controlPlane.clusterName,
     name: "builder-pool",
-    nodeCount: _.minNodeCount,
+    nodeCount: _.options.minNodeCount,
     autoscaling: {
-        maxNodeCount: _.maxNodeCount,
-        minNodeCount: _.minNodeCount,
+        maxNodeCount: _.options.maxNodeCount,
+        minNodeCount: _.options.minNodeCount,
     },
     management: {
-        autoRepair: _.autoRepair,
-        autoUpgrade: _.autoUpgrade,
+        autoRepair: _.options.autoRepair,
+        autoUpgrade: _.options.autoUpgrade,
     },
     nodeConfig: {
-        diskSizeGb: _.nodeDiskSize,
-        imageType: _.imageType,
+        diskSizeGb: _.options.nodeDiskSize,
+        imageType: _.options.imageType,
         labels: {
             node: "builder",
         },
-        machineType: _.nodeMachineType,
+        machineType: _.options.machineType,
         oauthScopes: [
             "https://www.googleapis.com/auth/cloud-platform",
             "https://www.googleapis.com/auth/compute",
@@ -29,7 +30,7 @@ const pool = new gcp.container.NodePool("builder", {
             "https://www.googleapis.com/auth/logging.write",
             "https://www.googleapis.com/auth/monitoring",
         ],
-        preemptible: _.nodePreemptible,
+        preemptible: _.options.nodePreemptible,
         taints: [{
             effect: "NO_SCHEDULE",
             key: "node",
@@ -37,6 +38,4 @@ const pool = new gcp.container.NodePool("builder", {
         }],
     }
 });
-
-export { pool };
 
