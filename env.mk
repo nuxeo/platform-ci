@@ -1,10 +1,12 @@
-this-mk:=$(lastword $(MAKEFILE_LIST))
+ifndef env-included-mk
+
+env-mk := $(lastword $(MAKEFILE_LIST))
+
+this-mk:=$(env-mk)
 this-dir:=$(realpath $(dir $(this-mk)))
 top-dir:=$(realpath $(this-dir)/..)
 
-define shell-assign =
-$(eval $(1) := $$(shell $2))$($(1))
-endef
+include $(this-dir)/macros.mk
 
 export BRANCH_NAME ?= $(call shell-assign, BRANCH_NAME, git rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown)
 
@@ -28,3 +30,5 @@ export SCM_REPO := $(shell git remote get-url origin)
 export SCM_REF := $(shell git show -s --pretty=format:'%h%d' 2>/dev/null ||echo unknown)
 
 export CHART_REPOSITORY ?= http://jenkins-x-chartmuseum:8080
+
+endif
