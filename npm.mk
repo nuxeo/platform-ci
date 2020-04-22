@@ -30,4 +30,7 @@ npm-grunt:
 npm-setup: npm-adduser npm-setcache npm-bower npm-grunt
 	@:
 
+npm-install:
+	npm install -m --package-lock-only
+
 workspace.d: npm-setup

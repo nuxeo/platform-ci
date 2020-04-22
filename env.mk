@@ -12,13 +12,13 @@ export BRANCH_NAME ?= $(call shell-assign, BRANCH_NAME, git rev-parse --abbrev-r
 
 export BUILD_NUMBER ?= 0
 
-export ORG ?= nuxeo
+export ORG ?= nxmatic
 export TEAM ?= nos
 export JX_NAMESPACE ?= $(TEAM)
 export DOCKER_REGISTRY ?= localhost:5000
 export DOCKER_NAMESPACE ?= $(ORG)/$(TEAM)/jenkins-x
 
-export RELEASE_VERSION := $(shell git rev-parse HEAD > /dev/null 2>&1 && jx-release-version -folder $(top-dir))
+export RELEASE_VERSION := $(shell git rev-parse HEAD > /dev/null 2>&1 && jx-release-version -folder $(top-dir) 2>/dev/null|| echo 0.0.0)
 
 ifneq ($(BRANCH_NAME), master)
 export VERSION ?= $(RELEASE_VERSION)-$(BRANCH_NAME)-$(BUILD_NUMBER)
