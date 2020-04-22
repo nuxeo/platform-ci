@@ -1,7 +1,6 @@
 apps:
 - name: stable/nginx-ingress
   namespace: jx-system
-  phase: system
 - name: bitnami/external-dns
   namespace: jx-system
   phase: system
