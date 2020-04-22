@@ -1,28 +1,31 @@
 import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
+import * as pulumi from "@pulumi/pulumi";
 import * as _ from "./config";
 import * as controlPlane from "../control-plane/output";
 
 const k8sProvider = controlPlane.output.k8sProvider();
+const clusterName = controlPlane.output.clusterName;
+const accountId = clusterName.apply(v => _.rfc1035(v).id()).apply(v => `${v}-ko`);
 
 export const serviceAccount = new gcp.serviceAccount.Account("kaniko", {
-    accountId: _.rfc1035(`${_.clusterName}-ko`).id(),
-    displayName: `Kaniko service account for ${_.clusterName}`,
+    accountId: accountId,
+    displayName: pulumi.interpolate`Kaniko service account for ${clusterName}`,
 });
 export const serviceAccountKey = new gcp.serviceAccount.Key("kaniko", {
     publicKeyType: "TYPE_X509_PEM_FILE",
     serviceAccountId: serviceAccount.name,
 });
 export const storageAdminBinding = new gcp.projects.IAMMember("kaniko-storage-admin-binding", {
-    member: `serviceAccount:${_.clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
+    member: pulumi.interpolate`serviceAccount:${clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
     role: "roles/storage.admin",
 });
 export const storageObjectAdminBinding = new gcp.projects.IAMMember("kaniko-storage-object-admin-binding", {
-    member: `serviceAccount:${_.clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
+    member: pulumi.interpolate`serviceAccount:${clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
     role: "roles/storage.objectAdmin",
 });
 export const storageObjectCreatorBinding = new gcp.projects.IAMMember("kaniko-storage-object-creator-binding", {
-    member: `serviceAccount:${_.clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
+    member: pulumi.interpolate`serviceAccount:${clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
     role: "roles/storage.objectCreator",
 });
 

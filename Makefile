@@ -32,7 +32,13 @@ define sub-stacks-targets =
 $(foreach stack,$(sub-stacks),$(stack)/$(1))
 endef
 
-all/destroy@%: $(call reverse,$(call sub-stacks-targets,destroy@%)) control-plane/destroy@%; @:
 
-all/%: control-plane/% $(call sub-stacks-targets,%); @:
+define stack-rules =
+$(1)/destroy@%: $(foreach stack,$(call reverse,$(2)),$(stack)/destroy@%); @:
+$(1)/%: $(foreach stack,$(2),$(stack)/%); @:
+endef
 
+$(eval $(call stack-rules,k8s,control-plane builder-node-pool helmboot kaniko dns))
+$(eval $(call stack-rules,keyring,keyring vault))
+$(eval $(call stack-rules,other,storage))
+$(eval $(call stack-rules,all,k8s keyring other))
