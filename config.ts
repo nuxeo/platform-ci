@@ -15,6 +15,33 @@ export function rfc1035(value: string) {
     }
 }
 
+export class Optional<T> {
+    value: T | undefined;
+    orChoice: T | undefined;
+
+    constructor(value: T | undefined) {
+        this.value = value;
+    }
+
+    static of<T>(value: T | undefined) {
+        return new Optional<T>(value);
+    }
+    or(value: T): Optional<T> {
+        this.orChoice = value;
+        return this;
+    }
+
+    get(): T {
+        if (this.value) {
+            return this.value;
+        }
+        if (this.orChoice) {
+            return this.orChoice;
+        }
+        throw "should have a value";
+    }
+}
+
 export let encode = (input: string): string => Buffer.from(input).toString("base64");
 
 export let env = pulumi.getStack();
@@ -43,7 +70,3 @@ export function withStackReferenceProvider<T>(name: string): StackReferenceProvi
 export let withStackReferenceOf = (name: string): StackReference =>
     new StackReference(`${org}/jxlabs-nos-infra-${name}/${env}`);
 
-export const k8sProvider = () =>
-    new k8s.Provider("gkeK8s", {
-        kubeconfig: withStackReferenceOf('control-plane').requireOutputValue('k8sconfig')
-    });

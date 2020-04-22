@@ -1,6 +1,9 @@
 import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
 import * as _ from "./config";
+import * as controlPlane from "../control-plane/output";
+
+const k8sProvider = controlPlane.output.k8sProvider();
 
 export const serviceAccount = new gcp.serviceAccount.Account("kaniko", {
     accountId: _.rfc1035(`${_.clusterName}-ko`).id(),
@@ -25,14 +28,15 @@ export const storageObjectCreatorBinding = new gcp.projects.IAMMember("kaniko-st
 
 const kanikoSecretsData = _.encode(`${serviceAccountKey.privateKey}`);
 
-export const kanikoSecret = new k8s.core.v1.Secret("kaniko-secret", {
-    metadata: {
-        name: "kaniko-secret",
-        namespace: "jx",
-        labels: { app: "helmboot" }
-    },
-    type: "Opaque",
-    data: {
-        'kaniko-secret': kanikoSecretsData
-    }
-});
+export const kanikoSecret = new k8s.core.v1.Secret("kaniko-secret",
+    {
+        metadata: {
+            name: "kaniko-secret",
+            namespace: "jx",
+            labels: { app: "helmboot" }
+        },
+        type: "Opaque",
+        data: {
+            'kaniko-secret': kanikoSecretsData
+        }
+    }, { provider: k8sProvider });

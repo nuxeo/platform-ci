@@ -1,24 +1,24 @@
 import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import * as _ from "./config";
+import * as controlPlane from "../control-plane/output";
 
-import { Key } from "@pulumi/gcp/serviceAccount";
-import { Secret } from "@pulumi/kubernetes/core/v1";
-import { resolveProperties } from "@pulumi/pulumi/runtime";
+const k8sProvider = controlPlane.output.k8sProvider();
 
 export const namespace = new k8s.core.v1.Namespace("jx",
     {
         metadata: {
             name: "jx"
         }
-    });
-    //provider: _.k8sProvider,, { aliases: ["urn:pulumi:dev::jxlabs-nos-cluster-boot::kubernetes:core/v1:Namespace::jx"] });
+    },
+    { provider: k8sProvider });
 
 const gitUrlData: string = _.encode(
     `https://${_.bootSecrets.pipelineUser.username}:${_.bootSecrets.pipelineUser.token}@github.com/${_.githubConfig.owner}/${_.githubConfig.repo}.git`
 );
 
-export const gitUrlSecret = new k8s.core.v1.Secret("jx-boot-git-url", {
+export const gitUrlSecret = new k8s.core.v1.Secret("jx-boot-git-url", 
+{
     metadata: {
         name: "jx-boot-git-url",
         namespace: "jx"
@@ -26,8 +26,8 @@ export const gitUrlSecret = new k8s.core.v1.Secret("jx-boot-git-url", {
     type: "Opaque",
     data: {
         "git-url": gitUrlData
-    }});
-    //, { provider: _.k8sProvider});
+    }},
+    { provider: k8sProvider });
 
 const bootSecretsData = _.encode(`secrets:
   adminUser:
@@ -39,7 +39,8 @@ const bootSecretsData = _.encode(`secrets:
     username: ${_.bootSecrets.pipelineUser.username}
     token: ${_.bootSecrets.pipelineUser.token}`);
 
-export const bootSecrets = new k8s.core.v1.Secret("jx-boot-secrets", {
+export const bootSecrets = new k8s.core.v1.Secret("jx-boot-secrets", 
+{
     metadata: {
         name: "jx-boot-secrets",
         namespace: "jx",
@@ -48,7 +49,6 @@ export const bootSecrets = new k8s.core.v1.Secret("jx-boot-secrets", {
     type: "Opaque",
     data: {
         'secrets.yaml': bootSecretsData
-    }
-});
-//, { provider: _.k8sProvider});
+    }},
+    { provider: k8sProvider });
 

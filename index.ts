@@ -1,3 +1,5 @@
+import * as controlPlane from "./control-plane/output";
+
 
 import { dns_sa_key, k8sConfig, kaniko_sa_key, vault_sa_key } from "./cluster";
 
