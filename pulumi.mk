@@ -14,14 +14,14 @@ endef
 install: 
 	npm install -m --no-packages-lock
 	
-init@%: init.pre.d@% init.do@% init.post.d@%; @:
+init@%: init-pre.d@% init-do@% init-post.d@%; @:
 
-init.do@%: 
+init-do@%: 
 	pulumi --non-interactive stack init $(*)
 
-init.post.d@%: ; @:
+init-post.d@%: ; @:
 
-init.pre.d@%: ; @:
+init-pre.d@%: ; @:
 
 tag.environment@%: 
 	pulumi --non-interactive --stack=$(*) stack tag set environment $(*)
