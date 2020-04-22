@@ -23,9 +23,9 @@ environments:
     tls:
       email: slacoin+jxlabs-nos@nuxeo.com
       enabled: true
-      production: false
+      production: true
   key: dev
-  repository: jxlabs-nos-env
+  repository: jxlabs-nos-helmboot-config
 gitops: true
 helmfile: true
 ingress:
@@ -35,7 +35,7 @@ ingress:
   tls:
     email: slacoin+jxlabs-nos@nuxeo.com
     enabled: true
-    production: false
+    production: true
 kaniko: true
 repository: nexus
 secretStorage: local
