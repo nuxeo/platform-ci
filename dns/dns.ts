@@ -42,8 +42,6 @@ export const letsencryptCAARecord = new gcp.dns.RecordSet("letsencrypt-caa", {
 });
 
 
-const secretsData = encode(`${serviceAccountKey.privateKey}`);
-
 export const secret = new k8s.core.v1.Secret("external-dns-gcp-sa",
     {
         metadata: {
@@ -53,6 +51,6 @@ export const secret = new k8s.core.v1.Secret("external-dns-gcp-sa",
         },
         type: "Opaque",
         data: {
-            'dns-secret': secretsData
+            'credentials.json': serviceAccountKey.privateKey
         }
     }, { provider: k8sProvider });
