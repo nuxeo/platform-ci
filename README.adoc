@@ -1,0 +1,30 @@
+= Jenkins X Configuration for the NOS Team
+
+This repository allows to configure the [Jenkins X platform](https://jenkins.nos.dev.nuxeo.com/) and [Jenkins X staging platform](https://jenkins.nos-staging.dev.nuxeo.com/) for the NOS teams.
+
+When opening a pull request, it triggers an upgrade of Jenkins X in the `nos-staging` dev environment.
+
+If the upgrade is validated - and it references a release version of the Jenkins image, see the [jx-nos-jenkins](https://github.com/nuxeo/jx-nos-jenkins/) upstream repository - the pull request can be merged.
+This triggers an upgrade of Jenkins X platform in the `nos` dev environment.
+
+Note that we only build the `master` branch of the repositories imported in the `platform-staging` team.
+
+ToDo: automate the `nos-staging` environment setup, including the forking of the nos repositories using the `nos-jx-bot` organisation.
+
+Refer to this project <<book/index.adoc#,book>> for more information.
+
+== Jenkins pipeline
+
+The pipeline is mainly orchestrating the upgrade depending on the branch. For now, it's running as a [repository](https://jenkins.nos.dev.nuxeo.com/job/nuxeo/job/jx-nos-env) in the NOS's dev environment
+
+* pr-* - upgrade the Jenkins X platform in the `nos-staging` dev environment
+* master - upgrade the Jenkins X platform in the `nos` dev environment
+
+You may develop and test stages pipeline by invoking the corresponding stage targets onto a devpod of type `jx-base`. The [Makefile](Makefile) provides the default values based onto your clone.
+
+```
+jx create devpod --auto-expose=false --label=jx-base --reuse=false --sync=false --import=true
+$ git checkout <my-branch>
+$ make upgrade-nos-staging
+```
+

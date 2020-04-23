@@ -18,8 +18,6 @@ helmboot
 * infra
 
 
-[[free_the_world]][big goal]_free the world_
-
 NOTE: put a plant-uml schema here describing the repository involved in the deployment
 
 

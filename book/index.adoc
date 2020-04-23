@@ -1,0 +1,4 @@
+= Jenkins X Configuration for the NOS Team book
+
+We have a link:timeline.adoc[timeline] describing our activities in this project. This is a material for authoring a better documentation
+and get the things done.
