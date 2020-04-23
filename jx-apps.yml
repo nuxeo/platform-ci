@@ -14,8 +14,8 @@ apps:
   version: 0.0.136-nxmatic
   repository: https://nxmatic.github.io/jxlabs-nos-resources/
 - name: jenkins-x/nexus
-- name: jenkins-x/prow
 - name: jenkins-x/tekton
+- name: jenkins-x/prow
 - name: jenkins-x/chartmuseum
 - name: jenkins-x/jxui
 - name: jenkins-operator/jenkins-operator
