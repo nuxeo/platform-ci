@@ -25,7 +25,7 @@ spec:
       component: "master"
       heritage: {{ .Release.Service }}
       release: {{ .Release.Name }}
-      jenkins-cr: master
+      jenkins-cr: jenkins-operator-http-master
     type: ClusterIP
     port: 8080
     type: ClusterIP
@@ -136,7 +136,7 @@ metadata:
   name: jenkins-master-backup
   labels:
     app: jenkins-operator
-    jenkins-cr: master
+    jenkins-cr: {{ template "jenkins-servers.name" . }}
 spec:
   storageClassName: standard
   accessModes:
@@ -162,7 +162,7 @@ spec:
           serviceName: jenkins-operator-http-master
           servicePort: 80
 {{- if .Values.ingress.domain }}
-    host: jenkins-master{{ .Values.ingress.namespaceSubDomain }}{{ .Values.ingress.domain }}
+    host: master{{ .Values.ingress.namespaceSubDomain }}{{ .Values.ingress.domain }}
 {{- end }}
 {{- if .Values.ingress.tls.enabled }}
   tls:
