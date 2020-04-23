@@ -59,4 +59,4 @@ velero:
 versionStream:
   ref: master
   url: https://github.com/nxmatic/jxlabs-nos-versions.git
-webhook: lighthouse
+webhook: prow
