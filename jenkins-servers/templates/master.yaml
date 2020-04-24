@@ -25,7 +25,7 @@ spec:
       component: "master"
       heritage: {{ .Release.Service }}
       release: {{ .Release.Name }}
-      jenkins-cr: jenkins-operator-http-master
+      jenkins-cr: master
     type: ClusterIP
     port: 8080
     type: ClusterIP
@@ -33,6 +33,8 @@ spec:
     port: 50000
     type: ClusterIP
   master:
+    labels:
+      jenkins-cr: master
     authorizationStrategy: createUser
     disableCSRFProtection: false
     basePlugins:
@@ -136,7 +138,7 @@ metadata:
   name: jenkins-master-backup
   labels:
     app: jenkins-operator
-    jenkins-cr: {{ template "jenkins-servers.name" . }}
+    jenkins-cr: master
 spec:
   storageClassName: standard
   accessModes:
@@ -151,7 +153,7 @@ metadata:
   name: jenkins-operator-http-master
   labels:
     app: jenkins-operator
-    jenkins-cr: {{ template "jenkins-servers.name" . }}
+    jenkins-cr: master
   annotations:
     kubernetes.io/ingress.class: nginx
 {{- if .Values.ingress.annotations }}
