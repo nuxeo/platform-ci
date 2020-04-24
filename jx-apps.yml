@@ -10,9 +10,7 @@ apps:
 - name: acme
   repository: ".."
   phase: system
-- name: nxmatic/jxlabs-nos-resources
-  version: 0.0.136-nxmatic
-  repository: https://nxmatic.github.io/jxlabs-nos-resources/
+- name: jxlabs-nos-helmboot-resources/jxlabs-nos-helmboot-resources
 - name: jenkins-x/nexus
 - name: jenkins-x/tekton
 - name: jenkins-x/prow
