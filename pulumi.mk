@@ -13,33 +13,39 @@ endef
 
 install: 
 	npm install -m --no-packages-lock
-	
+
 init@%: init-pre.d@% init-do@% init-post.d@%; @:
 
-init-do@%: 
+init-do@%: Pulumi.%.yaml
 	pulumi --non-interactive stack init $(*)
 
 init-post.d@%: ; @:
 
 init-pre.d@%: ; @:
 
-tag.environment@%: 
+tag.environment@%: Pulumi.%.yaml
 	pulumi --non-interactive --stack=$(*) stack tag set environment $(*)
 
-
-rm@%:
+rm@%: Pulumi.%.yaml
 	pulumi --non-interactive --stack=$(*) stack rm --yes 
 
-select@%:
+select@%: Pulumi.%.yaml
 	pulumi stack select $(*)
 
+graph@%: Pulumi.%.yaml
+	pulumi --non-interactive --stack=$(*) stack graph graph.dot
+
+refresh@%: Pulumi.%.yaml
+	pulumi --non-interactive --stack=$(*) refresh --yes --diff 
+
 diff@%: Pulumi.%.yaml
-	pulumi --non-interactive --stack=$(*) preview --refresh --diff 
+	pulumi --non-interactive --stack=$(*) preview --diff 
 
 update@%: Pulumi.%.yaml
-	pulumi --non-interactive --stack=$(*) update --yes --refresh 
+	pulumi --non-interactive --stack=$(*) update --yes 
 
-destroy@%:
+
+destroy@%: Pulumi.%.yaml
 	pulumi --non-interactive --stack=$(*) destroy --yes 
 
 Pulumi.%.yaml:
