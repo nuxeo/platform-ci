@@ -11,7 +11,6 @@ apps:
   repository: ".."
   phase: system
 - name: jxlabs-nos-helmboot-resources/jxlabs-nos-helmboot-resources
-  version: 0.0.139-nxmatic
 - name: jenkins-x/nexus
 - name: jenkins-x/tekton
 - name: jenkins-x/prow
