@@ -5,3 +5,4 @@ _locks
 _logs
 anonymous-cli-metrics.json
 .*
+*/*.dot

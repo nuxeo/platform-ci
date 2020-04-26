@@ -1,19 +1,4 @@
-*  Architecture
-
-   Deploy the needed infrastructure for hosting the NOS cloud development environment. It's running actually pulumi connected to the service backend.
-   Resources has been splitted in sub-stacks. We've automated the sub-stack invokes using make rules. The targets at the top-level are :
-   stacks
-
-   -   control-plane
-   -  builder-node-pool
-   -  helmboot
-   -  storage
-   -  kaniko
-   -  dns
-   -  keyring
-   -  vault
-
-*** DONE Wuse a kubernetes provider from the control plane kubeconfig
+*** DONE use a kubernetes provider from the control plane kubeconfig
     CLOSED: [2020-04-22 Wed 09:34]
   - State "DONE"       from "DOING"      [2020-04-22 Wed 09:34] \\
     finished to integrate the stack reference in all sub-stacks. was in trouble with the pulumi service which was very slow. tried to use a local backend instead, but the model is not the same, can't have multiple stacks in a local backend. so we have another todo.
@@ -27,9 +12,6 @@
 
 *** DONE deploy an infro for nxmatic
     CLOSED: [2020-04-22 Wed 09:53]
-
-  - Note taken on [2020-04-22 Wed 13:08] \\
-    oups la op
   - State "DONE"       from "DOING"      [2020-04-22 Wed 09:53]
     was fixing the kubernetes provider injecting, but now I have my infra on-line.
   - State "DOING"      from "TODO"       [2020-04-22 Wed 09:52] 
