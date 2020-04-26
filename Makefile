@@ -39,6 +39,6 @@ $(1)/%: $(foreach stack,$(2),$(stack)/%); @:
 endef
 
 $(eval $(call stack-rules,k8s,control-plane builder-node-pool helmboot kaniko dns))
-$(eval $(call stack-rules,keyring,keyring vault))
+$(eval $(call stack-rules,keys,keyring vault))
 $(eval $(call stack-rules,other,storage))
-$(eval $(call stack-rules,all,k8s keyring other))
+$(eval $(call stack-rules,all,k8s keys other))
