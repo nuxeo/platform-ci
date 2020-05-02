@@ -1,3 +1,2 @@
 buildPack: environment-helmfile
-buildPackGitRef: jxlabs-nos-rebase-on-jenkins-x-labs
 buildPackGitURL: https://github.com/nxmatic/jxlabs-nos-buildpacks
