@@ -4,9 +4,10 @@ jxRequirements:
     schedule: ""
   bootConfigURL: https://github.com/nxmatic/jxlabs-nos-env
   cluster:
-    clusterName: jxlabs-nxmatic
+    clusterName: jxlabs-nos-nxmatic
     environmentGitOwner: nxmatic
     environmentGitPublic: true
+    externalDNSSAName: external-dns-gcp-sa
     gitKind: github
     gitName: github
     gitServer: https://github.com
@@ -14,7 +15,8 @@ jxRequirements:
     project: build-jx-prod
     provider: gke
     region: us-east1
-    registry: gcr.io
+    registry: gcr.io/jxlabs-nos-nxmatic
+    vaultSAName: jxlabs-nos-nxmatic-vt
     zone: us-east1-b
   environments:
   - ingress:
@@ -53,7 +55,8 @@ jxRequirements:
     repository:
       enabled: false
       url: ""
-  vault: {}
+  vault:
+    serviceAccount: jxlabs-nos-nxmatic-vt
   velero:
     schedule: ""
     ttl: ""
