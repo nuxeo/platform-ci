@@ -3,7 +3,7 @@ autoUpdate:
   schedule: ""
 bootConfigURL: https://github.com/nxmatic/jxlabs-nos-env
 cluster:
-  clusterName: jxlabs-nxmatic
+  clusterName: jxlabs-nos-nxmatic
   environmentGitOwner: nxmatic
   environmentGitPublic: true
   gitKind: github
@@ -13,7 +13,7 @@ cluster:
   project: build-jx-prod
   provider: gke
   region: us-east1
-  registry: gcr.io
+  registry: gcr.io/jxlabs-nos-nxmatic
   zone: us-east1-b
 environments:
 - ingress:
