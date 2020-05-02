@@ -6,6 +6,7 @@ cluster:
   clusterName: jxlabs-nos-nxmatic
   environmentGitOwner: nxmatic
   environmentGitPublic: true
+  externalDNSSAName: external-dns-gcp-sa
   gitKind: github
   gitName: github
   gitServer: https://github.com
@@ -52,7 +53,8 @@ storage:
   repository:
     enabled: false
     url: ""
-vault: {}
+vault:
+  serviceAccount: jxlabs-nos-nxmatic-vt
 velero:
   schedule: ""
   ttl: ""
