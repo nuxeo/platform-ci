@@ -13,7 +13,7 @@
     (file-name-as-directory (jxlabs-nos/directories/helmboot-config/expand-file-name name)))
 
   (defconst jxlabs-nos/directories/get-things-done
-    (jxlabs-nos/directories/helmboot-config/expand-directory-name ".get-things-done")
+    (jxlabs-nos/directories/helmboot-config/expand-directory-name ".get-things-done.d")
     "where the things get done")
 
   (defun jxlabs-nos/directories/get-things-done/expand-file-name (name)
