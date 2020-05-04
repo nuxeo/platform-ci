@@ -1,52 +1,55 @@
-export pulumi_config
-define pulumi_config =
-config:
-$(call pulumi-shared-config)
-$(if $(filter undefined,$(origin pulumi-stack-config)),,$(call pulumi-stack-config))
-endef
-
-define pulumi-shared-config =
-  gcp:project: build-jx-prod
-  gcp:region: us-east1
-  gcp:zone: us-east1-b
-endef
-
 install: 
 	npm install -m --no-packages-lock
 
+install@%: install; @:
+
+login: PULUMI_TOKEN ?= $(cat /run/secrets/pulumi/token)
+login:
+	pulumi --non-interactive login
+
 init@%: init-pre.d@% init-do@% init-post.d@%; @:
 
-init-do@%: Pulumi.%.yaml
-	pulumi --non-interactive stack init $(*)
+init-do@%: 
+	test -n $$(pulumi stack ls -j 2>/dev/null | jq '.[] | select (.name == "$(*)") | .name') || pulumi --non-interactive stack init $(*)
 
-init-post.d@%: ; @:
+init-post.d@%: tag.environment@% ; @:
 
+init-pre.d@%: | install login
 init-pre.d@%: ; @:
 
-tag.environment@%: Pulumi.%.yaml
+tag.environment@%:
 	pulumi --non-interactive --stack=$(*) stack tag set environment $(*)
 
-rm@%: Pulumi.%.yaml
+rm@%: 
 	pulumi --non-interactive --stack=$(*) stack rm --yes 
 
-select@%: Pulumi.%.yaml
+select@%: 
 	pulumi stack select $(*)
 
-graph@%: Pulumi.%.yaml
+graph@%: 
 	pulumi --non-interactive --stack=$(*) stack graph graph.dot
 
-refresh@%: Pulumi.%.yaml
+refresh@%: 
 	pulumi --non-interactive --stack=$(*) refresh --yes --diff 
 
 diff@%: Pulumi.%.yaml
 	pulumi --non-interactive --stack=$(*) preview --diff 
 
-update@%: Pulumi.%.yaml
+update@%: init@% Pulumi.%.yaml
 	pulumi --non-interactive --stack=$(*) update --yes 
 
 
-destroy@%: Pulumi.%.yaml
+destroy@%:
 	pulumi --non-interactive --stack=$(*) destroy --yes 
 
-Pulumi.%.yaml:
-	echo "$${pulumi_config}" > ${@}
+Pulumi.%.yaml: stack-config; @:
+
+stack-config: ; @:
+
+stack-config: gcp-config
+
+gcp-config:
+	@:$(call check-variable-defined,gcp-project gcp-region gcp-zone)
+	pulumi config set --plaintext --path gcp:project $(gcp-project)
+	pulumi config set --plaintext --path gcp:region $(gcp-region)
+	pulumi config set --plaintext --path gcp:zone $(gcp-zone)
