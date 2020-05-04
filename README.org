@@ -1,9 +1,10 @@
 #+TITLE: jxlabs nos emacs integration
 
 Provide elisp code which enable us to share behaviours in emacs. At this stage, it's
-mainly about the get things done integration. 
+mainly about the get things done integration. It's activated once you're visiting
+your [[https://github.com/nxmatic/jxlabs-nos-helmboot-config][helmboot config]] clone in emacs.
 
-* source layout
+* code logic and structure
 
 We've mapped it as a sub-module of the [[https://github.com/nxmatic/jxlabs-nos-helmboot-config][helmboot config]] repository at the [[https://github.com/nxmatic/jxlabs-nos-helmboot-config/.elisp/jxlabs-nos][.elisp/jxlabs-nos]] path.
 The code is auto-loaded in through [[file:../../.dir-locals.el][.dir-locals.el] file.
