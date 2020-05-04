@@ -24,3 +24,6 @@ vendor/
 
 # IDEs
 .idea
+
+# tmp file for building
+.tmp

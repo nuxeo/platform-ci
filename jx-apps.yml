@@ -1,12 +1,13 @@
 apps:
-- name: stable/nginx-ingress
-  namespace: jx-system
-- name: bitnami/external-dns
-  namespace: jx-system
-  phase: system
+- name: jx-labs/jenkins-x-crds
 - name: jetstack/cert-manager
   namespace: jx-system
   phase: system
+- name: bitnami/external-dns
+  namespace: jx-system
+  phase: system
+- name: stable/nginx-ingress
+  namespace: jx-system
 - name: acme
   repository: ".."
   phase: system
