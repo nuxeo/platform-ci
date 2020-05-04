@@ -7,10 +7,19 @@ login: PULUMI_TOKEN ?= $(cat /run/secrets/pulumi/token)
 login:
 	pulumi --non-interactive login
 
-init@%: init-pre.d@% init-do@% init-post.d@%; @:
+git-owners ?= $(git-owner)
+
+define pulumi-owners-target =
+$(foreach owner,$(git-owners),$(1)@$(owner))
+endef
+
+Pulumi.%.yaml: init@% stack-config; @:
+
+
+$(call pulumi-owners-target,init): init@%: init-pre.d@% init-do@% init-post.d@%; @:
 
 init-do@%: 
-	test -n $$(pulumi stack ls -j 2>/dev/null | jq '.[] | select (.name == "$(*)") | .name') || pulumi --non-interactive stack init $(*)
+	test -n "$$(pulumi stack ls -j 2>/dev/null | jq '.[] | select (.name == "$(*)") | .name')" || pulumi --non-interactive stack init $(*)
 
 init-post.d@%: tag.environment@% ; @:
 
@@ -42,7 +51,6 @@ update@%: init@% Pulumi.%.yaml
 destroy@%:
 	pulumi --non-interactive --stack=$(*) destroy --yes 
 
-Pulumi.%.yaml: stack-config; @:
 
 stack-config: ; @:
 
