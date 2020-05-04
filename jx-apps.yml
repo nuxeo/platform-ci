@@ -1,5 +1,8 @@
 apps:
-- name: jx-labs/jenkins-x-crds
+- name: cert-manager-crds
+  namespace: jx-system
+  phase: system
+  repository: ".."
 - name: jetstack/cert-manager
   namespace: jx-system
   phase: system
@@ -8,9 +11,12 @@ apps:
   phase: system
 - name: stable/nginx-ingress
   namespace: jx-system
+  phase: system
+- name: jx-labs/jenkins-x-crds
+  namespace: jx-system
+  phase: system
 - name: acme
   repository: ".."
-  phase: system
 - name: jxlabs-nos-helmboot-resources/jxlabs-nos-helmboot-resources
 - name: jenkins-x/nexus
 - name: jenkins-x/tekton
