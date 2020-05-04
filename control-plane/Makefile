@@ -1,11 +1,12 @@
 include ../make.d/env.mk
 include ../make.d/pulumi.mk
 
-override define pulumi_shared_config :=
-config:
-  gcp:project: build-jx-prod
-  gcp:region: us-east1
-  gcp:zone: us-east1-b
-  jxlabs-nos-infra-builder-node-pool:nodePool:
-    enabled: true
-endef
+ifneq (,$(wildcard config.mk))
+include config.mk
+endif
+
+-include $(boot-secrets-mk)
+-include $(boot-requirements-mk)
+
+clean:
+	rm -fr nodes-modules _cacaches _locks node_modules

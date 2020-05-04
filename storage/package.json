@@ -1,10 +1,11 @@
 {
-    "name": "jxlabs-nos-cluster",
+    "name": "jxlabs-nos-infra-",
     "main": "index.js",
     "dependencies": {
-        "@pulumi/gcp": "^3.0.1",
-        "@pulumi/pulumi": "^2.0.0",
-        "@pulumi/kubernetes": "^2.0.0"
+        "@pulumi/gcp": "^3.3.0",
+        "@pulumi/pulumi": "^2.1.0",
+        "@pulumi/kubernetes": "^2.0.0",
+        "@pulumi/github": "^1.1.0"
     },
     "devDependencies": {
         "lint": "^0.7.0"
