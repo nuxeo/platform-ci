@@ -6,3 +6,4 @@ _logs
 anonymous-cli-metrics.json
 .*
 */*.dot
+**/#*
