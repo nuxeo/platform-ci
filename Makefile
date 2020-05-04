@@ -3,15 +3,15 @@ include make.d/macros.mk
 
 export stack_make_template
 define stack_make_template =
+-include $$(boot-secrets-mk)
+-include $$(boot-requirements-mk)
+
 include ../make.d/env.mk
 include ../make.d/pulumi.mk
 
 ifneq (,$$(wildcard config.mk))
 include config.mk
 endif
-
--include $$(boot-secrets-mk)
--include $$(boot-requirements-mk)
 
 clean:
 	rm -fr nodes-modules _cacaches _locks node_modules
@@ -82,7 +82,7 @@ $(eval $(call stack-rules,other,storage))
 $(eval $(call stack-rules,all,k8s keys other))
 
 cluster~clean@dummy: clean all~clean@%; @:
-cluster~update@%: all~update@%; @:
+cluster~update@%: all~init@% all~update@%; @:
 cluster~preview@%: all~preview@%; @:
 cluster~diff@%: all~diff@%; @:
 cluster~destroy@%: all~destroy@% all~rm@%; @:
