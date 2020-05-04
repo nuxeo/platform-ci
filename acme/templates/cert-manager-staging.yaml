@@ -1,0 +1,48 @@
+{{ $cluster := .Values.jxRequirements.cluster }}
+{{- range .Values.jxRequirements.environments }}
+{{- if and .ingress.tls (and (eq (default false .ingress.tls.enabled) true) (eq (default false .ingress.tls.staging) true)) }}
+{{ $name := .ingress.domain | replace "." "-" }}
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: "tls-{{ $name }}-s"
+  labels:
+    jenkins.io/letsencrypt-service: staging
+spec:
+  secretName: "tls-{{ $name }}-s"
+  issuerRef:
+    name: "letsencrypt-{{ $name }}-s"
+  commonName: "*.{{ .ingress.domain }}"
+  dnsNames:
+  - "*.{{ .ingress.domain }}"
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: "letsencrypt-{{ $name }}-s"
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: "{{ .ingress.tls.email }}"
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: "letsencrypt-{{ $name }}-s"
+    solvers:
+    - selector:
+        dnsNames:
+        - "*.{{ .ingress.domain }}"
+        - "{{ .ingress.domain }}"
+      dns01:
+{{- if eq $cluster.provider "gke" }}
+        clouddns:
+          project: "{{ $cluster.project }}"
+          serviceAccountSecretRef:
+            name: external-dns-gcp-sa
+            key: credentials.json
+{{- end }}
+{{- if eq $cluster.provider "eks" }}
+        route53:
+          region: {{ $cluster.region }}
+{{- end }}
+{{- end }}
+{{- end }}
