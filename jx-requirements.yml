@@ -35,9 +35,6 @@ ingress:
   cloud_dns_secret_name: external-dns-gcp-sa
   domain: jxlabs-nos-nxmatic.build-jx-prod.build.nuxeo.com
   externalDNS: true
-  annotations: |
-    kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: "letsencrypt-jxlabs-nos-nxmatic-build-jx-prod-build-nuxeo-com-p"
   namespaceSubDomain: -jx.
   tls:
     email: slacoin+jxlabs-nos@nuxeo.com
