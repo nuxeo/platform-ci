@@ -1,0 +1,17 @@
+{{- if .Values.jxRequirements.ingress.tls.enabled }}
+ingress:
+  annotations:
+{{- if .Values.jxRequirements.ingress.tls.production }}
+    cert-manager.io/cluster-issuer: "letsencrypt-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-p"
+{{- else }}
+    cert-manager.io/cluster-issuer: "letsencrypt-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-s"
+{{- end }}
+chartmuseum:
+  ingress:
+    tls:
+{{- if .Values.jxRequirements.ingress.tls.production }}
+      secretName: "tls-chartmuseum-p"
+{{- else }}
+      secretName: "tls-chartmuseum-s"
+{{- end }}
+{{- end }}
