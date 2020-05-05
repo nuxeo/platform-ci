@@ -4,7 +4,7 @@
 {{ $ingress := $env.ingress }}
 {{ $domain := $ingress.domain }}
 {{ $name := $ingress.domain | replace "." "-" }}
-{{- if and ( hasKey $ingress "tls" ) ( eq $ingress.tls.enabled true ) }}
+{{- if and ( hasKey $ingress "tls" ) ( and ( eq $ingress.tls.enabled true ) $ingress.tls.production ) }}
 {{ $tls := $ingress.tls }}
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -33,8 +33,7 @@ spec:
       name: "letsencrypt-{{ $name }}-p"
     solvers:
     - selector:
-        dnsNames:
-        - "*.{{ $domain }}"
+        dnsZone:
         - "{{ $domain }}"
       dns01:
 {{- if eq $cluster.provider "gke" }}

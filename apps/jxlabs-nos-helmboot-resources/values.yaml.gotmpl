@@ -1,17 +1,21 @@
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
+{{- $production := .Values.jxRequirements.ingress.tls.production }}
 ingress:
   annotations:
-{{- if .Values.jxRequirements.ingress.tls.production }}
+{{- if $production }}
     cert-manager.io/cluster-issuer: "letsencrypt-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-p"
 {{- else }}
     cert-manager.io/cluster-issuer: "letsencrypt-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-s"
 {{- end }}
-chartmuseum:
+{{- $production := .Values.jxRequirements.ingress.tls.production }}
+{{- range $service := tuple "bucketrepo" "chartmuseum" "deck" "docker-registry" "hook" "nexus" "tide" }}
+{{ $service }}:
   ingress:
     tls:
-{{- if .Values.jxRequirements.ingress.tls.production }}
-      secretName: "tls-chartmuseum-p"
+{{- if $production }}
+      secretName: "tls-{{ $service }}-p"
 {{- else }}
-      secretName: "tls-chartmuseum-s"
+      secretName: "tls-{{ $service }}-s"
+{{- end }}
 {{- end }}
 {{- end }}
