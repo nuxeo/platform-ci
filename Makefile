@@ -27,11 +27,11 @@ cluster~boot@%: cluster~update@% cluster~boot-create@% cluster~boot-run@% ; @:
 cluster~select@%:
 	kubectl config use-context gke_$(gcp-project)_$(gcp-zone)_$(cluster-name)
 
-cluster~boot-delete@%: | /usr/local/bin/hub
+cluster~boot-clean@%: | /usr/local/bin/hub
 	rm -fr .tmp/$(dev-repository)
 	-hub delete --yes $(git-owner)/$(dev-repository)
 
-cluster~boot-create@%: cluster~select@% | cluster~boot-delete@% 
+cluster~boot-create@%: cluster~boot-clean@% 
 	JX_LOG_LEVEL=debug jxl boot create --batch-mode \
 	  --dir=.tmp/$(dev-repository) \
           --provider=gke \
