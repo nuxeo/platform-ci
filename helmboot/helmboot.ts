@@ -5,13 +5,19 @@ import * as controlPlane from "../control-plane/output";
 
 const k8sProvider = controlPlane.output.k8sProvider();
 
-export const namespace = new k8s.core.v1.Namespace("jx",
+export const appsNamespace = new k8s.core.v1.Namespace("jx",
     {
         metadata: {
             name: "jx"
         }
-    },
-    { provider: k8sProvider });
+    }, { import: "jx", provider: k8sProvider });
+
+export const systemNamespace = new k8s.core.v1.Namespace("jx-system",
+    {
+        metadata: {
+            name: "jx-system"
+        }
+    }, { import: "jx-system", provider: k8sProvider });
 
 const gitUrlData: string = _.encode(
     `https://${_.bootSecrets.pipelineUser.username}:${_.bootSecrets.pipelineUser.token}@github.com/${_.githubConfig.owner}/${_.githubConfig.repo}.git`

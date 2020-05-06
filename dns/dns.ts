@@ -3,11 +3,13 @@ import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
 import { encode, rfc1035 } from "./config";
 import * as controlPlane from "../control-plane/output";
+import * as helmboot from "../helmboot/output";
 import { ConfigFile } from "@pulumi/kubernetes/yaml";
 
 const k8sProvider = controlPlane.output.k8sProvider();
 const clusterName = controlPlane.output.clusterName;
 const accountId = clusterName.apply(v => rfc1035(v).id()).apply(v => `${v}-dns` );
+const systemNamespace = helmboot.output.systemNamespace;
 
 export const serviceAccount = new gcp.serviceAccount.Account("dns", {
     accountId: accountId,
@@ -46,7 +48,7 @@ export const secret = new k8s.core.v1.Secret("external-dns-gcp-sa",
     {
         metadata: {
             name: "external-dns-gcp-sa",
-            namespace: "jx",
+            namespace: systemNamespace,
             labels: { app: "helmboot" }
         },
         type: "Opaque",

@@ -82,7 +82,7 @@ $(eval $(call stack-rules,other,storage))
 $(eval $(call stack-rules,all,k8s keys other))
 
 cluster~clean@dummy: clean all~clean@%; @:
-cluster~update@%: all~init@% all~update@%; @:
+cluster~update@%: all~update@%; @:
 cluster~preview@%: all~preview@%; @:
 cluster~diff@%: all~diff@%; @:
 cluster~destroy@%: all~destroy@% all~rm@%; @:
