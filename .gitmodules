@@ -1,3 +1,0 @@
-[submodule "make.d"]
-	path = make.d
-	url = git@github.com:nxmatic/jxlabs-nos-make.d.git
