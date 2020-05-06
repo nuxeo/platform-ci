@@ -1,0 +1,21 @@
+#+STARTUP: overview hidestars logrefile indent logdone
+#+TODO: NEXT TODO WAIT | DONE CANCELED TRASH
+#+begin_comment
+This is the inbox. Everything goes in here when you capture it.
+#+end_comment
+* arquilian provide prow plugins which could help       :reading:papers:idea:
+* create an organization for each cluster, 
+it's now available for free even for private repositories -- [[http://arquillian.org/ike-prow-plugins/#_pr_sanitizer_plugin][github is free for team]]
+[2020-04-29 Wed 18:07]
+* prepare meeting with viktor from cloudbees
+[2020-04-30 Thu 09:25]
+* extract jxlabs-nos elisp code in a dedicated repository
+[2020-04-30 Thu 09:26]
+* synchronize my emacs config on github
+[2020-04-30 Thu 09:27]
+* publish jx-labs infra modules (on github for now, boot-strapping)
+[2020-04-30 Thu 09:28]
+* share infra top make rules for the preview pipeline
+[2020-04-30 Thu 09:29]
+* define gtd tags as local variable
+[2020-04-30 Thu 09:34]
