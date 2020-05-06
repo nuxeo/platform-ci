@@ -6,11 +6,6 @@ include boot-requirements.mk
 include boot-secrets.mk
 include boot-git-url.mk
 
-submodules:
-	git submodule update --init --recursive
-
-init: | submodules ; @:
-
 cluster~%: git-owner = $(lastword $(subst @, ,$(@)))
 cluster~%: cluster-name = jxlabs-nos-$(git-owner)
 cluster~%: git-url = https://github.com/$(git-owner)/$(dev-repository)
@@ -51,14 +46,14 @@ cluster~boot-run@%: cluster~select@%
 cluster~clean: clean
 	make -C infra cluster~clean
 
-cluster~update@%: | submodules
+cluster~update@%: 
 	make -C infra cluster~update@$(*)
 
-cluster~diff@%: | submodules
+cluster~diff@%: 
 	make -C infra cluster~diff@$(*)
 
-cluster~preview@%: | submodules
+cluster~preview@%: 
 	make -C infra cluster~preview@$(*)
 
-cluster~destroy@%: init
+cluster~destroy@%: 
 	make -C infra cluster~destroy@$(*)
