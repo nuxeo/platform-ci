@@ -1,0 +1,3 @@
+name: jxlabs-nos-infra-dns
+runtime: nodejs
+description: jxlabs nos dns zone

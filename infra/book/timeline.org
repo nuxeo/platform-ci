@@ -1,0 +1,23 @@
+*** DONE use a kubernetes provider from the control plane kubeconfig
+    CLOSED: [2020-04-22 Wed 09:34]
+  - State "DONE"       from "DOING"      [2020-04-22 Wed 09:34] \\
+    finished to integrate the stack reference in all sub-stacks. was in trouble with the pulumi service which was very slow. tried to use a local backend instead, but the model is not the same, can't have multiple stacks in a local backend. so we have another todo.
+  should not require external change of the context
+  use the control plane stack reference
+  was trying to use the k8s provider for a gcp resource (too bad)
+
+*** HANGUP enable use of a local backend
+  - State "HANGUP"     from "TODO"       [2020-04-22 Wed 09:49]
+  should adapt the make rules for supporting this mode of operation. problem is that a local backend can't hold multiple stacks (ie: substacks)
+
+*** DONE deploy an infro for nxmatic
+    CLOSED: [2020-04-22 Wed 09:53]
+  - State "DONE"       from "DOING"      [2020-04-22 Wed 09:53]
+    was fixing the kubernetes provider injecting, but now I have my infra on-line.
+  - State "DOING"      from "TODO"       [2020-04-22 Wed 09:52] 
+
+***  TODO author first documentation 
+
+
+
+

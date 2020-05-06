@@ -1,0 +1,11 @@
+name: jxlabs-nos-infra-control-plane
+runtime: nodejs
+description: jxlabs nos control plane
+template:
+  config:
+    gcp:project: 
+      default: build-jx-prod
+    gcp:region: 
+      default: us-east1
+    gcp:zone: 
+      default: us-east1-b

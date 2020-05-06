@@ -1,0 +1,3 @@
+name: jxlabs-nos-infra-builder-node-pool
+runtime: nodejs
+description: jxlabs nos builder node pool
