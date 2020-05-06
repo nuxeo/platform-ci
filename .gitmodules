@@ -1,6 +1,0 @@
-[submodule ".get-things-done.d"]
-	path = .get-things-done.d
-	url = https://github.com/nxmatic/jxlabs-nos-gtd.d
-[submodule ".elisp.d/jx-labs"]
-	path = .elisp.d/jxlabs-nos
-	url = https://github.com/nxmatic/jxlabs-nos-elisp.d
