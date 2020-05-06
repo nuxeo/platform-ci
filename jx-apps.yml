@@ -2,7 +2,7 @@ apps:
 - name: cert-manager-crds
   namespace: jx-system
   phase: system
-  repository: ".."
+  repository: ..
 - name: jetstack/cert-manager
   namespace: jx-system
   phase: system
@@ -12,11 +12,9 @@ apps:
 - name: stable/nginx-ingress
   namespace: jx-system
   phase: system
-- name: jx-labs/jenkins-x-crds
-  namespace: jx-system
-  phase: system
 - name: acme
-  repository: ".."
+  repository: ..
+- name: jx-labs/jenkins-x-crds
 - name: jxlabs-nos-helmboot-resources/jxlabs-nos-helmboot-resources
 - name: jenkins-x/nexus
 - name: jenkins-x/tekton
@@ -24,9 +22,9 @@ apps:
 - name: jenkins-x/chartmuseum
 - name: jenkins-x/jxui
 - name: jenkins-operator/jenkins-operator
-  version: 0.1.1
   repository: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
+  version: 0.1.1
 - name: jenkins-servers
-  repository: ".."
+  repository: ..
 - name: repositories
-  repository: ".."
+  repository: ..

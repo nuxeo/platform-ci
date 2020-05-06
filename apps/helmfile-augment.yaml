@@ -1,0 +1,24 @@
+releases:
+- chart: jxlabs-nos-helmboot-resources/jxlabs-nos-helmboot-resources
+  needs: 
+  - jx/jenkins-x-crds
+  hooks:
+  - events: [ "postsync" ]
+    showlogs: true
+    command: "jx"
+    args: [ "step", "scheduler", "config", "apply", "--direct=true" ]
+- chart: jenkins-x/tekton
+  needs:
+  - jx/jxlabs-nos-helmboot-resources
+- chart: jenkins-x/prow
+  needs:
+  - jx/tekton
+- chart: jenkins-x/jxui
+  needs:
+  - jx/jenkins-x-crds
+- chart: ../jenkins-servers
+  needs:
+  - jx/jenkins-operator
+- chart: ../repositories
+  needs:
+  - jx/jenkins-x-crds
