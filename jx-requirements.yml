@@ -62,6 +62,6 @@ velero:
   schedule: ""
   ttl: ""
 versionStream:
-  ref: jxlabs-nos-rebase-on-jenkins-x
+  ref: jxlabs-nos
   url: https://github.com/nxmatic/jxlabs-nos-versions.git
 webhook: prow
