@@ -1,1 +1,0 @@
-jxl boot run -b --git-url https://github.com/nxmatic/jxlabs-nos-helmboot-config --git-ref master --versions-repo https://github.com/nxmatic/jxlabs-nos-versions.git --versions-ref jxlabs-nos-rebase-on-jenkins-x

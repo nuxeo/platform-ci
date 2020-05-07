@@ -1,62 +1,60 @@
-install: 
-	npm install -m --no-packages-lock
+pulumi-install@%: install; @:
 
-install@%: install; @:
-
-login: PULUMI_TOKEN ?= $(cat /run/secrets/pulumi/token)
-login:
+pulumi-login: PULUMI_TOKEN ?= $(cat /run/secrets/pulumi/token)
+pulumi-login:
 	pulumi --non-interactive login
 
+# use stack rule pattern, needed for ordering pre-requisites
 git-owners ?= $(git-owner)
 
 define pulumi-owners-target =
 $(foreach owner,$(git-owners),$(1)@$(owner))
 endef
 
-Pulumi.%.yaml: init@% stack-config; @:
+Pulumi.%.yaml: pulumi-init@% pulumi-stack-config; @:
 
 
-$(call pulumi-owners-target,init): init@%: init-pre.d@% init-do@% init-post.d@%; @:
+$(call pulumi-owners-target,pulumi-init): pulumi-init@%: pulumi-init-pre.d@% pulumi-init-do@% pulumi-init-post.d@%; @:
 
-init-do@%: 
+pulumi-init-do@%: 
 	test -n "$$(pulumi stack ls -j 2>/dev/null | jq '.[] | select (.name == "$(*)") | .name')" || pulumi --non-interactive stack init $(*)
 
-init-post.d@%: tag.environment@% ; @:
+pulumi-init-post.d@%: pulumi-tag.environment@% ; @:
 
-init-pre.d@%: | install login
-init-pre.d@%: ; @:
+pulumi-init-pre.d@%: | install login
+pulumi-init-pre.d@%: ; @:
 
-tag.environment@%:
+pulumi-tag.environment@%:
 	pulumi --non-interactive --stack=$(*) stack tag set environment $(*)
 
-rm@%: 
+pulumi-rm@%: pulumi-destroy@%
 	pulumi --non-interactive --stack=$(*) stack rm --yes 
 
-select@%: 
+pulumi-select@%: 
 	pulumi stack select $(*)
 
-graph@%: 
+pulumi-graph@%: 
 	pulumi --non-interactive --stack=$(*) stack graph graph.dot
 
-refresh@%: 
+pulumi-refresh@%: 
 	pulumi --non-interactive --stack=$(*) refresh --yes --diff 
 
-diff@%: Pulumi.%.yaml
+pulumi-diff@%: Pulumi.%.yaml
 	pulumi --non-interactive --stack=$(*) preview --diff 
 
-update@%: init@% Pulumi.%.yaml
+pulumi-update@%: pulumi-init@% Pulumi.%.yaml
 	pulumi --non-interactive --stack=$(*) update --yes 
 
 
-destroy@%:
+pulumi-destroy@%:
 	pulumi --non-interactive --stack=$(*) destroy --yes 
 
 
-stack-config: ; @:
+pulumi-stack-config: ; @:
 
-stack-config: gcp-config
+pulumi-stack-config: pulumi-gcp-config
 
-gcp-config:
+pulumi-gcp-config:
 	@:$(call check-variable-defined,gcp-project gcp-region gcp-zone)
 	pulumi config set --plaintext --path gcp:project $(gcp-project)
 	pulumi config set --plaintext --path gcp:region $(gcp-region)

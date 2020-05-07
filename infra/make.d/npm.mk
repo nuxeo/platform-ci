@@ -1,11 +1,6 @@
-npm-adduser: pass=$(shell kubectl get secrets/nexus -o jsonpath='{.data.password}' | base64 -d)
-npm-adduser: user=admin
-npm-adduser: email=nos+jx-bot@nuxeo.com
-npm-adduser: /usr/bin/expect
-	echo "$$npm_adduser_template" | expect
 
-npm-setcache:
-	npm set cache
+/usr/bin/pnpm:
+	sudo npm install -g pnpm
 
 /usr/bin/expect:
 	sudo yum install --assumeyes expect
@@ -20,17 +15,29 @@ expect {
 }
 endef
 
-npm-bower:
-	sudo npm install -g bower
+npm-adduser: pass=$(shell kubectl get secrets/nexus -o jsonpath='{.data.password}' | base64 -d)
+npm-adduser: user=admin
+npm-adduser: email=nos+jx-bot@nuxeo.com
+npm-adduser: /usr/bin/expect
+	echo "$$npm_adduser_template" | expect
+
+npm-setcache:
+	npm set cache
+
+npm-bower: | /usr/bin/pnpm
+	sudo pnpm install -g bower
 	echo '{ "allow_root": true }' > ~/.bowerrc
 
-npm-grunt:
-	sudo npm install -g grunt
+npm-grunt: | /usr/bin/pnpm
+	sudo pnpm install -g grunt
 
-npm-setup: npm-adduser npm-setcache npm-bower npm-grunt
+npm-setup: npm-adduser npm-setcache npm-bower npm-grunt | /usr/bin/pnpm
 	@:
 
 npm-install:
-	npm install -m --package-lock-only
+	pnpm install 
+
+npm-clean:
+	rm -fr nodes_modules _cacache _locks _logs anonymous-cli-metrics.json bin
 
 workspace.d: npm-setup

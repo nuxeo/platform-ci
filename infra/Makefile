@@ -1,5 +1,6 @@
 include make.d/env.mk
 include make.d/macros.mk
+include make.d/npm.mk
 
 export stack_make_template
 define stack_make_template =
@@ -7,14 +8,23 @@ define stack_make_template =
 -include $$(boot-requirements-mk)
 
 include ../make.d/env.mk
+include ../make.d/npm.mk
 include ../make.d/pulumi.mk
 
 ifneq (,$$(wildcard config.mk))
 include config.mk
 endif
 
-clean:
-	rm -fr nodes-modules _cacaches _locks node_modules
+clean: npm-clean pulumi-clean; @:
+
+update@%: pulumi-update@% ; @:
+select@%: pulumi-select@%; @;
+preview@%: pulumi-update@% ; @:
+refresh@%: pulumi-refresh@% ; @:
+diff@%: pulumi-diff@% ; @:
+rm@%: pulumi-rm@% ; @:
+destroy@%: pulumi-destroy@% ; @:
+
 endef
 
 export stack_package_json
@@ -48,7 +58,12 @@ install: package.json
 %/Makefile:
 	echo "$${stack_make_template}" > $(@)
 
+makefiles: ; @:
+packages: ; @:
+
 define stack-rule-template =
+makefiles: $(1)/Makefile
+mackages: $(1)/package.json
 $(1)~%: $(1)/Makefile $(1)/package.json; $(MAKE) $(ifeq (,$(boot-secrets-mk)),,boot-secrets-mk=$(realpath $(boot-secrets-mk))) -C $(1) $$(*)
 endef
 
