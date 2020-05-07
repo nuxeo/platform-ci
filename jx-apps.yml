@@ -17,7 +17,7 @@ apps:
   phase: system
 - name: acme
   repository: ..
-- name: jxlabs-nos-helmboot-resources/jxlabs-nos-helmboot-resources
+- name: jxlabs-nos/jxlabs-nos-helmboot-resources
 - name: jenkins-x/nexus
 - name: jenkins-x/tekton
 - name: jenkins-x/prow
