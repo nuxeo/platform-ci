@@ -7,4 +7,4 @@ helmDefaults:
 
 helmfiles:
   - system/helmfile.yaml
-  - apps/helmfile-augmented.yaml
+  - apps/helmfile.yaml

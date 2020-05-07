@@ -12,9 +12,11 @@ apps:
 - name: stable/nginx-ingress
   namespace: jx-system
   phase: system
+- name: jx-labs/jenkins-x-crds
+  namespace: jx-system
+  phase: system
 - name: acme
   repository: ..
-- name: jx-labs/jenkins-x-crds
 - name: jxlabs-nos-helmboot-resources/jxlabs-nos-helmboot-resources
 - name: jenkins-x/nexus
 - name: jenkins-x/tekton
