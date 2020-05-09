@@ -1,5 +1,5 @@
-stack-config: github-config
-stack-config: boot-secrets-config
+pulumi-stack-config: github-config
+pulumi-stack-config: boot-secrets-config
 
 github-config:
 	@:$(call check-variable-defined,git-owner dev-repository)
