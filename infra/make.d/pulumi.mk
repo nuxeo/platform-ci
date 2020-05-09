@@ -1,5 +1,3 @@
-pulumi-install@%: install; @:
-
 pulumi-login: PULUMI_TOKEN ?= $(cat /run/secrets/pulumi/token)
 pulumi-login:
 	pulumi --non-interactive login
@@ -13,16 +11,20 @@ endef
 
 Pulumi.%.yaml: pulumi-init@% pulumi-stack-config; @:
 
-
 $(call pulumi-owners-target,pulumi-init): pulumi-init@%: pulumi-init-pre.d@% pulumi-init-do@% pulumi-init-post.d@%; @:
+
+$(call pulumi-owners-target,pulumi-init-pre.d): pulumi-init-pre.d@%: | pulumi-login
+pulumi-init-pre.d@%: ; @:
 
 pulumi-init-do@%: 
 	test -n "$$(pulumi stack ls -j 2>/dev/null | jq '.[] | select (.name == "$(*)") | .name')" || pulumi --non-interactive stack init $(*)
 
-pulumi-init-post.d@%: pulumi-tag.environment@% ; @:
+$(call pulumi-owners-target,pulumi-init-post.d): pulumi-init-post.d@%: pulumi-select@% 
+$(call pulumi-owners-target,pulumi-init-post.d): pulumi-init-post.d@%: pulumi-tag.environment@% 
+pulumi-init-post.d@%: ; @:
 
-pulumi-init-pre.d@%: | install login
-pulumi-init-pre.d@%: ; @:
+pulumi-select@%:
+	pulumi stack select $(*)
 
 pulumi-tag.environment@%:
 	pulumi --non-interactive --stack=$(*) stack tag set environment $(*)
@@ -42,7 +44,7 @@ pulumi-refresh@%:
 pulumi-diff@%: Pulumi.%.yaml
 	pulumi --non-interactive --stack=$(*) preview --diff 
 
-pulumi-update@%: pulumi-init@% Pulumi.%.yaml
+pulumi-update@%: Pulumi.%.yaml pulumi-refresh@%
 	pulumi --non-interactive --stack=$(*) update --yes 
 
 

@@ -42,6 +42,6 @@ export const kanikoSecret = new k8s.core.v1.Secret("kaniko-secret",
         },
         type: "Opaque",
         data: {
-            'kaniko-secret': kanikoSecretsData
+            'kaniko-secret': serviceAccountKey.privateKey
         }
     }, { provider: k8sProvider });

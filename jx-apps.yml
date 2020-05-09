@@ -1,4 +1,4 @@
-apps:
+applications:
 - name: cert-manager-crds
   namespace: jx-system
   phase: system
@@ -25,7 +25,6 @@ apps:
 - name: jenkins-x/jxui
 - name: jenkins-operator/jenkins-operator
   repository: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
-  version: 0.1.1
 - name: jenkins-servers
   repository: ..
 - name: repositories
