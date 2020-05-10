@@ -33,15 +33,17 @@ apps:
   needs:
   - jx/jenkins-x-crds
   repository: ..
-- name: jenkins-x/chartmuseum
 - name: jenkins-x/tekton
   needs:
   - jx/repositories
 - name: jenkins-x/prow
   needs:
   - jx/tekton
-- name: jenkins-x/nexus
 - name: jenkins-x/jxui
+  needs:
+  - jx/jenkins-x-crds
+- name: jenkins-x/chartmuseum
+- name: jenkins-x/nexus
 - name: jxlabs-nos/jenkins-operator
 - name: jenkins-servers
   needs:
