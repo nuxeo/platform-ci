@@ -2,6 +2,8 @@ autoUpdate:
   enabled: false
   schedule: ""
 bootConfigURL: https://github.com/nxmatic/jxlabs-nos-helmboot-config
+buildPackRef: jxlabs-nos
+buildPackURL: https://github.com/nxmatic/jxlabs-nos-buildpacks
 cluster:
   clusterName: jxlabs-nos-nxmatic
   environmentGitOwner: nxmatic

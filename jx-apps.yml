@@ -42,7 +42,7 @@ apps:
   - jx/tekton
 - name: jenkins-x/nexus
 - name: jenkins-x/jxui
-- name: jenkins/jenkins-operator
+- name: jxlabs-nos/jenkins-operator
 - name: jenkins-servers
   needs:
   - jx/jenkins-operator
