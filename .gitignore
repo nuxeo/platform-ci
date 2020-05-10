@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+jx-requirements.values.yaml.gotmpl
 system/generated
 system/helmfile.yaml
 apps/generated
