@@ -42,8 +42,7 @@ apps:
   - jx/tekton
 - name: jenkins-x/nexus
 - name: jenkins-x/jxui
-- name: jenkins-operator/jenkins-operator
-  repository: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
+- name: jenkins/jenkins-operator
 - name: jenkins-servers
   needs:
   - jx/jenkins-operator
