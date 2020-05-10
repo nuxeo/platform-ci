@@ -62,6 +62,16 @@ export const iamAdminBinding = new gcp.projects.IAMBinding("sa-iam-admin-binding
     project: `${gcp.config.project}`,
     role: 'roles/iam.securityAdmin'
 });
+export const ownerBinding = new gcp.projects.IAMBinding("sa-owner-binding", {
+    members: [pulumi.interpolate`serviceAccount:${clusterName}-boot@${gcp.config.project}.iam.gserviceaccount.com`],
+    project: `${gcp.config.project}`,
+    role: 'roles/owner'
+});
+export const workloadIdentityUserBinding = new gcp.projects.IAMBinding("sa-workload-binding", {
+    members: [pulumi.interpolate`serviceAccount:${clusterName}-boot@${gcp.config.project}.iam.gserviceaccount.com`],
+    project: `${gcp.config.project}`,
+    role: 'roles/iam.workloadIdentityUser'
+});
 
 export const bootSecrets = new k8s.core.v1.Secret("jx-boot-secrets", 
 {
