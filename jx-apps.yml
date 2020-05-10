@@ -1,4 +1,4 @@
-applications:
+apps:
 - name: cert-manager-crds
   namespace: jx-system
   phase: system
@@ -12,20 +12,39 @@ applications:
 - name: stable/nginx-ingress
   namespace: jx-system
   phase: system
-- name: jx-labs/jenkins-x-crds
-  namespace: jx-system
-  phase: system
 - name: acme
   repository: ..
+- name: jx-labs/jenkins-x-crds
 - name: jxlabs-nos/jxlabs-nos-helmboot-resources
-- name: jenkins-x/nexus
-- name: jenkins-x/tekton
-- name: jenkins-x/prow
+  needs:
+  - jx/jenkins-x-crds
+- name: repositories
+  hooks:
+  - args:
+    - step
+    - scheduler
+    - config
+    - apply
+    - --direct=true
+    command: jx
+    events:
+    - postsync
+    showlogs: true
+  needs:
+  - jx/jenkins-x-crds
+  repository: ..
 - name: jenkins-x/chartmuseum
+- name: jenkins-x/tekton
+  needs:
+  - jx/repositories
+- name: jenkins-x/prow
+  needs:
+  - jx/tekton
+- name: jenkins-x/nexus
 - name: jenkins-x/jxui
 - name: jenkins-operator/jenkins-operator
   repository: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
 - name: jenkins-servers
-  repository: ..
-- name: repositories
+  needs:
+  - jx/jenkins-operator
   repository: ..
