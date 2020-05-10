@@ -1,0 +1,133 @@
+{
+  "bases": [
+    "../environments.yaml"
+  ],
+  "helmDefaults": {
+    "atomic": true,
+    "devel": false,
+    "force": false,
+    "recreatePods": false,
+    "tillerless": false,
+    "timeout": 520,
+    "tls": false,
+    "verify": false,
+    "wait": true
+  },
+  "releases": [
+    {
+      "chart": "../acme",
+      "name": "acme",
+      "namespace": "jx",
+      "values": [
+        "../jx-requirements.values.yaml.gotmpl",
+        "/var/run/secrets/jx-boot/secrets.yaml"
+      ]
+    },
+    {
+      "chart": "jxlabs-nos/jxlabs-nos-helmboot-resources",
+      "name": "jxlabs-nos-helmboot-resources",
+      "namespace": "jx",
+      "values": [
+        "../jx-requirements.values.yaml.gotmpl",
+        "/var/run/secrets/jx-boot/secrets.yaml",
+        "jxlabs-nos-helmboot-resources/values.yaml.gotmpl"
+      ],
+      "version": "0.0.175-jxlabs-nos"
+    },
+    {
+      "chart": "jenkins-x/nexus",
+      "name": "nexus",
+      "namespace": "jx",
+      "values": [
+        "/secrets/jenkins-x-versions/apps/jenkins-x/nexus/values.yaml.gotmpl",
+        "../jx-requirements.values.yaml.gotmpl",
+        "/var/run/secrets/jx-boot/secrets.yaml"
+      ]
+    },
+    {
+      "chart": "jenkins-x/tekton",
+      "name": "tekton",
+      "namespace": "jx",
+      "values": [
+        "/secrets/jenkins-x-versions/apps/jenkins-x/tekton/values.yaml.gotmpl",
+        "../jx-requirements.values.yaml.gotmpl",
+        "/var/run/secrets/jx-boot/secrets.yaml"
+      ],
+      "version": "0.0.53"
+    },
+    {
+      "chart": "jenkins-x/prow",
+      "name": "prow",
+      "namespace": "jx",
+      "values": [
+        "/secrets/jenkins-x-versions/apps/jenkins-x/prow/values.yaml.gotmpl",
+        "../jx-requirements.values.yaml.gotmpl",
+        "/var/run/secrets/jx-boot/secrets.yaml"
+      ],
+      "version": "0.0.1760"
+    },
+    {
+      "chart": "jenkins-x/chartmuseum",
+      "name": "chartmuseum",
+      "namespace": "jx",
+      "values": [
+        "/secrets/jenkins-x-versions/apps/jenkins-x/chartmuseum/values.yaml.gotmpl",
+        "../jx-requirements.values.yaml.gotmpl",
+        "/var/run/secrets/jx-boot/secrets.yaml"
+      ]
+    },
+    {
+      "chart": "jenkins-x/jxui",
+      "name": "jxui",
+      "namespace": "jx",
+      "values": [
+        "../jx-requirements.values.yaml.gotmpl",
+        "/var/run/secrets/jx-boot/secrets.yaml"
+      ]
+    },
+    {
+      "chart": "jenkins-operator/jenkins-operator",
+      "name": "jenkins-operator",
+      "namespace": "jx",
+      "values": [
+        "../jx-requirements.values.yaml.gotmpl",
+        "/var/run/secrets/jx-boot/secrets.yaml",
+        "jenkins-operator/values.yaml.gotmpl"
+      ],
+      "version": "0.1.1"
+    },
+    {
+      "chart": "../jenkins-servers",
+      "name": "jenkins-servers",
+      "namespace": "jx",
+      "values": [
+        "../jx-requirements.values.yaml.gotmpl",
+        "/var/run/secrets/jx-boot/secrets.yaml",
+        "jenkins-servers/values.yaml.gotmpl"
+      ]
+    },
+    {
+      "chart": "../repositories",
+      "name": "repositories",
+      "namespace": "jx",
+      "values": [
+        "../jx-requirements.values.yaml.gotmpl",
+        "/var/run/secrets/jx-boot/secrets.yaml"
+      ]
+    }
+  ],
+  "repositories": [
+    {
+      "name": "jenkins-operator",
+      "url": "https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart"
+    },
+    {
+      "name": "jenkins-x",
+      "url": "https://storage.googleapis.com/chartmuseum.jenkins-x.io"
+    },
+    {
+      "name": "jxlabs-nos",
+      "url": "https://storage.googleapis.com/jxlabs-nos-charts"
+    }
+  ]
+}

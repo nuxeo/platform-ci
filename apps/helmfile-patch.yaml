@@ -1,0 +1,28 @@
+- op: add
+  path: /releases/0/needs
+  value:
+  - jx/jenkins-x-crds
+- op: add
+  path: /releases/2/needs
+  value:
+  - jx/jxlabs-nos-helmboot-resources
+- op: add
+  path: /releases/3/needs
+  value:
+  - jx/tekton
+- op: add
+  path: /releases/5/needs
+  value:
+  - jx/jenkins-x-crds
+- op: add
+  path: /releases/7/version
+  value: 0.1.1
+- op: add
+  path: /releases/7/needs
+  value:
+  - jx/jenkins-operator
+- op: add
+  path: /releases/8/needs
+  value:
+  - jx/jenkins-x-crds
+
