@@ -8,11 +8,11 @@ function trim(field){
    gsub(/^ +| +$$/,"", field); 
    return field
 }
-$$1 == "cluster.clusterName" { printf "export cluster-name := %s\\n", trim($$2) }
-$$1 == "cluster.project" { printf "export gcp-project := %s\\n", trim($$2) }
-$$1 == "cluster.region" { printf "export gcp-region := %s\\n", trim($$2) }
-$$1 == "cluster.zone" { printf "export gcp-zone := %s\\n", trim($$2) }
-$$1 == "cluster.environmentGitOwner" { printf "export git-owner := %s\\n", trim($$2) }
+$$1 == "cluster.clusterName" { printf "export cluster-name := %s\n", trim($$2) }
+$$1 == "cluster.project" { printf "export gcp-project := %s\n", trim($$2) }
+$$1 == "cluster.region" { printf "export gcp-region := %s\n", trim($$2) }
+$$1 == "cluster.zone" { printf "export gcp-zone := %s\n", trim($$2) }
+$$1 == "cluster.environmentGitOwner" { printf "export git-owner := %s\n", trim($$2) }
 endef
 
 .tmp/boot-requirements-cluster.awk: | .tmp
@@ -25,9 +25,9 @@ function trim(field){
    gsub(/^ +| +$$/,"", field); 
    return field
 }
-$$1 ~ /repository/ { printf "export dev-repository := %s\\n", trim($$2) }
-$$1 ~ /ingress.tls.email/ { printf "export dev-ingress-tls-email := %s\\n", trim($$2) }
-$$1 ~ /ingress.domain/ { printf "export dev-ingress-domain := %s\\n", trim($$2) }
+$$1 ~ /repository/ { printf "export dev-repository := %s\n", trim($$2) }
+$$1 ~ /ingress.tls.email/ { printf "export dev-ingress-tls-email := %s\n", trim($$2) }
+$$1 ~ /ingress.domain/ { printf "export dev-ingress-domain := %s\n", trim($$2) }
 endef
 
 .tmp/boot-requirements-dev-environment.awk: | .tmp

@@ -1,0 +1,21 @@
+config:
+  gcp:project: build-jx-prod
+  gcp:region: us-east1
+  gcp:zone: us-east1-b
+  github:token:
+    secure: AAABAKXy5QrFsz47D3KB1TA0fNq5Smdg7tIXBGczk96ZPvXljkQjFWHeVg5Y0EIpoFgqig1l46H/tKPnw2v7XRG8u85qAT/L
+  jxlabs-nos-infra-helmboot:bootSecrets:
+    adminUser:
+      password:
+        secure: AAABAEC2IBIt72wIwgR/5LiG55YyGVCVZg8+VLwB88xn67Xbvg==
+      username: admin
+    hmacToken:
+      secure: AAABAPdiszeO1n56/8fMi2L2R142e+OxUszbqI7E3mvqcA0ZCgVQX2ouzYt8amFdCRYXTaT4XjVZPj0ycUDHmitsNOlBslpxHtLJOXVfKp0SM3TGi76sDb9UzN6Iff5l
+    pipelineUser:
+      email: slacoin+jxlabs-nos@nuxeo.com
+      token:
+        secure: AAABAHl4ZnGxSuahEh3HOYDroUqH7PxEr0QahfYWKj34c5uNrErX5ncpLA7iXlpPA2KPZ/zCwbrqqtJNdkd5dTk5yULIZrwG
+      username: nxmatic
+  jxlabs-nos-infra-helmboot:githubConfig:
+    owner: nxmatic
+    repo: jxlabs-nos-helmboot-config

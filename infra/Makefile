@@ -37,6 +37,7 @@ define stack_package_json =
         "@pulumi/pulumi": "^2.1.0",
         "@pulumi/kubernetes": "^2.0.0",
         "@pulumi/github": "^1.1.0"
+        "@types/node": "^13.13.5"
     },
     "devDependencies": {
         "lint": "^0.7.0"

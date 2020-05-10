@@ -1,5 +1,5 @@
-pulumi-login: PULUMI_TOKEN ?= $(cat /run/secrets/pulumi/token)
 pulumi-login:
+	@:$(call check-variable-defined,pulumi-token)
 	pulumi --non-interactive login
 
 # use stack rule pattern, needed for ordering pre-requisites

@@ -2,8 +2,6 @@ import * as pulumi from "@pulumi/pulumi";
 import * as k8s from "@pulumi/kubernetes";
 import { Output, StackReference } from "@pulumi/pulumi";
 import { withStackReferenceProvider } from "../config";
-import { stringify } from "querystring";
-import { throws } from "assert";
 
 export class ControlPlane {
     clusterName: Output<string>
