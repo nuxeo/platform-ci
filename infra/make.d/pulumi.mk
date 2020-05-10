@@ -4,6 +4,8 @@ top-dir:=$(realpath $(this-dir)/..)
 
 include $(this-dir)/npm.mk
 
+pulumi-clean: npm-clean; @:
+
 pulumi-login:
 	@:$(call check-variable-defined,pulumi-token)
 	@PULUMI_ACCESS_TOKEN=$(pulumi-token) pulumi --non-interactive login

@@ -3,19 +3,21 @@ config:
   gcp:region: us-east1
   gcp:zone: us-east1-b
   github:token:
-    secure: AAABAKXy5QrFsz47D3KB1TA0fNq5Smdg7tIXBGczk96ZPvXljkQjFWHeVg5Y0EIpoFgqig1l46H/tKPnw2v7XRG8u85qAT/L
+    secure: AAABAFWEVhWFpdPzZi7HC6LrHVPase3/09jQZWCL4B/hw87hmgNU9KY8XTQMDQX5PeQIRhh1umyYRqKRr2N3P316BksTJWCk
   jxlabs-nos-infra-helmboot:bootSecrets:
     adminUser:
       password:
-        secure: AAABAEC2IBIt72wIwgR/5LiG55YyGVCVZg8+VLwB88xn67Xbvg==
+        secure: AAABALOXSL7elEk3lXzhtt7AdgqwTyKbudpoSyzR65W+zo8yvA==
       username: admin
     hmacToken:
-      secure: AAABAPdiszeO1n56/8fMi2L2R142e+OxUszbqI7E3mvqcA0ZCgVQX2ouzYt8amFdCRYXTaT4XjVZPj0ycUDHmitsNOlBslpxHtLJOXVfKp0SM3TGi76sDb9UzN6Iff5l
+      secure: AAABAPpSU6LtG45en645ffuyAOJcwueMz2NqS18HNZLB13FcBQOdYY91Zd8PASwq23sf7GOwP3prICCFVuWk80uJg5hFvApOB3oblkE5+UCNpwrXycHxN1kDR8xvc4P1
     pipelineUser:
       email: slacoin+jxlabs-nos@nuxeo.com
       token:
-        secure: AAABAHl4ZnGxSuahEh3HOYDroUqH7PxEr0QahfYWKj34c5uNrErX5ncpLA7iXlpPA2KPZ/zCwbrqqtJNdkd5dTk5yULIZrwG
+        secure: AAABAA0Q1lsDODquPMWi0sFShyfAEpzVjA2oEUv1C4tCCDuhR2R25aEuJIq35VWkLIDHUjRpXQlqGhM5OxjFR1V8PUkKCZK2
       username: nxmatic
+    pulumiToken:
+      secure: AAABAApSa/QZ83125nW4fnkdl/QGGF8Q5YDnFiwJnBhXO8018nmT/eTqkIl/MLYXb0CIrTyCGjQIV71ZpKcyVq1CEXiRXywcIlkPaw==
   jxlabs-nos-infra-helmboot:githubConfig:
     owner: nxmatic
     repo: jxlabs-nos-helmboot-config

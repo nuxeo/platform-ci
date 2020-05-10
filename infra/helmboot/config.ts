@@ -17,6 +17,7 @@ interface PipelineUser {
 interface BootSecrets {
     adminUser: AdminUser,
     hmacToken: string,
+    pulumiToken: string,
     pipelineUser: PipelineUser
 }
 
@@ -30,4 +31,5 @@ export const githubConfig = _.config.requireObject<GithubConfig>('githubConfig')
 export const bootSecrets = _.config.requireObject<BootSecrets>('bootSecrets');
 export const k8sProvider = controlPlane.output.k8sProvider;
 
+export let rfc1035 = _.rfc1035;
 export let encode = _.encode;

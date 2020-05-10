@@ -7,10 +7,11 @@ github-config:
 	pulumi config set --plaintext --path githubConfig.repo $(dev-repository)
 
 boot-secrets-config:
-	@:$(call check-variable-defined,admin-username admin-password hmac-token git-user git-email git-token)
+	@:$(call check-variable-defined,admin-username admin-password hmac-token pulumi-token git-user git-email git-token)
 	pulumi config set --plaintext --path bootSecrets.adminUser.username $(admin-username)
 	@pulumi config set --plaintext --secret --path bootSecrets.adminUser.password $(admin-password)
 	@pulumi config set --secret --path bootSecrets.hmacToken $(hmac-token)
+	@pulumi config set --secret --path bootSecrets.pulumiToken $(pulumi-token)
 	pulumi config set --plaintext --path bootSecrets.pipelineUser.username $(git-user)
 	pulumi config set --plaintext --path bootSecrets.pipelineUser.email $(git-email)
 	@pulumi config set --secret --path bootSecrets.pipelineUser.token $(git-token)

@@ -8,7 +8,7 @@ ifneq (,$(wildcard config.mk))
 include config.mk
 endif
 
-clean: npm-clean pulumi-clean; @:
+clean: pulumi-clean; @:
 
 pulumi-init-post.d@%: npm-install
 
