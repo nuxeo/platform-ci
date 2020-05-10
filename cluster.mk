@@ -34,9 +34,9 @@ cluster~boot-create@%: cluster~boot-clean@%
           --vault-sa=$(vault-sa)
 
 cluster~boot-run@%: cluster~select@%
-	helm repo add jxlabs-nos-jxl https://nxmatic.github.io/jxlabs-nos-jxl/charts/jxl-boot
+        helm repo add jxlabs-nos gs://jxlabs-nos-charts/
 	JX_LOG_LEVEL=debug jxl boot run --batch-mode \
-          --chart=jxlabs-nos-jxl/jxl-boot \
+          --chart=jxlabs-nos/jxl-boot \
 	  --git-url=$(git-url) --git-user=$(git-user) --git-token=$(git-token) 
 
 cluster~clean: clean
