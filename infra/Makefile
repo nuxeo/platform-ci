@@ -8,7 +8,6 @@ define stack_make_template =
 -include $$(boot-requirements-mk)
 
 include ../make.d/env.mk
-include ../make.d/npm.mk
 include ../make.d/pulumi.mk
 
 ifneq (,$$(wildcard config.mk))
@@ -16,6 +15,8 @@ include config.mk
 endif
 
 clean: npm-clean pulumi-clean; @:
+
+pulumi-init-post.d@%: npm-install
 
 update@%: pulumi-update@% ; @:
 select@%: pulumi-select@%; @;
@@ -36,7 +37,7 @@ define stack_package_json =
         "@pulumi/gcp": "^3.3.0",
         "@pulumi/pulumi": "^2.1.0",
         "@pulumi/kubernetes": "^2.0.0",
-        "@pulumi/github": "^1.1.0"
+        "@pulumi/github": "^1.1.0",
         "@types/node": "^13.13.5"
     },
     "devDependencies": {
@@ -61,10 +62,11 @@ install: package.json
 
 makefiles: ; @:
 packages: ; @:
+clean: ; rm -fr nodes-modules _cacaches _locks node_modules
 
 define stack-rule-template =
 makefiles: $(1)/Makefile
-mackages: $(1)/package.json
+clean: $(1)~clean
 $(1)~%: $(1)/Makefile $(1)/package.json; $(MAKE) $(ifeq (,$(boot-secrets-mk)),,boot-secrets-mk=$(realpath $(boot-secrets-mk))) -C $(1) $$(*)
 endef
 
@@ -98,10 +100,9 @@ $(eval $(call stack-rules,other,storage))
 $(eval $(call stack-rules,all,k8s keys other))
 
 cluster~clean@dummy: clean all~clean@%; @:
-cluster~update@%: all~update@%; @:
-cluster~preview@%: all~preview@%; @:
-cluster~diff@%: all~diff@%; @:
-cluster~destroy@%: all~destroy@% all~rm@%; @:
+cluster~update@%: all~update@% | node_modules; @:
+cluster~refresh@%: all~refresh@% | node_modules; @:
+cluster~preview@%: all~preview@% | node_modules; @:
+cluster~diff@%: all~diff@% | node_modules; @:
+cluster~destroy@%: all~destroy@% all~rm@% | node_modules; @:
 
-clean:
-	rm -fr nodes-modules _cacaches _locks node_modules

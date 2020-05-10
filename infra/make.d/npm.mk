@@ -1,3 +1,6 @@
+ifndef npm-mk
+
+npm-mk := $(lastword $(MAKEFILE_LIST))
 
 /usr/bin/pnpm:
 	sudo npm install -g pnpm
@@ -14,6 +17,9 @@ expect {
   "Email: (this IS public)" {send "$(email)\r"; exp_continue}
 }
 endef
+
+node-modules: .npmrc pnpm-workspace.yaml
+	pnpm recursive install 
 
 npm-adduser: pass=$(shell kubectl get secrets/nexus -o jsonpath='{.data.password}' | base64 -d)
 npm-adduser: user=admin
@@ -34,10 +40,11 @@ npm-grunt: | /usr/bin/pnpm
 npm-setup: npm-adduser npm-setcache npm-bower npm-grunt | /usr/bin/pnpm
 	@:
 
-npm-install:
-	pnpm install 
+npm-install: node-modules; @:
 
 npm-clean:
 	rm -fr nodes_modules _cacache _locks _logs anonymous-cli-metrics.json bin
 
 workspace.d: npm-setup
+
+endif

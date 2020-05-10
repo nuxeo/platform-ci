@@ -1,4 +1,4 @@
-ifndef env-included-mk
+ifndef env-mk
 
 env-mk := $(lastword $(MAKEFILE_LIST))
 

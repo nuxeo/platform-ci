@@ -1,6 +1,12 @@
+this-mk:=$(lastword $(MAKEFILE_LIST))
+this-dir:=$(realpath $(dir $(this-mk)))
+top-dir:=$(realpath $(this-dir)/..)
+
+include $(this-dir)/npm.mk
+
 pulumi-login:
 	@:$(call check-variable-defined,pulumi-token)
-	pulumi --non-interactive login
+	@PULUMI_ACCESS_TOKEN=$(pulumi-token) pulumi --non-interactive login
 
 # use stack rule pattern, needed for ordering pre-requisites
 git-owners ?= $(git-owner)
@@ -12,8 +18,8 @@ endef
 Pulumi.%.yaml: pulumi-init@% pulumi-stack-config; @:
 
 $(call pulumi-owners-target,pulumi-init): pulumi-init@%: pulumi-init-pre.d@% pulumi-init-do@% pulumi-init-post.d@%; @:
+$(call pulumi-owners-target,pulumi-init-pre.d): pulumi-init-pre.d@%: | pulumi-login 
 
-$(call pulumi-owners-target,pulumi-init-pre.d): pulumi-init-pre.d@%: | pulumi-login
 pulumi-init-pre.d@%: ; @:
 
 pulumi-init-do@%: 

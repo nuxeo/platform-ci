@@ -4,6 +4,5 @@ _cacache
 _locks
 _logs
 anonymous-cli-metrics.json
-.*
 */*.dot
 **/#*
