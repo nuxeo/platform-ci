@@ -5,7 +5,6 @@ export let systemNamespace = _.systemNamespace;
 export let bootSecrets = _.bootSecrets;
 export let gitUrlSecret = _.gitUrlSecret;
 export let serviceAccount = _.serviceAccount;
-export let iamAdminBinding = _.iamAdminBinding;
 export let ownerBinding = _.ownerBinding;
 export let workloadIdentityUserBinding = _.workloadIdentityUserBinding;
 

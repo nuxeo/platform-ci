@@ -4,7 +4,6 @@ import * as k8s from "@pulumi/kubernetes";
 import { encode, rfc1035 } from "./config";
 import * as controlPlane from "../control-plane/output";
 import * as helmboot from "../helmboot/output";
-import { ConfigFile } from "@pulumi/kubernetes/yaml";
 
 const k8sProvider = controlPlane.output.k8sProvider();
 const clusterName = controlPlane.output.clusterName;
@@ -19,11 +18,23 @@ export const serviceAccountKey = new gcp.serviceAccount.Key("dns", {
     publicKeyType: "TYPE_X509_PEM_FILE",
     serviceAccountId: serviceAccount.name
 });
-export const dnsAdminBinding = new gcp.projects.IAMBinding("sa-dns-admin-binding", {
-    members: [pulumi.interpolate`serviceAccount:${clusterName}-dns@${gcp.config.project}.iam.gserviceaccount.com`],
-    project: `${gcp.config.project}`,
+export const dnsAdminMember = new gcp.projects.IAMMember("sa-dns-admin-member", {
+    member: pulumi.interpolate`serviceAccount:${clusterName}-dns@${gcp.config.project}.iam.gserviceaccount.com`,
     role: 'roles/dns.admin'
 });
+export const secret = new k8s.core.v1.Secret("external-dns-gcp-sa",
+    {
+        metadata: {
+            name: "external-dns-gcp-sa",
+            namespace: systemNamespace,
+            labels: { app: "helmboot" }
+        },
+        type: "Opaque",
+        data: {
+            'credentials.json': serviceAccountKey.privateKey
+        }
+    }, { provider: k8sProvider });
+
 export const zone = new gcp.dns.ManagedZone("cluster", {
     dnsName: pulumi.interpolate`${clusterName}.${gcp.config.project}.build.nuxeo.com.`,
     name: pulumi.interpolate`${gcp.config.project}-${clusterName}`
@@ -44,15 +55,4 @@ export const letsencryptCAARecord = new gcp.dns.RecordSet("letsencrypt-caa", {
 });
 
 
-export const secret = new k8s.core.v1.Secret("external-dns-gcp-sa",
-    {
-        metadata: {
-            name: "external-dns-gcp-sa",
-            namespace: systemNamespace,
-            labels: { app: "helmboot" }
-        },
-        type: "Opaque",
-        data: {
-            'credentials.json': serviceAccountKey.privateKey
-        }
-    }, { provider: k8sProvider });
+

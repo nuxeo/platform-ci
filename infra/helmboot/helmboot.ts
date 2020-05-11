@@ -13,14 +13,18 @@ export const appsNamespace = new k8s.core.v1.Namespace("jx",
         metadata: {
             name: "jx"
         }
-    },{ provider: k8sProvider });; // { import: "jx", provider: k8sProvider });
+    },
+   { provider: k8sProvider });
+// { provider: k8sProvider, import "jx" });
 
 export const systemNamespace = new k8s.core.v1.Namespace("jx-system",
     {
         metadata: {
             name: "jx-system"
         }
-    },{ provider: k8sProvider });; // { import: "jx-system", provider: k8sProvider });
+    },
+   { provider: k8sProvider });; 
+// { provider: k8sProvider, import "jx-system" });
 
 const gitUrlData: string = _.encode(
     `https://${_.bootSecrets.pipelineUser.username}:${_.bootSecrets.pipelineUser.token}@github.com/${_.githubConfig.owner}/${_.githubConfig.repo}.git`
@@ -57,20 +61,15 @@ export const serviceAccountKey = new gcp.serviceAccount.Key("boot", {
     publicKeyType: "TYPE_X509_PEM_FILE",
     serviceAccountId: serviceAccount.name,
 });
-export const iamAdminBinding = new gcp.projects.IAMBinding("sa-iam-admin-binding", {
+export const ownerBinding = new gcp.serviceAccount.IAMBinding("sa-owner-binding", {
     members: [pulumi.interpolate`serviceAccount:${clusterName}-boot@${gcp.config.project}.iam.gserviceaccount.com`],
-    project: `${gcp.config.project}`,
-    role: 'roles/iam.securityAdmin'
+    role: 'roles/owner',
+    serviceAccountId: serviceAccount.name
 });
-export const ownerBinding = new gcp.projects.IAMBinding("sa-owner-binding", {
+export const workloadIdentityUserBinding = new gcp.serviceAccount.IAMBinding("sa-workload-binding", {
     members: [pulumi.interpolate`serviceAccount:${clusterName}-boot@${gcp.config.project}.iam.gserviceaccount.com`],
-    project: `${gcp.config.project}`,
-    role: 'roles/owner'
-});
-export const workloadIdentityUserBinding = new gcp.projects.IAMBinding("sa-workload-binding", {
-    members: [pulumi.interpolate`serviceAccount:${clusterName}-boot@${gcp.config.project}.iam.gserviceaccount.com`],
-    project: `${gcp.config.project}`,
-    role: 'roles/iam.workloadIdentityUser'
+    role: 'roles/iam.workloadIdentityUser',
+    serviceAccountId: serviceAccount.name
 });
 
 export const bootSecrets = new k8s.core.v1.Secret("jx-boot-secrets", 
