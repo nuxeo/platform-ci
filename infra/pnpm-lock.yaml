@@ -1,10 +1,10 @@
 importers:
   .:
     dependencies:
-      '@pulumi/gcp': 3.3.0
+      '@pulumi/gcp': 3.4.0
       '@pulumi/github': 1.2.0
       '@pulumi/kubernetes': 2.1.1
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/node': 13.13.5
     devDependencies:
       lint: 0.7.0
@@ -12,15 +12,15 @@ importers:
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.0
+      '@pulumi/pulumi': ^2.1.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
   builder-node-pool:
     dependencies:
-      '@pulumi/gcp': 3.3.0
+      '@pulumi/gcp': 3.4.0
       '@pulumi/github': 1.2.0
       '@pulumi/kubernetes': 2.1.1
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/node': 13.13.5
     devDependencies:
       lint: 0.7.0
@@ -28,15 +28,15 @@ importers:
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.0
+      '@pulumi/pulumi': ^2.1.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
   control-plane:
     dependencies:
-      '@pulumi/gcp': 3.3.0
+      '@pulumi/gcp': 3.4.0
       '@pulumi/github': 1.2.0
       '@pulumi/kubernetes': 2.1.1
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/node': 13.13.5
     devDependencies:
       lint: 0.7.0
@@ -44,15 +44,15 @@ importers:
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.0
+      '@pulumi/pulumi': ^2.1.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
   dns:
     dependencies:
-      '@pulumi/gcp': 3.3.0
+      '@pulumi/gcp': 3.4.0
       '@pulumi/github': 1.2.0
       '@pulumi/kubernetes': 2.1.1
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/node': 13.13.5
     devDependencies:
       lint: 0.7.0
@@ -60,15 +60,15 @@ importers:
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.0
+      '@pulumi/pulumi': ^2.1.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
   helmboot:
     dependencies:
-      '@pulumi/gcp': 3.3.0
+      '@pulumi/gcp': 3.4.0
       '@pulumi/github': 1.2.0
       '@pulumi/kubernetes': 2.1.1
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/node': 13.13.5
     devDependencies:
       lint: 0.7.0
@@ -76,15 +76,15 @@ importers:
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.0
+      '@pulumi/pulumi': ^2.1.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
   kaniko:
     dependencies:
-      '@pulumi/gcp': 3.3.0
+      '@pulumi/gcp': 3.4.0
       '@pulumi/github': 1.2.0
       '@pulumi/kubernetes': 2.1.1
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/node': 13.13.5
     devDependencies:
       lint: 0.7.0
@@ -92,15 +92,15 @@ importers:
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.0
+      '@pulumi/pulumi': ^2.1.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
   keyring:
     dependencies:
-      '@pulumi/gcp': 3.3.0
+      '@pulumi/gcp': 3.4.0
       '@pulumi/github': 1.2.0
       '@pulumi/kubernetes': 2.1.1
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/node': 13.13.5
     devDependencies:
       lint: 0.7.0
@@ -108,15 +108,15 @@ importers:
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.0
+      '@pulumi/pulumi': ^2.1.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
   storage:
     dependencies:
-      '@pulumi/gcp': 3.3.0
+      '@pulumi/gcp': 3.4.0
       '@pulumi/github': 1.2.0
       '@pulumi/kubernetes': 2.1.1
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/node': 13.13.5
     devDependencies:
       lint: 0.7.0
@@ -124,15 +124,15 @@ importers:
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.0
+      '@pulumi/pulumi': ^2.1.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
   vault:
     dependencies:
-      '@pulumi/gcp': 3.3.0
+      '@pulumi/gcp': 3.4.0
       '@pulumi/github': 1.2.0
       '@pulumi/kubernetes': 2.1.1
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/node': 13.13.5
     devDependencies:
       lint: 0.7.0
@@ -140,7 +140,7 @@ importers:
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.0
+      '@pulumi/pulumi': ^2.1.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
 lockfileVersion: 5.1
@@ -196,25 +196,25 @@ packages:
     dev: false
     resolution:
       integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
-  /@pulumi/gcp/3.3.0:
+  /@pulumi/gcp/3.4.0:
     dependencies:
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/express': 4.17.6
       read-package-json: 2.1.1
     dev: false
     requiresBuild: true
     resolution:
-      integrity: sha512-6Mjbcqg/gGKMib4knlU42oXMOZ57qxYxP/O7zGV6VkBm9Fm7HHrfNrby2wqzl3ASxLsgLdQN+i0X8zd44bJfEg==
+      integrity: sha512-QVWGMyzj564eHjVqhvF3YGC6/cOUwusSYboqW+OLrNSIcQBoYqvKIe4Hbn/h7pfStqPXXQvE9zj77yKaw743yQ==
   /@pulumi/github/1.2.0:
     dependencies:
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
     dev: false
     requiresBuild: true
     resolution:
       integrity: sha512-QPQ0iCvOJC7Anm8CRsKlciYQzbbxaDUfb7nXhRTwjW1pdMqyhEa6cy7KKLCzLUswDwGRY+/K9sieGRochiNyQw==
   /@pulumi/kubernetes/2.1.1:
     dependencies:
-      '@pulumi/pulumi': 2.1.0
+      '@pulumi/pulumi': 2.1.1
       '@types/glob': 5.0.36
       '@types/node-fetch': 2.5.7
       '@types/tmp': 0.0.33
@@ -226,7 +226,7 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-3BcP8aLp8kfeVw8JG5VtYbWx9F/qbm50SUES8RX5nojGOyTzaZHnPIVAj1dljGg1rAjFQsVn7MvevTFazUQ8hQ==
-  /@pulumi/pulumi/2.1.0:
+  /@pulumi/pulumi/2.1.1:
     dependencies:
       '@grpc/grpc-js': 0.6.18
       '@pulumi/query': 0.3.0
@@ -245,7 +245,7 @@ packages:
     engines:
       node: '>=8.13.0 || >=10.10.0'
     resolution:
-      integrity: sha512-0ZW19bugxqTFHWBSVpybNpIUugzCsyOq5xaFM6Z2PJn+G8HPKLebHPIaFCfsARxzOERG6xFN1a9lc++x13/2fw==
+      integrity: sha512-LBryBIAMkwRc0hpjlZoEzYYJGZHhqFX/LqVnpqv2WQT99+ZUgAPYX8ediEYXPG4i/6neoxNrNhKGe8hvdQpqlg==
   /@pulumi/query/0.3.0:
     dev: false
     resolution:

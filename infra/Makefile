@@ -2,72 +2,24 @@ include make.d/env.mk
 include make.d/macros.mk
 include make.d/npm.mk
 
-export stack_make_template
-define stack_make_template =
+include stack-makefile.mk
+include stack-package-json.mk
+
 -include $$(boot-secrets-mk)
 -include $$(boot-requirements-mk)
 
-include ../make.d/env.mk
-include ../make.d/pulumi.mk
-
-ifneq (,$$(wildcard config.mk))
-include config.mk
-endif
-
-clean: npm-clean pulumi-clean; @:
-
-pulumi-init-post.d@%: npm-install
-
-update@%: pulumi-update@% ; @:
-select@%: pulumi-select@%; @;
-preview@%: pulumi-update@% ; @:
-refresh@%: pulumi-refresh@% ; @:
-diff@%: pulumi-diff@% ; @:
-rm@%: pulumi-rm@% ; @:
-destroy@%: pulumi-destroy@% ; @:
-
-endef
-
-export stack_package_json
-define stack_package_json =
-{
-    "name": "jxlabs-nos-infra-$(name)",
-    "main": "index.js",
-    "dependencies": {
-        "@pulumi/gcp": "^3.3.0",
-        "@pulumi/pulumi": "^2.1.0",
-        "@pulumi/kubernetes": "^2.0.0",
-        "@pulumi/github": "^1.1.0",
-        "@types/node": "^13.13.5"
-    },
-    "devDependencies": {
-        "lint": "^0.7.0"
-    }
-}
-endef
-
-package.json: name:=main
-package.json:
-	echo "$${stack_package_json}" > $(@)
-
-install: package.json
-	npm install
-
-%/package.json: name:=$(*)
-%/package.json:
-	echo "$${stack_package_json}" > $(@)
-
-%/Makefile:
-	echo "$${stack_make_template}" > $(@)
-
-makefiles: ; @:
-packages: ; @:
-clean: ; rm -fr nodes-modules _cacaches _locks node_modules
+update@%: all~update@% | node-modules; @:
+refresh@%: all~refresh@% | node-modules; @:
+preview@%: all~preview@% | node-modules; @:
+diff@%: all~diff@% | node-modules; @:
+destroy@%: all~destroy@% all~rm@% | node-modules; @:
 
 define stack-rule-template =
+$(eval .PRECIOUS: $(1)/Makefile)
+$(eval .PRECIOUS: $(1)/package.json)
 makefiles: $(1)/Makefile
 clean: $(1)~clean
-$(1)~%: $(1)/Makefile $(1)/package.json; $(MAKE) $(ifeq (,$(boot-secrets-mk)),,boot-secrets-mk=$(realpath $(boot-secrets-mk))) -C $(1) $$(*)
+$(1)~%: $(1)/Makefile $(1)/package.json; $(MAKE) -C $(1) $$(*)
 endef
 
 define depends-on-control-plane =
@@ -98,11 +50,4 @@ $(eval $(call stack-rules,k8s,control-plane builder-node-pool helmboot kaniko dn
 $(eval $(call stack-rules,keys,keyring vault))
 $(eval $(call stack-rules,other,storage))
 $(eval $(call stack-rules,all,k8s keys other))
-
-cluster~clean@dummy: clean all~clean@%; @:
-cluster~update@%: all~update@% | node_modules; @:
-cluster~refresh@%: all~refresh@% | node_modules; @:
-cluster~preview@%: all~preview@% | node_modules; @:
-cluster~diff@%: all~diff@% | node_modules; @:
-cluster~destroy@%: all~destroy@% all~rm@% | node_modules; @:
 
