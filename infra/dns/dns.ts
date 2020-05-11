@@ -19,7 +19,7 @@ export const serviceAccountKey = new gcp.serviceAccount.Key("dns", {
     serviceAccountId: serviceAccount.name
 });
 export const dnsAdminMember = new gcp.projects.IAMMember("sa-dns-admin-member", {
-    member: pulumi.interpolate`serviceAccount:${clusterName}-dns@${gcp.config.project}.iam.gserviceaccount.com`,
+    member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
     role: 'roles/dns.admin'
 });
 export const secret = new k8s.core.v1.Secret("external-dns-gcp-sa",

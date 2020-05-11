@@ -62,12 +62,12 @@ export const serviceAccountKey = new gcp.serviceAccount.Key("boot", {
     serviceAccountId: serviceAccount.name,
 });
 export const ownerBinding = new gcp.serviceAccount.IAMBinding("sa-owner-binding", {
-    members: [pulumi.interpolate`serviceAccount:${clusterName}-boot@${gcp.config.project}.iam.gserviceaccount.com`],
+    members: [pulumi.interpolate`serviceAccount:${serviceAccount.email}`],
     role: 'roles/owner',
     serviceAccountId: serviceAccount.name
 });
 export const workloadIdentityUserBinding = new gcp.serviceAccount.IAMBinding("sa-workload-binding", {
-    members: [pulumi.interpolate`serviceAccount:${clusterName}-boot@${gcp.config.project}.iam.gserviceaccount.com`],
+    members: [pulumi.interpolate`serviceAccount:${serviceAccount.email}`],
     role: 'roles/iam.workloadIdentityUser',
     serviceAccountId: serviceAccount.name
 });

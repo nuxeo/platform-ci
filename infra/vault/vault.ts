@@ -1,4 +1,5 @@
 import * as gcp from "@pulumi/gcp";
+import * as pulumi from "@pulumi/pulumi";
 import { clusterName, keyringName, rfc1035 } from "./config";
 
 export const bucket = new gcp.storage.Bucket("vault", {
@@ -18,14 +19,14 @@ export const serviceAccountKey = new gcp.serviceAccount.Key("vault", {
     serviceAccountId: serviceAccount.name,
 });
 export const storageObjectAdminBinding = new gcp.projects.IAMMember("vault-storage-object-admin-binding", {
-    member: `serviceAccount:${clusterName}-vt@${gcp.config.project}.iam.gserviceaccount.com`,
+    member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
     role: "roles/storage.objectAdmin",
 });
 export const cloudkmsAdminBinding = new gcp.projects.IAMMember("vault-cloudkms-admin-binding", {
-    member: `serviceAccount:${clusterName}-vt@${gcp.config.project}.iam.gserviceaccount.com`,
-role: "roles/cloudkms.admin",
+    member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
+    role: "roles/cloudkms.admin",
 });
 export const cloudkmsCryptoBinding = new gcp.projects.IAMMember("vault-cloudkms-crypto-binding", {
-    member: `serviceAccount:${clusterName}-vt@${gcp.config.project}.iam.gserviceaccount.com`,
+    member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
     role: "roles/cloudkms.cryptoKeyEncrypterDecrypter",
 });

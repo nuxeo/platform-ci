@@ -19,15 +19,15 @@ export const serviceAccountKey = new gcp.serviceAccount.Key("kaniko", {
     serviceAccountId: serviceAccount.name,
 });
 export const storageAdminBinding = new gcp.projects.IAMMember("kaniko-storage-admin-binding", {
-    member: pulumi.interpolate`serviceAccount:${clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
+    member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
     role: "roles/storage.admin",
 });
 export const storageObjectAdminBinding = new gcp.projects.IAMMember("kaniko-storage-object-admin-binding", {
-    member: pulumi.interpolate`serviceAccount:${clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
+    member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
     role: "roles/storage.objectAdmin",
 });
 export const storageObjectCreatorBinding = new gcp.projects.IAMMember("kaniko-storage-object-creator-binding", {
-    member: pulumi.interpolate`serviceAccount:${clusterName}-ko@${gcp.config.project}.iam.gserviceaccount.com`,
+    member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
     role: "roles/storage.objectCreator",
 });
 
