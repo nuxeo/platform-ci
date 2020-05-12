@@ -5,39 +5,48 @@ include boot-requirements.mk
 include boot-secrets.mk
 include boot-git-url.mk
 
-this-git-owner := $(git-owner)
-this-cluster-name = jxlabs-nos-$(this-git-owner)
+this-cluster-name := $(cluster-name)
+this-dev-repository := $(dev-repository)
+this-dev-ingress-domain := $(dev-ingress-domain)
 
-cluster~%: git-owner = $(lastword $(subst @, ,$(@)))
-cluster~%: cluster-name = jxlabs-nos-$(git-owner)
-cluster~%: git-url = https://github.com/$(git-owner)/$(dev-repository)
+cluster~%: name = $(lastword $(subst @, ,$(@)))
+cluster~%: cluster-name = jxlabs-nos-$(name)
+cluster~%: dev-repository = $(this-dev-repository)-$(name)
 cluster~%: vault-sa = $(cluster-name)-vt
 cluster~%: dev-ingress-domain = $(cluster-name).build-jx-prod.build.nuxeo.com
-cluster~%: boot-config-url := $(shell git config  remote.origin.url)
+cluster~%: boot-config-url = https://github.com/$(git-owner)/$(dev-repository)
 
 cluster~boot@%: cluster~update@% cluster~boot-create@% cluster~boot-run@% ; @:
 
+noop: ; @:
+
 export GITHUB_TOKEN
 
-cluster~boot-create@%: GITHUB_TOKEN=$(git-token)
-cluster~boot-create@%: | .tmp
-	@rm -fr .tmp/$(dev-repository)
-	@- hub delete --yes $(git-owner)/$(dev-repository) 2>/dev/null && sleep 5
-	hub fork --org $(git-owner)
-	git remote remove $(git-owner) 2>/dev/null
-	cd .tmp && git clone https://github.com/$(git-owner)/$(dev-repository)
-	jx --dir=.tmp/$(dev-repository) edit requirements \
-	  --provider=gke \
-	  --project=$(gcp-project) --cluster=$(cluster-name) --zone=$(gcp-zone) --region=$(gcp-region) \
-	  --boot-config-url=$(boot-config-url) \
-	  --env-git-owner=$(git-owner) \
-	  --domain=$(dev-ingress-domain) \
-	  --registry=gcr.io/$(cluster-name) \
-	  --vault-sa=$(vault-sa)
-	(cd  .tmp/$(dev-repository); \
-	 git commit -m 'forked $(boot-config-url) and re-configured for $(cluster-name)' jx-requirements.yml; \
-         git push origin master)
-	rm -fr .tmp/$(dev-repository)
+export cluster_boot_create_script
+define cluster_boot_create_script =
+	hub delete --yes $(git-owner)/$(dev-repository) && sleep 2 || true
+	hub create $(git-owner)/$(dev-repository) --remote-name $(name); 
+	git checkout -b $(name)
+	jx edit requirements \
+	   --provider=gke \
+	   --project=$(gcp-project) --cluster=$(cluster-name) --zone=$(gcp-zone) --region=$(gcp-region) \
+	   --boot-config-url=$(boot-config-url) \
+	   --env-git-owner=$(git-owner) \
+	   --domain=$(dev-ingress-domain) \
+	   --registry=gcr.io/$(cluster-name) \
+	   --vault-sa=$(vault-sa)
+	sed -i s/$(this-dev-ingress-domain)/$(dev-ingress-domain)/ jx-requirements.yml 
+	git commit -m 'forked $(boot-config-url) and re-configured for $(cluster-name)' jx-requirements.yml
+	git push $(name) pfouh:master
+	git checkout master
+	git branch -D $(name)
+	git remote remove $(name)
+endef
+
+cluster~boot-create@%: GITHUB_TOKEN:=$(git-token)
+cluster~boot-create@%: tmpdir:=$(shell mktemp -d)
+cluster~boot-create@%: 
+	echo "$${cluster_boot_create_script}" | sh -x
 
 export KUBECONFIG
 
@@ -51,7 +60,7 @@ cluster~boot-run@%:
 	helm repo add jxlabs-nos gs://jxlabs-nos-charts
 	JX_LOG_LEVEL=debug jxl boot run --batch-mode \
 	  --chart=jxlabs-nos/jxl-boot \
-	  --git-url=$(git-url) --git-user=$(git-user) --git-token=$(git-token) \
+	  --git-url=$(boot-config-url) --git-ref=master --git-user=$(git-user) --git-token=$(git-token) \
           --job
 
 cluster~update@%: 
