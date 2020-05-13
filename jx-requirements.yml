@@ -30,7 +30,7 @@ environments:
       enabled: true
       production: true
   key: dev
-  repository: jxlabs-nos-helmboot-config
+  repository: jxlabs-nos-helmboot-config-pfouh
 gitops: true
 helmfile: true
 ingress:
