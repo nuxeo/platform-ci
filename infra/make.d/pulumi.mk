@@ -1,4 +1,4 @@
-ifndef pulumi-mk
+ifndef pulumi~mk
 
 pulumi-mk := $(lastword $(MAKEFILE_LIST))
 
@@ -9,59 +9,57 @@ top-dir  := $(realpath $(this-dir)/..)
 include $(this-dir)/macros.mk
 include $(this-dir)/npm.mk
 
-$(call check-variable-defined,git-owner)
+$(call check-variable-defined,pulumi-stack)
 
-pulumi-login:
+Pulumi.$(pulumi-stack).yaml: pulumi~init pulumi~stack-config; @:
+
+pulumi~login:
 	@:$(call check-variable-defined,pulumi-token)
 	@PULUMI_ACCESS_TOKEN=$(pulumi-token) pulumi --non-interactive login
 
-pulumi-select@%: Pulumi.%.yaml
-	pulumi stack select $(*)
+pulumi~select: Pulumi.$(pulumi-stack).yaml
+	pulumi stack select $(pulumi-stack)
 
-pulumi-rm@%: pulumi-destroy@%
-	pulumi --non-interactive --stack=$(*) stack rm --yes 
+pulumi~rm: pulumi~destroy
+	pulumi --non-interactive --stack=$(pulumi-stack stack rm --yes 
 
-pulumi-graph@%: Pulumi.%.yaml
-	pulumi --non-interactive --stack=$(*) stack graph graph.dot
+pulumi~graph: Pulumi.$(pulumi-stack).yaml
+	pulumi --non-interactive --stack=$(pulumi-stack) stack graph graph.dot
 
-pulumi-refresh@%: Pulumi.%.yaml
-	pulumi --non-interactive --stack=$(*) refresh --yes --diff 
+pulumi~refresh: Pulumi.$(pulumi-stack).yaml
+	pulumi --non-interactive --stack=$(pulumi-stack) refresh --yes --diff 
 
-pulumi-diff@%: Pulumi.%.yaml
-	pulumi --non-interactive --stack=$(*) preview --diff 
+pulumi~diff: Pulumi.$(pulumi-stack).yaml
+	pulumi --non-interactive --stack=$(pulumi-stack) preview --diff 
 
-pulumi-update@%: Pulumi.%.yaml
-	pulumi --non-interactive --stack=$(*) update --yes 
+pulumi~update: Pulumi.$(pulumi-stack).yaml
+	pulumi --non-interactive --stack=$(pulumi-stack) update --yes 
 
 
-pulumi-destroy@%: Pulumi.%.yaml
-	pulumi --non-interactive --stack=$(*) destroy --yes 
+pulumi~destroy: Pulumi.$(pulumi-stack).yaml
+	pulumi --non-interactive --stack=$(pulumi-stack) destroy --yes 
 
-pulumi-clean: npm-clean; @:
+pulumi~clean: npm-clean; @:
 
-pulumi-stack-config: ; @:
+pulumi~stack-config: ; @:
 
-pulumi-stack-config: pulumi-gcp-config
+pulumi~stack-config: pulumi~gcp-config
 
-pulumi-gcp-config:
+pulumi~gcp-config:
 	@:$(call check-variable-defined,gcp-project gcp-region gcp-zone)
 	pulumi config set --plaintext --path gcp:project $(gcp-project)
 	pulumi config set --plaintext --path gcp:region $(gcp-region)
 	pulumi config set --plaintext --path gcp:zone $(gcp-zone)
 
-# use stack rule pattern, needed for ordering pre-requisites
 
-.PRECIOUS: Pulumi.$(git-owner).yaml
+pulumi~init: pulumi~init-pre.d pulumi~init-do pulumi~init-post.d; @:
+pulumi~init-pre.d: | pulumi~login ; @:
+pulumi~init-post.d: ; @:
 
-Pulumi.$(git-owner).yaml: Pulumi.%.yaml: pulumi-init@% pulumi-stack-config; @:
-
-pulumi-init@$(git-owner): pulumi-init@%: pulumi-init-pre.d@% pulumi-init-do@% pulumi-init-post.d@%; @:
-pulumi-init-pre.d@$(git-owner): pulumi-init-pre.d@%: | pulumi-login ; @:
-pulumi-init-post.d@$(git-owner): pulumi-init-post.d@%: ; @:
-
-pulumi-init-do@%: 
-	test -n "$$(pulumi stack ls -j 2>/dev/null | jq '.[] | select (.name == "$(*)") | .name')" || pulumi --non-interactive stack init $(*)
-	pulumi stack select $(*)
-	pulumi --non-interactive --stack=$(*) stack tag set environment $(*)
+pulumi~init-do: 
+	test -n $$(pulumi stack ls -j 2>/dev/null | jq '.[] | select (.name == "$(pulumi-stack)") | .name') || \
+	  pulumi --non-interactive stack init $(pulumi-stack)
+	pulumi stack select $(pulumi-stack)
+	pulumi --non-interactive --stack=$(pulumi-stack) stack tag set environment $(pulumi-stack)
 
 endif

@@ -1,6 +1,10 @@
 .tmp:
 	@mkdir .tmp
 
+include infra/make.d/macros.mk
+
+$(call check-variable-defined,cluster-stack)
+
 include boot-requirements.mk
 include boot-secrets.mk
 include boot-git-url.mk
@@ -9,14 +13,13 @@ this-cluster-name := $(cluster-name)
 this-dev-repository := $(dev-repository)
 this-dev-ingress-domain := $(dev-ingress-domain)
 
-cluster~%: name = $(lastword $(subst @, ,$(@)))
-cluster~%: cluster-name = jxlabs-nos-$(name)
-cluster~%: dev-repository = $(this-dev-repository)-$(name)
+cluster~%: cluster-name = jxlabs-nos-$(cluster-stack)
+cluster~%: dev-repository = $(this-dev-repository)-$(cluster-name)
 cluster~%: vault-sa = $(cluster-name)-vt
 cluster~%: dev-ingress-domain = $(cluster-name).build-jx-prod.build.nuxeo.com
 cluster~%: boot-config-url = https://github.com/$(git-owner)/$(dev-repository)
 
-cluster~boot@%: cluster~update@% cluster~boot-create@% cluster~boot-run@% ; @:
+cluster~boot: cluster~update cluster~boot-create cluster~boot-run ; @:
 
 noop: ; @:
 
@@ -43,15 +46,15 @@ define cluster_boot_create_script =
 	git remote remove $(name)
 endef
 
-cluster~boot-create@%: GITHUB_TOKEN:=$(git-token)
-cluster~boot-create@%: tmpdir:=$(shell mktemp -d)
-cluster~boot-create@%: 
+cluster~boot-create: GITHUB_TOKEN:=$(git-token)
+cluster~boot-create: tmpdir:=$(shell mktemp -d)
+cluster~boot-create: 
 	echo "$${cluster_boot_create_script}" | sh -x
 
 export KUBECONFIG
 
-cluster~boot-run@%: KUBECONFIG=.tmp/kubeconfig~$(*)
-cluster~boot-run@%:
+cluster~boot-run: KUBECONFIG=.tmp/kubeconfig~$(cluster-stack)
+cluster~boot-run:
 	gcloud config set compute/region $(gcp-region)
 	gcloud config set compute/zone $(gcp-zone)
 	gcloud config set core/project $(gcp-project)
@@ -63,17 +66,5 @@ cluster~boot-run@%:
 	  --git-url=$(boot-config-url) --git-ref=master --git-user=$(git-user) --git-token=$(git-token) \
           --job
 
-cluster~update@%: 
-	make -C infra update@$(*)
-
-cluster~diff@%: 
-	make -C infra diff@$(*)
-
-cluster~preview@%: 
-	make -C infra preview@$(*)
-
-cluster~destroy@%:
-	make -C infra destroy@$(*)
-
-cluster~clean@%: clean
-	make -C infra clean@$(*)
+cluster~%:
+	make -C infra infra-stack=$(cluster-stack) infra~$(*)

@@ -10,15 +10,13 @@ include ../make.d/pulumi.mk
 
 clean: npm-clean pulumi-clean; @:
 
-pulumi-init-post.d@%: npm-install
-
-update@%: pulumi-update@% ; @:
-select@%: pulumi-select@%; @;
-preview@%: pulumi-update@% ; @:
-refresh@%: pulumi-refresh@% ; @:
-diff@%: pulumi-diff@% ; @:
-rm@%: pulumi-rm@% ; @:
-destroy@%: pulumi-destroy@% ; @:
+update: pulumi~update ; @:
+select: pulumi~select; @;
+preview: pulumi~update ; @:
+refresh: pulumi~refresh ; @:
+diff: pulumi~diff ; @:
+rm: pulumi~rm ; @:
+destroy: pulumi~destroy ; @:
 
 endef
 
