@@ -15,6 +15,8 @@ metadata:
 spec:
   secretName: "tls-{{ $name }}-s"
   issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
     name: "letsencrypt-{{ $name }}-s"
   commonName: "*.{{ .ingress.domain }}"
   dnsNames:
