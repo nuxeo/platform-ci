@@ -165,7 +165,7 @@ spec:
       paths:
       - backend:
           serviceName: jenkins-operator-http-master
-          servicePort: 80
+          servicePort: 8080
 {{- if .Values.ingress.domain }}
     host: master{{ .Values.ingress.namespaceSubDomain }}{{ .Values.ingress.domain }}
 {{- end }}
