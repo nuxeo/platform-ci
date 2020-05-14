@@ -18,7 +18,7 @@ this-dev-repository := $(dev-repository)
 this-dev-ingress-domain := $(dev-ingress-domain)
 
 cluster~%: cluster-name = jxlabs-nos-$(cluster-stack)
-cluster~%: dev-repository = $(this-dev-repository)-$(cluster-name)
+cluster~%: dev-repository = jxlabs-nos-helmboot-config-$(cluster-stack)
 cluster~%: vault-sa = $(cluster-name)-vt
 cluster~%: dev-ingress-domain = $(cluster-name).build-jx-prod.build.nuxeo.com
 cluster~%: boot-config-url = https://github.com/$(git-owner)/$(dev-repository)
