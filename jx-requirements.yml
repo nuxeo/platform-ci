@@ -6,7 +6,7 @@ buildPackRef: jxlabs-nos
 buildPackURL: https://github.com/nuxeo/jxlabs-nos-buildpacks
 cluster:
   clusterName: jxlabs-nos-pfouh
-  environmentGitOwner: pfouh
+  environmentGitOwner: nuxeo
   environmentGitPublic: true
   externalDNSSAName: external-dns-gcp-sa
   gitKind: github
