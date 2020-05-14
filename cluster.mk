@@ -9,6 +9,10 @@ include boot-requirements.mk
 include boot-secrets.mk
 include boot-git-url.mk
 
+boot~run: cluster~boot-run; @:
+boot~create: cluster~boot-create; @:
+boot~destroy: cluster~destroy; @:
+
 this-cluster-name := $(cluster-name)
 this-dev-repository := $(dev-repository)
 this-dev-ingress-domain := $(dev-ingress-domain)
