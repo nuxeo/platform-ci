@@ -9,6 +9,7 @@ system/generated
 system/helmfile.yaml
 apps/generated
 apps/helmfile.yaml
+infra/*/Pulumi.*.yaml
 
 # Test binary, built with `go test -c`
 *.test
