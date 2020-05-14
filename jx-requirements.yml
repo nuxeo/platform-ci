@@ -1,9 +1,9 @@
 autoUpdate:
   enabled: false
   schedule: ""
-bootConfigURL: https://github.com/pfouh/jxlabs-nos-helmboot-config-pfouh
+bootConfigURL: https://github.com/nuxeo/jxlabs-nos-helmboot-config-pfouh
 buildPackRef: jxlabs-nos
-buildPackURL: https://github.com/nxmatic/jxlabs-nos-buildpacks
+buildPackURL: https://github.com/nuxeo/jxlabs-nos-buildpacks
 cluster:
   clusterName: jxlabs-nos-pfouh
   environmentGitOwner: pfouh
@@ -65,5 +65,5 @@ velero:
   ttl: ""
 versionStream:
   ref: jxlabs-nos
-  url: https://github.com/nxmatic/jxlabs-nos-versions.git
+  url: https://github.com/nuxeo/jxlabs-nos-versions.git
 webhook: prow
