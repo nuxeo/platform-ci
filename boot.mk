@@ -24,9 +24,10 @@ export GITHUB_TOKEN
 
 export cluster_boot_create_script
 define cluster_boot_create_script =
+	git config url."https://github.com/".insteadOf git@github.com:
 	hub delete --yes $(git-owner)/$(dev-repository) && sleep 2 || true
-	hub create $(git-owner)/$(dev-repository) --remote-name $(name); 
-	git checkout -b $(name)
+	hub create $(git-owner)/$(dev-repository) --remote-name $(cluster-name)
+	git checkout -b $(cluster-name)
 	jx edit requirements \
 	   --provider=gke \
 	   --project=$(gcp-project) --cluster=$(cluster-name) --zone=$(gcp-zone) --region=$(gcp-region) \
@@ -37,16 +38,16 @@ define cluster_boot_create_script =
 	   --vault-sa=$(vault-sa)
 	sed -i s/$(this-dev-ingress-domain)/$(dev-ingress-domain)/ jx-requirements.yml 
 	git commit -m 'forked $(boot-config-url) and re-configured for $(cluster-name)' jx-requirements.yml
-	git push $(name) pfouh:master
+	git push $(cluster-name) $(cluster-name):master
 	git checkout master
-	git branch -D $(name)
-	git remote remove $(name)
+	git branch -D $(cluster-name)
+	git remote remove $(cluster-name)
 endef
 
 boot~create: GITHUB_TOKEN:=$(git-token)
 boot~create: tmpdir:=$(shell mktemp -d)
 boot~create: 
-	echo "$${cluster_boot_create_script}" | sh -x
+	echo "$${cluster_boot_create_script}" | sh -xe
 
 export KUBECONFIG
 
