@@ -1,29 +1,22 @@
-.tmp:
-	@mkdir .tmp
-
 include infra/make.d/macros.mk
 
-$(call check-variable-defined,cluster-stack)
+$(call check-variable-defined,boot-stack)
 
 include boot-requirements.mk
 include boot-secrets.mk
 include boot-git-url.mk
 
-boot~run: cluster~boot-run; @:
-boot~create: cluster~boot-create; @:
-boot~destroy: cluster~destroy; @:
-
 this-cluster-name := $(cluster-name)
 this-dev-repository := $(dev-repository)
 this-dev-ingress-domain := $(dev-ingress-domain)
 
-cluster~%: cluster-name = jxlabs-nos-$(cluster-stack)
-cluster~%: dev-repository = jxlabs-nos-helmboot-config-$(cluster-stack)
-cluster~%: vault-sa = $(cluster-name)-vt
-cluster~%: dev-ingress-domain = $(cluster-name).build-jx-prod.build.nuxeo.com
-cluster~%: boot-config-url = https://github.com/$(git-owner)/$(dev-repository)
+boot~%: cluster-name = jxlabs-nos-$(boot-stack)
+boot~%: dev-repository = jxlabs-nos-helmboot-config-$(boot-stack)
+boot~%: vault-sa = $(cluster-name)-vt
+boot~%: dev-ingress-domain = $(cluster-name).build-jx-prod.build.nuxeo.com
+boot~%: boot-config-url = https://github.com/$(git-owner)/$(dev-repository)
 
-cluster~boot: cluster~update cluster~boot-create cluster~boot-run ; @:
+boot: boot~update boot~create boot~run ; @:
 
 noop: ; @:
 
@@ -50,15 +43,15 @@ define cluster_boot_create_script =
 	git remote remove $(name)
 endef
 
-cluster~boot-create: GITHUB_TOKEN:=$(git-token)
-cluster~boot-create: tmpdir:=$(shell mktemp -d)
-cluster~boot-create: 
+boot~create: GITHUB_TOKEN:=$(git-token)
+boot~create: tmpdir:=$(shell mktemp -d)
+boot~create: 
 	echo "$${cluster_boot_create_script}" | sh -x
 
 export KUBECONFIG
 
-cluster~boot-run: KUBECONFIG=.tmp/kubeconfig~$(cluster-stack)
-cluster~boot-run:
+boot~run: KUBECONFIG=.tmp/kubeconfig~$(boot-stack)
+boot~run:
 	gcloud config set compute/region $(gcp-region)
 	gcloud config set compute/zone $(gcp-zone)
 	gcloud config set core/project $(gcp-project)
@@ -70,5 +63,5 @@ cluster~boot-run:
 	  --git-url=$(boot-config-url) --git-ref=master --git-user=$(git-user) --git-token=$(git-token) \
           --job
 
-cluster~%:
-	make -C infra infra-stack=$(cluster-stack) infra~$(*)
+boot~%:
+	make -C infra infra-stack=$(boot-stack) infra~$(*)

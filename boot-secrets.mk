@@ -56,6 +56,9 @@ endef
 .tmp/boot-secrets-pulumi-token.awk: | .tmp
 	@echo "$${boot_secrets_pulumi_token_awk_template}" > $(@)
 
+.PHONY: .tmp/boot-secrets.mk
+.PRECIOUS: .tmp/boot-secrets.mk
+
 .tmp/boot-secrets.mk: .tmp/boot-secrets.yaml
 .tmp/boot-secrets.mk: .tmp/boot-secrets-admin-user.awk
 .tmp/boot-secrets.mk: .tmp/boot-secrets-pipeline-user.awk

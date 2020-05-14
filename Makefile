@@ -1,6 +1,9 @@
-include cluster.mk
+include boot.mk
 
-clean: cluster~clean@dummy
+.tmp:
+	@mkdir .tmp
+
+clean: boot~clean
 	rm -fr .tmp
 
 system/helmfile.yaml apps/helmfile-augmented.yaml: jx-apps.yaml jx-requirements.yaml apps/helmfile-augment.yaml | .tmp

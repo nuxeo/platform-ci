@@ -11,6 +11,9 @@ include $(this-dir)/npm.mk
 
 $(call check-variable-defined,pulumi-stack)
 
+.PHONY: Pulumi.$(pulumi-stack).yaml
+.PRECIOUS: Pulumi.$(pulumi-stack).yaml
+
 Pulumi.$(pulumi-stack).yaml: pulumi~init pulumi~stack-config; @:
 
 pulumi~login:
@@ -21,7 +24,7 @@ pulumi~select: Pulumi.$(pulumi-stack).yaml
 	pulumi stack select $(pulumi-stack)
 
 pulumi~rm: pulumi~destroy
-	pulumi --non-interactive --stack=$(pulumi-stack stack rm --yes 
+	pulumi --non-interactive --stack=$(pulumi-stack) stack rm --yes 
 
 pulumi~graph: Pulumi.$(pulumi-stack).yaml
 	pulumi --non-interactive --stack=$(pulumi-stack) stack graph graph.dot
@@ -57,7 +60,7 @@ pulumi~init-pre.d: | pulumi~login ; @:
 pulumi~init-post.d: ; @:
 
 pulumi~init-do: 
-	test -n $$(pulumi stack ls -j 2>/dev/null | jq '.[] | select (.name == "$(pulumi-stack)") | .name') || \
+	test -n "$$(pulumi stack ls -j 2>/dev/null | jq '.[] | select (.name == "$(pulumi-stack)") | .name')" || \
 	  pulumi --non-interactive stack init $(pulumi-stack)
 	pulumi stack select $(pulumi-stack)
 	pulumi --non-interactive --stack=$(pulumi-stack) stack tag set environment $(pulumi-stack)

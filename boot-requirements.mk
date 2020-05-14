@@ -33,6 +33,9 @@ endef
 .tmp/boot-requirements-dev-environment.awk: | .tmp
 	@echo "$${boot_requirements_environment_dev_awk_template}" > $(@)
 
+.PHONY: .tmp/boot-requirements.mk
+.PRECIOUS: .tmp/boot-requirements.mk
+
 .tmp/boot-requirements.mk: .tmp/boot-requirements.yaml
 .tmp/boot-requirements.mk: .tmp/boot-requirements-cluster.awk
 .tmp/boot-requirements.mk: .tmp/boot-requirements-dev-environment.awk
