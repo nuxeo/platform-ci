@@ -45,7 +45,7 @@ export class Optional<T> {
 export let encode = (input: string): string => Buffer.from(input).toString("base64");
 
 export let env = pulumi.getStack();
-export let org = "nxmatic";
+export let org = "nos-jx-bot";
 export let clusterName = `jxlabs-nos-${env}`;
 export let createdBy = 'jxlabs-nos-cluster';
 export let createdTimestamp = Date.now();
