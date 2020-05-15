@@ -67,16 +67,16 @@ data:
   02-jobs.yaml: |2
     jobs:
       - script: >
-          folder('nuxeo')
+          folder('nxmatic')
       - script: >
-          multibranchPipelineJob('nuxeo/nos') {
+          multibranchPipelineJob('nxmatic/jxlabs-nos-app') {
             description('NOS web components')
             branchSources {
               github {
-                id('81cf0612-0aed-11ea-b783-9cb6d0e00d5f')
+                id('80eb30c3-b6e9-4f00-975e-0e52c64f458e')
                 scanCredentialsId('jx-pipeline-git-github-github')
-                repoOwner('nuxeo')
-                repository('nos')
+                repoOwner('nxmatic')
+                repository('jxlabs-nos-app')
                 buildOriginBranchWithPR(false)
                 buildForkPRHead(false)
                 buildForkPRMerge(false)
