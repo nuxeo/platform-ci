@@ -1,10 +1,10 @@
 include infra/make.d/macros.mk
 
-$(call check-variable-defined,boot-stack)
-
 include boot-requirements.mk
 include boot-secrets.mk
 include boot-git-url.mk
+
+boot-stack ?= $(lastword $(subst -, ,$(cluster-name)))
 
 this-cluster-name := $(cluster-name)
 this-dev-repository := $(dev-repository)
@@ -18,7 +18,7 @@ boot~%: boot-config-url = https://github.com/$(git-owner)/$(dev-repository)
 
 boot: boot~update boot~create boot~run ; @:
 
-noop: ; @:
+noop: ; @echo "we're operating onto the $(boot-stack) stack"
 
 export GITHUB_TOKEN
 
@@ -66,3 +66,4 @@ boot~run:
 
 boot~%:
 	make -C infra infra-stack=$(boot-stack) infra~$(*)
+

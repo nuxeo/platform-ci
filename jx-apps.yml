@@ -46,6 +46,8 @@ apps:
 - name: jenkins-x/nexus
 - name: jxlabs-nos/jenkins-operator
 - name: jenkins-servers
+  values:
+  - jenkins-servers/jenkins-operator-master-casc-enabled.yaml
   needs:
   - jx/jenkins-operator
   repository: ..

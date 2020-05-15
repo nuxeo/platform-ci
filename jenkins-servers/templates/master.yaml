@@ -1,3 +1,82 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-master-backup
+  labels:
+    app: jenkins-operator
+    jenkins-cr: master
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+{{- if and (hasKey .Values "master") .Values.master.casc.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-operator-casc-master
+  labels:
+    app: {{ template "jenkins-servers.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  01-google-auth.yaml: |2
+    jenkins: 
+      securityRealm:
+        googleOAuth2:
+          clientId: "${SECURITY_OAUTH2_CLIENT_ID}"
+          clientSecret: "${SECURITY_OAUTH2_CLIENT_SECRET}"
+          rootURLFromRequest: true
+      authorizationStrategy:
+        loggedInUsersCanDoAnything:
+          allowAnonymousRead: false
+{{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-operator-jobs-master
+  labels:
+    app: {{ template "jenkins-servers.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  02-jobs.yaml: |2
+    jobs:
+      - script: >
+          folder('nuxeo')
+      - script: >
+          multibranchPipelineJob('nuxeo/nos') {
+            description('NOS web components')
+            branchSources {
+              github {
+                id('81cf0612-0aed-11ea-b783-9cb6d0e00d5f')
+                scanCredentialsId('jx-pipeline-git-github-github')
+                repoOwner('nuxeo')
+                repository('nos')
+                buildOriginBranchWithPR(false)
+                buildForkPRHead(false)
+                buildForkPRMerge(false)
+                buildOriginBranch(true)
+                buildOriginPRHead(false)
+                buildOriginPRMerge(true)
+                includes('master feature* improve* fix* PR-*')
+              }
+            }
+            orphanedItemStrategy {
+              discardOldItems {
+                daysToKeep(14)
+                numToKeep(5)
+              }
+            }
+          }
+---
 apiVersion: jenkins.io/v1alpha2
 kind: Jenkins
 metadata:
@@ -9,15 +88,27 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   configurationAsCode:
-    configurations: null
+{{- if and (hasKey .Values "master") .Values.master.casc.enabled }}
+    configurations: 
+    - name: jenkins-operator-casc-master
+    - name: jenkins-operator-jobs-master
     secret:
-      name: ""
+      name: jenkins-operator-secrets-master
+{{- else }}
+     configurations: null
+     secret:
+       name: ""
+{{- end }}
   groovyScripts:
     configurations: null
     secret:
       name: ""
   jenkinsAPISettings:
+#{{- if and (hasKey .Values "master") .Values.master.casc.enabled }}
+#    authorizationStrategy: serviceAccount
+#{{- else }}
     authorizationStrategy: createUser
+#{{- end }}
   service:
     labels:
       app: jenkins-operator
@@ -35,29 +126,30 @@ spec:
   master:
     labels:
       jenkins-cr: master
-    authorizationStrategy: createUser
     disableCSRFProtection: false
     basePlugins:
+      - name: google-login
+        version: "1.6"
       - name: kubernetes
-        version: 1.23.0
+        version: "1.25.4"
       - name: workflow-job
-        version: "2.36"
+        version: "2.39"
       - name: workflow-aggregator
         version: "2.6"
       - name: git
-        version: 4.0.0
+        version: "4.2.2"
       - name: job-dsl
-        version: "1.76"
+        version: "1.77"
       - name: configuration-as-code
-        version: "1.35"
+        version: "1.40"
       - name: configuration-as-code-support
         version: "1.19"
       - name: kubernetes-credentials-provider
-        version: "0.13"
+        version: "0.14"
       - name: github-branch-source
-        version: 2.6.0
+        version: "2.6.0"
       - name: jx-resources
-        version: 1.0.38
+        version: "1.0.38"
     volumes:
     - name: backup
       persistentVolumeClaim:
@@ -124,28 +216,19 @@ spec:
       - mountPath: /backup
         name: backup
   backup:
-    enabled: true
     containerName: backup
+    action:
+      exec:
+        command:
+        - /home/user/bin/backup.sh 
     interval: 3600
     makeBackupBeforePodDeletion: true
-    pvc:
-      className: standard
-      size: 10Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: jenkins-master-backup
-  labels:
-    app: jenkins-operator
-    jenkins-cr: master
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
+  restore:
+    containerName: backup
+    action:
+      exec:
+        command:
+        - /home/user/bin/restore.sh
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
