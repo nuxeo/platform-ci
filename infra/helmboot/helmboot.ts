@@ -51,7 +51,10 @@ const bootSecretsData = _.encode(`secrets:
   pipelineUser:
     email: ${_.bootSecrets.pipelineUser.email}
     username: ${_.bootSecrets.pipelineUser.username}
-    token: ${_.bootSecrets.pipelineUser.token}`);
+    token: ${_.bootSecrets.pipelineUser.token}
+  oauth:
+    clientId: ${_.bootSecrets.oauth.clientId}
+    secret: ${_.bootSecrets.oauth.secret}`);
 
 export const serviceAccount = new gcp.serviceAccount.Account("boot", {
     accountId: accountId,

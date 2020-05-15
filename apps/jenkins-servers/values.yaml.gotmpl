@@ -1,4 +1,6 @@
 ingress:
 {{ toYaml .Values.jxRequirements.ingress | indent 2 }}
-
-
+secrets:
+  oauth:
+    clientId: {{ .Values.secrets.oauth.clientId }}
+    secret: {{ .Values.secrets.oauth.secret }}

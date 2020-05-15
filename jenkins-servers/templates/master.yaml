@@ -1,5 +1,23 @@
 ---
 apiVersion: v1
+data:
+  SECURITY_OAUTH2_CLIENT_ID: {{ .Values.secrets.oauth.clientId | b64enc | quote }}
+  SECURITY_OAUTH2_CLIENT_SECRET: {{ .Values.secrets.oauth.secret | b64enc | quote }}
+kind: Secret
+metadata:
+  labels:
+    app: {{ template "jenkins-servers.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    jenkins.io/credentials-type: usernamePassword
+  annotations:
+    jenkins.io/credentials-keybinding-password: BASIC_AUTH_PASS
+    jenkins.io/credentials-keybinding-username: BASIC_AUTH_USER
+  name: jenkins-operator-secrets-master
+type: Opaque
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: jenkins-master-backup
@@ -14,7 +32,6 @@ spec:
     requests:
       storage: 10Gi
 ---
-{{- if and (hasKey .Values "master") .Values.master.casc.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -35,7 +52,7 @@ data:
       authorizationStrategy:
         loggedInUsersCanDoAnything:
           allowAnonymousRead: false
-{{- end }}
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -88,27 +105,17 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   configurationAsCode:
-{{- if and (hasKey .Values "master") .Values.master.casc.enabled }}
     configurations: 
     - name: jenkins-operator-casc-master
     - name: jenkins-operator-jobs-master
     secret:
       name: jenkins-operator-secrets-master
-{{- else }}
-     configurations: null
-     secret:
-       name: ""
-{{- end }}
   groovyScripts:
     configurations: null
     secret:
       name: ""
   jenkinsAPISettings:
-#{{- if and (hasKey .Values "master") .Values.master.casc.enabled }}
-#    authorizationStrategy: serviceAccount
-#{{- else }}
     authorizationStrategy: createUser
-#{{- end }}
   service:
     labels:
       app: jenkins-operator

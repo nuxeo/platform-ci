@@ -8,6 +8,11 @@ interface AdminUser {
     password: string
 }
 
+interface OAuth {
+    clientId: string,
+    secret: string
+}
+
 interface PipelineUser {
     email: string,
     token: string,
@@ -19,6 +24,7 @@ interface BootSecrets {
     hmacToken: string,
     pulumiToken: string,
     pipelineUser: PipelineUser
+    oauth: OAuth
 }
 
 interface GithubConfig {
