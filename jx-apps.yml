@@ -15,6 +15,7 @@ apps:
 - name: acme
   repository: ..
 - name: jx-labs/jenkins-x-crds
+  phase: apps
 - name: jxlabs-nos/jxlabs-nos-helmboot-resources
   needs:
   - jx/jenkins-x-crds
