@@ -1,0 +1,3 @@
+controller:
+  publishService:
+    pathOverride: jx-system/nginx-ingress-controller
