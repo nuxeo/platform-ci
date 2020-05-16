@@ -1,3 +1,5 @@
 controller:
   publishService:
     pathOverride: jx-system/nginx-ingress-controller
+  config:
+    ssl-redirect: "true" # set default value, force configmap generation
