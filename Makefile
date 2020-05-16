@@ -15,14 +15,14 @@ helmfile.yaml: system/helmfile.yaml apps/helmfile-augmented.yaml; @touch helmfil
 
 export JX_SECRETS_YAML ?= $(realpath .tmp/boot-secrets.yaml)
 
-%~template:
+%~template: $(KUBECONFIG)
 	helmfile --selector name=$(*) template
 
-%~diff:
+%~diff: $(KUBECONFIG)
 	helmfile --selector name=$(*) diff
 
-%~sync:
+%~sync: $(KUBECONFIG)
 	helmfile --selector name=$(*) sync
 
-%~destroy:
+%~destroy: $(KUBECONFIG)
 	helmfile --selector name=$(*) destroy

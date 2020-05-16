@@ -49,15 +49,16 @@ boot~create: tmpdir:=$(shell mktemp -d)
 boot~create: 
 	echo "$${cluster_boot_create_script}" | sh -xe
 
-export KUBECONFIG
+export KUBECONFIG:=.tmp/kubeconfig~$(boot-stack)
 
-boot~run: KUBECONFIG=.tmp/kubeconfig~$(boot-stack)
-boot~run:
+$(KUBECONFIG):
 	gcloud config set compute/region $(gcp-region)
 	gcloud config set compute/zone $(gcp-zone)
 	gcloud config set core/project $(gcp-project)
 	gcloud container clusters get-credentials $(cluster-name)
 	kubectl config use-context gke_$(gcp-project)_$(gcp-zone)_$(cluster-name)
+
+boot~run: $(KUBECONFIG)
 	helm repo add jxlabs-nos gs://jxlabs-nos-charts
 	JX_LOG_LEVEL=debug jxl boot run --batch-mode \
 	  --chart=jxlabs-nos/jxl-boot \
