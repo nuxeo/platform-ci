@@ -49,7 +49,7 @@ boot~create: tmpdir:=$(shell mktemp -d)
 boot~create: 
 	echo "$${cluster_boot_create_script}" | sh -xe
 
-export KUBECONFIG:=.tmp/kubeconfig~$(boot-stack)
+export KUBECONFIG:=$(realpath .tmp/kubeconfig~$(boot-stack))
 
 $(KUBECONFIG):
 	gcloud config set compute/region $(gcp-region)
