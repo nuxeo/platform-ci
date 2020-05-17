@@ -46,6 +46,7 @@ apps:
 - name: jenkins-x/chartmuseum
 - name: jenkins-x/nexus
 - name: jxlabs-nos/jenkins-operator
+- name: jenkins-x/jx-app-replicator
 - name: jenkins-servers
   needs:
   - jx/jenkins-operator
