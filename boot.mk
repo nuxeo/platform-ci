@@ -77,28 +77,14 @@ boot~run: $(KUBECONFIG)
 boot~%:
 	make -C infra infra-stack=$(boot-stack) $(*)
 
-system/helmfile.yaml apps/helmfile-augmented.yaml: jx-apps.yaml jx-requirements.yaml apps/helmfile-augment.yaml | .tmp
+system/helmfile.yaml apps/helmfile.yaml: jx-apps.yml jx-requirements.yml | .tmp
 	jx step create helmfile
-	awk '(FNR==1) { print "---" }1' apps/helmfile.yaml apps/helmfile-augment.yaml | \
-          yq r -d'*' -j -P - | jq --slurp add - | yq r -P - > apps/helmfile-augmented.yaml
 
 helmfile.yaml: system/helmfile.yaml apps/helmfile-augmented.yaml; @touch helmfile.yaml
 
 
-boot~helm-template: helmfile.yaml $(KUBECONFIG)
-	check-variable-defined name
-	helmfile --selector name=$(name) template
-
-boot~helm-diff: helmfile.yaml $(KUBECONFIG)
-	check-variable-defined name
-	helmfile --selector name=$(*) diff
-
-boot~helm-sync: helmfile.yaml $(KUBECONFIG)
-	check-variable-defined name
-	helmfile --selector name=$(*) sync
-
-boot~helm-destroy: helmfile.yaml $(KUBECONFIG)
-	check-variable-defined name
-	helmfile --selector name=$(*) destroy
+boot~helmfile-%: helmfile.yaml $(KUBECONFIG)
+	$(call check-variable-defined,name)
+	helmfile --selector name=$(name) $(*)
 
 endif
