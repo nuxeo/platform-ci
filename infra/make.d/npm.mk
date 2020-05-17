@@ -2,7 +2,9 @@ ifndef npm-mk
 
 npm-mk := $(lastword $(MAKEFILE_LIST))
 
-/usr/bin/pnpm:
+npm-prefix := $(shell npm config get prefix)
+
+$(npm-prefix)/bin/pnpm:
 	sudo npm install -g pnpm
 
 /usr/bin/expect:

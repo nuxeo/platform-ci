@@ -1,14 +1,23 @@
-include infra/make.d/macros.mk
+ifndef boot-mk
 
-include boot-requirements.mk
-include boot-secrets.mk
-include boot-git-url.mk
+boot-mk := $(lastword $(MAKEFILE_LIST))
 
-boot-stack ?= $(lastword $(subst -, ,$(cluster-name)))
+this-mk:=$(boot-mk)
+this-dir:=$(realpath $(dir $(this-mk)))
+top-dir:=$(realpath $(this-dir)/..)
+
+include $(this-dir)/infra/make.d/macros.mk
+
+include $(this-dir)/boot-requirements.mk
+include $(this-dir)/boot-secrets.mk
+include $(this-dir)/boot-git-url.mk
+
 
 this-cluster-name := $(cluster-name)
+this-boot-stack := $(lastword $(subst -, ,$(cluster-name)))
 this-dev-repository := $(dev-repository)
 this-dev-ingress-domain := $(dev-ingress-domain)
+boot-stack ?= $(this-boot-stack)
 
 boot~%: cluster-name = jxlabs-nos-$(boot-stack)
 boot~%: dev-repository = jxlabs-nos-helmboot-config-$(boot-stack)
@@ -18,7 +27,7 @@ boot~%: boot-config-url = https://github.com/$(git-owner)/$(dev-repository)
 
 boot: boot~update boot~create boot~run ; @:
 
-noop: ; @echo "we're operating onto the $(boot-stack) stack"
+boot~noop: ; @echo "we're operating from $(this-boot-stack) on-to the $(boot-stack) stack"
 
 export GITHUB_TOKEN
 
@@ -63,8 +72,33 @@ boot~run: $(KUBECONFIG)
 	JX_LOG_LEVEL=debug jxl boot run --batch-mode \
 	  --chart=jxlabs-nos/jxl-boot \
 	  --git-url=$(boot-config-url) --git-ref=master --git-user=$(git-user) --git-token=$(git-token) \
-          --job
+          --job=false
 
 boot~%:
-	make -C infra infra-stack=$(boot-stack) infra~$(*)
+	make -C infra infra-stack=$(boot-stack) $(*)
 
+system/helmfile.yaml apps/helmfile-augmented.yaml: jx-apps.yaml jx-requirements.yaml apps/helmfile-augment.yaml | .tmp
+	jx step create helmfile
+	awk '(FNR==1) { print "---" }1' apps/helmfile.yaml apps/helmfile-augment.yaml | \
+          yq r -d'*' -j -P - | jq --slurp add - | yq r -P - > apps/helmfile-augmented.yaml
+
+helmfile.yaml: system/helmfile.yaml apps/helmfile-augmented.yaml; @touch helmfile.yaml
+
+
+boot~helm-template: helmfile.yaml $(KUBECONFIG)
+	check-variable-defined name
+	helmfile --selector name=$(name) template
+
+boot~helm-diff: helmfile.yaml $(KUBECONFIG)
+	check-variable-defined name
+	helmfile --selector name=$(*) diff
+
+boot~helm-sync: helmfile.yaml $(KUBECONFIG)
+	check-variable-defined name
+	helmfile --selector name=$(*) sync
+
+boot~helm-destroy: helmfile.yaml $(KUBECONFIG)
+	check-variable-defined name
+	helmfile --selector name=$(*) destroy
+
+endif

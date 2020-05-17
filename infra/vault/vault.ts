@@ -30,3 +30,15 @@ export const cloudkmsCryptoBinding = new gcp.projects.IAMMember("vault-cloudkms-
     member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
     role: "roles/cloudkms.cryptoKeyEncrypterDecrypter",
 });
+export const secret = new k8s.core.v1.Secret("vault-sa",
+    {
+        metadata: {
+            name: "vault-sa",
+            namespace: systemNamespace,
+            labels: { app: "helmboot" }
+        },
+        type: "Opaque",
+        data: {
+            'credentials.json': serviceAccountKey.privateKey
+        }
+    }, { provider: k8sProvider });
