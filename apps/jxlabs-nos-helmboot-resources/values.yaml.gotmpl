@@ -19,3 +19,22 @@ ingress:
 {{- end }}
 {{- end }}
 {{- end }}
+podTemplates:
+  templates:
+    Go:
+      nodeSelector:
+        dedicated: jenkins-x-builder
+      tolerations:
+      - effect: NoSchedule
+        key: dedicated
+        operator: Equal
+        value: jenkins-x-builder
+    JX-base:
+      nodeSelector:
+        node: dedicated
+      tolerations:
+      - effect: NoSchedule
+        key: dedicated
+        operator: Equal
+        value: jenkins-x-builder
+
