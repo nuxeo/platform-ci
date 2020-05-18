@@ -16,7 +16,7 @@ cluster:
   project: build-jx-prod
   provider: gke
   region: us-east1
-  registry: gcr.io/jxlabs-nos-master
+  registry: gcr.io/build-jx-prod/jxlabs-nos-master
   vaultSAName: jxlabs-nos-master-vt
   zone: us-east1-b
 environments:
