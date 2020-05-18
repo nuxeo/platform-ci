@@ -80,9 +80,6 @@ boot~%:
 system/helmfile.yaml apps/helmfile.yaml: jx-apps.yml jx-requirements.yml | .tmp
 	jx step create helmfile
 
-helmfile.yaml: system/helmfile.yaml apps/helmfile-augmented.yaml; @touch helmfile.yaml
-
-
 boot~helmfile-%: helmfile.yaml $(KUBECONFIG)
 	$(call check-variable-defined,name)
 	helmfile --selector name=$(name) $(*)
