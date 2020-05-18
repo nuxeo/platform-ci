@@ -38,7 +38,7 @@ const defaultOptions: ControlPlaneOptions = {
     enableKubernetesAlpha: false,
     enableLegacyAbac: false,
     nodePool: {
-        imageType: 'COS_CONTAINERD',
+        imageType: 'COS',
         machineType: 'n1-standard-8',
         nodePreemptible: false,
         autoRepair: true,

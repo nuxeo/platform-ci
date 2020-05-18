@@ -9,7 +9,7 @@ export const org = _.org;
 
 const providedOptions: control_plane.NodePoolOptions|undefined = _.config.getObject('nodePool');
 const defaultOptions: control_plane.NodePoolOptions = {
-        imageType: 'COS_CONTAINERD',
+        imageType: 'COS',
         machineType: 'e2-standard-16',
         nodePreemptible: false,
         autoRepair: true,
