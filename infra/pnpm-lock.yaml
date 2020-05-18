@@ -31,6 +31,22 @@ importers:
       '@pulumi/pulumi': ^2.1.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
+  charts:
+    dependencies:
+      '@pulumi/gcp': 3.5.0
+      '@pulumi/github': 1.2.1
+      '@pulumi/kubernetes': 2.2.0
+      '@pulumi/pulumi': 2.2.1
+      '@types/node': 13.13.6
+    devDependencies:
+      lint: 0.7.0
+    specifiers:
+      '@pulumi/gcp': ^3.3.0
+      '@pulumi/github': ^1.1.0
+      '@pulumi/kubernetes': ^2.0.0
+      '@pulumi/pulumi': ^2.1.1
+      '@types/node': ^13.13.5
+      lint: ^0.7.0
   control-plane:
     dependencies:
       '@pulumi/gcp': 3.5.0
@@ -76,7 +92,7 @@ importers:
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.1
+      '@pulumi/pulumi': ^2.1.0
       '@types/node': ^13.13.5
       lint: ^0.7.0
   helmboot:
