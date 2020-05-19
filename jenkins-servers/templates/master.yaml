@@ -52,18 +52,6 @@ data:
       authorizationStrategy:
         loggedInUsersCanDoAnything:
           allowAnonymousRead: false
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: jenkins-operator-jobs-master
-  labels:
-    app: {{ template "jenkins-servers.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-data:
   02-jobs.yaml: |2
     jobs:
       - script: >
@@ -93,6 +81,102 @@ data:
               }
             }
           }
+  03-kubernetes.yaml: |2
+    jenkins:
+      clouds:
+      - kubernetes:
+          containerCapStr: "0"
+          maxRequestsPerHostStr: "32"
+          name: "kubernetes"
+          namespace: "{{.Release.Namespace}}"
+          podLabels:
+          - key: "jenkins"
+            value: "slave"
+          - key: "resource"
+            value: "pod"
+          - key: "usage"
+            value: "build"
+          serverUrl: "https://kubernetes.default"
+          templates:
+            - containers:
+              - args: "^${computer.jnlpmac} ^${computer.name}"
+                image: "jenkinsci/jnlp-slave:3.26-1-alpine"
+                livenessProbe:
+                  failureThreshold: 0
+                  initialDelaySeconds: 0
+                  periodSeconds: 0
+                  successThreshold: 0
+                  timeoutSeconds: 0
+                name: "jnlp"
+                resourceRequestCpu: "100m"
+                resourceRequestMemory: "128Mi"
+                workingDir: "/home/jenkins"
+              - image: "10.63.249.70:5000/nuxeo/nos/jenkins-x/nos-builder-java8:0.0.9"
+                livenessProbe:
+                  failureThreshold: 0
+                  initialDelaySeconds: 0
+                  periodSeconds: 0
+                  successThreshold: 0
+                  timeoutSeconds: 0
+                name: "maven"
+                privileged: true
+                resourceLimitCpu: "6"
+                resourceLimitMemory: "8Gi"
+                resourceRequestCpu: "4"
+                resourceRequestMemory: "6Gi"
+                ttyEnabled: true
+                workingDir: "/home/jenkins"
+              envVars:
+              - containerEnvVar:
+                  key: "DOCKER_CONFIG"
+                  value: "/home/jenkins/.docker/"
+              - containerEnvVar:
+                  key: "GIT_AUTHOR_EMAIL"
+                  value: "nos+jx@nuxeo.com"
+              - containerEnvVar:
+                  key: "GIT_AUTHOR_NAME"
+                  value: "nuxeo-nos-jx"
+              - containerEnvVar:
+                  key: "GIT_COMMITTER_EMAIL"
+                  value: "nos+jx@nuxeo.com"
+              - containerEnvVar:
+                  key: "GIT_COMMITTER_NAME"
+                  value: "nuxeo-nos-jx"
+              - containerEnvVar:
+                  key: "JAVA_TOOL_OPTIONS"
+                  value: "-Dsun.zip.disableMemoryMapping=true -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=90 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90  -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=3"
+              - containerEnvVar:
+                  key: "JENKINS_URL"
+                  value: "http://jenkins:8080"
+              - containerEnvVar:
+                  key: "MAVEN_OPTS"
+                  value: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+              - containerEnvVar:
+                  key: "NPM_CONFIG_REGISTRY"
+                  value: "http://nexus/repository/npm-group/"
+              - containerEnvVar:
+                  key: "XDG_CONFIG_HOME"
+                  value: "/home/jenkins"
+              hostNetwork: false
+              label: "jenkins-nos-java-8"
+              name: "nos-java-8"
+              nodeSelector: "team=nos"
+              serviceAccount: "jenkins"
+              volumes:
+              - hostPathVolume:
+                  hostPath: "/var/run/docker.sock"
+                  mountPath: "/var/run/docker.sock"
+              - secretVolume:
+                  mountPath: "/home/jenkins/.m2"
+                  secretName: "jenkins-maven-settings"
+              - secretVolume:
+                  mountPath: "/home/jenkins/.docker"
+                  secretName: "jenkins-docker-cfg"
+              - secretVolume:
+                  mountPath: "/home/jenkins/.gnupg"
+                  secretName: "jenkins-release-gpg"
+              yamlMergeStrategy: "override"
+              yaml: "apiVersion: v1\nkind: Pod\nspec:\n  tolerations:\n    - key: dedicated\n    operator: Equal\n    value: jenkins-x-builder\n    effect: NoSchedule\n"
 ---
 apiVersion: jenkins.io/v1alpha2
 kind: Jenkins
@@ -107,7 +191,6 @@ spec:
   configurationAsCode:
     configurations: 
     - name: jenkins-operator-casc-master
-    - name: jenkins-operator-jobs-master
     secret:
       name: jenkins-operator-secrets-master
   groovyScripts:
@@ -116,6 +199,10 @@ spec:
       name: ""
   jenkinsAPISettings:
     authorizationStrategy: createUser
+  roles:
+    - apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: jx-pipeline-activity-updater
   service:
     labels:
       app: jenkins-operator
