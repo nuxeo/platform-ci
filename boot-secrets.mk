@@ -1,4 +1,4 @@
-export JX_SECRETS_YAML ?= $(realpath .tmp/boot-secrets.yaml)
+export JX_SECRETS_YAML ?= $(abspath .tmp/boot-secrets.yaml)
 
 .tmp/boot-secrets.yaml: | .tmp
 	@kubectl get secrets/jx-boot-secrets -o jsonpath='{.data.secrets\.yaml}' | base64 -d > $(@)
