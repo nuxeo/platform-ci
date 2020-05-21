@@ -2,8 +2,6 @@ autoUpdate:
   enabled: false
   schedule: ""
 bootConfigURL: https://github.com/nuxeo/jxlabs-nos-helmboot-config-master
-buildPackRef: jxlabs-nos
-buildPackURL: https://github.com/nuxeo/jxlabs-nos-buildpacks
 cluster:
   clusterName: jxlabs-nos-master
   environmentGitOwner: nuxeo
