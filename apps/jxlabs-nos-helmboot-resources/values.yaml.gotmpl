@@ -19,11 +19,16 @@ ingress:
 {{- end }}
 {{- end }}
 {{- end }}
-docker-registry:
-  enabled: false
+agent:
+  
 podTemplates:
+  agent:
+    dockerHostPath: "/var/run/docker.sock"
+    dockerMountPath: "/var/run/docker.sock"
+    dockerConfig: true
   templates:
-    Go:
+{{- range $podTemplate := tuple "aws-cdk" "Maven" "Maven-Java11" "Maven-GraalVM" "Gradle" "Scala" "Go" "Terraform" "Rust" "Newman" "Nodejs8x" "Nodejs10x" "Nodejs12x" "php5x" "php7x" "Nodejs" "Maven-Nodejs" "JX-base" "Promote" "Packer" "Python2" "Python" "Python37" "Ruby" "Swift" "Dlang" "Machine-Learning" "Machine-Learning-Gpu" }}
+    {{ $podTemplate }}:
       nodeSelector:
         dedicated: jenkins-x-builder
       tolerations:
@@ -31,12 +36,4 @@ podTemplates:
         key: dedicated
         operator: Equal
         value: jenkins-x-builder
-    JX-base:
-      nodeSelector:
-        node: dedicated
-      tolerations:
-      - effect: NoSchedule
-        key: dedicated
-        operator: Equal
-        value: jenkins-x-builder
-
+{{- end }}
