@@ -1,7 +1,10 @@
-export JX_SECRETS_YAML ?= $(abspath .tmp/boot-secrets.yaml)
+include .tmp/boot-secrets.mk
+
+.PRECIOUS:.tmp/boot-secrets.yaml
+.PRECIOUS:.tmp/boot-secrets.mk
 
 .tmp/boot-secrets.yaml: | .tmp
-	@kubectl get secrets/jx-boot-secrets -o jsonpath='{.data.secrets\.yaml}' | base64 -d > $(@)
+	kubectl get secrets/jx-boot-secrets -o jsonpath='{.data.secrets\.yaml}' | base64 -d > $(@) 
 
 export boot_secrets_admin_user_awk_template :=
 define boot_secrets_admin_user_awk_template :=
@@ -72,7 +75,6 @@ endef
 .tmp/boot-secrets-oauth.awk: | .tmp
 	@echo "$${boot_secrets_oauth_awk_template}" > $(@)
 
-.PHONY: .tmp/boot-secrets.mk
 .PRECIOUS: .tmp/boot-secrets.mk
 
 export boot_secrets_shell_script_template 
@@ -83,6 +85,12 @@ yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.pipelineUser.*' | awk -f .tm
 yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.hmacToken' | awk -f .tmp/boot-secrets-hmac-token.awk
 yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.pulumiToken' | awk -f .tmp/boot-secrets-pulumi-token.awk
 yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.oauth.*' | awk -f .tmp/boot-secrets-oauth.awk
+cat <<EOF
+export docker-config
+define docker-config :=
+$$(yq r .tmp/boot-secrets.yaml --printMode pv secrets.dockerConfig | sed 's/secrets.dockerConfig: //')
+endef
+EOF
 endef
 
 .tmp/boot-secrets.mk: .tmp/boot-secrets.yaml
@@ -93,5 +101,3 @@ endef
 .tmp/boot-secrets.mk: .tmp/boot-secrets-oauth.awk
 .tmp/boot-secrets.mk:
 	echo "$${boot_secrets_shell_script_template}" | sh  > $(@)
-
--include .tmp/boot-secrets.mk

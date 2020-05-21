@@ -1,7 +1,9 @@
 export stack_make_template
 define stack_make_template =
--include $$(boot-secrets-mk)
--include $$(boot-requirements-mk)
+include ../../.tmp/boot-secrets.mk
+include ../../.tmp/boot-requirements.mk
+
+pulumi-stack := $(infra-stack)
 
 include ../make.d/env.mk
 include ../make.d/pulumi.mk

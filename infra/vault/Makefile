@@ -1,5 +1,7 @@
--include $(boot-secrets-mk)
--include $(boot-requirements-mk)
+include ../../.tmp/boot-secrets.mk
+include ../../.tmp/boot-requirements.mk
+
+pulumi-stack := master
 
 include ../make.d/env.mk
 include ../make.d/pulumi.mk

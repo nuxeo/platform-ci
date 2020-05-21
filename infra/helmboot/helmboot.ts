@@ -54,7 +54,8 @@ const bootSecretsData = _.encode(`secrets:
     token: ${_.bootSecrets.pipelineUser.token}
   oauth:
     clientId: ${_.bootSecrets.oauth.clientId}
-    secret: ${_.bootSecrets.oauth.secret}`);
+    secret: ${_.bootSecrets.oauth.secret}
+  dockerConfig: ${_.bootSecrets.dockerConfig}`);
 
 export const serviceAccount = new gcp.serviceAccount.Account("boot", {
     accountId: accountId,

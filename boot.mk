@@ -1,5 +1,4 @@
 ifndef boot-mk
-
 boot-mk := $(lastword $(MAKEFILE_LIST))
 
 this-mk:=$(boot-mk)
@@ -11,7 +10,6 @@ include $(this-dir)/infra/make.d/macros.mk
 include $(this-dir)/boot-requirements.mk
 include $(this-dir)/boot-secrets.mk
 include $(this-dir)/boot-git-url.mk
-
 
 this-cluster-name := $(cluster-name)
 this-boot-stack := $(lastword $(subst -, ,$(cluster-name)))
@@ -27,7 +25,8 @@ boot~%: boot-config-url = https://github.com/$(git-owner)/$(dev-repository)
 
 boot: boot~update boot~create boot~run ; @:
 
-boot~noop: ; @echo "we're operating from $(this-boot-stack) on-to the $(boot-stack) stack"
+boot~noop: 
+	@echo "we're operating from $(this-boot-stack) on-to the $(boot-stack) stack"
 
 export GITHUB_TOKEN
 
@@ -60,12 +59,12 @@ boot~create:
 
 kubeconfig:=$(abspath .tmp/kubeconfig~$(boot-stack))
 
-$(kubeconfig):
-	gcloud config set compute/region $(gcp-region)
-	gcloud config set compute/zone $(gcp-zone)
-	gcloud config set core/project $(gcp-project)
-	gcloud container clusters get-credentials $(cluster-name)
-	kubectl config use-context gke_$(gcp-project)_$(gcp-zone)_$(cluster-name)
+.PRECIOUS: $(kubeconfig)
+
+$(kubeconfig): 
+	KUBECONFIG=$(kubeconfig) gcloud  container clusters get-credentials --zone=$(gcp-zone) $(cluster-name)
+	KUBECONFIG=$(kubeconfig) kubectl config use-context gke_$(gcp-project)_$(gcp-zone)_$(cluster-name)
+	KUBECONFIG=$(kubeconfig) kubectl config set-context --current --namespace=jx
 
 boot~run: $(kubeconfig)
 	helm repo add jxlabs-nos gs://jxlabs-nos-charts
@@ -80,8 +79,8 @@ boot~%:
 system/helmfile.yaml apps/helmfile.yaml: jx-apps.yml jx-requirements.yml | .tmp
 	jx step create helmfile
 
-boot~helmfile-%: helmfile.yaml $(KUBECONFIG)
+boot~helmfile-%: boot-secrets-yaml=$(abspath .tmp/boot-secrets.yaml)
+boot~helmfile-%: helmfile.yaml $(kubeconfig) .tmp/boot-secrets.yaml
 	$(call check-variable-defined,name)
-	helmfile --selector name=$(name) $(*)
-
+	KUBECONFIG=$(kubeconfig) JX_SECRETS_YAML=$(boot-secrets-yaml) helmfile --selector name=$(name) $(*)
 endif

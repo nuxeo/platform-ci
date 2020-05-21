@@ -23,8 +23,9 @@ interface BootSecrets {
     adminUser: AdminUser,
     hmacToken: string,
     pulumiToken: string,
-    pipelineUser: PipelineUser
-    oauth: OAuth
+    pipelineUser: PipelineUser,
+    oauth: OAuth,
+    dockerConfig: string
 }
 
 interface GithubConfig {
