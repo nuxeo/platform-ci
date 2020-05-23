@@ -2,6 +2,7 @@ autoUpdate:
   enabled: false
   schedule: ""
 bootConfigURL: https://github.com/nuxeo/jxlabs-nos-helmboot-config-master
+buildPackURL: https://github.com/jenkins-x/jxr-packs-kubernetes.git
 cluster:
   clusterName: jxlabs-nos-master
   environmentGitOwner: nuxeo
