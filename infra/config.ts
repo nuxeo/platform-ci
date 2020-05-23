@@ -42,6 +42,7 @@ export class Optional<T> {
     }
 }
 
+export let decode = (input: string): string => Buffer.from(input, 'base64').toString();
 export let encode = (input: string): string => Buffer.from(input).toString("base64");
 
 export let env = pulumi.getStack();

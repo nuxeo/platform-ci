@@ -26,6 +26,9 @@ export interface DockerAuth {
 }
 
 interface Docker {
+    username: string,
+    password: string|pulumi.Output<string>,
+    url: string
     auth: DockerAuth[]
 }
 
@@ -51,3 +54,4 @@ export const k8sProvider = controlPlane.output.k8sProvider;
 
 export let rfc1035 = _.rfc1035;
 export let encode = _.encode;
+export let decode = _.decode;

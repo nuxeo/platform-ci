@@ -32,7 +32,7 @@ export const gitUrlSecret = new k8s.core.v1.Secret("jx-boot-git-url",
 const bootSecretsData =
     _.withStackReferenceOf('gcr').
         requireOutput('serviceAccountKey').
-        apply(key => JSON.stringify(key)).
+        apply(key => JSON.stringify(key.privateKey)).
         apply(json => {
             return {
                 url: "https://gcr.io",
@@ -41,17 +41,19 @@ const bootSecretsData =
             }
         }).
         apply(auth => {
-            let found = false;
+            _.bootSecrets.docker.url = auth.url;
+            _.bootSecrets.docker.username = auth.username;
+            _.bootSecrets.docker.password = _.decode(auth.password);
+            return _.bootSecrets;
+        }).
+        apply(secrets => {
             _.bootSecrets.docker.auth.forEach(item => {
-                if (item.url == auth.url) {
-                    item.password = auth.password;
-                    found = true;
+                if (item.url == secrets.docker.url) {
+                    item.password = secrets.docker.password;
                 }
             });
-            if (found == false) {
-               _.bootSecrets.docker.auth.push(auth) ;
-            }
-            return { secrets: _.bootSecrets};}).
+            return { secrets: secrets};
+        }).
         apply(o => YAML.stringify(o)).
         apply(y => _.encode(y));
 

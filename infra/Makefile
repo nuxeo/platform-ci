@@ -56,5 +56,5 @@ endef
 $(eval $(call stack-rules,k8s,control-plane builder-node-pool namespaces))
 $(eval $(call stack-rules,keys,keyring vault))
 $(eval $(call stack-rules,services,keys storage chart gcr kaniko dns))
-$(eval $(call stack-rules,all,k8s services boot-secrets))
+$(eval $(call stack-rules,all,k8s services helmboot))
 
