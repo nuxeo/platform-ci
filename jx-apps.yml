@@ -16,7 +16,7 @@ apps:
   repository: ..
 - name: jx-labs/jenkins-x-crds
   phase: apps
-- name: jxlabs-nos/jxlabs-nos-helmboot-resources
+- name: jenkins-x-charts/jxboot-helmfile-resources
   needs:
   - jx/jenkins-x-crds
 - name: repositories
