@@ -3,7 +3,7 @@ import * as k8s from "@pulumi/kubernetes";
 import { Output, StackReference } from "@pulumi/pulumi";
 import { withStackReferenceProvider } from "../config";
 
-export class Helmboot {
+export class Namespaces {
     appsNamespace: Output<string>
     systemNamespace: Output<string>
 
@@ -13,8 +13,8 @@ export class Helmboot {
     }
 }
 
-export const output: Helmboot = withStackReferenceProvider<Helmboot>('helmboot').
+export const output: Namespaces = withStackReferenceProvider<Namespaces>('namespaces').
     apply(reference => 
-            new Helmboot(pulumi.interpolate`${reference.getOutput('appsNamespace').apply(v => v.metadata.name)}`,
+            new Namespaces(pulumi.interpolate`${reference.getOutput('appsNamespace').apply(v => v.metadata.name)}`,
                          pulumi.interpolate`${reference.requireOutput('systemNamespace').apply(v => v.metadata.name)}`));
 

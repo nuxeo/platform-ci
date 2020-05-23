@@ -3,12 +3,12 @@ import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import * as _ from "./config";
 import * as controlPlane from "../control-plane/output";
-import * as helmboot from "../helmboot/output";
+import * as namespaces from "../namespaces/output";
 
 const k8sProvider = controlPlane.output.k8sProvider();
 const clusterName = controlPlane.output.clusterName;
 const accountId = clusterName.apply(v => _.rfc1035(v).id()).apply(v => `${v}-chart`);
-const appsNamespace = helmboot.output.appsNamespace;
+const appsNamespace = namespaces.output.appsNamespace;
 
 export const bucket = new gcp.storage.Bucket("chart", {
     location: gcp.config.region,

@@ -83,5 +83,5 @@ boot~helmfile-%: log-level ?= info
 boot~helmfile-%: boot-secrets-yaml=$(abspath .tmp/boot-secrets.yaml)
 boot~helmfile-%: helmfile.yaml $(kubeconfig) .tmp/boot-secrets.yaml
 	$(call check-variable-defined,name)
-	KUBECONFIG=$(kubeconfig) JX_SECRETS_YAML=$(boot-secrets-yaml) helmfile --log-level=$(log-level) --selector name=$(name) $(*)
+	@KUBECONFIG=$(kubeconfig) JX_SECRETS_YAML=$(boot-secrets-yaml) helmfile --log-level=$(log-level) --selector name=$(name) $(*)
 endif

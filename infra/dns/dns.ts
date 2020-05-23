@@ -3,12 +3,12 @@ import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
 import { encode, rfc1035 } from "./config";
 import * as controlPlane from "../control-plane/output";
-import * as helmboot from "../helmboot/output";
+import * as namespaces from "../namespaces/output";
 
 const k8sProvider = controlPlane.output.k8sProvider();
 const clusterName = controlPlane.output.clusterName;
 const accountId = clusterName.apply(v => rfc1035(v).id()).apply(v => `${v}-dns` );
-const systemNamespace = helmboot.output.systemNamespace;
+const systemNamespace = namespaces.output.systemNamespace;
 
 export const serviceAccount = new gcp.serviceAccount.Account("dns", {
     accountId: accountId,

@@ -1,0 +1,3 @@
+name: jxlabs-nos-infra-namespaces
+runtime: nodejs
+description: jxlabs nos k8s namespaces

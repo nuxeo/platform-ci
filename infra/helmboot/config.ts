@@ -19,13 +19,18 @@ interface PipelineUser {
     username: string
 }
 
+interface DockerAuth {
+    username: string,
+    password: string,
+    url: string
+}
+
 interface BootSecrets {
     adminUser: AdminUser,
     hmacToken: string,
     pulumiToken: string,
     pipelineUser: PipelineUser,
-    oauth: OAuth,
-    dockerConfig: string
+    oauth: OAuth
 }
 
 interface GithubConfig {

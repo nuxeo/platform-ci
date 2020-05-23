@@ -4,7 +4,6 @@ helmDefaults:
   wait: true
   timeout: 520
   force: true
-
 helmfiles:
   - system/helmfile.yaml
   - apps/helmfile.yaml

@@ -75,6 +75,19 @@ endef
 .tmp/boot-secrets-oauth.awk: | .tmp
 	@echo "$${boot_secrets_oauth_awk_template}" > $(@)
 
+export boot_secrets_docker_awk_template :=
+define boot_secrets_docker_awk_template :=
+BEGIN { FS=":" }
+function trim(field){
+   gsub(/^ +| +$$/,"", field); 
+   return field
+}
+$$1 == "secrets.docker.username" { print "export docker-username :=", trim($$2) }
+endef
+
+.tmp/boot-secrets-docker.awk: | .tmp
+	@echo "$${boot_secrets_docker_awk_template}" > $(@)
+
 .PRECIOUS: .tmp/boot-secrets.mk
 
 export boot_secrets_shell_script_template 
@@ -85,6 +98,16 @@ yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.pipelineUser.*' | awk -f .tm
 yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.hmacToken' | awk -f .tmp/boot-secrets-hmac-token.awk
 yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.pulumiToken' | awk -f .tmp/boot-secrets-pulumi-token.awk
 yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.oauth.*' | awk -f .tmp/boot-secrets-oauth.awk
+yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.docker.*' | awk -f .tmp/boot-secrets-docker.awk
+cat <<EOF
+export docker-url
+define docker-url :=
+$$(yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.docker.url' | sed 's/secrets.docker.url: //')
+endef
+export docker-password
+define docker-password :=
+$$(yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.docker.password' | sed 's/secrets.docker.password: //')
+endef
 cat <<EOF
 export docker-config
 define docker-config :=
@@ -99,5 +122,6 @@ endef
 .tmp/boot-secrets.mk: .tmp/boot-secrets-hmac-token.awk
 .tmp/boot-secrets.mk: .tmp/boot-secrets-pulumi-token.awk
 .tmp/boot-secrets.mk: .tmp/boot-secrets-oauth.awk
+.tmp/boot-secrets.mk: .tmp/boot-secrets-docker.awk
 .tmp/boot-secrets.mk:
 	echo "$${boot_secrets_shell_script_template}" | sh  > $(@)

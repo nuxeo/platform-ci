@@ -3,12 +3,12 @@ import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import * as _ from "./config";
 import * as controlPlane from "../control-plane/output";
-import * as helmboot from "../helmboot/output";
+import * as namespaces from "../namespaces/output";
 
 const k8sProvider = controlPlane.output.k8sProvider();
 const clusterName = controlPlane.output.clusterName;
 const accountId = clusterName.apply(v => _.rfc1035(v).id()).apply(v => `${v}-ko`);
-const appsNamespace = helmboot.output.appsNamespace;
+const appsNamespace = namespaces.output.appsNamespace;
 
 export const serviceAccount = new gcp.serviceAccount.Account("kaniko", {
     accountId: accountId,
@@ -22,15 +22,6 @@ export const storageAdminBinding = new gcp.projects.IAMMember("kaniko-storage-ad
     member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
     role: "roles/storage.admin",
 });
-export const storageObjectAdminBinding = new gcp.projects.IAMMember("kaniko-storage-object-admin-binding", {
-    member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
-    role: "roles/storage.objectAdmin",
-});
-export const storageObjectCreatorBinding = new gcp.projects.IAMMember("kaniko-storage-object-creator-binding", {
-    member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
-    role: "roles/storage.objectCreator",
-});
-
 const kanikoSecretsData = _.encode(`${serviceAccountKey.privateKey}`);
 
 export const kanikoSecret = new k8s.core.v1.Secret("kaniko-secret",
