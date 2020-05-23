@@ -27,7 +27,7 @@ export const serviceAccountSecret = new k8s.core.v1.Secret("gcr-sa-secret",
         },
         type: "Opaque",
         data: {
-            'gcr-sa': serviceAccountKey.privateKey
+            'credentials.json': serviceAccountKey.privateKey
         }
     }, { provider: k8sProvider });
 export const artifactRegistryWriterBinding = new gcp.projects.IAMMember("gcr-writer-binding", {
