@@ -4,46 +4,56 @@ import * as pulumi from "@pulumi/pulumi";
 import * as _ from "./config";
 import * as namespaces from "../namespaces/output";
 import * as controlPlane from "../control-plane/output";
-import * as gcr from "../gcr/output";
+
+const YAML = require('yaml');
+
 
 const k8sProvider = controlPlane.output.k8sProvider();
 const clusterName = controlPlane.output.clusterName;
-const accountId = clusterName.apply(v => _.rfc1035(v).id()).apply(v => `${v}-boot` );
+const accountId = clusterName.apply(v => _.rfc1035(v).id()).apply(v => `${v}-boot`);
 
 const gitUrlData: string = _.encode(
     `https://${_.bootSecrets.pipelineUser.username}:${_.bootSecrets.pipelineUser.token}@github.com/${_.githubConfig.owner}/${_.githubConfig.repo}.git`
 );
 
-export const gitUrlSecret = new k8s.core.v1.Secret("jx-boot-git-url", 
-{
-    metadata: {
-        name: "jx-boot-git-url",
-        namespace: "jx"
+export const gitUrlSecret = new k8s.core.v1.Secret("jx-boot-git-url",
+    {
+        metadata: {
+            name: "jx-boot-git-url",
+            namespace: "jx"
+        },
+        type: "Opaque",
+        data: {
+            "git-url": gitUrlData
+        }
     },
-    type: "Opaque",
-    data: {
-        "git-url": gitUrlData
-    }},
     { provider: k8sProvider });
 
-const bootSecretsYaml = `secrets:
-  adminUser:
-    password: ${_.bootSecrets.adminUser.password}
-    username: ${_.bootSecrets.adminUser.username}
-  hmacToken: ${_.bootSecrets.hmacToken}
-  pulumiToken: ${_.bootSecrets.pulumiToken}
-  pipelineUser:
-    email: ${_.bootSecrets.pipelineUser.email}
-    username: ${_.bootSecrets.pipelineUser.username}
-    token: ${_.bootSecrets.pipelineUser.token}
-  oauth:
-    clientId: ${_.bootSecrets.oauth.clientId}
-    secret: ${_.bootSecrets.oauth.secret}
-  docker:
-    - username: ${gcr.output.username}
-      password: ${gcr.output.password}
-      url: ${gcr.output.url}
-`;
+const bootSecretsData =
+    _.withStackReferenceOf('gcr').
+        requireOutput('serviceAccountKey').
+        apply(key => JSON.stringify(key)).
+        apply(json => {
+            return {
+                url: "https://gcr.io",
+                username: "_json_key",
+                password: json
+            }
+        }).
+        apply(auth => {
+            let found = false;
+            _.bootSecrets.docker.auth.forEach(item => {
+                if (item.url == auth.url) {
+                    item.password = auth.password;
+                    found = true;
+                }
+            });
+            if (found == false) {
+               _.bootSecrets.docker.auth.push(auth) ;
+            }
+            return _.bootSecrets;}).
+        apply(o => YAML.stringify(o)).
+        apply(y => _.encode(y));
 
 export const serviceAccount = new gcp.serviceAccount.Account("boot", {
     accountId: accountId,
@@ -64,18 +74,19 @@ export const workloadIdentityUserBinding = new gcp.serviceAccount.IAMBinding("sa
     serviceAccountId: serviceAccount.name
 });
 
-export const bootSecrets = new k8s.core.v1.Secret("jx-boot-secrets", 
-{
-    metadata: {
-        name: "jx-boot-secrets",
-        namespace: pulumi.interpolate`${namespaces.output.appsNamespace}`,
-        labels: { app: "helmboot" },
+export const bootSecrets = new k8s.core.v1.Secret("jx-boot-secrets",
+    {
+        metadata: {
+            name: "jx-boot-secrets",
+            namespace: pulumi.interpolate`${namespaces.output.appsNamespace}`,
+            labels: { app: "helmboot" },
+        },
+        type: "Opaque",
+        data: {
+            'secrets.yaml': bootSecretsData,
+            'credentials.json': serviceAccountKey.privateKey
+        }
     },
-    type: "Opaque",
-    data: {
-        'secrets.yaml': pulumi.interpolate`${bootSecretsYaml}`.apply(secret => _.encode(secret)),
-        'credentials.json': serviceAccountKey.privateKey
-    }},
     { provider: k8sProvider });
 
 

@@ -19,10 +19,14 @@ interface PipelineUser {
     username: string
 }
 
-interface DockerAuth {
+export interface DockerAuth {
     username: string,
-    password: string,
+    password: string|pulumi.Output<string>,
     url: string
+}
+
+interface Docker {
+    auth: DockerAuth[]
 }
 
 interface BootSecrets {
@@ -30,7 +34,8 @@ interface BootSecrets {
     hmacToken: string,
     pulumiToken: string,
     pipelineUser: PipelineUser,
-    oauth: OAuth
+    oauth: OAuth,
+    docker: Docker
 }
 
 interface GithubConfig {
@@ -39,6 +44,7 @@ interface GithubConfig {
 }
 
 export const env = _.env;
+export const withStackReferenceOf = _.withStackReferenceOf;
 export const githubConfig = _.config.requireObject<GithubConfig>('githubConfig');
 export const bootSecrets = _.config.requireObject<BootSecrets>('bootSecrets');
 export const k8sProvider = controlPlane.output.k8sProvider;

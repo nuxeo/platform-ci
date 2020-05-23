@@ -17,5 +17,4 @@ export class GoogleContainerRegistry {
 
 export const output: GoogleContainerRegistry = withStackReferenceProvider<GoogleContainerRegistry>('gcr').
     apply(reference => 
-        new GoogleContainerRegistry(pulumi.interpolate`${reference.getOutput('serviceAccountSecret')}`));
-
+        new GoogleContainerRegistry(pulumi.interpolate`${reference.getOutput('serviceAccountKey')}`.apply(o => JSON.stringify(o))));

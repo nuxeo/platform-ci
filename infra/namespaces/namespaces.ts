@@ -13,8 +13,8 @@ export const appsNamespace = new k8s.core.v1.Namespace("jx",
             name: "jx"
         }
     },
-//   { provider: k8sProvider });
-     { provider: k8sProvider, import: "jx" });
+    { provider: k8sProvider });
+//  { provider: k8sProvider, import: "jx" });
 
 export const systemNamespace = new k8s.core.v1.Namespace("jx-system",
     {
@@ -22,6 +22,6 @@ export const systemNamespace = new k8s.core.v1.Namespace("jx-system",
             name: "jx-system"
         }
     },
-//   { provider: k8sProvider });; 
-     { provider: k8sProvider, import: "jx-system" });
+    { provider: k8sProvider });
+//  { provider: k8sProvider, import: "jx-system" });
 

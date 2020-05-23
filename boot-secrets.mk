@@ -4,124 +4,29 @@ include .tmp/boot-secrets.mk
 .PRECIOUS:.tmp/boot-secrets.mk
 
 .tmp/boot-secrets.yaml: | .tmp
-	kubectl get secrets/jx-boot-secrets -o jsonpath='{.data.secrets\.yaml}' | base64 -d > $(@) 
+	kubectl get secrets/jx-boot-secrets -o jsonpath='{.data.secrets\.yaml}' | base64 -d > $(@)
 
-export boot_secrets_admin_user_awk_template :=
-define boot_secrets_admin_user_awk_template :=
-BEGIN { FS=":" }
-function trim(field){
-   gsub(/^ +| +$$/,"", field); 
-   return field
-}
-$$1 == "secrets.adminUser.username" { print "export admin-username :=", trim($$2) }
-$$1 == "secrets.adminUser.password" { print "export admin-password :=", trim($$2) }
-endef
+.SUFFIXES: .yaml .json
 
-.tmp/boot-secrets-admin-user.awk: | .tmp
-	@echo "$${boot_secrets_admin_user_awk_template}" > $(@)
-
-export boot_secrets_pipeline_user_awk_template :=
-define boot_secrets_pipeline_user_awk_template :=
-BEGIN { FS=":" }
-function trim(field){
-   gsub(/^ +| +$$/,"", field); 
-   return field
-}
-$$1 == "secrets.pipelineUser.email" { print "export git-email :=", trim($$2) }
-$$1 == "secrets.pipelineUser.username" { print "export git-user :=", trim($$2) }
-$$1 == "secrets.pipelineUser.token" { print "export git-token :=", trim($$2) }
-endef
-
-.tmp/boot-secrets-pipeline-user.awk: | .tmp
-	@echo "$${boot_secrets_pipeline_user_awk_template}" > $(@)
-
-export boot_secrets_hmac_token_awk_template :=
-define boot_secrets_hmac_token_awk_template :=
-BEGIN { FS=":" }
-function trim(field){
-   gsub(/^ +| +$$/,"", field); 
-   return field
-}
-$$1 == "secrets.hmacToken" { print "export hmac-token :=", trim($$2) }
-endef
-
-.tmp/boot-secrets-hmac-token.awk: | .tmp
-	@echo "$${boot_secrets_hmac_token_awk_template}" > $(@)
-
-export boot_secrets_pulumi_token_awk_template :=
-define boot_secrets_pulumi_token_awk_template :=
-BEGIN { FS=":" }
-function trim(field){
-   gsub(/^ +| +$$/,"", field); 
-   return field
-}
-$$1 == "secrets.pulumiToken" { print "export pulumi-token :=", trim($$2) }
-endef
-
-.tmp/boot-secrets-pulumi-token.awk: | .tmp
-	@echo "$${boot_secrets_pulumi_token_awk_template}" > $(@)
-
-export boot_secrets_oauth_awk_template :=
-define boot_secrets_oauth_awk_template :=
-BEGIN { FS=":" }
-function trim(field){
-   gsub(/^ +| +$$/,"", field); 
-   return field
-}
-$$1 == "secrets.oauth.clientId" { print "export oauth-client-id :=", trim($$2) }
-$$1 == "secrets.oauth.secret" { print "export oauth-secret :=", trim($$2) }
-endef
-
-.tmp/boot-secrets-oauth.awk: | .tmp
-	@echo "$${boot_secrets_oauth_awk_template}" > $(@)
-
-export boot_secrets_docker_awk_template :=
-define boot_secrets_docker_awk_template :=
-BEGIN { FS=":" }
-function trim(field){
-   gsub(/^ +| +$$/,"", field); 
-   return field
-}
-$$1 == "secrets.docker.username" { print "export docker-username :=", trim($$2) }
-endef
-
-.tmp/boot-secrets-docker.awk: | .tmp
-	@echo "$${boot_secrets_docker_awk_template}" > $(@)
+.yaml.json:
+	yq r -j -P $(<) > $(@)
 
 .PRECIOUS: .tmp/boot-secrets.mk
 
 export boot_secrets_shell_script_template 
-define boot_secrets_shell_script_template :=
+define boot_secrets_shell_script_template =
 set -ex
-yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.adminUser.*' | awk -f .tmp/boot-secrets-admin-user.awk
-yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.pipelineUser.*' | awk -f .tmp/boot-secrets-pipeline-user.awk
-yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.hmacToken' | awk -f .tmp/boot-secrets-hmac-token.awk
-yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.pulumiToken' | awk -f .tmp/boot-secrets-pulumi-token.awk
-yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.oauth.*' | awk -f .tmp/boot-secrets-oauth.awk
-yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.docker.*' | awk -f .tmp/boot-secrets-docker.awk
-cat <<EOF
-export docker-url
-define docker-url :=
-$$(yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.docker.url' | sed 's/secrets.docker.url: //')
-endef
-export docker-password
-define docker-password :=
-$$(yq r .tmp/boot-secrets.yaml --printMode pv 'secrets.docker.password' | sed 's/secrets.docker.password: //')
-endef
-cat <<EOF
-export docker-config
-define docker-config :=
-$$(yq r .tmp/boot-secrets.yaml --printMode pv secrets.dockerConfig | sed 's/secrets.dockerConfig: //')
-endef
-EOF
+jq -r '.secrets.adminUser|to_entries[]|"admin-" + .key + " := " + .value' $(<)
+jq -r '.secrets.pipelineUser|to_entries[]|"git-" + .key + " := " + .value' $(<)
+jq -r '.secrets.oauth|to_entries[]|"oauth-" + .key + " := " + .value' $(<)
+jq -r '.secrets.hmacToken|"hmac-token := " + .' $(<)
+jq -r '.secrets.pulumiToken|"pulumi-token := " + .' $(<)
+jq -r '.secrets.docker.auth[]|"docker-auth-indexes += " + .name' $(<)
+jq -r '.secrets.docker.auth|reduce range(0,length) as $$i (.; .[$$i].index = ($$i|tostring))|to_entries[]|"docker-auth-" + .value.name + "-index := " + (.key|tostring)' $(<)
+jq -r  '.secrets.docker.auth[]|.name as $$name|to_entries[]|select(.key != "password" and .key != "name")|"docker-auth-"+$$name + "-" + .key + " := " + .value' $(<)
+jq -r  '.secrets.docker.auth[]|(.name|split("-")|join("_")) as $$name|to_entries[]|select(.key == "password")| "export docker_auth_"+$$name+"_" + .key + "\\n" + "define docker_auth_"+$$name+"_" + .key + " := \\n" + .value + "\\nendef"' $(<)
 endef
 
-.tmp/boot-secrets.mk: .tmp/boot-secrets.yaml
-.tmp/boot-secrets.mk: .tmp/boot-secrets-admin-user.awk
-.tmp/boot-secrets.mk: .tmp/boot-secrets-pipeline-user.awk
-.tmp/boot-secrets.mk: .tmp/boot-secrets-hmac-token.awk
-.tmp/boot-secrets.mk: .tmp/boot-secrets-pulumi-token.awk
-.tmp/boot-secrets.mk: .tmp/boot-secrets-oauth.awk
-.tmp/boot-secrets.mk: .tmp/boot-secrets-docker.awk
+.tmp/boot-secrets.mk: .tmp/boot-secrets.json
 .tmp/boot-secrets.mk:
 	echo "$${boot_secrets_shell_script_template}" | sh  > $(@)
