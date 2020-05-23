@@ -51,7 +51,7 @@ const bootSecretsData =
             if (found == false) {
                _.bootSecrets.docker.auth.push(auth) ;
             }
-            return _.bootSecrets;}).
+            return { secrets: _.bootSecrets};}).
         apply(o => YAML.stringify(o)).
         apply(y => _.encode(y));
 
