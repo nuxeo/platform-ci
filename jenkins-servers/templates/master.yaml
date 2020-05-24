@@ -200,6 +200,7 @@ rules:
       - secrets
       - configmaps
       - services
+      - namespaces
     verbs:
       - list
       - get
