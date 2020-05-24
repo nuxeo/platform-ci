@@ -186,7 +186,7 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: jenkins-k8s-viewer
+  name: jenkins-master
 rules:
   - apiGroups:
       - jenkins.io
@@ -201,6 +201,7 @@ rules:
       - configmaps
       - services
       - namespaces
+      - persistentvolumeclaims
     verbs:
       - list
       - get
@@ -230,10 +231,10 @@ spec:
   roles:
     - apiGroup: rbac.authorization.k8s.io
       kind: Role
-      name: jx-pipeline-activity-updater
+      name: pipelinerunner
     - apiGroup: rbac.authorization.k8s.io
       kind: Role
-      name: jenkins-k8s-viewer
+      name: jenkins-master
   service:
     labels:
       app: jenkins-operator
