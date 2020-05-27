@@ -1,6 +1,9 @@
 ingress:
 {{ toYaml .Values.jxRequirements.ingress | indent 2 }}
 secrets:
+  jira:
+    username: {{ .Values.secrets.jira.username }}
+    password: {{ .Values.secrets.jira.password }}
   oauth:
     clientId: {{ .Values.secrets.oauth.clientId }}
     secret: {{ .Values.secrets.oauth.secret }}

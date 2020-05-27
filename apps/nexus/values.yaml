@@ -1,0 +1,5 @@
+persistence:
+  size: 300Gi
+image:
+  repository: gcr.io/build-jx-prod/jxlabs-nos/nexus-team
+  tag: 0.0.14

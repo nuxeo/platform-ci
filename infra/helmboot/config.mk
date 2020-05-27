@@ -9,7 +9,7 @@ github-config:
 define boot_secret_config_shell_script_docker_auth =
 	pulumi config set --plaintext --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].url' $(docker-auth-$(1)-url)
 	pulumi config set --plaintext --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].username' $(docker-auth-$(1)-username)
-	echo "$${docker_auth_$(subst -,_,$(1))_password}" | pulumi config set --plaintext --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].password'
+	echo "$${docker_auth_$(subst -,_,$(1))_password}" | pulumi config set --secret --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].password'
 
 endef
 
@@ -25,6 +25,9 @@ define boot_secret_config_shell_script_template :=
 	pulumi config set --secret --path bootSecrets.pipelineUser.token $(git-token)
 	pulumi config set --plaintext --path bootSecrets.oauth.clientId $(oauth-clientId)
 	pulumi config set --secret --path bootSecrets.oauth.secret $(oauth-secret)
+	echo "$${maven_settings}" | pulumi config set --secret --path bootSecrets.mavenSettings
+	pulumi config set --secret --path bootSecrets.jira.username $(jira-username)
+	pulumi config set --secret --path bootSecrets.jira.password $(jira-password)
 $(foreach index,$(docker-auth-indexes),$(call boot_secret_config_shell_script_docker_auth,$(index)))
 endef
 
@@ -34,5 +37,5 @@ pfouh:
 
 boot-secrets-config:
 	$(call check-variable-defined,admin-username admin-password hmac-token pulumi-token git-username git-email git-token oauth-clientId oauth-secret)	
-	echo "$${boot_secret_config_shell_script_template}" | sh -x
+	echo "$${boot_secret_config_shell_script_template}" | sh 
 

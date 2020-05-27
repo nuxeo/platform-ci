@@ -8,6 +8,11 @@ interface AdminUser {
     password: string
 }
 
+interface JIRA {
+    username: string,
+    password: string
+}
+
 interface OAuth {
     clientId: string,
     secret: string
@@ -38,6 +43,8 @@ interface BootSecrets {
     pulumiToken: string,
     pipelineUser: PipelineUser,
     oauth: OAuth,
+    jira: JIRA
+    mavenSettings: string
     docker: Docker
 }
 

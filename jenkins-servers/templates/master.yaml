@@ -10,11 +10,25 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    jenkins.io/credentials-type: usernamePassword
-  annotations:
-    jenkins.io/credentials-keybinding-password: BASIC_AUTH_PASS
-    jenkins.io/credentials-keybinding-username: BASIC_AUTH_USER
   name: jenkins-operator-secrets-master
+type: Opaque
+---
+apiVersion: v1
+kind: Secret
+data:
+  username: {{ .Values.secrets.jira.username | b64enc | quote }}
+  password: {{ .Values.secrets.jira.password | b64enc | quote }}
+metadata:
+  name: jenkins-master-jira
+  labels:
+    app: {{ template "jenkins-servers.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    jenkins.io/credentials-type: usernamePassword
+    jenkins-cr: master
+  annotations:
+    jenkins.io/credentials-description : "jira credentials from Kubernetes"
 type: Opaque
 ---
 apiVersion: v1
@@ -106,6 +120,20 @@ data:
         - staticMethod hudson.Functions printThrowable java.lang.Throwable
         - staticMethod groovy.util.Eval me java.lang.String
         - method java.util.Properties getProperty java.lang.String
+  05-jira.yaml: |2
+    unclassified:
+      jiraGlobalConfiguration:
+        sites:
+          - appendChangeTimestamp: true
+            credentialsId: "jenkins-master-jira"
+            recordScmChanges: true
+            supportsWikiStyleComment: true
+            updateJiraIssueForAllStatus: true
+            url: "https://jira.nuxeo.com/"
+  06-timestamper.yaml: |2
+    unclassified:
+      timestamperConfig:
+        allPipelines: true
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -186,6 +214,25 @@ spec:
     labels:
       jenkins-cr: master
     disableCSRFProtection: false
+    plugins:
+      - name: jira
+        version: "3.0.16"
+      - name: blueocean
+        version: "1.23.2"
+      - name: rebuild
+        version: "1.31"
+      - name: timestamper
+        version: "1.11.3"
+      - name: embeddable-build-status
+        version: "2.0.3"
+      - name: permissive-script-security
+        version: "0.6"
+      - name: disable-github-multibranch-status
+        version: "1.2"
+      - name: pipeline-github
+        version: "2.5"
+      - name: pipeline-gitstatuswrapper
+        version: "1.2.0"
     basePlugins:
       - name: google-login
         version: "1.6"
