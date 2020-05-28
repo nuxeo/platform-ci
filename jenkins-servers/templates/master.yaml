@@ -85,7 +85,7 @@ data:
                 buildOriginBranch(true)
                 buildOriginPRHead(false)
                 buildOriginPRMerge(true)
-                includes('master')
+                includes('master test-*')
               }
             }
             orphanedItemStrategy {
@@ -160,6 +160,8 @@ rules:
       - namespaces
       - events
       - persistentvolumeclaims
+      - pods/log
+      - pods
     verbs:
       - list
       - get
@@ -168,6 +170,7 @@ rules:
       - ""
     resources:
       - persistentvolumeclaims
+      - pods
     verbs:
       - create
 ---
@@ -233,6 +236,8 @@ spec:
         version: "2.5"
       - name: pipeline-gitstatuswrapper
         version: "1.2.0"
+      - name: github-label-filter
+        version: "1.0.0"
     basePlugins:
       - name: google-login
         version: "1.6"
