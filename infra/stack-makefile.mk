@@ -10,11 +10,11 @@ include ../make.d/pulumi.mk
 
 -include config.mk
 
-clean: npm-clean pulumi-clean; @:
+clean: npm-clean pulumi~clean; @:
 
-update: pulumi~update ; @:
+update: pulumi~refresh pulumi~update ; @:
 select: pulumi~select; @;
-preview: pulumi~update ; @:
+preview: pulumi~preview ; @:
 refresh: pulumi~refresh ; @:
 diff: pulumi~diff ; @:
 rm: pulumi~rm ; @:

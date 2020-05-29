@@ -1,6 +1,7 @@
 importers:
   .:
     dependencies:
+      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.6.0
       '@pulumi/github': 1.3.0
       '@pulumi/kubernetes': 2.2.0
@@ -10,6 +11,7 @@ importers:
     devDependencies:
       lint: 0.7.0
     specifiers:
+      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.6.0
       '@pulumi/github': ^1.3.0
       '@pulumi/kubernetes': ^2.2.0
@@ -19,166 +21,234 @@ importers:
       yaml: 1.10.0
   builder-node-pool:
     dependencies:
+      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
       '@types/node': 13.13.6
+      yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@pulumi/gcp': ^3.3.0
-      '@pulumi/github': ^1.1.0
-      '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.1
-      '@types/node': ^13.13.5
-      lint: ^0.7.0
-  charts:
-    dependencies:
-      '@pulumi/gcp': 3.5.0
-      '@pulumi/github': 1.2.1
-      '@pulumi/kubernetes': 2.2.0
-      '@pulumi/pulumi': 2.2.1
-      '@types/node': 13.13.6
-    devDependencies:
-      lint: 0.7.0
-    specifiers:
-      '@pulumi/gcp': ^3.3.0
-      '@pulumi/github': ^1.1.0
-      '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.1
-      '@types/node': ^13.13.5
-      lint: ^0.7.0
-  control-plane:
-    dependencies:
-      '@pulumi/gcp': 3.5.0
-      '@pulumi/github': 1.2.1
-      '@pulumi/kubernetes': 2.2.0
-      '@pulumi/pulumi': 2.2.1
-      '@types/node': 13.13.6
-    devDependencies:
-      lint: 0.7.0
-    specifiers:
-      '@pulumi/gcp': ^3.3.0
-      '@pulumi/github': ^1.1.0
-      '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.1
-      '@types/node': ^13.13.5
-      lint: ^0.7.0
-  dns:
-    dependencies:
-      '@pulumi/gcp': 3.5.0
-      '@pulumi/github': 1.2.1
-      '@pulumi/kubernetes': 2.2.0
-      '@pulumi/pulumi': 2.2.1
-      '@types/node': 13.13.6
-    devDependencies:
-      lint: 0.7.0
-    specifiers:
-      '@pulumi/gcp': ^3.3.0
-      '@pulumi/github': ^1.1.0
-      '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.1
-      '@types/node': ^13.13.5
-      lint: ^0.7.0
-  gcr:
-    dependencies:
-      '@pulumi/gcp': 3.5.0
-      '@pulumi/github': 1.2.1
-      '@pulumi/kubernetes': 2.2.0
-      '@pulumi/pulumi': 2.2.1
-      '@types/node': 13.13.6
-    devDependencies:
-      lint: 0.7.0
-    specifiers:
+      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
       '@types/node': ^13.13.5
       lint: ^0.7.0
+      yaml: 1.10.0
+  chart:
+    dependencies:
+      '@google-cloud/kms': 2.0.0
+      '@pulumi/gcp': 3.6.0
+      '@pulumi/github': 1.3.0
+      '@pulumi/kubernetes': 2.2.0
+      '@pulumi/pulumi': 2.2.1
+      '@types/node': 13.13.9
+      yaml: 1.10.0
+    devDependencies:
+      lint: 0.7.0
+    specifiers:
+      '@google-cloud/kms': ^2.0.0
+      '@pulumi/gcp': ^3.3.0
+      '@pulumi/github': ^1.1.0
+      '@pulumi/kubernetes': ^2.0.0
+      '@pulumi/pulumi': ^2.1.0
+      '@types/node': ^13.13.5
+      lint: ^0.7.0
+      yaml: 1.10.0
+  control-plane:
+    dependencies:
+      '@google-cloud/kms': 2.0.0
+      '@pulumi/gcp': 3.5.0
+      '@pulumi/github': 1.2.1
+      '@pulumi/kubernetes': 2.2.0
+      '@pulumi/pulumi': 2.2.1
+      '@types/node': 13.13.6
+      yaml: 1.10.0
+    devDependencies:
+      lint: 0.7.0
+    specifiers:
+      '@google-cloud/kms': ^2.0.0
+      '@pulumi/gcp': ^3.3.0
+      '@pulumi/github': ^1.1.0
+      '@pulumi/kubernetes': ^2.0.0
+      '@pulumi/pulumi': ^2.1.0
+      '@types/node': ^13.13.5
+      lint: ^0.7.0
+      yaml: 1.10.0
+  dns:
+    dependencies:
+      '@google-cloud/kms': 2.0.0
+      '@pulumi/gcp': 3.5.0
+      '@pulumi/github': 1.2.1
+      '@pulumi/kubernetes': 2.2.0
+      '@pulumi/pulumi': 2.2.1
+      '@types/node': 13.13.6
+      yaml: 1.10.0
+    devDependencies:
+      lint: 0.7.0
+    specifiers:
+      '@google-cloud/kms': ^2.0.0
+      '@pulumi/gcp': ^3.3.0
+      '@pulumi/github': ^1.1.0
+      '@pulumi/kubernetes': ^2.0.0
+      '@pulumi/pulumi': ^2.1.0
+      '@types/node': ^13.13.5
+      lint: ^0.7.0
+      yaml: 1.10.0
+  gcr:
+    dependencies:
+      '@google-cloud/kms': 2.0.0
+      '@pulumi/gcp': 3.5.0
+      '@pulumi/github': 1.2.1
+      '@pulumi/kubernetes': 2.2.0
+      '@pulumi/pulumi': 2.2.1
+      '@types/node': 13.13.6
+      yaml: 1.10.0
+    devDependencies:
+      lint: 0.7.0
+    specifiers:
+      '@google-cloud/kms': ^2.0.0
+      '@pulumi/gcp': ^3.3.0
+      '@pulumi/github': ^1.1.0
+      '@pulumi/kubernetes': ^2.0.0
+      '@pulumi/pulumi': ^2.1.0
+      '@types/node': ^13.13.5
+      lint: ^0.7.0
+      yaml: 1.10.0
   helmboot:
     dependencies:
+      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
       '@types/node': 13.13.6
+      yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
+      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.1
+      '@pulumi/pulumi': ^2.1.0
       '@types/node': ^13.13.5
       lint: ^0.7.0
+      yaml: 1.10.0
   kaniko:
     dependencies:
+      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
       '@types/node': 13.13.6
+      yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
+      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.1
+      '@pulumi/pulumi': ^2.1.0
       '@types/node': ^13.13.5
       lint: ^0.7.0
+      yaml: 1.10.0
   keyring:
     dependencies:
+      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
       '@types/node': 13.13.6
+      yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
+      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.1
+      '@pulumi/pulumi': ^2.1.0
       '@types/node': ^13.13.5
       lint: ^0.7.0
+      yaml: 1.10.0
+  namespaces:
+    dependencies:
+      '@google-cloud/kms': 2.0.0
+      '@pulumi/gcp': 3.6.0
+      '@pulumi/github': 1.3.0
+      '@pulumi/kubernetes': 2.2.0
+      '@pulumi/pulumi': 2.2.1
+      '@types/node': 13.13.9
+      yaml: 1.10.0
+    devDependencies:
+      lint: 0.7.0
+    specifiers:
+      '@google-cloud/kms': ^2.0.0
+      '@pulumi/gcp': ^3.3.0
+      '@pulumi/github': ^1.1.0
+      '@pulumi/kubernetes': ^2.0.0
+      '@pulumi/pulumi': ^2.1.0
+      '@types/node': ^13.13.5
+      lint: ^0.7.0
+      yaml: 1.10.0
   storage:
     dependencies:
+      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
       '@types/node': 13.13.6
+      yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
+      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.1
+      '@pulumi/pulumi': ^2.1.0
       '@types/node': ^13.13.5
       lint: ^0.7.0
+      yaml: 1.10.0
   vault:
     dependencies:
+      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
       '@types/node': 13.13.6
+      yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
+      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
-      '@pulumi/pulumi': ^2.1.1
+      '@pulumi/pulumi': ^2.1.0
       '@types/node': ^13.13.5
       lint: ^0.7.0
+      yaml: 1.10.0
 lockfileVersion: 5.1
 packages:
+  /@google-cloud/kms/2.0.0:
+    dependencies:
+      google-gax: 2.4.0
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-UDxyzn/t/2jyL2TvfEmBKJBEDRB452vLLSUiElYBEzwWGprJG24b+ADL3VAosotsUVyeBasj89DITqyfTXOu+A==
   /@grpc/grpc-js/0.6.18:
     dependencies:
       semver: 6.3.0
@@ -187,6 +257,24 @@ packages:
       node: ^8.13.0 || >=10.10.0
     resolution:
       integrity: sha512-uAzv/tM8qpbf1vpx1xPMfcUMzbfdqJtdCYAqY/LsLeQQlnTb4vApylojr+wlCyr7bZeg3AFfHvtihnNOQQt/nA==
+  /@grpc/grpc-js/1.0.4:
+    dependencies:
+      google-auth-library: 6.0.0
+      semver: 6.3.0
+    dev: false
+    engines:
+      node: ^8.13.0 || >=10.10.0
+    resolution:
+      integrity: sha512-Qawt6HUrEmljQMPWnLnIXpcjelmtIAydi3M9awiG02WWJ1CmIvFEx4IOC1EsWUWUlabOGksRbpfvoIeZKFTNXw==
+  /@grpc/proto-loader/0.5.4:
+    dependencies:
+      lodash.camelcase: 4.3.0
+      protobufjs: 6.9.0
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-HTM4QpI9B2XFkPz7pjwMyMgZchJ93TVkL3kWPW8GDMDKYxsMnmf4w2TNMJK7+KNiYHS5cJrCEAFlF+AwtXWVPA==
   /@protobufjs/aspromise/1.1.2:
     dev: false
     resolution:
@@ -388,6 +476,22 @@ packages:
     dev: false
     resolution:
       integrity: sha1-EHPEvIJHVK49EM+riKsCN7qWTk0=
+  /abort-controller/3.0.0:
+    dependencies:
+      event-target-shim: 5.0.1
+    dev: false
+    engines:
+      node: '>=6.5'
+    resolution:
+      integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==
+  /agent-base/6.0.0:
+    dependencies:
+      debug: 4.1.1
+    dev: false
+    engines:
+      node: '>= 6.0.0'
+    resolution:
+      integrity: sha512-j1Q7cSCqN+AwrmDd+pzgqc0/NpC655x2bUf5ZjRIO77DcNBFmh+OgRNzF6OKdCC9RSCb19fGd99+bhXFdkRNqw==
   /ajv/6.12.2:
     dependencies:
       fast-deep-equal: 3.1.1
@@ -435,6 +539,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-iYUI2iIm84DfkEcoRWhJwVAaSw0=
+  /arrify/2.0.1:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==
   /asap/2.0.6:
     dev: false
     resolution:
@@ -465,18 +575,30 @@ packages:
   /balanced-match/1.0.0:
     resolution:
       integrity: sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
+  /base64-js/1.3.1:
+    dev: false
+    resolution:
+      integrity: sha512-mLQ4i2QO1ytvGWFWmcngKO//JXAQueZvwEKtjgQFM4jIK0kU+ytMfplL8j+n5mspOfjHwoAg+9yhb7BwAHm36g==
   /bcrypt-pbkdf/1.0.2:
     dependencies:
       tweetnacl: 0.14.5
     dev: true
     resolution:
       integrity: sha1-pDAdOJtqQ/m2f/PKEaP2Y342Dp4=
+  /bignumber.js/7.2.1:
+    dev: false
+    resolution:
+      integrity: sha512-S4XzBk5sMB+Rcb/LNcpzXr57VRTxgAvaAEDAl1AwRx27j00hT84O6OkteE7u8UB3NuaaygCRrEpqox4uDOrbdQ==
   /brace-expansion/1.1.11:
     dependencies:
       balanced-match: 1.0.0
       concat-map: 0.0.1
     resolution:
       integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==
+  /buffer-equal-constant-time/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=
   /buffer-from/1.1.1:
     dev: false
     resolution:
@@ -576,7 +698,6 @@ packages:
     resolution:
       integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
   /core-util-is/1.0.2:
-    dev: true
     resolution:
       integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
   /dashdash/1.14.1:
@@ -590,7 +711,6 @@ packages:
   /debug/4.1.1:
     dependencies:
       ms: 2.1.2
-    dev: true
     resolution:
       integrity: sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
   /debuglog/1.0.1:
@@ -635,6 +755,15 @@ packages:
       node: '>=0.3.1'
     resolution:
       integrity: sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==
+  /duplexify/3.7.1:
+    dependencies:
+      end-of-stream: 1.4.4
+      inherits: 2.0.4
+      readable-stream: 2.3.7
+      stream-shift: 1.0.1
+    dev: false
+    resolution:
+      integrity: sha512-07z8uv2wMyS51kKhD1KsdXJg5WQ6t93RneqRxUHnskXVtlYYkLqM0gqStQZ3pj073g687jPCHrqNfCzawLYh5g==
   /ecc-jsbn/0.1.2:
     dependencies:
       jsbn: 0.1.1
@@ -642,10 +771,22 @@ packages:
     dev: true
     resolution:
       integrity: sha1-OoOpBOVDUyh4dMVkt1SThoSamMk=
+  /ecdsa-sig-formatter/1.0.11:
+    dependencies:
+      safe-buffer: 5.2.1
+    dev: false
+    resolution:
+      integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==
   /emoji-regex/7.0.3:
     dev: true
     resolution:
       integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==
+  /end-of-stream/1.4.4:
+    dependencies:
+      once: 1.4.0
+    dev: false
+    resolution:
+      integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==
   /es-abstract/1.17.5:
     dependencies:
       es-to-primitive: 1.2.1
@@ -687,6 +828,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
+  /event-target-shim/5.0.1:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
   /extend-shallow/2.0.1:
     dependencies:
       is-extendable: 0.1.1
@@ -696,7 +843,6 @@ packages:
     resolution:
       integrity: sha1-Ua99YUrZqfYQ6huvu5idaxxWiQ8=
   /extend/3.0.2:
-    dev: true
     resolution:
       integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
   /external-editor/3.1.0:
@@ -723,6 +869,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
+  /fast-text-encoding/1.0.2:
+    dev: false
+    resolution:
+      integrity: sha512-5rQdinSsycpzvAoHga2EDn+LRX1d5xLFsuNG0Kg61JrAT/tASXcLL0nf/33v+sAxlQcfYmWbTURa1mmAf55jGw==
   /figures/2.0.0:
     dependencies:
       escape-string-regexp: 1.0.5
@@ -776,6 +926,27 @@ packages:
     dev: false
     resolution:
       integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
+  /gaxios/3.0.3:
+    dependencies:
+      abort-controller: 3.0.0
+      extend: 3.0.2
+      https-proxy-agent: 5.0.0
+      is-stream: 2.0.0
+      node-fetch: 2.6.0
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-PkzQludeIFhd535/yucALT/Wxyj/y2zLyrMwPcJmnLHDugmV49NvAi/vb+VUq/eWztATZCNcb8ue+ywPG+oLuw==
+  /gcp-metadata/4.1.0:
+    dependencies:
+      gaxios: 3.0.3
+      json-bigint: 0.3.0
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-r57SV28+olVsflPlKyVig3Muo/VDlcsObMtvDGOEtEJXj+DDE8bEl0coIkXh//hbkSDTvo+f5lbihZOndYXQQQ==
   /get-caller-file/2.0.5:
     dev: true
     engines:
@@ -798,6 +969,53 @@ packages:
       path-is-absolute: 1.0.1
     resolution:
       integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==
+  /google-auth-library/6.0.0:
+    dependencies:
+      arrify: 2.0.1
+      base64-js: 1.3.1
+      ecdsa-sig-formatter: 1.0.11
+      fast-text-encoding: 1.0.2
+      gaxios: 3.0.3
+      gcp-metadata: 4.1.0
+      gtoken: 5.0.1
+      jws: 4.0.0
+      lru-cache: 5.1.1
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-uLydy1t6SHN/EvYUJrtN3GCHFrnJ0c8HJjOxXiGjoTuYHIoCUT3jVxnzmjHwVnSdkfE9Akasm2rM6qG1COTXfQ==
+  /google-gax/2.4.0:
+    dependencies:
+      '@grpc/grpc-js': 1.0.4
+      '@grpc/proto-loader': 0.5.4
+      '@types/long': 4.0.1
+      abort-controller: 3.0.0
+      duplexify: 3.7.1
+      google-auth-library: 6.0.0
+      is-stream-ended: 0.1.4
+      lodash.at: 4.6.0
+      lodash.has: 4.5.2
+      node-fetch: 2.6.0
+      protobufjs: 6.9.0
+      retry-request: 4.1.1
+      semver: 6.3.0
+      walkdir: 0.4.1
+    dev: false
+    engines:
+      node: '>=10'
+    hasBin: true
+    resolution:
+      integrity: sha512-//OQX4JcpUD5ke+GdvII22kbR4AerFdBOvEFgiCX3zn74ldY4K6Yiv4vjpX3Ud3M6nP1+6th81ROni1wXyWymQ==
+  /google-p12-pem/3.0.1:
+    dependencies:
+      node-forge: 0.9.1
+    dev: false
+    engines:
+      node: '>=10'
+    hasBin: true
+    resolution:
+      integrity: sha512-VlQgtozgNVVVcYTXS36eQz4PXPt9gIPqLOhHN0QiV6W6h4qSCNVKPtKC5INtJsaHHF2r7+nOIa26MJeJMTaZEQ==
   /google-protobuf/3.12.1:
     dev: false
     resolution:
@@ -806,6 +1024,17 @@ packages:
     dev: false
     resolution:
       integrity: sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
+  /gtoken/5.0.1:
+    dependencies:
+      gaxios: 3.0.3
+      google-p12-pem: 3.0.1
+      jws: 4.0.0
+      mime: 2.4.6
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-33w4FNDkUcyIOq/TqyC+drnKdI4PdXmWp9lZzssyEQKuvu9ZFN3KttaSnDKo52U3E51oujVGop93mKxmqO8HHg==
   /har-schema/2.0.0:
     dev: true
     engines:
@@ -856,6 +1085,15 @@ packages:
       npm: '>=1.3.7'
     resolution:
       integrity: sha1-muzZJRFHcvPZW2WmCruPfBj7rOE=
+  /https-proxy-agent/5.0.0:
+    dependencies:
+      agent-base: 6.0.0
+      debug: 4.1.1
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==
   /iconv-lite/0.4.24:
     dependencies:
       safer-buffer: 2.1.2
@@ -925,6 +1163,16 @@ packages:
       node: '>= 0.4'
     resolution:
       integrity: sha512-vlKW17SNq44owv5AQR3Cq0bQPEb8+kF3UKZ2fiZNOWtztYE5i0CzCZxFDwO58qAOWtxdBRVO/V5Qin1wjCqFYQ==
+  /is-stream-ended/0.1.4:
+    dev: false
+    resolution:
+      integrity: sha512-xj0XPvmr7bQFTvirqnFr50o0hQIh6ZItDqloxt5aJrR4NQsYeSsyFQERYGCAzfindAcnKjINnwEEgLx4IqVzQw==
+  /is-stream/2.0.0:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-XCoy+WlUr7d1+Z8GgSuXmpuUFC9fOhRXglJMx+dwLKTkL44Cjd4W1Z5P+BQZpr+cR93aGP4S/s7Ftw6Nd/kiEw==
   /is-symbol/1.0.3:
     dependencies:
       has-symbols: 1.0.1
@@ -937,6 +1185,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=
+  /isarray/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
   /isstream/0.1.2:
     dev: true
     resolution:
@@ -953,6 +1205,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
+  /json-bigint/0.3.0:
+    dependencies:
+      bignumber.js: 7.2.1
+    dev: false
+    resolution:
+      integrity: sha1-DM2RLEuCcNBfBW+9E4FLU9OCWx4=
   /json-parse-better-errors/1.0.2:
     dev: false
     resolution:
@@ -980,6 +1238,21 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=
+  /jwa/2.0.0:
+    dependencies:
+      buffer-equal-constant-time: 1.0.1
+      ecdsa-sig-formatter: 1.0.11
+      safe-buffer: 5.2.1
+    dev: false
+    resolution:
+      integrity: sha512-jrZ2Qx916EA+fq9cEAeCROWPTfCwi1IVHqT2tapuqLEVVDKFDENFw1oL+MwrTvH6msKxsd1YTDVw6uKEcsrLEA==
+  /jws/4.0.0:
+    dependencies:
+      jwa: 2.0.0
+      safe-buffer: 5.2.1
+    dev: false
+    resolution:
+      integrity: sha512-KDncfTmOZoOMTFG4mBlG0qUIOlc03fmzH+ru6RgYVZhPkyiy/92Owlt/8UEN+a4TXR1FQetfIpJE8ApdvdVxTg==
   /lint/0.7.0:
     dependencies:
       chalk: 2.4.2
@@ -1013,6 +1286,18 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A==
+  /lodash.at/4.6.0:
+    dev: false
+    resolution:
+      integrity: sha1-k83OZk8KGZTqM9181A4jr9EbD/g=
+  /lodash.camelcase/4.3.0:
+    dev: false
+    resolution:
+      integrity: sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
+  /lodash.has/4.5.2:
+    dev: false
+    resolution:
+      integrity: sha1-0Z9NwQlQWMzL4rDN9O4P5Ko3yGI=
   /lodash/4.17.15:
     dev: true
     resolution:
@@ -1029,6 +1314,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
+  /lru-cache/5.1.1:
+    dependencies:
+      yallist: 3.1.1
+    dev: false
+    resolution:
+      integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==
   /make-error/1.3.6:
     dev: false
     resolution:
@@ -1045,6 +1336,13 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-JIhqnCasI9yD+SsmkquHBxTSEuZdQX5BuQnS2Vc7puQQQ+8yiP5AY5uWhpdv4YL4VM5c6iliiYWPgJ/nJQLp7w==
+  /mime/2.4.6:
+    dev: false
+    engines:
+      node: '>=4.0.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-RZKhC3EmpBchfTGBVb8fb+RL2cWyw/32lshnsETttkBAyAUXSGHxbEJWWRXc751DrIxG1q04b8QwMbAwkRPpUA==
   /mimic-fn/1.2.0:
     dev: true
     engines:
@@ -1070,7 +1368,6 @@ packages:
     resolution:
       integrity: sha512-oIixUO+OamkUkwjhAVE18rAMfRJNsNe/Stid/gwHSOfHrOtw9EhAY2AHvdKZ/k/MggcYELFCJz/Sn2pL8b8JMw==
   /ms/2.1.2:
-    dev: true
     resolution:
       integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
   /mute-stream/0.0.7:
@@ -1083,6 +1380,12 @@ packages:
       node: 4.x || >=6.0.0
     resolution:
       integrity: sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
+  /node-forge/0.9.1:
+    dev: false
+    engines:
+      node: '>= 4.5.0'
+    resolution:
+      integrity: sha512-G6RlQt5Sb4GMBzXvhfkeFmbqR6MzhtnT7VTHuLadjkii3rdYHNdw0m8zA4BTxVIh68FicCQ2NSUANpsqkr9jvQ==
   /normalize-package-data/2.5.0:
     dependencies:
       hosted-git-info: 2.8.8
@@ -1209,6 +1512,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==
+  /process-nextick-args/2.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
   /protobufjs/6.9.0:
     dependencies:
       '@protobufjs/aspromise': 1.1.2
@@ -1264,6 +1571,28 @@ packages:
     dev: false
     resolution:
       integrity: sha512-mLUDsD5JVtlZxjSlPPx1RETkNjjvQYuweKwNVt1Sn8kP5Jh44pvYuUHCp6xSVDZWbNxVxG5lyZJ921aJH61sTw==
+  /readable-stream/2.3.7:
+    dependencies:
+      core-util-is: 1.0.2
+      inherits: 2.0.4
+      isarray: 1.0.0
+      process-nextick-args: 2.0.1
+      safe-buffer: 5.1.2
+      string_decoder: 1.1.1
+      util-deprecate: 1.0.2
+    dev: false
+    resolution:
+      integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==
+  /readable-stream/3.6.0:
+    dependencies:
+      inherits: 2.0.4
+      string_decoder: 1.3.0
+      util-deprecate: 1.0.2
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==
   /readdir-scoped-modules/1.1.0:
     dependencies:
       debuglog: 1.0.1
@@ -1341,6 +1670,15 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-n37ih/gv0ybU/RYpI9YhKe7g368=
+  /retry-request/4.1.1:
+    dependencies:
+      debug: 4.1.1
+      through2: 3.0.1
+    dev: false
+    engines:
+      node: '>=8.10.0'
+    resolution:
+      integrity: sha512-BINDzVtLI2BDukjWmjAIRZ0oglnCAkpP2vQjM3jdLhmT62h0xnQgciPwBRDAvHqpkPT2Wo1XuUyLyn6nbGrZQQ==
   /run-async/2.4.1:
     dev: true
     engines:
@@ -1355,8 +1693,11 @@ packages:
       npm: '>=2.0.0'
     resolution:
       integrity: sha512-WfQI+1gohdf0Dai/Bbmk5L5ItH5tYqm3ki2c5GdWhKjalzjg93N3avFjVStyZZz+A2Em+ZxKH5bNghw9UeylGQ==
+  /safe-buffer/5.1.2:
+    dev: false
+    resolution:
+      integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
   /safe-buffer/5.2.1:
-    dev: true
     resolution:
       integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
   /safer-buffer/2.1.2:
@@ -1459,6 +1800,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-HXXqVUq7+pcKeLqqZj6mHFUMvXtOJt1uoUx09pFW6011inTMxqI8BA8PM95myrIyyKwdnzjdFjLiE6KBPVtJIg==
+  /stream-shift/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-AiisoFqQ0vbGcZgQPY1cdP2I76glaVA/RauYR4G4thNFgkTqr90yXTo4LYX60Jl+sIlPNHHdGSwo01AvbKUSVQ==
   /string-width/2.1.1:
     dependencies:
       is-fullwidth-code-point: 2.0.0
@@ -1512,6 +1857,18 @@ packages:
     dev: false
     resolution:
       integrity: sha512-XxZn+QpvrBI1FOcg6dIpxUPgWCPuNXvMD72aaRaUQv1eD4e/Qy8i/hFTe0BUmD60p/QA6bh1avmuPTfNjqVWRw==
+  /string_decoder/1.1.1:
+    dependencies:
+      safe-buffer: 5.1.2
+    dev: false
+    resolution:
+      integrity: sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==
+  /string_decoder/1.3.0:
+    dependencies:
+      safe-buffer: 5.2.1
+    dev: false
+    resolution:
+      integrity: sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==
   /strip-ansi/4.0.0:
     dependencies:
       ansi-regex: 3.0.0
@@ -1540,6 +1897,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
+  /through2/3.0.1:
+    dependencies:
+      readable-stream: 3.6.0
+    dev: false
+    resolution:
+      integrity: sha512-M96dvTalPT3YbYLaKaCuwu+j06D/8Jfib0o/PxbVt6Amhv3dUAtW6rTV1jPgJSBG83I/e04Y6xkVdVhSRhi0ww==
   /tmp/0.0.33:
     dependencies:
       os-tmpdir: 1.0.2
@@ -1605,6 +1968,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-KY9Frmirql91X2Qgjry0Wd4Y+YTdrdZheS8TFwvkbLWf/G5KNJDCh6pKL5OZctEW4+0Baa5idK2ZQuELRwPznQ==
+  /util-deprecate/1.0.2:
+    dev: false
+    resolution:
+      integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
   /util-promisify/2.1.0:
     dependencies:
       object.getownpropertydescriptors: 2.1.0
@@ -1633,6 +2000,12 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=
+  /walkdir/0.4.1:
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    resolution:
+      integrity: sha512-3eBwRyEln6E1MSzcxcVpQIhRG8Q1jLvEqRmCZqS3dsfXEDR/AhOF4d+jHg1qvDCpYaVRZjENPQyrVxAkQqxPgQ==
   /wcwidth/1.0.1:
     dependencies:
       defaults: 1.0.3
@@ -1679,6 +2052,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-r9S/ZyXu/Xu9q1tYlpsLIsa3EeLXXk0VwlxqTcFRfg9EhMW+17kbt9G0NrgCmhGb5vT2hyhJZLfDGx+7+5Uj/w==
+  /yallist/3.1.1:
+    dev: false
+    resolution:
+      integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==
   /yaml/1.10.0:
     dev: false
     engines:

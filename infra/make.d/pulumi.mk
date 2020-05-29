@@ -35,7 +35,7 @@ pulumi~refresh: Pulumi.$(pulumi-stack).yaml
 pulumi~diff: Pulumi.$(pulumi-stack).yaml
 	pulumi --non-interactive --stack=$(pulumi-stack) preview --diff 
 
-pulumi~update: Pulumi.$(pulumi-stack).yaml
+pulumi~update: Pulumi.$(pulumi-stack).yaml pulumi~refresh
 	pulumi --non-interactive --stack=$(pulumi-stack) update --yes 
 
 

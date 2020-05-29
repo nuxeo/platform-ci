@@ -4,6 +4,7 @@ define stack_package_json =
     "name": "jxlabs-nos-infra-$(name)",
     "main": "index.js",
     "dependencies": {
+        "@google-cloud/kms": "^2.0.0",
         "@pulumi/gcp": "^3.3.0",
         "@pulumi/pulumi": "^2.1.0",
         "@pulumi/kubernetes": "^2.0.0",
