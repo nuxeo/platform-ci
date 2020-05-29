@@ -44,7 +44,7 @@ define cluster_boot_create_script =
 	   --domain=$(dev-ingress-domain) \
 	   --registry=gcr.io/$(cluster-name) \
 	   --vault-sa=$(vault-sa)
-	sed -i s/$(this-dev-ingress-domain)/$(dev-ingress-domain)/ jx-requirements.yml 
+	sed -i.bak s/$(this-dev-ingress-domain)/$(dev-ingress-domain)/ jx-requirements.yml 
 	git commit -m 'forked $(boot-config-url) and re-configured for $(cluster-name)' jx-requirements.yml
 	git push $(cluster-name) $(cluster-name):master
 	git checkout master
