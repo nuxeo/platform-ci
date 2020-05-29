@@ -6,6 +6,7 @@ importers:
       '@pulumi/github': 1.3.0
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.9
       yaml: 1.10.0
     devDependencies:
@@ -16,226 +17,227 @@ importers:
       '@pulumi/github': ^1.3.0
       '@pulumi/kubernetes': ^2.2.0
       '@pulumi/pulumi': ^2.2.1
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.9
       lint: ^0.7.0
       yaml: 1.10.0
   builder-node-pool:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.6
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
   chart:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.6.0
       '@pulumi/github': 1.3.0
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.9
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
   control-plane:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.6
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
   dns:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.6
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
   gcr:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.6
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
   helmboot:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.6
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
   kaniko:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.6
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
   keyring:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.6
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
   namespaces:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.6.0
       '@pulumi/github': 1.3.0
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.9
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
   storage:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.6
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
   vault:
     dependencies:
-      '@google-cloud/kms': 2.0.0
       '@pulumi/gcp': 3.5.0
       '@pulumi/github': 1.2.1
       '@pulumi/kubernetes': 2.2.0
       '@pulumi/pulumi': 2.2.1
+      '@types/google-cloud__kms': 1.5.1
       '@types/node': 13.13.6
       yaml: 1.10.0
     devDependencies:
       lint: 0.7.0
     specifiers:
-      '@google-cloud/kms': ^2.0.0
       '@pulumi/gcp': ^3.3.0
       '@pulumi/github': ^1.1.0
       '@pulumi/kubernetes': ^2.0.0
       '@pulumi/pulumi': ^2.1.0
+      '@types/google-cloud__kms': ^1.5.1
       '@types/node': ^13.13.5
       lint: ^0.7.0
       yaml: 1.10.0
@@ -430,6 +432,17 @@ packages:
     dev: false
     resolution:
       integrity: sha512-KEzSKuP2+3oOjYYjujue6Z3Yqis5HKA1BsIC+jZ1v3lrRNdsqyNNtX0rQf6LSuI4DJJ2z5UV//zBZCcvM0xikg==
+  /@types/google-cloud__kms/1.5.1:
+    dependencies:
+      '@types/google-protobuf': 3.7.2
+      '@types/node': 13.13.9
+    dev: false
+    resolution:
+      integrity: sha512-YmHF6nR0YUbmjnck7ChyWOrBf8xiV/BQd06GzeDXE64jDjwxRAS+RUW2xI2opwrGwM0BWttIFkFkgIyJ0pjatA==
+  /@types/google-protobuf/3.7.2:
+    dev: false
+    resolution:
+      integrity: sha512-ifFemzjNchFBCtHS6bZNhSZCBu7tbtOe0e8qY0z2J4HtFXmPJjm6fXSaQsTG7yhShBEZtt2oP/bkwu5k+emlkQ==
   /@types/long/4.0.1:
     dev: false
     resolution:
