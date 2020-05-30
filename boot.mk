@@ -30,6 +30,9 @@ boot~noop:
 
 export GITHUB_TOKEN
 
+boot~pfouh:
+	yq r -j -P jx-requirements.yml | jq '.environments |= map(if .key == "dev" then (.repository |= "$(dev-repository)" | .ingress.domain |= "$(dev-ingress-domain)") else . end)' | yq r -P -
+
 export cluster_boot_create_script
 define cluster_boot_create_script =
 	git config url."https://github.com/".insteadOf git@github.com:
@@ -44,7 +47,8 @@ define cluster_boot_create_script =
 	   --domain=$(dev-ingress-domain) \
 	   --registry=gcr.io/$(cluster-name) \
 	   --vault-sa=$(vault-sa)
-	sed -i.bak s/$(this-dev-ingress-domain)/$(dev-ingress-domain)/ jx-requirements.yml 
+	cp jx-requirements.yml jx-requirements.yml~bak
+        yq r -j -P jx-requirements.yml~bak | jq '.environments |= map(if .key == "dev" then (.repository |= "$(dev-repository)" | .ingress.domain |= "$(dev-ingress-domain)") else . end)' | yq r -P - > jx-requirements.yml
 	git commit -m 'forked $(boot-config-url) and re-configured for $(cluster-name)' jx-requirements.yml
 	git push $(cluster-name) $(cluster-name):master
 	git checkout master
