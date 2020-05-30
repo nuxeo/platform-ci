@@ -45,7 +45,7 @@ define cluster_boot_create_script =
 	   --boot-config-url=$(boot-config-url) \
 	   --env-git-owner=$(git-owner) \
 	   --domain=$(dev-ingress-domain) \
-	   --registry=gcr.io/$(cluster-name) \
+	   --registry=gcr.io/$(gcp-project)/$(cluster-name) \
 	   --vault-sa=$(vault-sa)
 	cp jx-requirements.yml jx-requirements.yml~bak
         yq r -j -P jx-requirements.yml~bak | jq '.environments |= map(if .key == "dev" then (.repository |= "$(dev-repository)" | .ingress.domain |= "$(dev-ingress-domain)") else . end)' | yq r -P - > jx-requirements.yml

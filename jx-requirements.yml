@@ -16,7 +16,7 @@ cluster:
   project: build-jx-prod
   provider: gke
   region: us-east1
-  registry: gcr.io/jxlabs-nos-helm-x
+  registry: gcr.io/build-jx-prod/jxlabs-nos-helm-x
   vaultSAName: jxlabs-nos-helm-x-vt
   zone: us-east1-b
 environments:
