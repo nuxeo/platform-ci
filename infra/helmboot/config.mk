@@ -7,6 +7,7 @@ github-config:
 	pulumi config set --plaintext --path githubConfig.repo $(dev-repository)
 
 define boot_secret_config_shell_script_docker_auth =
+	pulumi config set --plaintext --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].name' $(1)
 	pulumi config set --plaintext --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].url' $(docker-auth-$(1)-url)
 	pulumi config set --plaintext --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].username' $(docker-auth-$(1)-username)
 	echo "$${docker_auth_$(subst -,_,$(1))_password}" | pulumi config set --secret --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].password'

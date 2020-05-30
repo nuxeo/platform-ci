@@ -25,6 +25,7 @@ interface PipelineUser {
 }
 
 export interface DockerAuth {
+    name: name,
     username: string,
     password: string|pulumi.Output<string>,
     url: string
