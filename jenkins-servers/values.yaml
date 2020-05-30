@@ -1,7 +1,2 @@
 ingress:
   annotations: []
-
-secrets:
-  oauth:
-#    clientId:
-#    secret: 

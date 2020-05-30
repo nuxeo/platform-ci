@@ -1,17 +1,6 @@
 jenkins:
   enabled: false
-  namespace: {{ .Values.jxRequirements.cluster.namespace }}
   backup:
-    enabled: true
-    interval: 3600
+    enabled: false
     pvc:
-      className: standard
-      size: 10Gi
-  service:
-    labels:
-      app: jenkins-operator
-      chart: jenkins-operator
-      component: "jenkins"
-      heritage: Helm
-      release: jenkins-operator
-      jenkins-cr: jenkins-master
+      enabled: false
