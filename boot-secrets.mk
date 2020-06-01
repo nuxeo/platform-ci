@@ -19,6 +19,8 @@ set -ex
 jq -r '.secrets.adminUser|to_entries[]|"admin-" + .key + " := " + .value' $(<)
 jq -r '.secrets.pipelineUser|to_entries[]|"git-" + .key + " := " + .value' $(<)
 jq -r '.secrets.oauth|to_entries[]|"oauth-" + .key + " := " + .value' $(<)
+jq -r '.secrets.nexus|to_entries[]|select(.key != "passwords")|"nexus-" + .key + " := " + .value' $(<)
+jq -r '.secrets.nexus|to_entries[]|select(.key == "passwords")|"export nexus_" + .key + "\n" + "define nexus_" + .key + " := \n" + .value + "\nendef"' $(<)
 jq -r '.secrets.hmacToken|"hmac-token := " + .' $(<)
 jq -r '.secrets.pulumiToken|"pulumi-token := " + .' $(<)
 jq -r '.secrets.docker.auth[]|"docker-auth-indexes += " + .name' $(<)

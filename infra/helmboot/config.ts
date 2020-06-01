@@ -13,6 +13,11 @@ interface JIRA {
     password: string
 }
 
+interface Nexus {
+    license: string,
+    passwords: string
+}
+
 interface OAuth {
     clientId: string,
     secret: string
@@ -44,8 +49,9 @@ interface BootSecrets {
     pulumiToken: string,
     pipelineUser: PipelineUser,
     oauth: OAuth,
-    jira: JIRA
-    mavenSettings: string
+    jira: JIRA,
+    nexus: Nexus,
+    mavenSettings: string,
     docker: Docker
 }
 

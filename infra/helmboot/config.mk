@@ -29,6 +29,8 @@ define boot_secret_config_shell_script_template :=
 	echo "$${maven_settings}" | pulumi config set --secret --path bootSecrets.mavenSettings
 	pulumi config set --secret --path bootSecrets.jira.username $(jira-username)
 	pulumi config set --secret --path bootSecrets.jira.password $(jira-password)
+	pulumi config set --secret --path bootSecrets.nexus.license $(nexus-license)
+	echo "$${nexus_password}" | pulumi config set --secret --path bootSecrets.nexus.passwords 
 $(foreach index,$(docker-auth-indexes),$(call boot_secret_config_shell_script_docker_auth,$(index)))
 endef
 
@@ -38,5 +40,4 @@ pfouh:
 
 boot-secrets-config:
 	$(call check-variable-defined,admin-username admin-password hmac-token pulumi-token git-username git-email git-token oauth-clientId oauth-secret)	
-	echo "$${boot_secret_config_shell_script_template}" | sh 
-
+	echo "$${boot_secret_config_shell_script_template}" | sh -ex
