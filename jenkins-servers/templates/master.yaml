@@ -79,13 +79,13 @@ data:
                 scanCredentialsId('jx-pipeline-git-github-github')
                 repoOwner('nxmatic')
                 repository('jxlabs-nos-app')
-                buildOriginBranchWithPR(false)
+                buildOriginBranchWithPR(true)
                 buildForkPRHead(false)
                 buildForkPRMerge(false)
                 buildOriginBranch(true)
                 buildOriginPRHead(true)
                 buildOriginPRMerge(true)
-                includes('master')
+                includes('master test-single-commit-10.10')
               }
             }
             orphanedItemStrategy {
