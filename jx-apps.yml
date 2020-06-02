@@ -47,9 +47,7 @@ apps:
 - name: jenkins-x/nexus
 - name: jenkins-x/jx-app-replicator
 - name: jenkins-operator/jenkins-operator
-  namespace: jenkinsci
 - name: jenkins-servers
-  namespace: jenkinsci
   needs:
-  - jenkinsci/jenkins-operator
+  - jx/jenkins-operator
   repository: ..
