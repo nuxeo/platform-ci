@@ -1,0 +1,133 @@
+bases:
+- ../environments.yaml
+helmDefaults:
+  atomic: true
+  devel: false
+  force: false
+  recreatePods: false
+  tillerless: false
+  timeout: 520
+  tls: false
+  verify: false
+  wait: true
+releases:
+- chart: ../acme
+  name: acme
+  namespace: jx
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+- chart: jx-labs/jenkins-x-crds
+  name: jenkins-x-crds
+  namespace: jx
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+  version: 0.0.4
+- chart: jxlabs-nos/jxlabs-nos-helmboot-resources
+  name: jxlabs-nos-helmboot-resources
+  namespace: jx
+  needs:
+  - jx/jenkins-x-crds
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+  - jxlabs-nos-helmboot-resources/values.yaml.gotmpl
+  version: 0.0.216-jxlabs-nos
+- chart: ../repositories
+  hooks:
+  - args:
+    - step
+    - scheduler
+    - config
+    - apply
+    - --direct=true
+    command: jx
+    events:
+    - postsync
+    name: ""
+    showlogs: true
+  name: repositories
+  namespace: jx
+  needs:
+  - jx/jenkins-x-crds
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+- chart: jenkins-x/tekton
+  name: tekton
+  namespace: jx
+  needs:
+  - jx/repositories
+  values:
+  - /secrets/jenkins-x-versions/apps/jenkins-x/tekton/values.yaml.gotmpl
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+  version: 0.0.55
+- chart: jenkins-x/prow
+  name: prow
+  namespace: jx
+  needs:
+  - jx/tekton
+  values:
+  - /secrets/jenkins-x-versions/apps/jenkins-x/prow/values.yaml.gotmpl
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+  - prow/values.yaml
+  version: 0.0.1772
+- chart: jenkins-x/jxui
+  name: jxui
+  namespace: jx
+  needs:
+  - jx/jenkins-x-crds
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+- chart: jenkins-x/chartmuseum
+  name: chartmuseum
+  namespace: jx
+  values:
+  - /secrets/jenkins-x-versions/apps/jenkins-x/chartmuseum/values.yaml.gotmpl
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+- chart: jenkins-x/nexus
+  name: nexus
+  namespace: jx
+  strategicMergePatches:
+  - nexus/secret-patch.yaml.gotmpl
+  values:
+  - /secrets/jenkins-x-versions/apps/jenkins-x/nexus/values.yaml.gotmpl
+  - ../jx-requirements.values.yaml.gotmpl
+  - nexus/values.yaml
+- chart: jenkins-x/jx-app-replicator
+  name: jx-app-replicator
+  namespace: jx
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+- chart: jenkins-operator/jenkins-operator
+  name: jenkins-operator
+  namespace: jenkinsci
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+  - jenkins-operator/values.yaml.gotmpl
+  version: 0.2.4
+- chart: ../jenkins-servers
+  name: jenkins-servers
+  namespace: jenkinsci
+  needs:
+  - jenkinsci/jenkins-operator
+  values:
+  - ../jx-requirements.values.yaml.gotmpl
+  - /workspace/jxlabs-nos-helmboot-config-helm-x/.tmp/boot-secrets.yaml
+  - jenkins-servers/values.yaml.gotmpl
+repositories:
+- name: jenkins-operator
+  url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
+- name: jenkins-x
+  url: https://storage.googleapis.com/chartmuseum.jenkins-x.io
+- name: jx-labs
+  url: https://storage.googleapis.com/jenkinsxio-labs/charts
+- name: jxlabs-nos
+  url: gs://jxlabs-nos-charts/

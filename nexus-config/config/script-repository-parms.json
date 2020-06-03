@@ -1,0 +1,98 @@
+{
+  "repositories": {
+    "maven2": {
+      "hosted": {
+        "maven-public": {
+          "version_policy": "MIXED",
+          "write_policy": "ALLOW"
+        },
+        "maven-private": {
+          "version_policy": "MIXED",
+          "write_policy": "ALLOW"
+        }
+      },
+      "proxy": {
+        "maven-upstream": {
+          "blobstore": {
+            "name": "store",
+            "strict_content_type_validation": "false"
+          },
+          "remote": {
+            "url": "https://packages.nuxeo.com/repository/maven-internal/",
+            "auth": "true"
+          },
+          "version_policy": "MIXED"
+        },
+        "maven-studio": {
+          "blobstore": {
+            "name": "store",
+            "strict_content_type_validation": "false"
+          },
+          "remote": {
+            "url": "https://connect.nuxeo.com/nuxeo/site/studio/maven",
+            "auth": "true"
+          },
+          "version_policy": "MIXED"
+        }
+      },
+      "group": {
+        "maven-group": {
+          "repositories": [
+            "maven-public",
+            "maven-private",
+            "maven-studio",
+            "maven-upstream"
+          ]
+        }
+      }
+    },
+    "npm": {
+      "hosted": {
+        "npm-public": {
+        },
+        "npm-private": {
+        }
+      },
+      "proxy": {
+        "npm-upstream": {
+          "blobstore": {
+            "name": "store",
+            "strict_content_type_validation": "true"
+          },
+          "remote": {
+            "url": "https://packages.nuxeo.com/repository/npm-internal/",
+            "auth": "true"
+          }
+        }
+      },
+      "group": {
+        "npm-group": {
+          "repositories": [
+            "npm-public",
+            "npm-private",
+            "npm-upstream"
+          ]
+        }
+      }
+    },
+    "yum": {
+      "hosted": {
+        "yum-registry": {}
+      }
+    }
+  },
+  "passwords": {
+    "file": [
+      "/opt/sonatype/nexus/config/passwords.json"
+    ]
+  },
+  "remotes": {
+    "packages.nuxeo.com": {
+      "auth_type": "username",
+      "user": "deployment"
+    }
+  },
+  "blobstores": {
+    "default": "store"
+  }
+}

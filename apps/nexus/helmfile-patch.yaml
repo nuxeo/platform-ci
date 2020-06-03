@@ -1,4 +1,9 @@
 - op: add
-  path: /releases/8/strategicMergePatches
+  path: /releases/9/jsonPatches
+  value:
+  - nexus/volumes-patch.yaml
+- op: add
+  path: /releases/9/strategicMergePatches
   value:
   - nexus/secret-patch.yaml.gotmpl
+
