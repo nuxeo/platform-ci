@@ -53,3 +53,6 @@ apps:
   needs:
   - jenkinsci/jenkins-operator
   repository: ..
+repositories:
+  - name: jenkins-x-io
+    url: http://chartmuseum.jenkins-x.io

@@ -1,8 +1,5 @@
-securityContext:
-  fsGroup: 200
 persistence:
   size: 300Gi
-  storageClass: nexus
 image:
   repository: gcr.io/build-jx-prod/jxlabs-nos/nexus-team
   tag: 0.0.14
