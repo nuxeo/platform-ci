@@ -1,6 +1,4 @@
 buildPack: environment-helmfile
-buildPackGitRef: master
-buildPackGitURL: https://github.com/nxmatic/jxlabs-nos-buildpacks
 pipelineConfig:
   pipelines:
     overrides:

@@ -80,8 +80,9 @@ boot~run: $(kubeconfig)
 boot~%:
 	make -C infra infra-stack=$(boot-stack) $(*)
 
-system/helmfile.yaml apps/helmfile.yaml: jx-apps.yml jx-requirements.yml | .tmp
+system/helmfile.yaml apps/helmfile.yaml: jx-apps.yml jx-requirements.yml apps/nexus/helmfile-patch.yaml | .tmp
 	jx step create helmfile
+	jxl patch-yaml apply -i apps/helmfile.yaml apps/nexus/helmfile-patch.yaml
 
 boot~helmfile-%: log-level ?= info
 boot~helmfile-%: boot-secrets-yaml=$(abspath .tmp/boot-secrets.yaml)
