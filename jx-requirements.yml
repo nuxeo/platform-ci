@@ -62,6 +62,6 @@ velero:
   schedule: ""
   ttl: ""
 versionStream:
-  ref: master
+  ref: helm-x
   url: https://github.com/nuxeo/jxlabs-nos-versions.git
 webhook: prow
