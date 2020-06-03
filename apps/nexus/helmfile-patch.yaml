@@ -1,0 +1,4 @@
+- op: add
+  path: /releases/8/strategicMergePatches
+  value:
+  - nexus/secret-patch.yaml.gotmpl
