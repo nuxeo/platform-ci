@@ -1,3 +1,19 @@
 buildPack: environment-helmfile
 buildPackGitRef: master
 buildPackGitURL: https://github.com/nxmatic/jxlabs-nos-buildpacks
+pipelineConfig:
+  pipelines:
+    overrides:
+      - name: generate-helmfile
+        type: after
+        steps:
+          - name: helmfile-patch-nexus
+            dir: /workspace/source/apps
+            command: jxl
+            args:
+              - patch-yaml
+              - apply
+              - -i
+              - helmfile.yaml
+              - nexus/helmfile-patch.yaml
+          
