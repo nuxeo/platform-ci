@@ -38,13 +38,3 @@ podTemplates:
         value: jenkins-x-builder
 {{- end }}
 
-secrets:
-  dockerConfig: >
-    {
-      "auths": {
-        "{{ .Values.secrets.docker.url | trimPrefix "https://" }}": { "auth": "{{ printf "%s:%s" .Values.secrets.docker.username .Values.secrets.docker.password | b64enc }}" },
-{{- range $auth := .Values.secrets.docker.auth }}
-        "{{ $auth.name }}": { "auth": "{{ printf "%s:%s" $auth.username $auth.password | b64enc }}" },
-{{- end }}
-      }
-    }

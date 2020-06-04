@@ -19,6 +19,8 @@ apps:
 - name: jxlabs-nos/jxlabs-nos-helmboot-resources
   needs:
   - jx/jenkins-x-crds
+  values:
+    - docker-config.yaml.gotmpl
 - name: repositories
   hooks:
   - args:
