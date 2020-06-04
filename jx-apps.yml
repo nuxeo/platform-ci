@@ -53,8 +53,8 @@ apps:
 - name: jenkins-operator/jenkins-operator
 - name: jenkins-servers
   needs:
-  - jenkinsci/jenkins-operator
-  repository: ..
+  - jx/jenkins-operator
+  repository: .
 repositories:
   - name: jenkins-x-io
     url: http://chartmuseum.jenkins-x.io
