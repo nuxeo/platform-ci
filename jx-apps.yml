@@ -47,9 +47,9 @@ apps:
 - name: jenkins-x/prow
   needs:
   - jx/tekton
-- name: jenkins-x/jxui
-  needs:
-  - jx/jenkins-x-crds
+#- name: jenkins-x/jxui
+#  needs:
+#  - jx/jenkins-x-crds
 - name: jenkins-x/chartmuseum
 - name: nexus-config
   repository: .
@@ -63,5 +63,5 @@ apps:
   - jx/jenkins-operator
   repository: .
 repositories:
-  - name: jenkins-x-io
+  - name: chartmuseum.jenkins-x.io
     url: http://chartmuseum.jenkins-x.io
