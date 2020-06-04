@@ -1,5 +1,5 @@
 - op: add
-  path: /releases/11/strategicMergePatches
+  path: /releases/12/strategicMergePatches
   value:
   - jenkins-operator/role-patch.yaml
 

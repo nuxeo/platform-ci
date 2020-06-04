@@ -1,5 +1,5 @@
 - op: add
-  path: /releases/4/strategicMergePatches
+  path: /releases/5/strategicMergePatches
   value:
   - tekton/bot-serviceaccount-patch.yaml
 

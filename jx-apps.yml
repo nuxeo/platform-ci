@@ -36,9 +36,14 @@ apps:
   needs:
   - jx/jenkins-x-crds
   repository: ..
+- name: tekton-config
+  repository: .
+  values:
+    - docker-config.yaml.gotmpl
 - name: jenkins-x/tekton
   needs:
   - jx/repositories
+  - jx/tekton-config
 - name: jenkins-x/prow
   needs:
   - jx/tekton
