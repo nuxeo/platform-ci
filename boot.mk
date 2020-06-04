@@ -71,7 +71,7 @@ boot~run: $(kubeconfig)
 	KUBECONFIG=$(kubeconfig) JX_LOG_LEVEL=debug jxl boot run --batch-mode \
 	  --chart=jxlabs-nos/jxl-boot \
 	  --git-url=$(boot-config-url) --git-ref=master --git-user=$(git-user) --git-token=$(git-token) \
-          --job=false
+          --job=true
 
 boot~%:
 	make -C infra infra-stack=$(boot-stack) $(*)
