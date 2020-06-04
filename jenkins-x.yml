@@ -14,4 +14,13 @@ pipelineConfig:
               - -i
               - helmfile.yaml
               - nexus/helmfile-patch.yaml
+          - name: helmfile-patch-jenkins-operator
+            dir: /workspace/source/apps
+            command: jxl
+            args:
+              - patch-yaml
+              - apply
+              - -i
+              - helmfile.yaml
+              - jenkins-operator/helmfile-patch.yaml
           
