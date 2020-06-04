@@ -95,6 +95,33 @@ data:
               }
             }
           }
+      - script: >
+          folder('nuxeo')
+      - script: >
+          multibranchPipelineJob('nuxeo/nuxeo-nos-elements') {
+            description('Nuxeo NOS Elements')
+            branchSources {
+              github {
+                id('880906a6-7eaa-45f2-ae12-bf70d5a0459d')
+                scanCredentialsId('jx-pipeline-git-github-github')
+                repoOwner('nuxeo')
+                repository('nuxeo-nos-elements')
+                buildOriginBranchWithPR(true)
+                buildForkPRHead(false)
+                buildForkPRMerge(false)
+                buildOriginBranch(true)
+                buildOriginPRHead(true)
+                buildOriginPRMerge(true)
+                includes('master feature-NXS-5912-nos-quickswitcher')
+              }
+            }
+            orphanedItemStrategy {
+              discardOldItems {
+                daysToKeep(14)
+                numToKeep(5)
+              }
+            }
+          }
   03-kubernetes.yaml: |2
     jenkins:
       clouds:
