@@ -5,7 +5,7 @@ this-mk:=$(boot-mk)
 this-dir:=$(realpath $(dir $(this-mk)))
 top-dir:=$(realpath $(this-dir)/..)
 
-include $(this-dir)/infra/make.d/macros.mk
+include $(this-dir)/../infra/make.d/macros.mk
 
 include $(this-dir)/boot-requirements.mk
 include $(this-dir)/boot-secrets.mk

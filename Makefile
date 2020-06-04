@@ -1,4 +1,4 @@
-include boot.mk
+include make.d/boot.mk
 
 .tmp:
 	@mkdir .tmp
