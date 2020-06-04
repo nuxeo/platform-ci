@@ -32,4 +32,14 @@ pipelineConfig:
               - -i
               - helmfile.yaml
               - tekton/helmfile-patch.yaml
-          
+      - name: verify-jenkins-x-environment
+        type: after
+        steps:
+          - name: select-nos-workload
+            dir: /workspace/source/apps
+            command: jx
+            args:
+              - edit
+              - buildpack
+              - -n
+              - nos-workloads

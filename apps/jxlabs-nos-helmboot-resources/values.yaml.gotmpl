@@ -1,3 +1,17 @@
+buildPacks:
+  "classic-workloads":
+    label: "Library Workloads: CI+Release but no CD"
+    gitUrl: "https://github.com/jenkins-x-buildpacks/jenkins-x-classic.git"
+    gitRef: "master"
+  "kubernetes-workloads":
+    label: "Kubernetes Workloads: Automated CI+CD with GitOps Promotion"
+    gitUrl: "https://github.com/jenkins-x-labs/jenkins-x-kubernetes.git"
+    gitRef: "master"
+  "nos-workloads":
+    label: "NOS Kubernetes Workloads (mainly based on Kubernetes Workload)"
+    gitUrl: "https://github.com/nuxeo/jxlabs-nos-buildpacks.git"
+    gitRef: "master"
+
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
 {{- $production := .Values.jxRequirements.ingress.tls.production }}
 ingress:
