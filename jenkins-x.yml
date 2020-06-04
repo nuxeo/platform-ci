@@ -23,4 +23,13 @@ pipelineConfig:
               - -i
               - helmfile.yaml
               - jenkins-operator/helmfile-patch.yaml
+          - name: helmfile-patch-tekton
+            dir: /workspace/source/apps
+            command: jxl
+            args:
+              - patch-yaml
+              - apply
+              - -i
+              - helmfile.yaml
+              - tekton/helmfile-patch.yaml
           
