@@ -2,7 +2,7 @@ apps:
 - name: cert-manager-crds
   namespace: jx-system
   phase: system
-  repository: ..
+  repository: .
 - name: jetstack/cert-manager
   namespace: jx-system
   phase: system

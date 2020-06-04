@@ -1,6 +1,0 @@
-apiVersion: v1
-description: Cert Manager CRDs deployment chart
-maintainers:
-- name: Team
-name: cert-manager-crds
-version: "1"
