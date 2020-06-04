@@ -84,6 +84,7 @@ system/helmfile.yaml apps/helmfile.yaml: jx-apps.yml jx-requirements.yml apps/ne
 	jx step create helmfile
 	jxl patch-yaml apply -i apps/helmfile.yaml apps/nexus/helmfile-patch.yaml
 	jxl patch-yaml apply -i apps/helmfile.yaml apps/jenkins-operator/helmfile-patch.yaml
+	jxl patch-yaml apply -i apps/helmfile.yaml apps/tekton/helmfile-patch.yaml
 
 boot~helmfile-%: log-level ?= info
 boot~helmfile-%: boot-secrets-yaml=$(abspath .tmp/boot-secrets.yaml)
