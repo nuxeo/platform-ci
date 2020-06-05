@@ -13,7 +13,7 @@ pipelineConfig:
               - apply
               - -i
               - helmfile.yaml
-              - nexus/helmfile-patch.yaml
+              - nexus-patch/helmfile-patch.yaml
           - name: helmfile-patch-jenkins-operator
             dir: /workspace/source/apps
             command: jxl
@@ -22,7 +22,7 @@ pipelineConfig:
               - apply
               - -i
               - helmfile.yaml
-              - jenkins-operator/helmfile-patch.yaml
+              - jenkins-operator-patch/helmfile-patch.yaml
           - name: helmfile-patch-tekton
             dir: /workspace/source/apps
             command: jxl
@@ -31,7 +31,7 @@ pipelineConfig:
               - apply
               - -i
               - helmfile.yaml
-              - tekton/helmfile-patch.yaml
+              - tekton-patch/helmfile-patch.yaml
       - name: verify-jenkins-x-environment
         type: after
         steps:

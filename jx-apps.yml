@@ -13,7 +13,7 @@ apps:
   namespace: jx-system
   phase: system
 - name: acme
-  repository: ..
+  repository: .
 - name: jx-labs/jenkins-x-crds
   phase: apps
 - name: jxlabs-nos/jxlabs-nos-helmboot-resources
@@ -36,14 +36,14 @@ apps:
   needs:
   - jx/jenkins-x-crds
   repository: ..
-- name: tekton-config
+- name: tekton-patch
   repository: .
   values:
     - docker-config.yaml.gotmpl
 - name: jenkins-x/tekton
   needs:
   - jx/repositories
-  - jx/tekton-config
+  - jx/tekton-patch
 - name: jenkins-x/prow
   needs:
   - jx/tekton
@@ -51,11 +51,11 @@ apps:
 #  needs:
 #  - jx/jenkins-x-crds
 - name: jenkins-x/chartmuseum
-- name: nexus-config
+- name: nexus-patch
   repository: .
 - name: jenkins-x/nexus
   needs:
-    - jx/nexus-config
+    - jx/nexus-patch
 - name: jenkins-x/jx-app-replicator
 - name: jenkins-operator/jenkins-operator
 - name: jenkins-servers
