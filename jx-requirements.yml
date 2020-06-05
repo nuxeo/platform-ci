@@ -1,9 +1,9 @@
 autoUpdate:
   enabled: false
   schedule: ""
-bootConfigURL: https://github.com/nuxeo/jxlabs-nos-helmboot-config-helm-x
+bootConfigURL: https://github.com/nuxeo/jxlabs-nos-helmboot-config-master
 cluster:
-  clusterName: jxlabs-nos-helm-x
+  clusterName: jxlabs-nos-master
   environmentGitOwner: nuxeo
   environmentGitPublic: true
   externalDNSSAName: external-dns-gcp-sa
@@ -14,13 +14,13 @@ cluster:
   project: build-jx-prod
   provider: gke
   region: us-east1
-  registry: gcr.io/build-jx-prod/jxlabs-nos-helm-x
-  vaultSAName: jxlabs-nos-helm-x-vt
+  registry: gcr.io/build-jx-prod/jxlabs-nos-master
+  vaultSAName: jxlabs-nos-master-vt
   zone: us-east1-b
 environments:
 - ingress:
     cloud_dns_secret_name: external-dns-gcp-sa
-    domain: jxlabs-nos-helm-x.build-jx-prod.build.nuxeo.com
+    domain: jxlabs-nos-master.build-jx-prod.build.nuxeo.com
     externalDNS: true
     namespaceSubDomain: -jx.
     tls:
@@ -28,12 +28,12 @@ environments:
       enabled: true
       production: true
   key: dev
-  repository: jxlabs-nos-helmboot-config-helm-x
+  repository: jxlabs-nos-helmboot-config-master
 gitops: true
 helmfile: true
 ingress:
   cloud_dns_secret_name: external-dns-gcp-sa
-  domain: jxlabs-nos-helm-x.build-jx-prod.build.nuxeo.com
+  domain: jxlabs-nos-master.build-jx-prod.build.nuxeo.com
   externalDNS: true
   namespaceSubDomain: -jx.
   tls:
@@ -57,7 +57,7 @@ storage:
     enabled: false
     url: ""
 vault:
-  serviceAccount: jxlabs-nos-helm-x-vt
+  serviceAccount: jxlabs-nos-master-vt
 velero:
   schedule: ""
   ttl: ""
