@@ -45,17 +45,17 @@ repository: nexus
 secretStorage: local
 storage:
   backup:
-    enabled: false
-    url: ""
+    enabled: true
+    url: "gs://jxlabs-nos-master-lts/backup"
   logs:
-    enabled: false
-    url: ""
+    enabled: true
+    url: "gs://jxlabs-nos-master-lts/logs"
   reports:
-    enabled: false
-    url: ""
+    enabled: true
+    url: "gs://jxlabs-nos-master-lts/reports"
   repository:
-    enabled: false
-    url: ""
+    enabled: true
+    url: "gs://jxlabs-nos-master-lts/repository"
 vault:
   serviceAccount: jxlabs-nos-master-vt
 velero:
