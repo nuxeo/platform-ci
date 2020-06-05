@@ -1,0 +1,14 @@
+{{- if hasKey .Values.secrets.kaniko "dockerConfig" }} 
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kaniko-docker-cfg
+  labels:
+    app: {{ template "helmboot-resources-patch.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: {{ .Values.secrets.kaniko.dockerConfig | b64enc | quote }}
+{{- end }}
