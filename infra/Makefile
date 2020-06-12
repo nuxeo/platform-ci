@@ -16,11 +16,11 @@ preview: infra~preview
 diff: infra~diff
 destroy: infra~destroy
 
-infra~update: all~update | node-modules; @:
-infra~refresh: all~refresh | node-modules; @:
-infra~preview: all~preview | node-modules; @:
-infra~diff: all~diff | node-modules; @:
-infra~destroy: all~destroy all~rm | node-modules; @:
+infra~update: all~update | node_modules; @:
+infra~refresh: all~refresh | node_modules; @:
+infra~preview: all~preview | node_modules; @:
+infra~diff: all~diff | node_modules; @:
+infra~destroy: all~destroy all~rm | node_modules; @:
 
 define stack-rule-template =
 $(eval .PRECIOUS: $(1)/Makefile)

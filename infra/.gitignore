@@ -9,3 +9,5 @@ anonymous-cli-metrics.json
 */package.json
 */*.dot
 **/#*
+*/Makefile
+*/Pulumi.*.yaml

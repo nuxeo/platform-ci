@@ -1,4 +1,4 @@
-{{- if hasKey .Values.secrets.kaniko "dockerConfig" }} 
+{{- if hasKey .Values.secrets.kaniko "dockerConfig" }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -8,7 +8,7 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-type: kubernetes.io/dockerconfigjson
+type: Opaque
 data:
-  .dockerconfigjson: {{ .Values.secrets.kaniko.dockerConfig | b64enc | quote }}
+  config.json: {{ .Values.secrets.kaniko.dockerConfig | b64enc | quote }}
 {{- end }}

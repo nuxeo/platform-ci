@@ -13,7 +13,7 @@ secrets:
       {
         "auths": {
 {{- range $auth := .Values.secrets.docker.auth }}
-          "{{ $auth.name }}": { "auth": "{{ printf "%s:%s" $auth.username $auth.password | b64enc }}" },
+          "{{ $auth.url }}": { "auth": "{{ printf "%s:%s" $auth.username $auth.password | b64enc }}" },
 {{- end }}
           "noop": { }
         }

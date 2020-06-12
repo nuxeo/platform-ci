@@ -20,7 +20,7 @@ expect {
 }
 endef
 
-node-modules: .npmrc pnpm-workspace.yaml
+node_modules: .npmrc pnpm-workspace.yaml
 	pnpm recursive install 
 
 npm-adduser: pass=$(shell kubectl get secrets/nexus -o jsonpath='{.data.password}' | base64 -d)
@@ -42,7 +42,7 @@ npm-grunt: | /usr/bin/pnpm
 npm-setup: npm-adduser npm-setcache npm-bower npm-grunt | /usr/bin/pnpm
 	@:
 
-npm-install: node-modules; @:
+npm-install: node_modules; @:
 
 npm-clean:
 	rm -fr nodes_modules _cacache _locks _logs anonymous-cli-metrics.json bin

@@ -1,4 +1,4 @@
-{{- if .Values.secrets.dockerConfig }} 
+{{- if .Values.secrets.dockerConfig }}
 apiVersion: v1
 kind: Secret
 metadata:
