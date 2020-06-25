@@ -1,29 +1,48 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
+
+target:
+  kind: Role
+  group: rbac.authorization.k8s.io
+  version: v1
   name: jenkins-operator
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - namespaces
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - get
-- apiGroups:
-  - ""
-  resources:
-  - persistentvolumeclaims
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - watch
+patch:
+  - op: replace
+    path: /rules/10/verbs/2
+    value: get
+  - op: replace
+    path: /rules/10/verbs/1
+    value: delete
+  - op: replace
+    path: /rules/10/verbs/0
+    value: create
+  - op: add
+    path: /rules/10/verbs/3
+    value: list
+  - op: add
+    path: /rules/10/verbs/4
+    value: watch
+  - op: replace
+    path: /rules/7/verbs/3
+    value: create
+  - op: replace
+    path: /rules/7/verbs/2
+    value: list
+  - op: replace
+    path: /rules/7/verbs/1
+    value: watch
+  - op: replace
+    path: /rules/7/verbs/0
+    value: get
+  - op: add
+    path: /rules/7/verbs/4
+    value: patch
+  - op: add
+    path: /rules/11
+    value:
+      apiGroups:
+      - ""
+      resources:
+      - namespaces
+      verbs:
+      - get
+      - list
+      - watch
