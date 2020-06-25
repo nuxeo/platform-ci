@@ -1,0 +1,21 @@
+apiVersion: jenkins.io/v1
+kind: SourceRepository
+metadata:
+  creationTimestamp: null
+  labels:
+    owner: nuxeo
+    provider: github
+    repository: nos
+  name: nuxeo-nos
+spec:
+  description: Imported application for nuxeo/nos
+  httpCloneURL: https://github.com/nuxeo/nos.git
+  org: nuxeo
+  provider: https://github.com
+  providerKind: github
+  providerName: github
+  repo: nos
+  scheduler:
+    kind: ""
+    name: ""
+  url: git@github.com:nuxeo/nos

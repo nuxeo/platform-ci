@@ -69,23 +69,23 @@ data:
   02-jobs.yaml: |2
     jobs:
       - script: >
-          folder('nxmatic')
+          folder('nuxeo')
       - script: >
-          multibranchPipelineJob('nxmatic/jxlabs-nos-app') {
+          multibranchPipelineJob('nuxeo/nos') {
             description('NOS web components')
             branchSources {
               github {
-                id('80eb30c3-b6e9-4f00-975e-0e52c64f458e')
+                id('67bd3280-88d2-4bd9-8543-7ec939617da1')
                 scanCredentialsId('jx-pipeline-git-github-github')
-                repoOwner('nxmatic')
-                repository('jxlabs-nos-app')
+                repoOwner('nuxeo')
+                repository('nos')
                 buildOriginBranchWithPR(true)
                 buildForkPRHead(false)
                 buildForkPRMerge(false)
                 buildOriginBranch(true)
                 buildOriginPRHead(true)
                 buildOriginPRMerge(true)
-                includes('master test-single-commit-10.10')
+                includes('jxlabs-master test-single-commit-10.10')
               }
             }
             orphanedItemStrategy {
@@ -95,8 +95,6 @@ data:
               }
             }
           }
-      - script: >
-          folder('nuxeo')
       - script: >
           multibranchPipelineJob('nuxeo/nuxeo-nos-elements') {
             description('Nuxeo NOS Elements')
