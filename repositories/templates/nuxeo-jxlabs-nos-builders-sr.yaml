@@ -3,14 +3,14 @@ kind: SourceRepository
 metadata:
   creationTimestamp: null
   labels:
-    owner: nxmatic
+    owner: nuxeo
     provider: github
     repository: jxlabs-nos-builders
   name: nuxeo-jxlabs-nos-builders
 spec:
-  description: Imported builderslication for nxmatic/jxlabs-nos-builders
-  httpCloneURL: https://github.com/nxmatic/jxlabs-nos-builders.git
-  org: nxmatic
+  description: Imported builders for nuxeo/nos
+  httpCloneURL: https://github.com/nuxeo/jxlabs-nos-builders.git
+  org: nuxeo
   provider: https://github.com
   providerKind: github
   providerName: github
@@ -18,4 +18,4 @@ spec:
   scheduler:
     kind: ""
     name: ""
-  url: git@github.com:nxmatic/jxlabs-nos-builders
+  url: git@github.com:nuxeo/jxlabs-nos-builders
