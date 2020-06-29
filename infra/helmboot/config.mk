@@ -30,7 +30,7 @@ define boot_secret_config_shell_script_template :=
 	pulumi config set --secret --path bootSecrets.jira.username $(jira-username)
 	pulumi config set --secret --path bootSecrets.jira.password $(jira-password)
 	pulumi config set --secret --path bootSecrets.nexus.license $(nexus-license)
-	echo "$${nexus_password}" | pulumi config set --secret --path bootSecrets.nexus.passwords 
+	echo "$${nexus_passwords}" | pulumi config set --secret --path bootSecrets.nexus.passwords 
 $(foreach tool,docker nodejs,$(foreach index,$($(tool)-auth-indexes),$(call boot_secret_config_shell_script_auth,$(tool),$(index))))
 endef
 
