@@ -1,0 +1,14 @@
+{{- if hasKey .Values.secrets "nodejs" }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jenkins-nodejs-cfg
+  labels:
+    app: {{ template "helmboot-resources-patch.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+type: Opaque
+data:
+  .npmrc: {{ .Values.secrets.nodejs.npmrc | b64enc | quote }}
+{{- end }}

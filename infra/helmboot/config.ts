@@ -30,7 +30,7 @@ interface PipelineUser {
 }
 
 export interface DockerAuth {
-    name: name,
+    name: string,
     username: string,
     password: string|pulumi.Output<string>,
     url: string
@@ -43,6 +43,17 @@ interface Docker {
     auth: DockerAuth[]
 }
 
+interface NodejsAuth {
+    name: string,
+    username: string,
+    password: string|pulumi.Output<string>,
+    url: string
+}
+
+interface Nodejs {
+    auth: NodejsAuth
+}
+
 interface BootSecrets {
     adminUser: AdminUser,
     hmacToken: string,
@@ -52,7 +63,8 @@ interface BootSecrets {
     jira: JIRA,
     nexus: Nexus,
     mavenSettings: string,
-    docker: Docker
+    docker: Docker,
+    nodejs: Nodejs
 }
 
 interface GithubConfig {

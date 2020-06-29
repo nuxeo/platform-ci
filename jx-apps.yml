@@ -25,6 +25,7 @@ apps:
   repository: .
   values:
     - docker-config.yaml.gotmpl
+    - nodejs-config.yaml.gotmpl
   needs:
   - jx/jxlabs-nos-helmboot-resources
 - name: repositories

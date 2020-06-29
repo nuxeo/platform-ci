@@ -9,7 +9,7 @@ secrets:
       }
     }
   kaniko:
-    dockerConfig: >
+    dockerConfig: |
       {
         "auths": {
 {{- range $auth := .Values.secrets.docker.auth }}

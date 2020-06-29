@@ -6,11 +6,11 @@ github-config:
 	pulumi config set --plaintext --path githubConfig.owner $(git-owner)
 	pulumi config set --plaintext --path githubConfig.repo $(dev-repository)
 
-define boot_secret_config_shell_script_docker_auth =
-	pulumi config set --plaintext --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].name' $(1)
-	pulumi config set --plaintext --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].url' $(docker-auth-$(1)-url)
-	pulumi config set --plaintext --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].username' $(docker-auth-$(1)-username)
-	echo "$${docker_auth_$(subst -,_,$(1))_password}" | pulumi config set --secret --path 'bootSecrets.docker.auth[$(docker-auth-$(1)-index)].password'
+define boot_secret_config_shell_script_auth =
+	pulumi config set --plaintext --path 'bootSecrets.$(1).auth[$($(1)-auth-$(2)-index)].name' $(2)
+	pulumi config set --plaintext --path 'bootSecrets.$(1).auth[$($(1)-auth-$(2)-index)].url' $($(1)-auth-$(2)-url)
+	pulumi config set --plaintext --path 'bootSecrets.$(1).auth[$($(1)-auth-$(2)-index)].username' $($(1)-auth-$(2)-username)
+	echo "$${$(1)_auth_$(subst -,_,$(2))_password}" | pulumi config set --secret --path 'bootSecrets.$(1).auth[$($(1)-auth-$(2)-index)].password'
 
 endef
 
@@ -31,7 +31,7 @@ define boot_secret_config_shell_script_template :=
 	pulumi config set --secret --path bootSecrets.jira.password $(jira-password)
 	pulumi config set --secret --path bootSecrets.nexus.license $(nexus-license)
 	echo "$${nexus_password}" | pulumi config set --secret --path bootSecrets.nexus.passwords 
-$(foreach index,$(docker-auth-indexes),$(call boot_secret_config_shell_script_docker_auth,$(index)))
+$(foreach tool,docker nodejs,$(foreach index,$($(tool)-auth-indexes),$(call boot_secret_config_shell_script_auth,$(tool),$(index))))
 endef
 
 pfouh:
