@@ -42,13 +42,23 @@ export class Optional<T> {
     }
 }
 
+interface Cluster {
+    prefix: string;
+}
+
+const providedClusterOptions: Cluster | undefined = config.getObject('cluster');
+const defaultClusterOptions: Cluster = {
+    prefix: '',
+};
+export const clusterOptions = Optional.of(providedClusterOptions).or(defaultClusterOptions).get();
+
 export let decode = (input: string): string => Buffer.from(input, 'base64').toString();
 export let encode = (input: string): string => Buffer.from(input).toString("base64");
 
 export let env = pulumi.getStack();
 export let org = 'nuxeo-platform-jx-bot';
-export let clusterName = `jxlabs-nos-${env}`;
-export let createdBy = 'jxlabs-nos-cluster';
+export let clusterName = `${clusterOptions.prefix}-${env}`;
+export let createdBy = 'pulumi';
 export let createdTimestamp = Date.now();
 
 export class StackReferenceProvider<T> {
@@ -69,5 +79,5 @@ export function withStackReferenceProvider<T>(name: string): StackReferenceProvi
 }
 
 export let withStackReferenceOf = (name: string): StackReference =>
-    new StackReference(`${org}/jxlabs-nos-infra-${name}/${env}`);
+    new StackReference(`${org}/${clusterOptions.prefix}-infra-${name}/${env}`);
 

@@ -46,7 +46,7 @@ pulumi~clean: npm-clean; @:
 
 pulumi~stack-config: ; @:
 
-pulumi~stack-config: pulumi~gcp-config
+pulumi~stack-config: pulumi~gcp-config pulumi~cluster-config
 
 pulumi~gcp-config:
 	@:$(call check-variable-defined,gcp-project gcp-region gcp-zone)
@@ -54,6 +54,9 @@ pulumi~gcp-config:
 	pulumi config set --plaintext --path gcp:region $(gcp-region)
 	pulumi config set --plaintext --path gcp:zone $(gcp-zone)
 
+pulumi~cluster-config:
+	@:$(call check-variable-defined,cluster-prefix)
+	pulumi config set --plaintext --path cluster.prefix $(cluster-prefix)
 
 pulumi~init: pulumi~init-pre.d pulumi~init-do pulumi~init-post.d; @:
 pulumi~init-pre.d: | pulumi~login ; @:

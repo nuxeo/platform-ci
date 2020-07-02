@@ -1,7 +1,7 @@
 export stack_package_json
 define stack_package_json =
 {
-    "name": "jxlabs-nos-infra-$(name)",
+    "name": "$(cluster-prefix)-infra-$(name)",
     "main": "index.js",
     "dependencies": {
         "@google-cloud/kms": "^2.0.0",

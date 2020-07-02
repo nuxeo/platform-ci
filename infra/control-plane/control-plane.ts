@@ -11,8 +11,8 @@ let masterVersionOr = () =>
 
 
 export const cluster = new gcp.container.Cluster("cluster", {
-    name: `jxlabs-nos-${_.env}`,
-    description: "jxlabs nos cluster",
+    name: `${_.clusterName}`,
+    description: `${_.clusterName}`,
     minMasterVersion: _.options.masterVersion,
     enableKubernetesAlpha: _.options.enableKubernetesAlpha,
     enableLegacyAbac: _.options.enableLegacyAbac,
