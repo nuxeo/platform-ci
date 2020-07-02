@@ -34,7 +34,7 @@ export interface NodePoolOptions {
 
 const providedOptions: ControlPlaneOptions | undefined = _.config.getObject('controlPlane');
 const defaultOptions: ControlPlaneOptions = {
-    masterVersion: "1.15",
+    masterVersion: "1.16",
     enableKubernetesAlpha: false,
     enableLegacyAbac: false,
     nodePool: {
