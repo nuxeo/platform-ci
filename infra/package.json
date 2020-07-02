@@ -1,5 +1,5 @@
 {
-    "name": "jxlabs-nos-infra-main",
+    "name": "platform-infra-main",
     "main": "index.js",
     "dependencies": {
         "@google-cloud/kms": "^2.0.0",

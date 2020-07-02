@@ -1,6 +1,6 @@
-name: jxlabs-nos-infra-control-plane
+name: platform-infra-control-plane
 runtime: nodejs
-description: jxlabs nos control plane
+description: platform control plane
 template:
   config:
     gcp:project: 
