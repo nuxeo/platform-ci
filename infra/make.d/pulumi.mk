@@ -32,7 +32,7 @@ pulumi~graph: Pulumi.$(pulumi-stack).yaml
 pulumi~refresh: Pulumi.$(pulumi-stack).yaml
 	pulumi --non-interactive --stack=$(pulumi-stack) refresh --yes --diff 
 
-pulumi~diff: Pulumi.$(pulumi-stack).yaml
+pulumi~preview: Pulumi.$(pulumi-stack).yaml
 	pulumi --non-interactive --stack=$(pulumi-stack) preview --diff 
 
 pulumi~update: Pulumi.$(pulumi-stack).yaml pulumi~refresh

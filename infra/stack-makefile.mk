@@ -16,7 +16,6 @@ update: pulumi~refresh pulumi~update ; @:
 select: pulumi~select; @;
 preview: pulumi~preview ; @:
 refresh: pulumi~refresh ; @:
-diff: pulumi~diff ; @:
 rm: pulumi~rm ; @:
 destroy: pulumi~destroy ; @:
 

@@ -13,13 +13,11 @@ $(call check-variable-defined,infra-stack)
 update: infra~update
 refresh: infra~refresh
 preview: infra~preview
-diff: infra~diff
 destroy: infra~destroy
 
 infra~update: all~update | node_modules; @:
 infra~refresh: all~refresh | node_modules; @:
 infra~preview: all~preview | node_modules; @:
-infra~diff: all~diff | node_modules; @:
 infra~destroy: all~destroy all~rm | node_modules; @:
 
 define stack-rule-template =
