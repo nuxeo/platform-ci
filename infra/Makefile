@@ -5,8 +5,6 @@ include make.d/npm.mk
 include stack-makefile.mk
 include stack-package-json.mk
 
--include $$(boot-secrets-mk)
--include $$(boot-requirements-mk)
 
 $(call check-variable-defined,infra-stack)
 
@@ -41,12 +39,6 @@ stacks := $(subst /Pulumi.yaml,,$(wildcard */Pulumi.yaml))
 
 $(foreach stack,$(stacks),$(call stack-rule,$(stack)))
 
-sub-stacks := $(filter-out control-plane,$(stacks))
-
-define sub-stacks-targets =
-$(foreach stack,$(sub-stacks),$(stack)~$(1))
-endef
-
 define stack-rules =
 $(1)~destroy: $(foreach stack,$(call reverse,$(2)),$(stack)~destroy); @:
 $(1)~%: $(foreach stack,$(2),$(stack)~%); @:
@@ -56,4 +48,3 @@ $(eval $(call stack-rules,k8s,control-plane builder-node-pool namespaces))
 $(eval $(call stack-rules,keys,keyring vault))
 $(eval $(call stack-rules,services,keys storage chart gcr kaniko dns))
 $(eval $(call stack-rules,all,k8s services helmboot))
-

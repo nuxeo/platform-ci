@@ -1,20 +1,20 @@
 export stack_package_json
 define stack_package_json =
 {
-    "name": "$(cluster-prefix)-infra-$(name)",
-    "main": "index.js",
-    "dependencies": {
-        "@google-cloud/kms": "^2.0.0",
-        "@pulumi/gcp": "^3.3.0",
-        "@pulumi/pulumi": "^2.1.0",
-        "@pulumi/kubernetes": "^2.0.0",
-        "@pulumi/github": "^1.1.0",
-        "@types/node": "^13.13.5",
-        "yaml": "1.10.0"
-    },
-    "devDependencies": {
-        "lint": "^0.7.0"
-    }
+  "name": "$(cluster-prefix)-infra-$(name)",
+  "main": "index.js",
+  "dependencies": {
+    "@google-cloud/kms": "^2.0.0",
+    "@pulumi/gcp": "^3.3.0",
+    "@pulumi/github": "^1.1.0",
+    "@pulumi/kubernetes": "^2.0.0",
+    "@pulumi/pulumi": "^2.1.0",
+    "@types/node": "^13.13.5",
+    "yaml": "1.10.0"
+  },
+  "devDependencies": {
+    "lint": "^0.7.0"
+  }
 }
 endef
 

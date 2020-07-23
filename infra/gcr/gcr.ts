@@ -30,6 +30,7 @@ export const serviceAccountSecret = new k8s.core.v1.Secret("gcr-sa-secret",
             'credentials.json': serviceAccountKey.privateKey
         }
     }, { provider: k8sProvider });
+
 export const artifactRegistryWriterBinding = new gcp.projects.IAMMember("gcr-writer-binding", {
     member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
     role: "roles/artifactregistry.writer",

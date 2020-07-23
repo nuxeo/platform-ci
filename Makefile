@@ -5,4 +5,3 @@ include make.d/boot.mk
 
 clean: boot~clean
 	rm -fr .tmp
-

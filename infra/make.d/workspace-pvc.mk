@@ -16,8 +16,8 @@ define workspace_pvc_template
 endef
 
 workspace-pvc:
-	echo "$${workspace_pvc_template}" | kubectl apply --namespace=$(JX_NAMESPACE) -f -
+  echo "$${workspace_pvc_template}" | kubectl apply --namespace=$(JX_NAMESPACE) -f -
 
 workspace-pvc!delete:
 workspace-pvc!delete:
-		$(if $(JX_PR_LABELS_KEEP_WORKSPACE), :, kubectl delete --namespace=$(JX_NAMESPACE) pvc/$(workspace-pvc-name) --wait=false)
+  $(if $(JX_PR_LABELS_KEEP_WORKSPACE), :, kubectl delete --namespace=$(JX_NAMESPACE) pvc/$(workspace-pvc-name) --wait=false)

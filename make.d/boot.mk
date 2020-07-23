@@ -30,9 +30,6 @@ boot~noop:
 
 export GITHUB_TOKEN
 
-boot~pfouh:
-	yq r -j -P jx-requirements.yml | jq '.environments |= map(if .key == "dev" then (.repository |= "$(dev-repository)" | .ingress.domain |= "$(dev-ingress-domain)") else . end)' | yq r -P -
-
 export cluster_boot_create_script
 define cluster_boot_create_script =
 	git config url."https://github.com/".insteadOf git@github.com:
