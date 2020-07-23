@@ -19,7 +19,7 @@ export const pool = new gcp.container.NodePool("builder", {
         diskSizeGb: _.options.nodeDiskSize,
         imageType: _.options.imageType,
         labels: {
-            dedicated: "jenkins-x-builder",
+            team: "platform",
         },
         machineType: _.options.machineType,
         oauthScopes: [
@@ -34,8 +34,8 @@ export const pool = new gcp.container.NodePool("builder", {
         preemptible: _.options.nodePreemptible,
         taints: [{
             effect: "NO_SCHEDULE",
-            key: "dedicated",
-            value: "jenkins-x-builder",
+            key: "team",
+            value: "platform",
         }],
     }
 });
