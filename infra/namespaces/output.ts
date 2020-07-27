@@ -1,6 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as k8s from "@pulumi/kubernetes";
-import { Output, StackReference } from "@pulumi/pulumi";
+import { Output } from "@pulumi/pulumi";
 import { withStackReferenceProvider } from "../config";
 
 export class Namespaces {

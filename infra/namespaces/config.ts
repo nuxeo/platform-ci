@@ -1,5 +1,3 @@
-import * as pulumi from "@pulumi/pulumi";
-import * as k8s from "@pulumi/kubernetes";
 import * as _ from "../config";
 import * as controlPlane from "../control-plane/output"
 

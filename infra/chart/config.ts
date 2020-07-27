@@ -1,4 +1,3 @@
-import * as gcp from "@pulumi/gcp";
 import * as _ from "../config";
 
 export let rfc1035 = _.rfc1035;

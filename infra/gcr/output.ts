@@ -1,5 +1,4 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as k8s from "@pulumi/kubernetes";
 import { Output, StackReference } from "@pulumi/pulumi";
 import { withStackReferenceProvider } from "../config";
 

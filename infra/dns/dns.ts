@@ -1,7 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
-import { encode, rfc1035 } from "./config";
+import { rfc1035 } from "./config";
 import * as controlPlane from "../control-plane/output";
 import * as namespaces from "../namespaces/output";
 

@@ -1,14 +1,6 @@
 import * as gcp from "@pulumi/gcp";
-import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import * as _ from "./config"
-
-import { StackReference } from "@pulumi/pulumi";
-
-let masterVersionOr = () =>
-    _.options.masterVersion || pulumi.output(gcp.container.getEngineVersions()).
-        latestMasterVersion.apply(v => `${v}`);
-
 
 export const cluster = new gcp.container.Cluster("cluster", {
     name: `${_.clusterName}`,

@@ -1,5 +1,3 @@
-import * as gcp from "@pulumi/gcp";
-import * as pulumi from "@pulumi/pulumi";
 import * as _ from "../config";
 import * as control_plane from "../control-plane/config";
 

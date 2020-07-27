@@ -1,6 +1,3 @@
-import * as pulumi from "@pulumi/pulumi";
-import * as gcp from "@pulumi/gcp";
-import * as k8s from "@pulumi/kubernetes";
 import * as _ from "../config";
 
 export const env = _.env;
