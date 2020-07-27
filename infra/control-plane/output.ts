@@ -22,4 +22,3 @@ export class ControlPlane {
 export const output: ControlPlane = withStackReferenceProvider<ControlPlane>('control-plane').
     apply(reference => new ControlPlane(pulumi.interpolate`${reference.getOutput('cluster').apply(v => v.name)}`,
         pulumi.interpolate`${reference.requireOutput('k8sConfig')}`));
-

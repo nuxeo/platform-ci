@@ -38,4 +38,3 @@ export const pool = new gcp.container.NodePool("builder", {
         }],
     }
 });
-

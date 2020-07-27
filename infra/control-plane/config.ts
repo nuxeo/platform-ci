@@ -8,7 +8,6 @@ export const createdTimestamp = _.createdTimestamp;
 
 export const withStackReferenceProvider = _.withStackReferenceProvider;
 
-
 export interface ControlPlaneOptions {
     masterVersion: string;
     enableKubernetesAlpha: boolean;
@@ -27,7 +26,6 @@ export interface NodePoolOptions {
     minNodeCount: number;
     maxNodeCount: number;
 }
-
 
 const providedOptions: ControlPlaneOptions | undefined = _.config.getObject('controlPlane');
 const defaultOptions: ControlPlaneOptions = {

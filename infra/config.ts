@@ -78,4 +78,3 @@ export function withStackReferenceProvider<T>(name: string): StackReferenceProvi
 
 export let withStackReferenceOf = (name: string): StackReference =>
     new StackReference(`${org}/${clusterOptions.prefix}-infra-${name}/${env}`);
-

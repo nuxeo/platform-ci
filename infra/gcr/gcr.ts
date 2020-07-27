@@ -47,4 +47,3 @@ export const storageObjectViewerBinding = new gcp.projects.IAMMember("gcr-storag
     member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
     role: "roles/storage.objectViewer",
 });
-

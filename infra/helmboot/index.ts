@@ -5,4 +5,3 @@ export let gitUrlSecret = _.gitUrlSecret;
 export let serviceAccount = _.serviceAccount;
 export let ownerBinding = _.ownerBinding;
 export let workloadIdentityUserBinding = _.workloadIdentityUserBinding;
-

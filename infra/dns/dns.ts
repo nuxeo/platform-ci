@@ -53,6 +53,3 @@ export const letsencryptCAARecord = new gcp.dns.RecordSet("letsencrypt-caa", {
     ttl: 300,
     type: "CAA",
 });
-
-
-

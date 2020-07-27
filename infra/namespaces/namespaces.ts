@@ -22,4 +22,3 @@ export const systemNamespace = new k8s.core.v1.Namespace("jenkins-system",
     { provider: k8sProvider });
 // if the namespace already exists
 //  { provider: k8sProvider, import: "jx-system" });
-

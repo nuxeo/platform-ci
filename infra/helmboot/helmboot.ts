@@ -7,7 +7,6 @@ import * as controlPlane from "../control-plane/output";
 
 const YAML = require('yaml');
 
-
 const k8sProvider = controlPlane.output.k8sProvider();
 const clusterName = controlPlane.output.clusterName;
 const accountId = clusterName.apply(v => _.rfc1035(v).id()).apply(v => `${v}-boot`);
@@ -90,5 +89,3 @@ export const bootSecrets = new k8s.core.v1.Secret("jx-boot-secrets",
         }
     },
     { provider: k8sProvider });
-
-

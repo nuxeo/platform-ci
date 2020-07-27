@@ -7,4 +7,3 @@ const bucket = new gcp.storage.Bucket("lts", {
 });
 
 export let bucketName = bucket.name;
-
