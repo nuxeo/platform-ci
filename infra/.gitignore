@@ -1,13 +1,4 @@
-bin/
 node_modules/
-_cacache
-_locks
-_logs
-anonymous-cli-metrics.json
-*/Makefile
-*/Pulumi.*.yaml
-*/package.json
-*/*.dot
-**/#*
-*/Makefile
-*/Pulumi.*.yaml
+Makefile
+Pulumi.*.yaml
+package.json
