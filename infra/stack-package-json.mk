@@ -22,13 +22,13 @@ endef
 
 package.json: name:=main
 package.json:
-	echo "$${stack_package_json}" > $(@)
+	echo "$${stack_package_json}" > $@
 
 install: package.json
 	npm install
 
-%/package.json: name:=$(*)
+%/package.json: name:=$*
 %/package.json:
-	echo "$${stack_package_json}" > $(@)
+	echo "$${stack_package_json}" > $@
 
 packages: ; @:

@@ -75,7 +75,7 @@ boot~run: $(kubeconfig)
           --job=true
 
 boot~%:
-	make -C infra infra-stack=$(boot-stack) $(*)
+	make -C infra infra-stack=$(boot-stack) $*
 
 system/helmfile.yaml apps/helmfile.yaml: jx-apps.yml jx-requirements.yml $(wildcard apps/*/*-patch.yaml) | .tmp
 	jx step create helmfile
@@ -86,5 +86,5 @@ system/helmfile.yaml apps/helmfile.yaml: jx-apps.yml jx-requirements.yml $(wildc
 boot~helmfile-%: log-level ?= info
 boot~helmfile-%: boot-secrets-yaml=$(abspath .tmp/boot-secrets.yaml)
 boot~helmfile-%: helmfile.yaml $(kubeconfig) .tmp/boot-secrets.yaml
-	@KUBECONFIG=$(kubeconfig) JX_SECRETS_YAML=$(boot-secrets-yaml) helmfile --log-level=$(log-level) $(if $(name),--selector name=$(name),) $(*)
+	@KUBECONFIG=$(kubeconfig) JX_SECRETS_YAML=$(boot-secrets-yaml) helmfile --log-level=$(log-level) $(if $(name),--selector name=$(name),) $*
 endif

@@ -22,6 +22,6 @@ destroy: pulumi~destroy ; @:
 endef
 
 %/Makefile:
-	echo "$${stack_make_template}" > $(@)
+	echo "$${stack_make_template}" > $@
 
 makefiles: ; @:

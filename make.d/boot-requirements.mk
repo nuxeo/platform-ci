@@ -4,7 +4,7 @@ include .tmp/boot-requirements.mk
 .PRECIOUS:.tmp/boot-requirements.mk
 
 .tmp/boot-requirements.yaml: | .tmp
-	kubectl get environments/dev -o jsonpath='{.spec.teamSettings.bootRequirements}' > $(@)
+	kubectl get environments/dev -o jsonpath='{.spec.teamSettings.bootRequirements}' > $@
 
 export boot_requirements_cluster_awk_template :=
 define boot_requirements_cluster_awk_template
@@ -21,7 +21,7 @@ $$1 == "cluster.environmentGitOwner" { print "export git-owner :=", trim($$2) }
 endef
 
 .tmp/boot-requirements-cluster.awk: | .tmp
-	@echo "$${boot_requirements_cluster_awk_template}" > $(@)
+	@echo "$${boot_requirements_cluster_awk_template}" > $@
 
 export boot_requirements_environment_dev_awk_template :=
 define boot_requirements_environment_dev_awk_template
@@ -36,12 +36,12 @@ $$1 ~ /ingress.domain/ { print "export dev-ingress-domain :=", trim($$2) }
 endef
 
 .tmp/boot-requirements-dev-environment.awk: | .tmp
-	@echo "$${boot_requirements_environment_dev_awk_template}" > $(@)
+	@echo "$${boot_requirements_environment_dev_awk_template}" > $@
 
 .tmp/boot-requirements.mk: .tmp/boot-requirements.yaml
 .tmp/boot-requirements.mk: .tmp/boot-requirements-cluster.awk
 .tmp/boot-requirements.mk: .tmp/boot-requirements-dev-environment.awk
 .tmp/boot-requirements.mk:
 		@( yq r .tmp/boot-requirements.yaml --printMode pv 'cluster.*' | awk -f .tmp/boot-requirements-cluster.awk; \
-	           yq r .tmp/boot-requirements.yaml --printMode pv "environments.(key==dev).**" | awk -f .tmp/boot-requirements-dev-environment.awk) > $(@)
+	           yq r .tmp/boot-requirements.yaml --printMode pv "environments.(key==dev).**" | awk -f .tmp/boot-requirements-dev-environment.awk) > $@
 

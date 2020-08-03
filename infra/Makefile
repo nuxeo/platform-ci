@@ -24,7 +24,7 @@ $(eval .PRECIOUS: $(1)/package.json)
 makefiles: $(1)/Makefile
 packages: $(1)/package.json
 clean: $(1)~clean
-$(1)~%: $(1)/Makefile $(1)/package.json; $(MAKE) -C $(1) pulumi-stack=$(infra-stack) $$(*)
+$(1)~%: $(1)/Makefile $(1)/package.json; $(MAKE) -C $(1) pulumi-stack=$(infra-stack) $$*
 endef
 
 define depends-on-control-plane =
