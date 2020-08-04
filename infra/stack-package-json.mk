@@ -5,11 +5,11 @@ define stack_package_json =
   "main": "index.js",
   "dependencies": {
     "@google-cloud/kms": "^2.0.0",
-    "@pulumi/gcp": "^3.3.0",
-    "@pulumi/github": "^1.1.0",
-    "@pulumi/kubernetes": "^2.0.0",
-    "@pulumi/pulumi": "^2.1.0",
-    "@types/node": "^13.13.5",
+    "@pulumi/gcp": "^3.6.0",
+    "@pulumi/github": "^1.3.0",
+    "@pulumi/kubernetes": "^2.2.0",
+    "@pulumi/pulumi": "^2.2.1",
+    "@types/node": "^13.13.9",
     "yaml": "1.10.0"
   },
   "devDependencies": {
@@ -23,9 +23,6 @@ endef
 package.json: name:=main
 package.json:
 	echo "$${stack_package_json}" > $@
-
-install: package.json
-	npm install
 
 %/package.json: name:=$*
 %/package.json:

@@ -1,3 +1,4 @@
+# extend rule's prerequisites
 pulumi~stack-config: github-config
 pulumi~stack-config: boot-secrets-config
 

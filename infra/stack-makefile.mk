@@ -4,6 +4,7 @@ include ../../.tmp/boot-secrets.mk
 include ../../.tmp/boot-requirements.mk
 
 pulumi-stack := $(infra-stack)
+# evaluated when exported/defined?
 
 include ../make.d/env.mk
 include ../make.d/pulumi.mk
@@ -23,5 +24,11 @@ endef
 
 %/Makefile:
 	echo "$${stack_make_template}" > $@
+	# $@ matches control-plane/Makefile
+	# $* would only match control-plane
 
 makefiles: ; @:
+
+# idem:
+#makefiles:
+#	@:
