@@ -1,6 +1,0 @@
-apiVersion: v1
-description: tekton patch
-maintainers:
-- name:  nos@nuxeo.com
-name: tekton-patch
-version: "1"

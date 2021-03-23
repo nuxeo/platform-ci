@@ -1,6 +1,0 @@
-apiVersion: v1
-description: ACME Chart
-maintainers:
-- name: Team
-name: acme
-version: "1"

@@ -1,7 +1,0 @@
-secrets:
-  nodejs:
-    npmrc: |
-      cache=
-{{- range $auth := .Values.secrets.nodejs.auth }}
-      //{{ $auth.url }}:_auth={{ printf "%s:%s" $auth.username $auth.password| b64enc}}
-{{- end }}

@@ -1,5 +1,0 @@
-- op: add
-  path: /releases/12/jsonPatches
-  value:
-  - jenkins-operator-patch/role-patch.yaml
-

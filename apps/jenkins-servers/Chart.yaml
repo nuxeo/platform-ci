@@ -1,6 +1,0 @@
-apiVersion: v1
-description: Jenkins servers chart
-maintainers:
-- name: nos@nuxeo.com
-name: jenkins-servers
-version: "1"

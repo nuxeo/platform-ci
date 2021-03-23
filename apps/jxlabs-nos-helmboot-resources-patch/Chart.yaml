@@ -1,6 +1,0 @@
-apiVersion: v1
-description: helmboot resources patch
-maintainers:
-- name:  nos@nuxeo.com
-name: jxlabs-nos-helmboot-resources-patch
-version: "1"

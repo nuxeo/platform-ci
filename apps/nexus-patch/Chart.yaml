@@ -1,6 +1,0 @@
-apiVersion: v1
-description: nexus patch
-maintainers:
-- name:  nos@nuxeo.com
-name: nexus-patch
-version: "1"

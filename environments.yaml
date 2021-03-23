@@ -1,6 +1,0 @@
-environments:
-  # The "default" environment is available and used when `helmfile` is run without `--environment NAME`.
-  default:
-    values:
-    - ../jx-requirements.values.yaml.gotmpl
-    - {{ requiredEnv "JX_SECRETS_YAML" }}

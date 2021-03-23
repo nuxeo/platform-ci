@@ -1,16 +1,4 @@
-# generated
-jx-requirements.values.yaml.gotmpl
-system/generated
-system/helmfile.yaml
-apps/generated
-apps/helmfile.yaml
-
 # edit backup files
 *~
 .*.swp
 
-# IDEs
-.idea
-
-# tmp files for building
-.tmp
