@@ -8,3 +8,15 @@ github:
   credentialsId: ""
 jira:
   url: https://jira-preprod.nuxeo.com/
+jobs:
+  traits:
+    headRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('master')
+      }
+  triggers: |-
+    // Scan Repository Triggers
+    triggers {
+    }
