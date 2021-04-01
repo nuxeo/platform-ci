@@ -28,7 +28,9 @@ environments:
   # The default environment is used for staging.
   default:
     values:
+    - environments/common.yaml
     - environments/staging.yaml
   production:
     values:
+    - environments/common.yaml
     - environments/production.yaml
