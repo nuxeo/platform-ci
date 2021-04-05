@@ -1,0 +1,6 @@
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: jenkins-operator
+    meta.helm.sh/release-namespace: $NAMESPACE

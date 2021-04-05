@@ -1,9 +1,34 @@
+repositories:
+- name: jenkins-operator
+  url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
+
 helmDefaults:
   atomic: true
-  verify: false
+  timeout: 180
   wait: true
-  timeout: 520
-  force: true
-helmfiles:
-  - system/helmfile.yaml
-  - apps/helmfile.yaml
+
+releases:
+- name: jenkins-operator
+  chart: jenkins-operator/jenkins-operator
+  version: 0.4.3
+  namespace: {{ .Values.namespace }}
+  values:
+  - charts/jenkins-operator/values.yaml.gotmpl
+  strategicMergePatches:
+  - charts/jenkins-operator/patches/jenkins.yaml.gotmpl
+- name: jenkins-master
+  chart: ./charts/jenkins-master
+  namespace: {{ .Values.namespace }}
+  needs:
+  - {{ .Values.namespace }}/jenkins-operator
+  values:
+  - charts/jenkins-master/values.yaml.gotmpl
+
+environments:
+  # The default environment is used for staging.
+  default:
+    values:
+    - environments/staging.yaml
+  production:
+    values:
+    - environments/production.yaml
