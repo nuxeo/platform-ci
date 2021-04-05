@@ -1,0 +1,10 @@
+namespace: platform-staging
+dryrun: true
+jenkins:
+  url: https://jenkins.platform-staging.dev.nuxeo.com/
+docker:
+  registry: docker.platform-staging.dev.nuxeo.com
+github:
+  credentialsId: ""
+jira:
+  url: https://jira-preprod.nuxeo.com/

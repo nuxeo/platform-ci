@@ -1,0 +1,10 @@
+namespace: platform
+dryrun: false
+jenkins:
+  url: https://jenkins.platform.dev.nuxeo.com/
+docker:
+  registry: docker.platform.dev.nuxeo.com
+github:
+  credentialsId: "github"
+jira:
+  url: https://jira.nuxeo.com/

@@ -1,0 +1,59 @@
+ingress:
+  labels: {}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  service:
+    name: jenkins-operator-http-master
+    port: 8080
+  hostname: jenkins.{{ .Values.namespace }}.dev.nuxeo.com
+  tls:
+  - hosts:
+    - jenkins.{{ .Values.namespace }}.dev.nuxeo.com
+    secretName: {{ .Values.namespace }}-tls
+secret:
+  mavenSettings:
+    labels: {}
+    annotations: {}
+    xmlSettings: |-
+      <settings>
+        <!-- sets the local maven repository outside of the ~/.m2 folder for easier mounting of secrets and repo -->
+        <localRepository>${user.home}/.mvnrepository</localRepository>
+        <!-- lets disable the download progress indicator that fills up logs -->
+        <interactiveMode>false</interactiveMode>
+        <mirrors>
+          <mirror>
+            <id>nexus</id>
+            <mirrorOf>!nuxeo-studio,external:*</mirrorOf>
+            <url>https://packages.nuxeo.com/repository/maven-internal/</url>
+          </mirror>
+        </mirrors>
+        <servers>
+          <server>
+            <id>nexus</id>
+            <username>{{ requiredEnv "PACKAGES_USERNAME" }}</username>
+            <password>{{ requiredEnv "PACKAGES_PASSWORD" }}</password>
+          </server>
+          <server>
+            <id>nuxeo-studio</id>
+            <username>{{ requiredEnv "CONNECT_USERNAME" }}</username>
+            <password>{{ requiredEnv "CONNECT_PASSWORD" }}</password>
+          </server>
+        </servers>
+        <profiles>
+          <profile>
+            <id>nexus</id>
+            <activation>
+              <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+              <altDeploymentRepository>nexus::default::https://packages.nuxeo.com/repository/maven-team-platform/</altDeploymentRepository>
+            </properties>
+          </profile>
+          <profile>
+            <id>nexus-private</id>
+            <properties>
+              <altDeploymentRepository>nexus::default::https://packages.nuxeo.com/repository/maven-team-platform-private/</altDeploymentRepository>
+            </properties>
+          </profile>
+        </profiles>
+      </settings>
