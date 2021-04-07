@@ -16,6 +16,12 @@ jobs:
         // Regular expression
         regex('master')
       }
+    ltsHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('2021')
+      }
   triggers: |-
     // Scan Repository Triggers
     triggers {

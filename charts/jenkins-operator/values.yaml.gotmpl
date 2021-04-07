@@ -253,6 +253,7 @@ jenkins:
                   {{- tpl (readFile "pod-templates/jx-base.yaml.gotmpl") . | nindent 16 }}
                   {{- tpl (readFile "pod-templates/nodejs.yaml.gotmpl") . | nindent 16 }}
                   {{- tpl (readFile "pod-templates/nuxeo-platform-11.yaml.gotmpl") . | nindent 16 }}
+                  {{- tpl (readFile "pod-templates/nuxeo-platform-lts-2021.yaml.gotmpl") . | nindent 16 }}
     - configMapName: jenkins-casc-jobs
       content:
         casc-jobs.yaml: |
@@ -266,4 +267,7 @@ jenkins:
           - script: >
               folder('nuxeo/11.x')
           - script: > {{- tpl (readFile "jobs/nuxeo/11.x/nuxeo.groovy.gotmpl") . | nindent 14 }}
+          - script: >
+              folder('nuxeo/lts')
+          - script: > {{- tpl (readFile "jobs/nuxeo/lts/nuxeo-lts.groovy.gotmpl") . | nindent 14 }}
           - script: > {{- tpl (readFile "jobs/nuxeo/rest-api-compatibility-tests.groovy.gotmpl") . | nindent 14 }}
