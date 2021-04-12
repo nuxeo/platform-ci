@@ -2,7 +2,7 @@
   label: "jenkins-nuxeo-platform-11"
   imagePullSecrets: {{- toYaml .Values.podTemplates.imagePullSecrets | nindent 2 -}}
   serviceAccount: {{ .Values.podTemplates.serviceAccount }}
-  containers: {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
+  containers:
   - args: ""
     command: ""
     image: "{{ .Values.docker.registry }}/nuxeo/builder-java11-firefox42:latest"
