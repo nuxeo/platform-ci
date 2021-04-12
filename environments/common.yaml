@@ -2,14 +2,6 @@ podTemplates:
   imagePullSecrets:
   - name: "kubernetes-docker-cfg"
   serviceAccount: "jenkins-operator-master"
-  containers:
-  - args: "^${computer.jnlpmac} ^${computer.name}"
-    command: ""
-    image: "jenkinsci/jnlp-slave:4.3-1"
-    name: "jnlp"
-    resourceRequestCpu: "100m"
-    resourceRequestMemory: "128Mi"
-    workingDir: "/home/jenkins"
   envVars:
   - containerEnvVar:
       key: "DOCKER_CONFIG"
