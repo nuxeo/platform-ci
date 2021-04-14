@@ -1,0 +1,4 @@
+apiVersion: v1
+name: jenkins-extra
+description: Jenkins extra templates
+version: 1.0.0

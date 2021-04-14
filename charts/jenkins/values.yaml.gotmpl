@@ -1,0 +1,122 @@
+# See https://github.com/jenkinsci/helm-charts/blob/main/charts/jenkins/values.yaml.
+controller:
+  # Disable rendering controller test resources when using `helm template`.
+  testEnabled: false
+  image: jenkins/jenkins
+  tag: lts
+  containerEnv:
+  - name: SECRETS
+    value: /run/secrets/jenkins-casc
+  # Among others, enable permissions for the extended-read-permission plugin.
+  javaOpts: >
+    -XX:+UnlockExperimentalVMOptions
+    -XX:+UseCGroupMemoryLimitForHeap
+    -XX:MaxRAMFraction=1
+    -Djenkins.install.runSetupWizard=false
+    -Djava.awt.headless=true
+    -Dhudson.security.ExtendedReadPermission=true
+    -Djenkins.security.SystemReadPermission=true  
+  # Set to false to download the minimum required version of all dependencies.
+  installLatestPlugins: true
+  installPlugins:
+  - configuration-as-code
+  - git
+  - job-dsl
+  - kubernetes
+  - kubernetes-credentials-provider
+  - workflow-aggregator
+  - workflow-job
+  additionalPlugins:
+  - blueocean
+  - configuration-as-code-groovy
+  - disable-github-multibranch-status
+  - embeddable-build-status
+  - extended-read-permission
+  - github
+  - github-oauth
+  - jira
+  - jira-steps
+  - matrix-auth
+  - pipeline-github
+  - pipeline-utility-steps
+  - rebuild
+  - slack
+  - text-finder
+  - timestamper
+  # Always override the installed plugins with the values of 'controller.installPlugins' on upgrade or redeployment.
+  overwritePlugins: true
+  scriptApproval:
+  - "staticMethod hudson.Functions printThrowable java.lang.Throwable"
+  - "method java.util.Properties getProperty java.lang.String"
+  initScripts:
+  # Set custom agent pod labels.
+  - |
+    import jenkins.model.*;
+    import org.csanchez.jenkins.plugins.kubernetes.*;
+
+    if (!Jenkins.instance.clouds) {
+        return;
+    };
+    def kubernetesCloud = Jenkins.instance.clouds.get(0);
+
+    def podLabels = kubernetesCloud.getPodLabels();
+    def customLabels = [new PodLabel('team', 'platform'), new PodLabel('resource', 'pod'), new PodLabel('usage', 'build')];
+    if (customLabels.disjoint(podLabels)) {
+      kubernetesCloud.setPodLabels(customLabels);
+    }
+  JCasC:
+    securityRealm: |-
+      github:
+        githubWebUri: "https://github.com"
+        githubApiUri: "https://api.github.com"
+        clientID: "${gitHubOAuthClientId}"
+        clientSecret: "${gitHubOAuthSecret}"
+        oauthScopes: "read:org,user:email,repo"
+    authorizationStrategy: |-
+      globalMatrix:
+        permissions:
+        - "Credentials/View:nuxeo*Developers"
+        - "Job/Build:nuxeo*Developers"
+        - "Job/Cancel:nuxeo*Developers"
+        - "Job/Discover:nuxeo*Developers"
+        - "Job/ExtendedRead:nuxeo*Developers"
+        - "Job/Read:nuxeo*Developers"
+        - "Job/ViewStatus:anonymous"
+        - "Job/ViewStatus:authenticated"
+        - "Job/Workspace:nuxeo*Developers"
+        - "Lockable Resources/View:nuxeo*Developers"
+        - "Metrics/HealthCheck:nuxeo*Developers"
+        - "Metrics/ThreadDump:nuxeo*Developers"
+        - "Metrics/View:nuxeo*Developers"
+        - "Overall/Administer:nuxeo*platform"
+        - "Overall/Read:nuxeo*Developers"
+        - "Overall/SystemRead:nuxeo*Developers"
+        - "Run/Replay:nuxeo*Developers"
+        - "Run/Update:nuxeo*Developers"
+        - "View/Read:nuxeo*Developers"
+  nodeSelector:
+    team: platform
+  tolerations:
+  - key: team
+    operator: Equal
+    value: platform
+    effect: NoSchedule
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    hostName: jenkins.{{ .Values.namespace }}.dev.nuxeo.com
+    tls:
+    - hosts:
+      - jenkins.{{ .Values.namespace }}.dev.nuxeo.com
+      secretName: {{ .Values.namespace }}-tls
+# Secrets made available in `JCasC` through `${SECRET_KEY_NAME}`, requires an existing `jenkins-casc` secret.
+persistence:
+  volumes:
+  - name: jenkins-casc-secrets
+    secret:
+      secretName: jenkins-casc
+  mounts:
+  - name: jenkins-casc-secrets
+    mountPath: /run/secrets/jenkins-casc
+    readOnly: true

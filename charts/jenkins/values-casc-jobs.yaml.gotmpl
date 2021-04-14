@@ -1,0 +1,19 @@
+# See https://github.com/jenkinsci/helm-charts/blob/main/charts/jenkins/values.yaml.
+controller:
+  JCasC:
+    configScripts:
+      casc-jobs: |
+        jobs:
+        - script: >
+            folder('ci')
+        - script: > {{ tpl (readFile "jobs/ci/jx-platform-builders.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/ci/platform-ci.groovy.gotmpl") . | nindent 12 }}
+        - script: >
+            folder('nuxeo')
+        - script: > {{ tpl (readFile "jobs/nuxeo/rest-api-compatibility-tests.groovy.gotmpl") . | nindent 12 }}
+        - script: >
+            folder('nuxeo/11.x')
+        - script: > {{ tpl (readFile "jobs/nuxeo/11.x/nuxeo.groovy.gotmpl") . | nindent 12 }}
+        - script: >
+            folder('nuxeo/lts')
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo.groovy.gotmpl") . | nindent 12 }}

@@ -1,0 +1,32 @@
+# See https://github.com/jenkinsci/helm-charts/blob/main/charts/jenkins/values.yaml.
+controller:
+  JCasC:
+    configScripts:
+      casc-jenkins: |
+        jenkins:
+          views:
+          - all:
+              name: "all"
+          disabledAdministrativeMonitors:
+          - "jenkins.security.QueueItemAuthenticatorMonitor"
+          globalNodeProperties:
+          - envVars:
+              env:
+              - key: "ARENDER_DOCKER_REGISTRY"
+                value: "docker-arender.packages.nuxeo.com"
+              - key: "ARENDER_HOST_DOCKER_REGISTRY"
+                value: "docker-private-arondor-host.packages.nuxeo.com"
+              - key: "CONNECT_PROD_SITE_URL"
+                value: "https://connect.nuxeo.com/nuxeo/site/"
+              - key: "CONNECT_PREPROD_SITE_URL"
+                value: "https://nos-preprod-connect.nuxeocloud.com/nuxeo/site/"
+              - key: "DOCKER_REGISTRY"
+                value: {{ .Values.docker.registry | quote }}
+              - key: "DRY_RUN"
+                value: {{ .Values.dryrun | quote }}
+              - key: "PRIVATE_DOCKER_REGISTRY"
+                value: "docker-private.packages.nuxeo.com"
+              - key: "PUBLIC_DOCKER_REGISTRY"
+                value: "docker.packages.nuxeo.com"
+              - key: "YUM_REGISTRY"
+                value: "http://nexus.platform/repository/yum-registry/"

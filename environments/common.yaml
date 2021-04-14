@@ -1,24 +1,35 @@
 podTemplates:
-  imagePullSecrets:
-  - name: "kubernetes-docker-cfg"
-  serviceAccount: "jenkins-operator-master"
+  workingDir: "/home/jenkins"
+  imagePullSecretName: "kubernetes-docker-cfg"
+  serviceAccount: "jenkins"
+  nodeUsageMode: EXCLUSIVE
+  privileged: true
+  ttyEnabled: true
+  containers:
+  - args: "^${computer.jnlpmac} ^${computer.name}"
+    command: ""
+    image: "jenkins/inbound-agent:4.3-4"
+    name: "jnlp"
+    resourceRequestCpu: "100m"
+    resourceRequestMemory: "128Mi"
+    workingDir: "/home/jenkins"
   envVars:
-  - containerEnvVar:
+  - envVar:
       key: "DOCKER_CONFIG"
       value: "/home/jenkins/.docker/"
-  - containerEnvVar:
+  - envVar:
       key: "GIT_AUTHOR_EMAIL"
       value: "platform+jx-bot@nuxeo.com"
-  - containerEnvVar:
+  - envVar:
       key: "GIT_AUTHOR_NAME"
       value: "nuxeo-platform-jx-bot"
-  - containerEnvVar:
+  - envVar:
       key: "GIT_COMMITTER_EMAIL"
       value: "platform+jx-bot@nuxeo.com"
-  - containerEnvVar:
+  - envVar:
       key: "GIT_COMMITTER_NAME"
       value: "nuxeo-platform-jx-bot"
-  - containerEnvVar:
+  - envVar:
       key: "XDG_CONFIG_HOME"
       value: "/home/jenkins"
   volumes:
@@ -56,17 +67,6 @@ jobs:
     disableStatusUpdateTrait: |-
       // Disable GitHub Notifications
       disableStatusUpdateTrait()
-  strategy: |-
-    // Property strategy
-    strategy {
-      // All branches get the same properties
-      allBranchesSame {
-        props {
-          // Suppress automatic SCM triggering
-          suppressAutomaticTriggering()
-        }
-      }
-    }
   orphanedItemStrategy: |-
     // Orphaned Item Strategy
     orphanedItemStrategy {

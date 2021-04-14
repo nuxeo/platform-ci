@@ -1,15 +1,3 @@
-ingress:
-  labels: {}
-  annotations:
-    kubernetes.io/ingress.class: nginx
-  service:
-    name: jenkins-operator-http-master
-    port: 8080
-  hostname: jenkins.{{ .Values.namespace }}.dev.nuxeo.com
-  tls:
-  - hosts:
-    - jenkins.{{ .Values.namespace }}.dev.nuxeo.com
-    secretName: {{ .Values.namespace }}-tls
 secret:
   mavenSettings:
     labels: {}

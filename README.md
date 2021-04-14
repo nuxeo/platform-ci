@@ -1,12 +1,31 @@
 # Nuxeo Platform CI
 
-Configuration as Code for the Platform CI.
+Configuration as code for the Nuxeo Platform CI in Kubernetes.
 
 ## Jenkins
 
-We rely on the [Jenkins Operator](https://github.com/jenkinsci/kubernetes-operator) to manage Jenkins in Kubernetes.
+### Principles
 
-The operator is installed with [Helmfile](https://github.com/roboll/helmfile).
+Jenkins is installed with the [Jenkins Helm chart](https://github.com/jenkinsci/helm-charts/tree/main/charts/jenkins).
+
+The Jenkins Helm chart is deployed with [Helmfile](https://github.com/roboll/helmfile) and configured with a set of custom values overriding the [default](https://github.com/jenkinsci/helm-charts/blob/main/charts/jenkins/values.yaml) ones, defined in the `./charts/jenkins/values*.yaml.gotmpl` files.
+
+This configuration mostly includes:
+
+- Jenkins image
+- Java options
+- Jenkins plugins
+- [Jenkins Configuration as Code](https://github.com/jenkinsci/configuration-as-code-plugin) (JCasC), among which:
+  - Authorization
+  - Credentials
+  - Jenkins and plugin configuration
+  - Kubernetes Cloud configuration, including pod templates
+  - Jobs, using the [Jenkins Job DSL Plugin](https://github.com/jenkinsci/job-dsl-plugin)
+
+When [synchronizing the Kubernetes cluster](#kubernetes-cluster-synchronization) with the resources from the [helmfile](./helmfile.yaml), depending on the changes:
+
+- The Jenkins pod will **not** be restarted if the changes only impact Jenkins Configuration as Code, thanks to the `config-reload` container that takes care of hot reloading the configuration. This includes pod templates and jobs!
+- The Jenkins pod **will** be restarted if the changes impact anything else than Jenkins Configuration as Code, typically the Jenkins image, plugins or Java options.
 
 ### Requirements
 
@@ -17,61 +36,29 @@ The operator is installed with [Helmfile](https://github.com/roboll/helmfile).
 
 ### Installation
 
+#### Kubernetes Cluster Initialization
+
 Define the target namespace variable:
 
 ```shell
-NAMESPACE=targetnamespace
+NAMESPACE=target-namespace
 ```
 
-Install the Jenkins Custom Resource Definition:
-
-```shell
-kubectl apply -f https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/deploy/crds/jenkins_v1alpha2_jenkins_crd.yaml
-```
-
-Patch it to allow synchronizing and patching the Jenkins custom resource with `helmfile`:
-
-```shell
-kubectl patch crd jenkins.jenkins.io --patch "$(NAMESPACE=$NAMESPACE envsubst < charts/jenkins-operator/patches/jenkins-crd.yaml)"
-kubectl patch crd jenkinsimages.jenkins.io --patch "$(NAMESPACE=$NAMESPACE envsubst < charts/jenkins-operator/patches/jenkins-crd.yaml)"
-```
-
-Otherwise, we get the following error when running `helmfile sync`:
-
-> Error: UPGRADE FAILED: rendered manifests contain a resource that already exists. Unable to continue with update: CustomResourceDefinition "jenkins.jenkins.io" in namespace "" exists and cannot be imported into the current release: invalid ownership metadata; label validation error: missing key "app.kubernetes.io/managed-by": must be set to "Helm"; annotation validation error: missing key "meta.helm.sh/release-name": must be set to "jenkins-operator"; annotation validation error: missing key "meta.helm.sh/release-namespace": must be set to "$NAMESPACE"
-
-Create the `$NAMESPACE` namespace and import the required secrets from the `platform-staging` or `platform` namespace:
+Create the `$NAMESPACE` namespace:
 
 ```shell
 kubectl create ns $NAMESPACE
+```
 
-kubectl get secret platform-staging-tls --namespace=platform-staging --export -o yaml |\
-   kubectl apply --namespace=$NAMESPACE -f -
+Import the required secrets from the `platform` namespace:
 
-kubectl get secret kubernetes-docker-cfg --namespace=platform-staging --export -o yaml |\
-   kubectl apply --namespace=$NAMESPACE -f -
+```shell
+./secrets/import-secrets.sh ./secrets/secrets platform
+```
 
-kubectl get secret jx-pipeline-git-github-git --namespace=platform-staging --export -o yaml |\
-   kubectl apply --namespace=$NAMESPACE -f -
+Create the secret containing the credentials for the Jenkins Configuration as Code (JCasC):
 
-kubectl get secret kaniko-secret --namespace=platform-staging --export -o yaml |\
-   kubectl apply --namespace=$NAMESPACE -f -
-
-kubectl get secret packages.nuxeo.com-auth --namespace=platform-staging --export -o yaml |\
-   kubectl apply --namespace=$NAMESPACE -f -
-
-(
-cat << EOF
-apiVersion: v1
-kind: Secret
-type: Opaque
-metadata:
-  name: jenkins-docker-cfg
-data:
-  config.json: ********
-EOF
-) | kubectl apply --namespace=$NAMESPACE -f -
-
+```shell
 (
 cat << EOF
 apiVersion: v1
@@ -80,37 +67,71 @@ type: Opaque
 metadata:
   name: jenkins-casc
 data:
-  GITHUB_OAUTH_CLIENT_ID: ********
-  GITHUB_OAUTH_SECRET: ********
-  GITHUB_USER: ********
-  GITHUB_TOKEN: ********
-  JIRA_PASSWORD: ********
-  SLACK_TOKEN: ********
+  gitHubOAuthClientId: ********
+  gitHubOAuthSecret: ********
+  gitHubUser: ********
+  gitHubToken: ********
+  jiraPassword: ********
+  slackToken: ********
 EOF
 ) | kubectl apply --namespace=$NAMESPACE -f -
+```
 
+Create the `ClusterRoleBinding` required for the `ServiceAccount` used by Jenkins, typically to create namespaces:
+
+```shell
 (
 cat << EOF
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: platform:jenkins-operator-master
+  name: $NAMESPACE:jenkins
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: jenkins-operator-master
+  name: jenkins
   namespace: $NAMESPACE
 EOF
 ) | kubectl apply -f -
 ```
 
-Sync all resources from the [state file](./helmfile.yaml):
+#### Kubernetes Cluster Synchronization
+
+The following environment variables need to be set:
+
+- Credentials for [packages.nuxeo.com](https://packages.nuxeo.com/):
+  - `PACKAGES_USERNAME`
+  - `PACKAGES_PASSWORD`
+
+- Credentials for [Nuxeo Connect](http://connect.nuxeo.com/):
+  - `CONNECT_USERNAME`
+  - `CONNECT_PASSWORD`
+
+Synchronize the Kubernetes cluster with the resources from the [helmfile](./helmfile.yaml).
 
 ```shell
+helmfile deps
 helmfile sync
 ```
 
-Have fun using [Jenkins](https://jenkins.$NAMESPACE.dev.nuxeo.com/).
+The `default` Helmfile environment targets the `platform-staging` namespace. To target the `platform` namespace, specify the `production` environment:
+
+```shell
+helmfile deps
+helmfile --environment production sync
+```
+
+See the `environments` section in the [helmfile](./helmfile.yaml) to understand the diff between the environments.
+
+Have fun using Jenkins at [https://jenkins.\$NAMESPACE.dev.nuxeo.com/](https://jenkins.$NAMESPACE.dev.nuxeo.com/).
+
+## Jenkins X Platform
+
+While waiting to be migrated to standard Helm charts, as for Jenkins, the other CI components are still managed with the [Jenkins X Helm Charts](https://github.com/jenkins-x/jenkins-x-platform) throught the `jx upgrade platform` deprecated command:
+
+- Nexus
+- ChartMuseum
+- A bunch of other stuff related to Jenkins X and required for the `jx` commands, typically `jx preview` or `jx step git credentials`.

@@ -1,6 +1,6 @@
 repositories:
-- name: jenkins-operator
-  url: https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/chart
+- name: jenkins
+  url: https://charts.jenkins.io
 
 helmDefaults:
   atomic: true
@@ -8,21 +8,24 @@ helmDefaults:
   wait: true
 
 releases:
-- name: jenkins-operator
-  chart: jenkins-operator/jenkins-operator
-  version: 0.4.3
+- name: jenkins-extra
+  chart: ./charts/jenkins-extra
   namespace: {{ .Values.namespace }}
   values:
-  - charts/jenkins-operator/values.yaml.gotmpl
-  strategicMergePatches:
-  - charts/jenkins-operator/patches/jenkins.yaml.gotmpl
-- name: jenkins-master
-  chart: ./charts/jenkins-master
+  - charts/jenkins-extra/values.yaml.gotmpl
+- name: jenkins
+  chart: jenkins/jenkins
+  version: ~3.3.4
   namespace: {{ .Values.namespace }}
   needs:
-  - {{ .Values.namespace }}/jenkins-operator
+  - {{ .Values.namespace }}/jenkins-extra
   values:
-  - charts/jenkins-master/values.yaml.gotmpl
+  - charts/jenkins/values.yaml.gotmpl
+  - charts/jenkins/values-agent.yaml.gotmpl
+  - charts/jenkins/values-casc-credentials.yaml.gotmpl
+  - charts/jenkins/values-casc-jenkins.yaml.gotmpl
+  - charts/jenkins/values-casc-jobs.yaml.gotmpl
+  - charts/jenkins/values-casc-unclassified.yaml.gotmpl
 
 environments:
   # The default environment is used for staging.

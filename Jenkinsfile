@@ -35,8 +35,16 @@ String getReleaseVersion() {
   return sh(returnStdout: true, script: 'jx-release-version')
 }
 
-String getTargetNamespace() {
-  return BRANCH_NAME == 'master' && env.DRY_RUN != 'true' ? 'platform' : 'platform-staging'
+def isStaging() {
+  return BRANCH_NAME =~ /PR-.*/ || env.DRY_RUN == 'true'
+}
+
+def getTargetNamespace() {
+  return isStaging() ? 'platform-staging' : 'platform'
+}
+
+def getHelmfileEnvironment() {
+  return isStaging() ? 'default' : 'production'
 }
 
 void helmfileTemplate(environment, outputDir) {
@@ -62,6 +70,7 @@ pipeline {
     HELM2_VERSION = '2.16.6'
     HELM3_VERSION = '3.5.3'
     NAMESPACE = getTargetNamespace()
+    HELMFILE_ENVIRONMENT = getHelmfileEnvironment()
   }
   stages {
     stage('Update CI') {
@@ -126,7 +135,7 @@ pipeline {
 
           echo """
           ----------------------------------------------------------------------
-          Synchronize K8s cluster state with Helmfile: Jenkins Operator, Jenkins
+          Synchronize K8s cluster state with Helmfile: Jenkins
           Namespace: ${NAMESPACE}
           ----------------------------------------------------------------------"""
           echo 'Current Helm 3 version:'
@@ -158,12 +167,15 @@ pipeline {
             usernamePassword(credentialsId: 'packages.nuxeo.com-auth', usernameVariable: 'PACKAGES_USERNAME', passwordVariable: 'PACKAGES_PASSWORD'),
             usernamePassword(credentialsId: 'connect-prod', usernameVariable: 'CONNECT_USERNAME', passwordVariable: 'CONNECT_PASSWORD'),
           ]) {
-            helmfileTemplate('default', 'target')
-            helmfileSync('default')
+            helmfileTemplate("${HELMFILE_ENVIRONMENT}", 'target')
+            helmfileSync("${HELMFILE_ENVIRONMENT}")
           }
         }
       }
       post {
+        always {
+          archiveArtifacts allowEmptyArchive: true, artifacts: 'helmfile.lock, target/**/*.yaml'
+        }
         success {
           setGitHubBuildStatus('update-ci', 'Update Platform CI', 'SUCCESS')
         }

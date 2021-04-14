@@ -1,7 +1,5 @@
 namespace: platform-staging
 dryrun: true
-jenkins:
-  url: https://jenkins.platform-staging.dev.nuxeo.com/
 docker:
   registry: docker.platform-staging.dev.nuxeo.com
 github:
@@ -9,19 +7,17 @@ github:
 jira:
   url: https://jira-preprod.nuxeo.com/
 jobs:
-  traits:
-    headRegexFilter: |-
-      // Filter by name (with regular expression)
-      headRegexFilter {
-        // Regular expression
-        regex('master')
+  strategy: |-
+    // Property strategy
+    strategy {
+      // All branches get the same properties
+      allBranchesSame {
+        props {
+          // Suppress automatic SCM triggering
+          suppressAutomaticTriggering()
+        }
       }
-    ltsHeadRegexFilter: |-
-      // Filter by name (with regular expression)
-      headRegexFilter {
-        // Regular expression
-        regex('2021')
-      }
+    }
   triggers: |-
     // Scan Repository Triggers
     triggers {
