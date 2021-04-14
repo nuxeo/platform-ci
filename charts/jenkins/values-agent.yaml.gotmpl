@@ -1,0 +1,17 @@
+# See https://github.com/jenkinsci/helm-charts/blob/main/charts/jenkins/values.yaml.
+agent:
+  # Kubernetes cloud.
+  namespace: {{ .Values.namespace }}
+  containerCap: 100
+  # Pod templates.
+  podTemplates:
+    jx-base: |
+      {{- tpl (readFile "pod-templates/jx-base.yaml.gotmpl") . | nindent 6 }}
+    nodejs: |
+      {{- tpl (readFile "pod-templates/nodejs.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-platform-11: |
+      {{- tpl (readFile "pod-templates/nuxeo-platform-11.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-platform-lts-2021: |
+      {{- tpl (readFile "pod-templates/nuxeo-platform-lts-2021.yaml.gotmpl") . | nindent 6 }}
+serviceAccountAgent:
+  name: {{ .Values.podTemplates.serviceAccount }}

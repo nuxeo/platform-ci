@@ -1,0 +1,37 @@
+# See https://github.com/jenkinsci/helm-charts/blob/main/charts/jenkins/values.yaml.
+controller:
+  JCasC:
+    configScripts:
+      casc-unclassified: |
+        unclassified:
+          defaultFolderConfiguration:
+            healthMetrics:
+            - worstChildHealthMetric:
+                recursive: true
+          gitHubPluginConfig:
+            configs:
+            - credentialsId: {{ .Values.github.credentialsId | quote }}
+              name: "nuxeo"
+          jiraGlobalConfiguration:
+            sites:
+            - credentialsId: "jira"
+              readTimeout: 30
+              recordScmChanges: false
+              supportsWikiStyleComment: true
+              threadExecutorNumber: 10
+              timeout: 10
+              updateJiraIssueForAllStatus: true
+              url: {{ .Values.jira.url | quote }}
+          jiraStepsConfig:
+            sites:
+            - credentialsId: "jira"
+              loginType: "CREDENTIAL"
+              name: "Jira Nuxeo"
+              readTimeout: 10000
+              timeout: 10000
+              url: "https://jira.nuxeo.com/"
+          slackNotifier:
+            teamDomain: "nuxeo"
+            tokenCredentialId: "slack"
+          timestamper:
+            allPipelines: true

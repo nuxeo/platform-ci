@@ -2,3 +2,5 @@
 *~
 .*.swp
 
+# Lock files
+*.lock

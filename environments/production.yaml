@@ -1,7 +1,5 @@
 namespace: platform
 dryrun: false
-jenkins:
-  url: https://jenkins.platform.dev.nuxeo.com/
 docker:
   registry: docker.platform.dev.nuxeo.com
 github:
@@ -9,25 +7,19 @@ github:
 jira:
   url: https://jira.nuxeo.com/
 jobs:
-  traits:
-    headRegexFilter: |-
-      // Filter by name (with regular expression)
-      headRegexFilter {
-        // Regular expression
-        regex('master|PR-.*')
+  strategy: |-
+    // Property strategy
+    strategy {
+      // All branches get the same properties
+      allBranchesSame {
       }
-    ltsHeadRegexFilter: |-
-      // Filter by name (with regular expression)
-      headRegexFilter {
-        // Regular expression
-        regex('2021|PR-.*')
-      }
+    }
   triggers: |-
     // Scan Repository Triggers
     triggers {
       // Periodically if not otherwise run
       periodicFolderTrigger {
         // Interval
-        interval('5m')
+        interval('1d')
       }
     }

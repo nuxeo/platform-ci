@@ -1,57 +1,61 @@
 - name: "nuxeo-platform-11"
   label: "jenkins-nuxeo-platform-11"
-  imagePullSecrets: {{- toYaml .Values.podTemplates.imagePullSecrets | nindent 2 -}}
+  imagePullSecrets:
+  - name: {{ .Values.podTemplates.imagePullSecretName }}
   serviceAccount: {{ .Values.podTemplates.serviceAccount }}
+  nodeUsageMode:  {{ .Values.podTemplates.nodeUsageMode }}
   containers:
+  {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
   - args: ""
     command: ""
     image: "{{ .Values.docker.registry }}/nuxeo/builder-java11-firefox42:latest"
     name: "maven"
-    privileged: true
+    privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
     resourceLimitMemory: "4Gi"
     resourceRequestCpu: "3"
     resourceRequestMemory: "4Gi"
-    ttyEnabled: true
-    workingDir: "/home/jenkins"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
   - args: ""
     command: ""
     image: "{{ .Values.docker.registry }}/nuxeo/builder-java11-firefox42:latest"
     name: "maven-dev"
-    privileged: true
+    privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
     resourceLimitMemory: "4Gi"
     resourceRequestCpu: "4"
     resourceRequestMemory: "4Gi"
-    ttyEnabled: true
-    workingDir: "/home/jenkins"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
   - args: ""
     command: ""
     image: "{{ .Values.docker.registry }}/nuxeo/builder-java11-firefox42:latest"
     name: "maven-mongodb"
-    privileged: true
+    privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
     resourceLimitMemory: "4Gi"
     resourceRequestCpu: "4"
     resourceRequestMemory: "4Gi"
-    ttyEnabled: true
-    workingDir: "/home/jenkins"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
   - args: ""
     command: ""
     image: "{{ .Values.docker.registry }}/nuxeo/builder-java11-firefox42:latest"
     name: "maven-postgresql"
-    privileged: true
+    privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
     resourceLimitMemory: "4Gi"
     resourceRequestCpu: "4"
     resourceRequestMemory: "4Gi"
-    ttyEnabled: true
-    workingDir: "/home/jenkins"
-  envVars: {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
-  - containerEnvVar:
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
+  envVars:
+  {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
+  - envVar:
       key: "JENKINS_URL"
-      value: "http://jenkins-operator-http-master.{{ .Values.namespace }}.svc.cluster.local:8080"
-  - containerEnvVar:
+      value: "http://jenkins.{{ .Values.namespace }}.svc.cluster.local:8080"
+  - envVar:
       key: "JAVA_TOOL_OPTIONS"
       value: "-Dsun.zip.disableMemoryMapping=true
         -XX:+UseParallelGC
@@ -59,16 +63,18 @@
         -XX:MaxHeapFreeRatio=10
         -XX:GCTimeRatio=4
         -XX:AdaptiveSizePolicyWeight=90"
-  - containerEnvVar:
+  - envVar:
       key: "MAVEN_OPTS"
       value: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
-  volumes: {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
+  volumes:
+  {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
   - secretVolume:
-      mountPath: "/root/.m2/"
+      mountPath: "/root/.m2"
       secretName: "jenkins-maven-settings"
   - emptyDirVolume:
       memory: false
       mountPath: "/root/.mvnrepository"
   nodeSelector: {{ .Values.podTemplates.nodeSelector }}
   yamlMergeStrategy: {{ .Values.podTemplates.yamlMergeStrategy }}
-  yaml: | {{- .Values.podTemplates.yaml | nindent 4 -}}
+  yaml: |
+    {{- .Values.podTemplates.yaml | nindent 4 -}}
