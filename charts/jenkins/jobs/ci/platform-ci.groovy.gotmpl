@@ -7,7 +7,7 @@ multibranchPipelineJob('ci/platform-ci') {
       source {
         // GitHub
         github {
-          id('nuxeo/platform-ci')
+          id('ci/platform-ci')
           // Credentials
           credentialsId('github-branch-source')
           // Repository
@@ -20,7 +20,7 @@ multibranchPipelineJob('ci/platform-ci') {
             {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
-            {{- .Values.jobs.traits.headRegexFilter | nindent 12 }}
+            {{- .Values.jobs.traits.masterHeadRegexFilter | nindent 12 }}
           }
         }
       }

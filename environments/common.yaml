@@ -67,6 +67,24 @@ jobs:
     disableStatusUpdateTrait: |-
       // Disable GitHub Notifications
       disableStatusUpdateTrait()
+    masterHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('master|PR-.*')
+      }
+    ltsHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('2021|PR-.*')
+      }
+    mainHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('main|PR-.*')
+      }
   orphanedItemStrategy: |-
     // Orphaned Item Strategy
     orphanedItemStrategy {
