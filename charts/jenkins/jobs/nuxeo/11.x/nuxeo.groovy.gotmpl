@@ -7,7 +7,7 @@ multibranchPipelineJob('nuxeo/11.x/nuxeo') {
       source {
         // GitHub
         github {
-          id('nuxeo/nuxeo')
+          id('nuxeo/11.x/nuxeo')
           // Credentials
           credentialsId('github-branch-source')
           // Repository
@@ -20,7 +20,7 @@ multibranchPipelineJob('nuxeo/11.x/nuxeo') {
             {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
-            {{- .Values.jobs.traits.headRegexFilter | nindent 12 }}
+            {{- .Values.jobs.traits.masterHeadRegexFilter | nindent 12 }}
           }
         }
       }
