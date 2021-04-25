@@ -1,0 +1,45 @@
+- id: "nuxeo-package-11"
+  name: "nuxeo-package-11"
+  label: "jenkins-nuxeo-package-11"
+  imagePullSecrets:
+  - name: {{ .Values.podTemplates.imagePullSecretName }}
+  serviceAccount: {{ .Values.podTemplates.serviceAccount }}
+  nodeUsageMode:  {{ .Values.podTemplates.nodeUsageMode }}
+  containers:
+  {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
+  - args: ""
+    command: ""
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-java11-firefox42-nodejs10:latest"
+    name: "maven"
+    privileged: {{ .Values.podTemplates.privileged }}
+    resourceLimitCpu: "2"
+    resourceLimitMemory: "3Gi"
+    resourceRequestCpu: "1"
+    resourceRequestMemory: "2Gi"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
+  envVars:
+  {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
+  - envVar:
+      key: "JENKINS_URL"
+      value: "http://jenkins.{{ .Values.namespace }}.svc.cluster.local:8080"
+  - envVar:
+      key: "JAVA_TOOL_OPTIONS"
+      value: "-Dsun.zip.disableMemoryMapping=true
+        -XX:+UseParallelGC
+        -XX:MinHeapFreeRatio=5
+        -XX:MaxHeapFreeRatio=10
+        -XX:GCTimeRatio=4
+        -XX:AdaptiveSizePolicyWeight=90"
+  - envVar:
+      key: "MAVEN_OPTS"
+      value: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+  volumes:
+  {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
+  - secretVolume:
+      mountPath: "/root/.m2"
+      secretName: "jenkins-maven-settings"
+  nodeSelector: {{ .Values.podTemplates.nodeSelector }}
+  yamlMergeStrategy: {{ .Values.podTemplates.yamlMergeStrategy }}
+  yaml: |
+    {{- .Values.podTemplates.yaml | nindent 4 -}}

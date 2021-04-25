@@ -1,0 +1,40 @@
+multibranchPipelineJob('nuxeo-sample-multi-projects/common') {
+  // Description
+  description('Nuxeo Sample for Multiple Projects: Common Level')
+  // Branch Sources
+  branchSources {
+    branchSource {
+      source {
+        // GitHub
+        github {
+          id('nuxeo-sample-multi-projects/common')
+          // Credentials
+          credentialsId('github-branch-source')
+          // Repository
+          repoOwner('nuxeo')
+          repository('nuxeo-sample-multi-common')
+          repositoryUrl('https://github.com/nuxeo/nuxeo-sample-multi-common')
+          configuredByUrl(false)
+          // Behaviors
+          traits {
+            {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            {{- .Values.jobs.traits.masterHeadRegexFilter | nindent 12 }}
+          }
+        }
+      }
+      {{- .Values.jobs.strategy | nindent 6 }}
+    }
+  }
+  // Build Configuration
+  factory {
+    // Mode: by Jenkinsfile
+    workflowBranchProjectFactory {
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/build.groovy')
+    }
+  }
+  {{- .Values.jobs.triggers | nindent 2 }}
+  {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
+}

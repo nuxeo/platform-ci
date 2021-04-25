@@ -1,0 +1,61 @@
+multibranchPipelineJob('misc/team-platform-report') {
+  // Description
+  description('Nuxeo Platform Team Changelog')
+  // Branch Sources
+  branchSources {
+    branchSource {
+      source {
+        // GitHub
+        github {
+          id('misc/team-platform-report')
+          // Credentials
+          credentialsId('github-branch-source')
+          // Repository
+          repoOwner('nuxeo')
+          repository('team-platform-report')
+          repositoryUrl('https://github.com/nuxeo/team-platform-report')
+          configuredByUrl(false)
+          // Behaviors
+          traits {
+            {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            // Filter by name (with regular expression)
+            headRegexFilter {
+              // Regular expression
+              regex('master')
+            }
+            // Advanced sub-modules behaviours
+            submoduleOptionTrait {
+              extension {
+                // Disable submodules processing
+                disableSubmodules(false)
+                // Recursively update submodules
+                recursiveSubmodules(true)
+                // Update tracking submodules to tip of branch
+                trackingSubmodules(false)
+                // Use credentials from default remote of parent repository
+                parentCredentials(true)
+                // Path of the reference repo to use during submodule update
+                reference('')
+                // Timeout (in minutes) for submodules operations
+                timeout(10)
+              }
+            }
+          }
+        }
+      }
+      {{- .Values.jobs.strategy | nindent 6 }}
+    }
+  }
+  // Build Configuration
+  factory {
+    // Mode: by Jenkinsfile
+    workflowBranchProjectFactory {
+      // Script Path
+      scriptPath('Jenkinsfile')
+    }
+  }
+  {{- .Values.jobs.triggers | nindent 2 }}
+  {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
+}
