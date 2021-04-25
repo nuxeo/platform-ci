@@ -4,6 +4,13 @@ controller:
   testEnabled: false
   image: jenkins/jenkins
   tag: lts
+  resources:
+    requests:
+      cpu: "200m"
+      memory: "256Mi"
+    limits:
+      cpu: "2"
+      memory: "8Gi"
   containerEnv:
   - name: SECRETS
     value: /run/secrets/jenkins-casc
