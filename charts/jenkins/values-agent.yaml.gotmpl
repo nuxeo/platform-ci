@@ -9,8 +9,20 @@ agent:
       {{- tpl (readFile "pod-templates/jx-base.yaml.gotmpl") . | nindent 6 }}
     nodejs: |
       {{- tpl (readFile "pod-templates/nodejs.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-jsf-11: |
+      {{- tpl (readFile "pod-templates/nuxeo-jsf-11.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-jsf-lts-2021: |
+      {{- tpl (readFile "pod-templates/nuxeo-jsf-lts-2021.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-package-10: |
+      {{- tpl (readFile "pod-templates/nuxeo-package-10.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-package-11: |
+      {{- tpl (readFile "pod-templates/nuxeo-package-11.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-package-lts-2021: |
+      {{- tpl (readFile "pod-templates/nuxeo-package-lts-2021.yaml.gotmpl") . | nindent 6 }}
     nuxeo-platform-11: |
       {{- tpl (readFile "pod-templates/nuxeo-platform-11.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-platform-15: |
+      {{- tpl (readFile "pod-templates/nuxeo-platform-15.yaml.gotmpl") . | nindent 6 }}
     nuxeo-platform-lts-2021: |
       {{- tpl (readFile "pod-templates/nuxeo-platform-lts-2021.yaml.gotmpl") . | nindent 6 }}
 serviceAccountAgent:

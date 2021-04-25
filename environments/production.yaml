@@ -23,3 +23,13 @@ jobs:
         interval('1d')
       }
     }
+  cleanupExports:
+    triggers: |-
+      // Build Triggers
+      triggers {
+        // Build periodically
+        cron {
+          // Schedule
+          spec('H H(8-10) * * *')
+        }
+      }
