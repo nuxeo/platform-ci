@@ -202,9 +202,6 @@ pipeline {
 
               # Git tag
               jx step tag -v ${VERSION}
-
-              # Git release
-              jx step changelog -v v${VERSION}
             """
           }
         }
