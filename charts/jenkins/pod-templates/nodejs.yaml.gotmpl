@@ -20,9 +20,6 @@
     workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:
   {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
-  - envVar:
-      key: "JENKINS_URL"
-      value: "http://jenkins.{{ .Values.namespace }}.svc.cluster.local:8080"
   volumes:
   {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
   nodeSelector: {{ .Values.podTemplates.nodeSelector }}
