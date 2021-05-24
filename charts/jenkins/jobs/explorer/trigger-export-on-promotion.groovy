@@ -29,4 +29,14 @@ pipelineJob('explorer/trigger-export-on-promotion') {
       scriptPath('ci/Jenkinsfiles/trigger-export-on-promotion.groovy')
     }
   }
+  properties {
+    pipelineTriggers {
+      triggers {
+        upstream {
+          upstreamProjects('/nuxeo/11.x/release-nuxeo-jsf-ui')
+          threshold('SUCCESS')
+        }
+      }
+    }
+  }
 }
