@@ -29,4 +29,14 @@ pipelineJob('explorer/trigger-export-on-build') {
       scriptPath('ci/Jenkinsfiles/trigger-export-on-build.groovy')
     }
   }
+  properties {
+    pipelineTriggers {
+      triggers {
+        upstream {
+          upstreamProjects('/nuxeo/11.x/nuxeo/master')
+          threshold('SUCCESS')
+        }
+      }
+    }
+  }
 }
