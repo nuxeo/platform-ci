@@ -24,14 +24,10 @@ controller:
     -Dhudson.security.ExtendedReadPermission=true
     -Djenkins.security.SystemReadPermission=true  
   probes:
-    livenessProbe:
-      # Since Startup Probe is not supported on our Kubernetes cluster (< 1.18), let's use `initialDelaySeconds` instead.
-      # It delays the initial liveness probe while Jenkins is starting.
-      initialDelaySeconds: 60
-    readinessProbe:
-      # Since Startup Probe is not supported on our Kubernetes cluster (< 1.18), let's use `initialDelaySeconds` instead.
-      # It delays the initial liveness probe while Jenkins is starting.
-      initialDelaySeconds: 60
+    # Allow 3 minutes for the Jenkins startup.
+    startupProbe:
+      periodSeconds: 20
+      failureThreshold: 10
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: true
   installPlugins:

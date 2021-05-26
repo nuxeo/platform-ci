@@ -4,7 +4,8 @@ repositories:
 
 helmDefaults:
   atomic: true
-  timeout: 180
+  # 4 minutes, greater than Jenkins' startup probe maximum time: 3 minutes.
+  timeout: 240
   wait: true
 
 releases:
