@@ -14,24 +14,13 @@
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
     resourceLimitMemory: "4Gi"
-    resourceRequestCpu: "3"
-    resourceRequestMemory: "4Gi"
-    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
-    workingDir: {{ .Values.podTemplates.workingDir }}
-  - args: ""
-    command: ""
-    image: "{{ .Values.docker.registry }}/nuxeo/builder-java15-firefox42:latest"
-    name: "maven-dev"
-    privileged: {{ .Values.podTemplates.privileged }}
-    resourceLimitCpu: "4"
-    resourceLimitMemory: "4Gi"
     resourceRequestCpu: "4"
     resourceRequestMemory: "4Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   - args: ""
     command: ""
-    image: "{{ .Values.docker.registry }}/nuxeo/builder-java15-firefox42:latest"
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-java15:latest"
     name: "maven-mongodb"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
@@ -42,7 +31,7 @@
     workingDir: {{ .Values.podTemplates.workingDir }}
   - args: ""
     command: ""
-    image: "{{ .Values.docker.registry }}/nuxeo/builder-java15-firefox42:latest"
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-java15:latest"
     name: "maven-postgresql"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
