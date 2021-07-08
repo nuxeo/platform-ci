@@ -8,7 +8,6 @@ controller:
             folder('ci')
         - script: > {{ tpl (readFile "jobs/ci/jx-platform-builders.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ readFile "jobs/ci/libreoffice-uploader.groovy" | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/ci/platform-builder-base.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/ci/platform-ci.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('explorer')
