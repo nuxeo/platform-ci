@@ -18,7 +18,10 @@ jobs:
         }
       }
     }
-  periodicFolderTrigger: ""
+  triggers: |-
+    // Scan Repository Triggers
+    triggers {
+    }
   cleanupExports:
     triggers: |-
       // Build Triggers

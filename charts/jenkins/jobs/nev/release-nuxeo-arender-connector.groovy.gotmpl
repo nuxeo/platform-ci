@@ -47,9 +47,6 @@ multibranchPipelineJob('nev/release-nuxeo-arender-connector') {
       scriptPath('ci/Jenkinsfiles/release.groovy')
     }
   }
-  // Scan Repository Triggers
-  triggers {
-    {{- .Values.jobs.periodicFolderTrigger | nindent 4 }}
-  }
+  {{- .Values.jobs.triggers | nindent 2 }}
   {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
 }

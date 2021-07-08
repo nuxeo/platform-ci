@@ -39,9 +39,6 @@ multibranchPipelineJob('replication/nuxeo-replication') {
       scriptPath('Jenkinsfile')
     }
   }
-  // Scan Repository Triggers
-  triggers {
-    {{- .Values.jobs.periodicFolderTrigger | nindent 4 }}
-  }
+  {{- .Values.jobs.triggers | nindent 2 }}
   {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
 }

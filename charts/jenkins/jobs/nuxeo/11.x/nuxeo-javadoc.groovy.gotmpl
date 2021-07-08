@@ -39,9 +39,6 @@ multibranchPipelineJob('nuxeo/11.x/nuxeo-javadoc') {
       scriptPath('ci/Jenkinsfiles/javadoc.groovy')
     }
   }
-  // Scan Repository Triggers
-  triggers {
-    {{- .Values.jobs.periodicFolderTrigger | nindent 4 }}
-  }
+  {{- .Values.jobs.triggers | nindent 2 }}
   {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
 }
