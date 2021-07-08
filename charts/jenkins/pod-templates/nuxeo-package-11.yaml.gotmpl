@@ -10,6 +10,7 @@
   - args: ""
     command: ""
     image: "{{ .Values.docker.registry }}/nuxeo/builder-java11-firefox42-nodejs10:latest"
+    alwaysPullImage: true
     name: "maven"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "2"

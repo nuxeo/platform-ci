@@ -10,6 +10,7 @@
   - args: ""
     command: ""
     image: "{{ .Values.docker.registry }}/nuxeo/builder-java15-firefox42:latest"
+    alwaysPullImage: true
     name: "maven"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
@@ -21,6 +22,7 @@
   - args: ""
     command: ""
     image: "{{ .Values.docker.registry }}/nuxeo/builder-java15:latest"
+    alwaysPullImage: true
     name: "maven-mongodb"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
@@ -32,6 +34,7 @@
   - args: ""
     command: ""
     image: "{{ .Values.docker.registry }}/nuxeo/builder-java15:latest"
+    alwaysPullImage: true
     name: "maven-postgresql"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"

@@ -10,6 +10,7 @@
   - args: ""
     command: ""
     image: "{{ .Values.docker.registry }}/nuxeo/builder-java8:latest"
+    alwaysPullImage: true
     name: "maven"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "2"
