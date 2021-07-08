@@ -5,6 +5,8 @@ agent:
   containerCap: 100
   # Pod templates.
   podTemplates:
+    base: |
+      {{- tpl (readFile "pod-templates/base.yaml.gotmpl") . | nindent 6 }}
     jx-base: |
       {{- tpl (readFile "pod-templates/jx-base.yaml.gotmpl") . | nindent 6 }}
     nodejs: |
