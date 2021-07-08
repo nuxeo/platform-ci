@@ -39,6 +39,9 @@ multibranchPipelineJob('nuxeo/nuxeo-helm-chart') {
       scriptPath('Jenkinsfile')
     }
   }
-  {{- .Values.jobs.triggers | nindent 2 }}
+  // Scan Repository Triggers
+  triggers {
+    {{- .Values.jobs.periodicFolderTrigger | nindent 4 }}
+  }
   {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
 }

@@ -35,6 +35,13 @@ multibranchPipelineJob('ci/jx-platform-builders') {
       scriptPath('Jenkinsfile')
     }
   }
-  {{- .Values.jobs.triggers | nindent 2 }}
+  // Scan Repository Triggers
+  triggers {
+    {{- .Values.jobs.periodicFolderTrigger | nindent 4 }}
+    upstream {
+      upstreamProjects('/ci/platform-builder-base/main')
+      threshold('SUCCESS')
+    }
+  }
   {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
 }

@@ -14,14 +14,11 @@ jobs:
       allBranchesSame {
       }
     }
-  triggers: |-
-    // Scan Repository Triggers
-    triggers {
-      // Periodically if not otherwise run
-      periodicFolderTrigger {
-        // Interval
-        interval('1d')
-      }
+  periodicFolderTrigger: |-
+    // Periodically if not otherwise run
+    periodicFolderTrigger {
+      // Interval
+      interval('1d')
     }
   cleanupExports:
     triggers: |-
