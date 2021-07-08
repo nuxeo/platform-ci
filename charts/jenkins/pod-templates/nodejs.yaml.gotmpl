@@ -10,6 +10,7 @@
   - args: "cat"
     command: "/bin/sh -c"
     image: "gcr.io/jenkinsxio/builder-nodejs:2.0.1117-453"
+    alwaysPullImage: true
     name: "nodejs"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "2"

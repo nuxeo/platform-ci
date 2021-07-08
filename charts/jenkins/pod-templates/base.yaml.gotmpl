@@ -10,6 +10,7 @@
   - args: "cat"
     command: "/bin/sh -c"
     image: "{{ .Values.docker.registry }}/nuxeo/builder-base:latest"
+    alwaysPullImage: true
     name: "base"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "1"
