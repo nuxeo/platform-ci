@@ -63,7 +63,7 @@ void helmfileSync(environment) {
 
 pipeline {
   agent {
-    label 'jenkins-jx-base'
+    label 'jenkins-base'
   }
   environment {
     JX_VERSION = '2.0.2412'
@@ -76,28 +76,17 @@ pipeline {
     stage('Update CI') {
       steps {
         setGitHubBuildStatus('update-ci', 'Update Platform CI', 'PENDING')
-        container('jx-base') {
+        container('base') {
           echo """
           ----------------------------------------------
           Upgrade Jenkins X Platform: Nexus, ChartMuseum
           Namespace: ${NAMESPACE}
           ----------------------------------------------"""
           dir('jenkins-x-platform') {
-            // install a more recent version of Helm 2 for Helm to correctly detect the API version capabilities
-            // of the server in the chart manifests:
-            // {{- if .Capabilities.APIVersions.Has "apps/v1" }}
-            // apiVersion: apps/v1
-            // {{- else }}
-            // apiVersion: apps/v1beta1
-            // {{- end }}
-            echo 'Current Helm 2 version:'
+            echo "With jx we're stuck with Helm 2"
+            echo 'Helm 2 version:'
             sh 'helm version'
 
-            sh 'wget -qO - https://get.helm.sh/helm-v$HELM2_VERSION-linux-amd64.tar.gz | tar -xzvf - --strip-components=1 -C /usr/bin linux-amd64/helm'
-            echo 'New Helm 2 version:'
-            sh 'helm version'
-
-            // with jx we're stuck with Helm 2
             echo 'initialize Helm without installing Tiller'
             sh 'helm init --client-only --stable-repo-url=https://charts.helm.sh/stable'
 
@@ -138,16 +127,9 @@ pipeline {
           Synchronize K8s cluster state with Helmfile: Jenkins
           Namespace: ${NAMESPACE}
           ----------------------------------------------------------------------"""
-          echo 'Current Helm 3 version:'
-          sh 'helm3 version'
-
-          // get a recent version of Helm3 since Helmfile requires it
-          // override Helm 2 with Helm 3 since `--helm-binary /usr/bin/helm3` doesn't seem to work in `helmfile deps`
-          sh '''
-            wget -qO - https://get.helm.sh/helm-v$HELM3_VERSION-linux-amd64.tar.gz \
-             | tar -xzvf - --strip-components=1 -C /usr/bin linux-amd64/helm
-          '''
-          echo 'New Helm 3 version:'
+          echo "Override Helm 2 with Helm 3 since `--helm-binary /usr/bin/helm3` doesn't seem to work in `helmfile deps`"
+          sh 'mv /usr/bin/helm3 /usr/bin/helm'
+          echo 'Helm 3 version:'
           sh 'helm version'
 
           echo 'install Helmfile'
@@ -190,7 +172,7 @@ pipeline {
       }
       steps {
         setGitHubBuildStatus('git-release', 'Perform Git release', 'PENDING')
-        container('jx-base') {
+        container('base') {
           withEnv(["VERSION=${getReleaseVersion()}"]) {
             sh """
               # ensure we're not on a detached head
