@@ -1,0 +1,48 @@
+multibranchPipelineJob('nev/release-nuxeo-arender-common') {
+  // Description
+  description('Release a given Nuxeo ARender Common branch.')
+  // Branch Sources
+  branchSources {
+    branchSource {
+      source {
+        // GitHub
+        github {
+          id('nev/release-nuxeo-arender-common')
+          // Credentials
+          credentialsId('github-branch-source')
+          // Repository
+          repoOwner('nuxeo')
+          repository('nuxeo-arender-common')
+          repositoryUrl('https://github.com/nuxeo/nuxeo-arender-common')
+          configuredByUrl(false)
+          // Behaviors
+          traits {
+            {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            {{- .Values.jobs.traits.mainHeadRegexFilter | nindent 12 }}
+          }
+        }
+      }
+      // Property strategy
+      strategy {
+        // All branches get the same properties
+        allBranchesSame {
+          props {
+            // Suppress automatic SCM triggering
+            suppressAutomaticTriggering()
+          }
+        }
+      }
+    }
+  }
+  // Build Configuration
+  factory {
+    // Mode: by Jenkinsfile
+    workflowBranchProjectFactory {
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/release.groovy')
+    }
+  }
+  {{- .Values.jobs.triggers | nindent 2 }}
+  {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
+}
