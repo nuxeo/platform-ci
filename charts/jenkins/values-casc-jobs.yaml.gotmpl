@@ -32,7 +32,9 @@ controller:
             folder('nev')
         - script: > {{ readFile "jobs/nev/arender-helm-chart-updater.groovy" | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/arender-helm-chart.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nev/nuxeo-arender-common.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/nuxeo-arender-connector.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nev/release-nuxeo-arender-common.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/release-nuxeo-arender-connector.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('nuxeo')
