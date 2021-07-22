@@ -31,4 +31,12 @@ pipelineJob('nuxeo/lts/release-nuxeo-jsf-ui-2021') {
       scriptPath('ci/Jenkinsfiles/release.groovy')
     }
   }
+  parameters {
+    string {
+      name('NUXEO_RELEASE_VERSION')
+      defaultValue('')
+      description('Nuxeo release version.')
+      trim(true)
+    }
+  }
 }
