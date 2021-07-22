@@ -31,4 +31,12 @@ pipelineJob('nuxeo/lts/release-nuxeo-hf-2021') {
       scriptPath('Jenkinsfiles/release-hf.groovy')
     }
   }
+  parameters {
+    string {
+      name('NUXEO_CURRENT_VERSION')
+      defaultValue('')
+      description('Nuxeo hotfix package version.')
+      trim(true)
+    }
+  }
 }

@@ -31,4 +31,12 @@ pipelineJob('nuxeo/lts/release-nuxeo-2021') {
       scriptPath('ci/Jenkinsfiles/release.groovy')
     }
   }
+  parameters {
+    string {
+      name('BUILD_VERSION')
+      defaultValue('')
+      description('Version of the Nuxeo Server build to promote')
+      trim(true)
+    }
+  }
 }

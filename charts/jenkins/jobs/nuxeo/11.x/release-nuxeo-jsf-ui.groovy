@@ -31,4 +31,12 @@ pipelineJob('nuxeo/11.x/release-nuxeo-jsf-ui') {
       scriptPath('ci/Jenkinsfiles/release.groovy')
     }
   }
+  parameters {
+    string {
+      name('NUXEO_RELEASE_VERSION')
+      defaultValue('')
+      description('Nuxeo release version.')
+      trim(true)
+    }
+  }
 }
