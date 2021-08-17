@@ -132,17 +132,8 @@ pipeline {
           echo 'Helm 3 version:'
           sh 'helm version'
 
-          echo 'install Helmfile'
-          sh '''
-            wget -q -O /usr/local/bin/helmfile https://github.com/roboll/helmfile/releases/download/v0.138.7/helmfile_linux_amd64
-            chmod +x /usr/local/bin/helmfile
-          '''
-
-          echo 'install Kustomize'
-          sh '''
-            curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-            mv kustomize /usr/bin/kustomize
-          '''
+          echo 'Helmfile version:'
+          sh 'helmfile version'
 
           echo 'synchronize cluster state'
           withCredentials([
