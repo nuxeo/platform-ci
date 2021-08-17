@@ -13,8 +13,6 @@ agent:
       {{- tpl (readFile "pod-templates/nuxeo-jsf-lts-2021.yaml.gotmpl") . | nindent 6 }}
     nuxeo-package-10: |
       {{- tpl (readFile "pod-templates/nuxeo-package-10.yaml.gotmpl") . | nindent 6 }}
-    nuxeo-package-11: |
-      {{- tpl (readFile "pod-templates/nuxeo-package-11.yaml.gotmpl") . | nindent 6 }}
     nuxeo-package-lts-2021: |
       {{- tpl (readFile "pod-templates/nuxeo-package-lts-2021.yaml.gotmpl") . | nindent 6 }}
     nuxeo-platform-lts-2021: |
