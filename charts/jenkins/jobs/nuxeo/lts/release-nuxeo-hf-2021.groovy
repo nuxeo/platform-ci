@@ -35,7 +35,7 @@ pipelineJob('nuxeo/lts/release-nuxeo-hf-2021') {
     string {
       name('NUXEO_CURRENT_VERSION')
       defaultValue('')
-      description('Nuxeo hotfix package version.')
+      description('Nuxeo build version.')
       trim(true)
     }
   }
