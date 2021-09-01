@@ -16,8 +16,6 @@ controller:
     value: /run/secrets/jenkins-casc
   # Among others, enable permissions for the extended-read-permission plugin.
   javaOpts: >
-    -XX:+UnlockExperimentalVMOptions
-    -XX:+UseCGroupMemoryLimitForHeap
     -XX:MaxRAMFraction=1
     -Djenkins.install.runSetupWizard=false
     -Djava.awt.headless=true
