@@ -9,7 +9,7 @@
   {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
   - args: "cat"
     command: "/bin/sh -c"
-    image: "gcr.io/jenkinsxio/builder-nodejs:2.0.1117-453"
+    image: "ghcr.io/jenkins-x/builder-nodejs:2.1.155-778"
     alwaysPullImage: true
     name: "nodejs"
     privileged: {{ .Values.podTemplates.privileged }}
