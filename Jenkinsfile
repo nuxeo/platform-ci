@@ -91,7 +91,7 @@ pipeline {
             sh 'helm init --client-only --stable-repo-url=https://charts.helm.sh/stable'
 
             echo 'add local chart repository'
-            sh 'helm repo add jenkins-x http://chartmuseum.jenkins-x.io'
+            sh 'helm repo add jenkins-x https://jenkins-x-charts.github.io/v2/'
 
             echo 'create or update Docker Ingress/Service'
             sh '''
