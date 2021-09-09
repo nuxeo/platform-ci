@@ -3,7 +3,10 @@ controller:
   # Disable rendering controller test resources when using `helm template`.
   testEnabled: false
   image: jenkins/jenkins
-  tag: lts
+  # Use a fixed version, instead of the `lts` moving tag, to avoid automatic upgrades when the pod is restarted.
+  # This happens typically when the Kubernetes node pool is upgraded by GCP and is not wanted since there can be some
+  # breaking changes in the Jenkins LTS image.
+  tag: 2.303.1
   resources:
     requests:
       cpu: "200m"
