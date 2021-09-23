@@ -33,7 +33,7 @@ pipelineJob('explorer/trigger-export-on-promotion') {
     pipelineTriggers {
       triggers {
         upstream {
-          upstreamProjects('/nuxeo/11.x/release-nuxeo-jsf-ui')
+          upstreamProjects('/nuxeo/lts/release-nuxeo-jsf-ui-2021')
           threshold('SUCCESS')
         }
       }
