@@ -33,7 +33,7 @@ pipelineJob('explorer/trigger-export-on-build') {
     pipelineTriggers {
       triggers {
         upstream {
-          upstreamProjects('/nuxeo/11.x/nuxeo/master')
+          upstreamProjects('/nuxeo/lts/nuxeo/2021')
           threshold('SUCCESS')
         }
       }
