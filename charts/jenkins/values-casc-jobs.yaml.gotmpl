@@ -35,6 +35,7 @@ controller:
         - script: > {{ tpl (readFile "jobs/nev/arender-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/nuxeo-arender-common.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/nuxeo-arender-connector.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ readFile "jobs/nev/pull-push-docker-images.groovy" | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/release-arender-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/release-nuxeo-arender-common.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/release-nuxeo-arender-connector.groovy.gotmpl") . | nindent 12 }}
