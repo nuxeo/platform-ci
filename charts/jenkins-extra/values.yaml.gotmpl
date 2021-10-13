@@ -1,3 +1,13 @@
+configMap:
+  dockerDind:
+    daemon: |-
+      {
+          "insecure-registries": [
+            "docker-registry-default.apps.prod.nuxeo.io",
+            "docker-registry-default.apps.oh.nuxeocloud.com",
+            "docker-registry-default.apps.va.nuxeocloud.com"
+          ]
+      }
 secret:
   mavenSettings:
     labels: {}
