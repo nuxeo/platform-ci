@@ -1,0 +1,39 @@
+multibranchPipelineJob('nuxeo/lts/check-release-date') {
+  // Description
+  description('Checks if a release is due in 3 days and create the required JIRA tickets accordingly.')
+  // Branch Sources
+  branchSources {
+    branchSource {
+      source {
+        // GitHub
+        github {
+          id('nuxeo/lts/check-release-date')
+          // Credentials
+          credentialsId('github-branch-source')
+          // Repository
+          repoOwner('nuxeo')
+          repository('integration-scripts-priv')
+          repositoryUrl('https://github.com/nuxeo/integration-scripts-priv')
+          configuredByUrl(false)
+          // Behaviors
+          traits {
+            {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            {{- .Values.jobs.traits.ltsHeadRegexFilter | nindent 12 }}
+          }
+        }
+      }
+      {{- .Values.jobs.strategy | nindent 6 }}
+    }
+  }
+  // Build Configuration
+  factory {
+    // Mode: by Jenkinsfile
+    workflowBranchProjectFactory {
+      // Script Path
+      scriptPath('Jenkinsfiles/check-release-date.groovy')
+    }
+  }
+  {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
+}
