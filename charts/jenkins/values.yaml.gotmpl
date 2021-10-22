@@ -60,6 +60,7 @@ controller:
   # Always override the installed plugins with the values of 'controller.installPlugins' on upgrade or redeployment.
   overwritePlugins: true
   scriptApproval:
+  - "method java.time.DayOfWeek getValue"
   - "staticMethod hudson.Functions printThrowable java.lang.Throwable"
   - "method java.util.Properties getProperty java.lang.String"
   initScripts:
