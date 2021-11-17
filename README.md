@@ -71,6 +71,7 @@ data:
   gitHubOAuthSecret: ********
   gitHubUser: ********
   gitHubToken: ********
+  gitHubAppKey: ********
   jiraPassword: ********
   slackToken: ********
 EOF
