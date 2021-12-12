@@ -31,4 +31,18 @@ pipelineJob('nuxeo/lts/nuxeo-hf-2021') {
       scriptPath('Jenkinsfiles/build-hf.groovy')
     }
   }
+  parameters {
+    string {
+      name('NUXEO_BRANCH')
+      defaultValue('2021')
+      description('Branch to hotfix.')
+      trim(true)
+    }
+    string {
+      name('NUXEO_BUILD_VERSION')
+      defaultValue('')
+      description('Nuxeo server build version to hotfix.')
+      trim(true)
+    }
+  }
 }

@@ -33,15 +33,9 @@ pipelineJob('nuxeo/lts/publish-nuxeo-hf-release-notes-2021') {
   }
   parameters {
     string {
-      name('HF_NUMBER')
+      name('NUXEO_BUILD_VERSION')
       defaultValue('')
-      description('A specific HF number (leave blank for latest HF).')
-      trim(true)
-    }
-    string {
-      name('NUXEO_BUILD_NUMBER')
-      defaultValue('')
-      description('Nuxeo build number, e.g. 2021.8.5')
+      description('Version of the promoted Nuxeo Server build.')
       trim(true)
     }
   }
