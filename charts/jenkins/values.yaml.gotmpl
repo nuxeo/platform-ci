@@ -62,8 +62,10 @@ controller:
   overwritePlugins: true
   scriptApproval:
   - "method java.time.DayOfWeek getValue"
-  - "staticMethod hudson.Functions printThrowable java.lang.Throwable"
+  - "method java.time.temporal.TemporalUnit between java.time.temporal.Temporal java.time.temporal.Temporal"
   - "method java.util.Properties getProperty java.lang.String"
+  - "staticField java.time.temporal.ChronoUnit DAYS"
+  - "staticMethod hudson.Functions printThrowable java.lang.Throwable"
   initScripts:
   # Set custom agent pod labels.
   - |
