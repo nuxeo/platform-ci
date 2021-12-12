@@ -33,9 +33,9 @@ pipelineJob('nuxeo/lts/release-nuxeo-2021') {
   }
   parameters {
     string {
-      name('BUILD_VERSION')
+      name('NUXEO_BUILD_VERSION')
       defaultValue('')
-      description('Version of the Nuxeo Server build to promote')
+      description('Version of the Nuxeo Server build to promote.')
       trim(true)
     }
   }

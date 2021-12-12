@@ -33,9 +33,9 @@ pipelineJob('nuxeo/lts/release-nuxeo-hf-2021') {
   }
   parameters {
     string {
-      name('NUXEO_CURRENT_VERSION')
+      name('NUXEO_BUILD_VERSION')
       defaultValue('')
-      description('Nuxeo build version.')
+      description('Version of the promoted Nuxeo Server build.')
       trim(true)
     }
   }
