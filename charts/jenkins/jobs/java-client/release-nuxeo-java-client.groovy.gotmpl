@@ -1,0 +1,52 @@
+multibranchPipelineJob('java-client/release-nuxeo-java-client') {
+  // Description
+  description('Release a given Nuxeo Java Client branch.')
+  // Branch Sources
+  branchSources {
+    branchSource {
+      source {
+        // GitHub
+        github {
+          id('java-client/release-nuxeo-java-client')
+          // Credentials
+          credentialsId('github-app')
+          // Repository
+          repoOwner('nuxeo')
+          repository('nuxeo-java-client')
+          repositoryUrl('https://github.com/nuxeo/nuxeo-java-client')
+          configuredByUrl(false)
+          // Behaviors
+          traits {
+            {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            // Filter by name (with regular expression)
+            headRegexFilter {
+              // Regular expression
+              regex('master|3.\\d+')
+            }
+          }
+        }
+      }
+      // Property strategy
+      strategy {
+        // All branches get the same properties
+        allBranchesSame {
+          props {
+            // Suppress automatic SCM triggering
+            suppressAutomaticTriggering()
+          }
+        }
+      }
+    }
+  }
+  // Build Configuration
+  factory {
+    // Mode: by Jenkinsfile
+    workflowBranchProjectFactory {
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/release.groovy')
+    }
+  }
+  {{- .Values.jobs.triggers | nindent 2 }}
+  {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
+}
