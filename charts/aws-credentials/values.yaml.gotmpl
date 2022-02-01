@@ -1,0 +1,8 @@
+cronjob:
+  # Everyday at midnight
+  schedule: "0 0 * * *"
+  image: nuxeo/aws-iam-credential-rotate
+secret:
+  namespace: {{ .Values.namespace }}
+  accessKeyId: {{ requiredEnv "AWS_ACCESS_KEY_ID" }}
+  secretAccessKey: {{ requiredEnv "AWS_SECRET_ACCESS_KEY" }}

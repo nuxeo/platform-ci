@@ -4,3 +4,8 @@
 
 # Lock files
 *.lock
+
+.idea
+*.iml
+
+*.DS_Store

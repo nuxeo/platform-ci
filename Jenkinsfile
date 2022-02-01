@@ -66,6 +66,7 @@ pipeline {
     label 'jenkins-base'
   }
   environment {
+    AWS_CREDENTIALS_SECRET = 'aws-credentials'
     JX_VERSION = '2.0.2412'
     HELM2_VERSION = '2.16.6'
     HELM3_VERSION = '3.5.3'
@@ -140,8 +141,23 @@ pipeline {
             usernamePassword(credentialsId: 'packages.nuxeo.com-auth', usernameVariable: 'PACKAGES_USERNAME', passwordVariable: 'PACKAGES_PASSWORD'),
             usernamePassword(credentialsId: 'connect-prod', usernameVariable: 'CONNECT_USERNAME', passwordVariable: 'CONNECT_PASSWORD'),
           ]) {
-            helmfileTemplate("${HELMFILE_ENVIRONMENT}", 'target')
-            helmfileSync("${HELMFILE_ENVIRONMENT}")
+            script {
+              def awsAccessKeyId = sh(
+                script: "kubectl get secret ${AWS_CREDENTIALS_SECRET} -n ${NAMESPACE} -o=jsonpath='{.data.access_key_id}' | base64 --decode",
+                returnStdout: true
+              )
+              def awsSecretAccessKey = sh(
+                script: "kubectl get secret ${AWS_CREDENTIALS_SECRET} -n ${NAMESPACE} -o=jsonpath='{.data.secret_access_key}' | base64 --decode",
+                returnStdout: true
+              )
+              withEnv([
+                  "AWS_ACCESS_KEY_ID=${awsAccessKeyId}",
+                  "AWS_SECRET_ACCESS_KEY=${awsSecretAccessKey}"
+                ]) {
+                helmfileTemplate("${HELMFILE_ENVIRONMENT}", 'target')
+                helmfileSync("${HELMFILE_ENVIRONMENT}")
+              }
+            }
           }
         }
       }
