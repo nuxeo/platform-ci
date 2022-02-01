@@ -27,6 +27,11 @@ releases:
   - charts/jenkins/values-casc-jenkins.yaml.gotmpl
   - charts/jenkins/values-casc-jobs.yaml.gotmpl
   - charts/jenkins/values-casc-unclassified.yaml.gotmpl
+- name: aws-credentials
+  chart: ./charts/aws-credentials
+  namespace: {{ .Values.namespace }}
+  values:
+    - charts/aws-credentials/values.yaml.gotmpl
 
 environments:
   # The default environment is used for staging.

@@ -2,9 +2,7 @@
 
 Configuration as code for the Nuxeo Platform CI in Kubernetes.
 
-## Jenkins
-
-### Principles
+## Principles
 
 Jenkins is installed with the [Jenkins Helm chart](https://github.com/jenkinsci/helm-charts/tree/main/charts/jenkins).
 
@@ -27,16 +25,18 @@ When [synchronizing the Kubernetes cluster](#kubernetes-cluster-synchronization)
 - The Jenkins pod will **not** be restarted if the changes only impact Jenkins Configuration as Code, thanks to the `config-reload` container that takes care of hot reloading the configuration. This includes pod templates and jobs!
 - The Jenkins pod **will** be restarted if the changes impact anything else than Jenkins Configuration as Code, typically the Jenkins image, plugins or Java options.
 
-### Requirements
+## Requirements
 
 - [Helm 3](https://helm.sh/docs/intro/install/)
 - [Helmfile](https://github.com/roboll/helmfile#installation)
 - [Helm Diff plugin](https://github.com/databus23/helm-diff#install)
 - [Kustomize](https://kubernetes-sigs.github.io/kustomize/installation/)
 
-### Installation
+## Installation
 
-#### Kubernetes Cluster Initialization
+### Kubernetes Cluster Initialization
+
+#### Target Namespace
 
 Define the target namespace variable:
 
@@ -49,6 +49,8 @@ Create the `$NAMESPACE` namespace:
 ```shell
 kubectl create ns $NAMESPACE
 ```
+
+#### Secrets
 
 Import the required secrets from the `platform` namespace:
 
@@ -78,6 +80,32 @@ EOF
 ) | kubectl apply --namespace=$NAMESPACE -f -
 ```
 
+Create the secret containing the AWS credentials:
+
+```shell
+(
+cat << EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aws-credentials
+  annotations:
+    meta.helm.sh/release-name: aws-credentials
+    meta.helm.sh/release-namespace: $NAMESPACE
+  labels:
+    "app.kubernetes.io/managed-by": Helm
+    aws-rotate-key: "true"
+stringData:
+  access_key_id: ********
+  secret_access_key: ********
+EOF
+) | kubectl apply --namespace=$NAMESPACE -f -
+```
+
+The AWS credentials are rotated with the [AWS IAM key rotate tool](https://github.com/nuxeo-cloud/aws-iam-credential-rotate). The cron job schedule is configurable with the `cronjob.schedule` value.
+
+#### Misc
+
 Create the `ClusterRoleBinding` required for the `ServiceAccount` used by Jenkins, typically to create namespaces:
 
 ```shell
@@ -99,7 +127,7 @@ EOF
 ) | kubectl apply -f -
 ```
 
-#### Kubernetes Cluster Synchronization
+### Kubernetes Cluster Synchronization
 
 The following environment variables need to be set:
 

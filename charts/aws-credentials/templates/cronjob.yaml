@@ -1,0 +1,21 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: aws-credentials-rotator
+spec:
+  schedule: {{ .Values.cronjob.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            parent: aws-credentials-rotator
+        spec:
+          containers:
+          - name: aws-credentials-rotator
+            image: {{ .Values.cronjob.image }}
+          restartPolicy: Never
+          serviceAccount: aws-credentials-updater
+          serviceAccountName: aws-credentials-updater
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1

@@ -1,0 +1,4 @@
+apiVersion: v1
+name: aws-credentials
+description: AWS credentials rotation
+version: 1.0.0
