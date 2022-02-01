@@ -77,54 +77,50 @@ pipeline {
       steps {
         setGitHubBuildStatus('update-ci', 'Update Platform CI', 'PENDING')
         container('base') {
-          // https://jira.nuxeo.com/browse/NXBT-3548
-          // disable `jx upgrade platform` stuck because of exposecontroller image failed to be pulled,
-          // waiting to completely stop relying on `jx`
-          //
-          // echo """
-          // ----------------------------------------------
-          // Upgrade Jenkins X Platform: Nexus, ChartMuseum
-          // Namespace: ${NAMESPACE}
-          // ----------------------------------------------"""
-          // dir('jenkins-x-platform') {
-          //   echo "With jx we're stuck with Helm 2"
-          //   echo 'Helm 2 version:'
-          //   sh 'helm version'
+          echo """
+          ----------------------------------------------
+          Upgrade Jenkins X Platform: Nexus, ChartMuseum
+          Namespace: ${NAMESPACE}
+          ----------------------------------------------"""
+          dir('jenkins-x-platform') {
+            echo "With jx we're stuck with Helm 2"
+            echo 'Helm 2 version:'
+            sh 'helm version'
 
-          //   echo 'initialize Helm without installing Tiller'
-          //   sh 'helm init --client-only --stable-repo-url=https://charts.helm.sh/stable'
+            echo 'initialize Helm without installing Tiller'
+            sh 'helm init --client-only --stable-repo-url=https://charts.helm.sh/stable'
 
-          //   echo 'add local chart repository'
-          //   sh 'helm repo add jenkins-x https://jenkins-x-charts.github.io/v2/'
+            echo 'add local chart repository'
+            sh 'helm repo add jenkins-x https://jenkins-x-charts.github.io/v2/'
 
-          //   echo 'create or update Docker Ingress/Service'
-          //   sh '''
-          //     envsubst < templates/docker-service.yaml > templates/docker-service.yaml~gen
-          //     kubectl apply -f templates/docker-service.yaml~gen
-          //   '''
+            echo 'create or update Docker Ingress/Service'
+            sh '''
+              envsubst < templates/docker-service.yaml > templates/docker-service.yaml~gen
+              kubectl apply -f templates/docker-service.yaml~gen
+            '''
 
-          //   echo 'jx version:'
-          //   sh 'jx version --no-verify=true --no-version-check=true'
+            echo 'jx version:'
+            sh 'jx version --no-verify=true --no-version-check=true'
 
-          //   echo 'upgrade Jenkins X Platform'
-          //   withCredentials([string(credentialsId: 'jenkins-docker-cfg', variable: 'DOCKER_REGISTRY_CONFIG')]) {
-          //     sh 'envsubst < values.yaml > myvalues.yaml'
-          //   }
-          //   sh """
-          //     jx upgrade platform --namespace=${NAMESPACE} \
-          //       --version ${JX_VERSION} \
-          //       --local-cloud-environment \
-          //       --always-upgrade \
-          //       --cleanup-temp-files=true \
-          //       --batch-mode
-          //   """
+            echo 'upgrade Jenkins X Platform'
+            withCredentials([string(credentialsId: 'jenkins-docker-cfg', variable: 'DOCKER_REGISTRY_CONFIG')]) {
+              sh 'envsubst < values.yaml > myvalues.yaml'
+            }
+            sh """
+              jx upgrade platform --namespace=${NAMESPACE} \
+                --version ${JX_VERSION} \
+                --local-cloud-environment \
+                --always-upgrade \
+                --cleanup-temp-files=true \
+                --batch-mode
+            """
 
-          //   echo 'disable unwanted gc cron jobs'
-          //   sh """
-          //     kubectl --namespace=${NAMESPACE} delete cronjob jenkins-x-gcactivities
-          //     kubectl --namespace=${NAMESPACE} delete cronjob jenkins-x-gcpods
-          //   """
-          // }
+            echo 'disable unwanted gc cron jobs'
+            sh """
+              kubectl --namespace=${NAMESPACE} delete cronjob jenkins-x-gcactivities
+              kubectl --namespace=${NAMESPACE} delete cronjob jenkins-x-gcpods
+            """
+          }
 
           echo """
           ----------------------------------------------------------------------
