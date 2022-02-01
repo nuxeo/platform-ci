@@ -1,5 +1,7 @@
 # used to generate an ingress for nexus and chartmuseum
 expose:
+  Image: "ghcr.io/jenkins-x/exposecontroller"
+  ImageTag: "2.3.118"
   config:
     domain: dev.nuxeo.com
     exposer: Ingress
@@ -15,8 +17,8 @@ docker-registry:
   enabled: false
 nexus:
   image:
-    repository: gcr.io/jenkinsxio/nexus
-    tag: 0.1.36
+    repository: ghcr.io/jenkins-x/nexus
+    tag: 0.1.41
   env:
     # Fix system status warning about available CPUs: "The host system is allocating a maximum of 1 cores to the application. A minimum of 4 is recommended.",
     # by specifying the active processor count.
@@ -25,6 +27,10 @@ nexus:
   persistence:
     size: 310Gi
     storageClass: standard
+controllerrole:
+  image:
+    repository: ghcr.io/jenkins-x/builder-jx
+    tag: 2.1.155-779-patch2
 PipelineSecrets:
   DockerConfig: |-
     $DOCKER_REGISTRY_CONFIG
