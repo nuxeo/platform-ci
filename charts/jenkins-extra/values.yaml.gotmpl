@@ -28,13 +28,13 @@ secret:
         <servers>
           <server>
             <id>nexus</id>
-            <username>{{ requiredEnv "PACKAGES_USERNAME" }}</username>
-            <password>{{ requiredEnv "PACKAGES_PASSWORD" }}</password>
+            <username>{{ env "PACKAGES_USERNAME" }}</username>
+            <password>{{ env "PACKAGES_PASSWORD" }}</password>
           </server>
           <server>
             <id>nuxeo-studio</id>
-            <username>{{ requiredEnv "CONNECT_USERNAME" }}</username>
-            <password>{{ requiredEnv "CONNECT_PASSWORD" }}</password>
+            <username>{{ env "CONNECT_USERNAME" }}</username>
+            <password>{{ env "CONNECT_PASSWORD" }}</password>
           </server>
         </servers>
         <profiles>
