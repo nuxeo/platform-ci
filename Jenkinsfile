@@ -137,6 +137,7 @@ pipeline {
           sh 'helmfile version'
 
           echo 'synchronize cluster state'
+          helmfileTemplate("${HELMFILE_ENVIRONMENT}", 'target')
           withCredentials([
             usernamePassword(credentialsId: 'packages.nuxeo.com-auth', usernameVariable: 'PACKAGES_USERNAME', passwordVariable: 'PACKAGES_PASSWORD'),
             usernamePassword(credentialsId: 'connect-prod', usernameVariable: 'CONNECT_USERNAME', passwordVariable: 'CONNECT_PASSWORD'),
@@ -154,7 +155,6 @@ pipeline {
                   "AWS_ACCESS_KEY_ID=${awsAccessKeyId}",
                   "AWS_SECRET_ACCESS_KEY=${awsSecretAccessKey}"
                 ]) {
-                helmfileTemplate("${HELMFILE_ENVIRONMENT}", 'target')
                 helmfileSync("${HELMFILE_ENVIRONMENT}")
               }
             }

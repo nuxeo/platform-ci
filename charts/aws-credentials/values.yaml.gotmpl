@@ -4,5 +4,5 @@ cronjob:
   image: nuxeo/aws-iam-credential-rotate
 secret:
   namespace: {{ .Values.namespace }}
-  accessKeyId: {{ requiredEnv "AWS_ACCESS_KEY_ID" }}
-  secretAccessKey: {{ requiredEnv "AWS_SECRET_ACCESS_KEY" }}
+  accessKeyId: {{ env "AWS_ACCESS_KEY_ID" }}
+  secretAccessKey: {{ env "AWS_SECRET_ACCESS_KEY" }}
