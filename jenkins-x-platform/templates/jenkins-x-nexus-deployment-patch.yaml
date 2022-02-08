@@ -1,0 +1,10 @@
+spec:
+  template:
+    spec:
+      nodeSelector:
+        team: platform
+      tolerations:
+      - key: team
+        operator: Equal
+        value: platform
+        effect: NoSchedule

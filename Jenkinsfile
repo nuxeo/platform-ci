@@ -116,6 +116,13 @@ pipeline {
                 --batch-mode
             """
 
+            echo 'patch nexus deployment to add tolerations and nodeSelector'
+            sh """
+              kubectl --namespace=${NAMESPACE} patch deployment jenkins-x-nexus --patch "\$(cat templates/jenkins-x-nexus-deployment-patch.yaml)"
+              kubectl --namespace=${NAMESPACE} scale deployment jenkins-x-nexus --replicas 0
+              kubectl --namespace=${NAMESPACE} scale deployment jenkins-x-nexus --replicas 1
+            """
+
             echo 'disable unwanted gc cron jobs'
             sh """
               kubectl --namespace=${NAMESPACE} delete cronjob jenkins-x-gcactivities
