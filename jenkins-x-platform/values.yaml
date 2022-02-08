@@ -27,10 +27,25 @@ nexus:
   persistence:
     size: 310Gi
     storageClass: standard
+chartmuseum:
+  nodeSelector:
+    team: platform
+  tolerations:
+  - key: team
+    operator: Equal
+    value: platform
+    effect: NoSchedule
 controllerrole:
   image:
     repository: ghcr.io/jenkins-x/builder-jx
     tag: 2.1.155-779-patch2
+  nodeSelector:
+    team: platform
+  tolerations:
+  - key: team
+    operator: Equal
+    value: platform
+    effect: NoSchedule
 PipelineSecrets:
   DockerConfig: |-
     $DOCKER_REGISTRY_CONFIG
