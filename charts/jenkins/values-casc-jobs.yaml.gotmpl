@@ -11,6 +11,9 @@ controller:
         - script: > {{ tpl (readFile "jobs/ci/platform-builder-base.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/ci/platform-ci.groovy.gotmpl") . | nindent 12 }}
         - script: >
+            folder('compound-documents')
+        - script: > {{ tpl (readFile "jobs/compound-documents/nuxeo-compound-documents.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('explorer')
         - script: > {{ tpl (readFile "jobs/explorer/cleanup-exports.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ readFile "jobs/explorer/export-platform-explorer-reference.groovy" | nindent 12 }}
