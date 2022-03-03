@@ -17,5 +17,12 @@ spec:
           restartPolicy: Never
           serviceAccount: aws-credentials-updater
           serviceAccountName: aws-credentials-updater
+          nodeSelector:
+            team: platform
+          tolerations:
+          - key: team
+            operator: Equal
+            value: platform
+            effect: NoSchedule
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
