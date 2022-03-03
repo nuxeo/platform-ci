@@ -22,14 +22,14 @@ secret:
           <mirror>
             <id>nexus</id>
             <mirrorOf>!nuxeo-studio,external:*</mirrorOf>
-            <url>https://packages.nuxeo.com/repository/maven-internal-build/</url>
+            <url>http://nexus/repository/maven-upstream/</url>
           </mirror>
         </mirrors>
         <servers>
           <server>
             <id>nexus</id>
-            <username>{{ env "PACKAGES_USERNAME" }}</username>
-            <password>{{ env "PACKAGES_PASSWORD" }}</password>
+            <username>{{ env "NEXUS_USERNAME" }}</username>
+            <password>{{ env "NEXUS_PASSWORD" }}</password>
           </server>
           <server>
             <id>nuxeo-studio</id>

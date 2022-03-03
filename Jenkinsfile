@@ -43,6 +43,10 @@ def getTargetNamespace() {
   return isStaging() ? 'platform-staging' : 'platform'
 }
 
+def getNexusSecret() {
+  return isStaging() ? 'nexus-staging' : 'nexus'
+}
+
 def getHelmfileEnvironment() {
   return isStaging() ? 'default' : 'production'
 }
@@ -71,6 +75,7 @@ pipeline {
     HELM2_VERSION = '2.16.6'
     HELM3_VERSION = '3.5.3'
     NAMESPACE = getTargetNamespace()
+    NEXUS_SECRET = getNexusSecret()
     HELMFILE_ENVIRONMENT = getHelmfileEnvironment()
   }
   stages {
@@ -146,7 +151,7 @@ pipeline {
           echo 'synchronize cluster state'
           helmfileTemplate("${HELMFILE_ENVIRONMENT}", 'target')
           withCredentials([
-            usernamePassword(credentialsId: 'packages.nuxeo.com-auth', usernameVariable: 'PACKAGES_USERNAME', passwordVariable: 'PACKAGES_PASSWORD'),
+            usernamePassword(credentialsId: "${NEXUS_SECRET}", usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD'),
             usernamePassword(credentialsId: 'connect-prod', usernameVariable: 'CONNECT_USERNAME', passwordVariable: 'CONNECT_PASSWORD'),
           ]) {
             script {

@@ -131,9 +131,9 @@ EOF
 
 The following environment variables need to be set:
 
-- Credentials for [packages.nuxeo.com](https://packages.nuxeo.com/):
-  - `PACKAGES_USERNAME`
-  - `PACKAGES_PASSWORD`
+- Credentials for [nexus.platform.dev.nuxeo.com](https://nexus.platform.dev.nuxeo.com/) or [nexus.platform-staging.dev.nuxeo.com](https://nexus.platform-staging.dev.nuxeo.com/):
+  - `NEXUS_USERNAME`
+  - `NEXUS_PASSWORD`
 
 - Credentials for [Nuxeo Connect](http://connect.nuxeo.com/):
   - `CONNECT_USERNAME`
@@ -164,3 +164,10 @@ While waiting to be migrated to standard Helm charts, as for Jenkins, the other 
 - Nexus
 - ChartMuseum
 - A bunch of other stuff related to Jenkins X and required for the `jx` commands, typically `jx preview` or `jx step git credentials`.
+
+### Nexus
+
+Nexus is used as:
+
+- An internal Docker [registry](https://docker.platform.dev.nuxeo.com/) for the images built by Kaniko in the Jenkins pipelines.
+- An internal Maven proxy [repository](https://nexus.platform.dev.nuxeo.com/repository/maven-upstream/) to the main upstream [repository](https://packages.nuxeo.com/repository/maven-internal-build/).
