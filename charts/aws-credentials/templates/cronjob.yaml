@@ -3,6 +3,7 @@ kind: CronJob
 metadata:
   name: aws-credentials-rotator
 spec:
+  suspend: {{ .Values.cronjob.suspend }}
   schedule: {{ .Values.cronjob.schedule | quote }}
   jobTemplate:
     spec:

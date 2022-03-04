@@ -33,3 +33,4 @@ jobs:
           spec('H H(8-10) * * *')
         }
       }
+awsCredentialsRotation: true
