@@ -135,6 +135,10 @@ The following environment variables need to be set:
   - `NEXUS_USERNAME`
   - `NEXUS_PASSWORD`
 
+- Credentials for [packages.nuxeo.com](https://packages.nuxeo.com/):
+  - `PACKAGES_USERNAME`
+  - `PACKAGES_PASSWORD`
+
 - Credentials for [Nuxeo Connect](http://connect.nuxeo.com/):
   - `CONNECT_USERNAME`
   - `CONNECT_PASSWORD`

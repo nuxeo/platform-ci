@@ -152,6 +152,7 @@ pipeline {
           helmfileTemplate("${HELMFILE_ENVIRONMENT}", 'target')
           withCredentials([
             usernamePassword(credentialsId: "${NEXUS_SECRET}", usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD'),
+            usernamePassword(credentialsId: 'packages.nuxeo.com-auth', usernameVariable: 'PACKAGES_USERNAME', passwordVariable: 'PACKAGES_PASSWORD'),
             usernamePassword(credentialsId: 'connect-prod', usernameVariable: 'CONNECT_USERNAME', passwordVariable: 'CONNECT_PASSWORD'),
           ]) {
             script {
