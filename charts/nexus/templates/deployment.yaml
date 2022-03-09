@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "nexus.fullname" . }}
+  labels:
+    "app.kubernetes.io/name": {{ template "nexus.fullname" . }}
+    "helm.sh/chart": "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    "app.kubernetes.io/managed-by": "{{ .Release.Service }}"
+    "app.kubernetes.io/instance": "{{ .Release.Name }}"
+  annotations:
+    "meta.helm.sh/release-name": "{{ .Release.Name }}"
+    "meta.helm.sh/release-namespace": {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "nexus.name" . }}
+      release: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ template "nexus.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+{{- if .Values.image.pullSecrets }}
+      imagePullSecrets: {{ toYaml .Values.image.pullSecrets | nindent 6}}
+{{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: NEXUS_CONTEXT
+          valueFrom:
+            configMapKeyRef:
+              name: nexus
+              key: context.path
+        {{- range $key, $value := .Values.env }}
+        - name: {{ $key }}
+          value: "{{ $value }}"
+        {{- end }}
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - /opt/sonatype/nexus/postStart.sh
+        ports:
+          - containerPort: {{ .Values.service.internalPort }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.internalPort }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.internalPort }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+        volumeMounts:
+          - mountPath: /nexus-data
+            name: nexus-data-volume
+          - mountPath: /opt/sonatype/nexus/config
+            name: {{ template "nexus.name" . }}
+      volumes:
+        - name: {{ template "nexus.name" . }}
+          secret:
+            secretName: {{ template "nexus.name" . }}
+        - name: nexus-data-volume
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "nexus.fullname" .) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end -}}
+{{- if .Values.securityContext }}
+      securityContext:
+{{ toYaml .Values.securityContext | indent 8 }}
+{{- end }}
+{{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+{{- end }}
+{{- if .Values.tolerations }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 8 }}
+{{- end }}

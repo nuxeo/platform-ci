@@ -1,0 +1,114 @@
+namespace: {{ .Values.namespace }}
+affinity: {}
+env:
+  open:
+    ALLOW_OVERWRITE: false
+    AUTH_ANONYMOUS_GET: true
+    CACHE: null
+    CACHE_REDIS_ADDR: null
+    CACHE_REDIS_DB: 0
+    CHART_POST_FORM_FIELD_NAME: chart
+    CHART_URL: null
+    CONTEXT_PATH: null
+    DEBUG: false
+    DEPTH: 0
+    DISABLE_API: false
+    DISABLE_METRICS: true
+    DISABLE_STATEFILES: false
+    INDEX_LIMIT: 0
+    LOG_JSON: true
+    PROV_POST_FORM_FIELD_NAME: prov
+    STORAGE: local
+    STORAGE_ALIBABA_BUCKET: null
+    STORAGE_ALIBABA_ENDPOINT: null
+    STORAGE_ALIBABA_PREFIX: null
+    STORAGE_ALIBABA_SSE: null
+    STORAGE_AMAZON_BUCKET: null
+    STORAGE_AMAZON_ENDPOINT: null
+    STORAGE_AMAZON_PREFIX: null
+    STORAGE_AMAZON_REGION: null
+    STORAGE_AMAZON_SSE: null
+    STORAGE_GOOGLE_BUCKET: null
+    STORAGE_GOOGLE_PREFIX: null
+    STORAGE_MICROSOFT_CONTAINER: null
+    STORAGE_MICROSOFT_PREFIX: null
+    STORAGE_OPENSTACK_CACERT: null
+    STORAGE_OPENSTACK_CONTAINER: null
+    STORAGE_OPENSTACK_PREFIX: null
+    STORAGE_OPENSTACK_REGION: null
+  secret:
+    BASIC_AUTH_PASS: {{ env "CHARTMUSEUM_PASSWORD" }}
+    BASIC_AUTH_USER: {{ env "CHARTMUSEUM_USERNAME" }}
+gcp:
+  secret:
+    enabled: false
+    key: credentials.json
+    name: null
+image:
+  pullPolicy: IfNotPresent
+  pullSecrets:
+  - name: kubernetes-docker-cfg
+  repository: chartmuseum/chartmuseum
+  tag: v0.7.1
+ingress:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hostName: chartmuseum.{{ .Values.namespace }}.dev.nuxeo.com
+  tls:
+  - hosts:
+    - chartmuseum.{{ .Values.namespace }}.dev.nuxeo.com
+    secretName: {{ .Values.namespace }}-tls
+nodeSelector:
+  team: platform
+persistence:
+  accessMode: ReadWriteOnce
+  enabled: true
+  size: 8Gi
+  # use existing pvc since volume cloning isn't available on GKE 1.19
+  existingClaim: jenkins-x-chartmuseum
+probes:
+  liveness:
+    failureThreshold: 3
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readiness:
+    failureThreshold: 3
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+replica:
+  annotations: {}
+replicaCount: 1
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 160m
+    memory: 128Mi
+# Fix long volume attach/mount times
+# See https://github.com/jenkinsci/helm-charts/blob/main/charts/jenkins/README.md#long-volume-attachmount-times
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  supplementalGroups:
+  - 1000
+service:
+  annotations: {}
+  type: ClusterIP
+  name: chartmuseum
+  externalPort: 8080
+  internalPort: http
+  protocol: TCP
+serviceAccount:
+  create: false
+strategy:
+  type: Recreate
+tolerations:
+- key: team
+  operator: Equal
+  value: platform
+  effect: NoSchedule

@@ -1,0 +1,89 @@
+# Default values for nexus.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+namespace: {{ .Values.namespace }}
+replicaCount: 1
+image:
+  repository: docker-internal.packages.nuxeo.com/jenkins-x/nexus
+  tag: 0.1.41
+  pullPolicy: IfNotPresent
+  pullSecrets:
+  - name: kubernetes-docker-cfg
+service:
+  annotations: {}
+  type: ClusterIP
+  name: nexus
+  externalPort: 80
+  internalPort: 8081
+  protocol: TCP
+resources:
+# limits:
+# cpu: 100m
+# memory: 4Gi
+# requests:
+# cpu: 100m
+# memory: 2Gi
+env:
+  ENABLE_ANONYMOUS_ACCESS: false
+  NEXUS_SECURITY_RANDOMPASSWORD: false
+  # Fix system status warning about available CPUs: "The host system is allocating a maximum of 1 cores to the application. A minimum of 4 is recommended.",
+  # by specifying the active processor count.
+  # The rest is copied from the Sonatype image: https://github.com/sonatype/docker-nexus3/blob/b2a9af6d44348584087cbc0795399c256b36e729/Dockerfile.rh.centos#L75.
+  INSTALL4J_ADD_VM_PARAMS: "-Xms2703m -Xmx2703m -XX:MaxDirectMemorySize=2703m -Djava.util.prefs.userRoot=/nexus-data/javaprefs -XX:ActiveProcessorCount=4"
+readinessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 30
+  failureThreshold: 6
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 30
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 310Gi
+  storageClass: standard
+  # use existing pvc since volume cloning isn't available on GKE 1.19
+  existingClaim: jenkins-x-nexus
+securityContext:
+  fsGroup: 2000
+ingress:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 4g
+  hostName: nexus.{{ .Values.namespace }}.dev.nuxeo.com
+  tls:
+  - hosts:
+    - nexus.{{ .Values.namespace }}.dev.nuxeo.com
+    secretName: {{ .Values.namespace }}-tls
+secret:
+  username: {{ env "NEXUS_USERNAME" }}
+  password: {{ env "NEXUS_PASSWORD" }}
+  defaultUsername: admin
+  defaultPassword: admin123
+docker:
+  name: docker
+  service:
+    annotations: {}
+    type: ClusterIP
+    name: docker
+    externalPort: 80
+    internalPort: 8081
+    protocol: TCP
+  ingress:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/proxy-body-size: 6g
+      nginx.ingress.kubernetes.io/rewrite-target: /repository/docker-registry/$1
+    hostName: docker.{{ .Values.namespace }}.dev.nuxeo.com
+    path: "/(.*)"
+    tls:
+    - hosts:
+      - docker.{{ .Values.namespace }}.dev.nuxeo.com
+      secretName: {{ .Values.namespace }}-tls
+nodeSelector:
+  team: platform
+tolerations:
+- key: team
+  operator: Equal
+  value: platform
+  effect: NoSchedule

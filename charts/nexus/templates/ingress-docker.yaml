@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.docker.name }}
+  labels:
+    "app.kubernetes.io/name": {{ template "nexus.fullname" . }}
+    "helm.sh/chart": "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    "app.kubernetes.io/managed-by": "{{ .Release.Service }}"
+    "app.kubernetes.io/instance": "{{ .Release.Name }}"
+  annotations:
+    "meta.helm.sh/release-name": "{{ .Release.Name }}"
+    "meta.helm.sh/release-namespace": {{ .Values.namespace }}
+{{- if .Values.docker.ingress.annotations }}
+{{ toYaml .Values.docker.ingress.annotations | indent 4 }}
+{{- end }}
+spec:
+  rules:
+  - host: {{ .Values.docker.ingress.hostName | quote }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ .Values.docker.service.name }}
+            port:
+              number: {{ .Values.docker.service.externalPort }}
+{{- if .Values.docker.ingress.path }}
+        path: {{ .Values.docker.ingress.path }}
+{{- end }}
+        pathType: ImplementationSpecific
+{{- if .Values.docker.ingress.tls }}
+  tls:
+{{ toYaml .Values.docker.ingress.tls | indent 4 }}
+{{- end -}}

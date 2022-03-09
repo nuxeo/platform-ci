@@ -43,10 +43,6 @@ def getTargetNamespace() {
   return isStaging() ? 'platform-staging' : 'platform'
 }
 
-def getNexusSecret() {
-  return isStaging() ? 'nexus-staging' : 'nexus'
-}
-
 def getHelmfileEnvironment() {
   return isStaging() ? 'default' : 'production'
 }
@@ -65,17 +61,22 @@ void helmfileSync(environment) {
   """
 }
 
+def getSecretData(secret, key) {
+  return sh(
+    script: "kubectl -n ${NAMESPACE} get secret ${secret} -o=jsonpath='{.data.${key}}' | base64 --decode",
+    returnStdout: true
+  )
+}
+
 pipeline {
   agent {
     label 'jenkins-base'
   }
   environment {
+    NEXUS_SECRET = 'nexus'
+    CHARTMUSEUM_SECRET = 'chartmuseum'
     AWS_CREDENTIALS_SECRET = 'aws-credentials'
-    JX_VERSION = '2.0.2412'
-    HELM2_VERSION = '2.16.6'
-    HELM3_VERSION = '3.5.3'
     NAMESPACE = getTargetNamespace()
-    NEXUS_SECRET = getNexusSecret()
     HELMFILE_ENVIRONMENT = getHelmfileEnvironment()
   }
   stages {
@@ -83,58 +84,6 @@ pipeline {
       steps {
         setGitHubBuildStatus('update-ci', 'Update Platform CI', 'PENDING')
         container('base') {
-          echo """
-          ----------------------------------------------
-          Upgrade Jenkins X Platform: Nexus, ChartMuseum
-          Namespace: ${NAMESPACE}
-          ----------------------------------------------"""
-          dir('jenkins-x-platform') {
-            echo "With jx we're stuck with Helm 2"
-            echo 'Helm 2 version:'
-            sh 'helm version'
-
-            echo 'initialize Helm without installing Tiller'
-            sh 'helm init --client-only --stable-repo-url=https://charts.helm.sh/stable'
-
-            echo 'add local chart repository'
-            sh 'helm repo add jenkins-x https://jenkins-x-charts.github.io/v2/'
-
-            echo 'create or update Docker Ingress/Service'
-            sh '''
-              envsubst < templates/docker-service.yaml > templates/docker-service.yaml~gen
-              kubectl apply -f templates/docker-service.yaml~gen
-            '''
-
-            echo 'jx version:'
-            sh 'jx version --no-verify=true --no-version-check=true'
-
-            echo 'upgrade Jenkins X Platform'
-            withCredentials([string(credentialsId: 'jenkins-docker-cfg', variable: 'DOCKER_REGISTRY_CONFIG')]) {
-              sh 'envsubst < values.yaml > myvalues.yaml'
-            }
-            sh """
-              jx upgrade platform --namespace=${NAMESPACE} \
-                --version ${JX_VERSION} \
-                --local-cloud-environment \
-                --always-upgrade \
-                --cleanup-temp-files=true \
-                --batch-mode
-            """
-
-            echo 'patch nexus deployment to add tolerations and nodeSelector'
-            sh """
-              kubectl --namespace=${NAMESPACE} patch deployment jenkins-x-nexus --patch "\$(cat templates/jenkins-x-nexus-deployment-patch.yaml)"
-              kubectl --namespace=${NAMESPACE} scale deployment jenkins-x-nexus --replicas 0
-              kubectl --namespace=${NAMESPACE} scale deployment jenkins-x-nexus --replicas 1
-            """
-
-            echo 'disable unwanted gc cron jobs'
-            sh """
-              kubectl --namespace=${NAMESPACE} delete cronjob jenkins-x-gcactivities
-              kubectl --namespace=${NAMESPACE} delete cronjob jenkins-x-gcpods
-            """
-          }
-
           echo """
           ----------------------------------------------------------------------
           Synchronize K8s cluster state with Helmfile: Jenkins
@@ -151,22 +100,25 @@ pipeline {
           echo 'synchronize cluster state'
           helmfileTemplate("${HELMFILE_ENVIRONMENT}", 'target')
           withCredentials([
-            usernamePassword(credentialsId: "${NEXUS_SECRET}", usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD'),
             usernamePassword(credentialsId: 'packages.nuxeo.com-auth', usernameVariable: 'PACKAGES_USERNAME', passwordVariable: 'PACKAGES_PASSWORD'),
             usernamePassword(credentialsId: 'connect-prod', usernameVariable: 'CONNECT_USERNAME', passwordVariable: 'CONNECT_PASSWORD'),
           ]) {
             script {
-              def awsAccessKeyId = sh(
-                script: "kubectl get secret ${AWS_CREDENTIALS_SECRET} -n ${NAMESPACE} -o=jsonpath='{.data.access_key_id}' | base64 --decode",
-                returnStdout: true
-              )
-              def awsSecretAccessKey = sh(
-                script: "kubectl get secret ${AWS_CREDENTIALS_SECRET} -n ${NAMESPACE} -o=jsonpath='{.data.secret_access_key}' | base64 --decode",
-                returnStdout: true
-              )
+              // not using usernamePassword since we need to fetch credentials from the target namespace, e.g. platform-staging if on a PR
+              def nexusUsername = getSecretData("${NEXUS_SECRET}", 'username')
+              def nexusPassword = getSecretData("${NEXUS_SECRET}", 'password')
+              def chartmuseumUsername = getSecretData("${CHARTMUSEUM_SECRET}", 'BASIC_AUTH_USER')
+              def chartmuseumPassword = getSecretData("${CHARTMUSEUM_SECRET}", 'BASIC_AUTH_PASS')
+              // not using usernamePassword to avoid displaying the access key id in the Jenkins credentials view
+              def awsAccessKeyId = getSecretData("${AWS_CREDENTIALS_SECRET}", 'access_key_id')
+              def awsSecretAccessKey = getSecretData("${AWS_CREDENTIALS_SECRET}", 'secret_access_key')
               withEnv([
+                  "NEXUS_USERNAME=${nexusUsername}",
+                  "NEXUS_PASSWORD=${nexusPassword}",
+                  "CHARTMUSEUM_USERNAME=${chartmuseumUsername}",
+                  "CHARTMUSEUM_PASSWORD=${chartmuseumPassword}",
                   "AWS_ACCESS_KEY_ID=${awsAccessKeyId}",
-                  "AWS_SECRET_ACCESS_KEY=${awsSecretAccessKey}"
+                  "AWS_SECRET_ACCESS_KEY=${awsSecretAccessKey}",
                 ]) {
                 helmfileSync("${HELMFILE_ENVIRONMENT}")
               }
