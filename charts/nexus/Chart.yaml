@@ -1,0 +1,7 @@
+apiVersion: v1
+appVersion: 0.1.41
+description: A Helm chart for Kubernetes
+home: https://github.com/jenkins-x-charts/nexus
+icon: https://raw.githubusercontent.com/jenkins-x/jenkins-x-platform/master/jenkins-x-platform/images/nexus.png
+name: nexus
+version: 0.1.41

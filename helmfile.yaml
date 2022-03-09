@@ -27,6 +27,16 @@ releases:
   - charts/jenkins/values-casc-jenkins.yaml.gotmpl
   - charts/jenkins/values-casc-jobs.yaml.gotmpl
   - charts/jenkins/values-casc-unclassified.yaml.gotmpl
+- name: nexus
+  chart: ./charts/nexus
+  namespace: {{ .Values.namespace }}
+  values:
+    - charts/nexus/values.yaml.gotmpl
+- name: chartmuseum
+  chart: ./charts/chartmuseum
+  namespace: {{ .Values.namespace }}
+  values:
+    - charts/chartmuseum/values.yaml.gotmpl
 - name: aws-credentials
   chart: ./charts/aws-credentials
   namespace: {{ .Values.namespace }}
