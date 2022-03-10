@@ -1,0 +1,49 @@
+pipelineJob('integration-tests/nuxeo-server-web-ui/server-build-web-ui-release') {
+  // Description
+  description('Automatically validate the next Nuxeo version with the latest promoted Web UI version')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-integration-tests')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('*/2021')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-integration-tests')
+            }
+          }
+        }
+      }
+      // Lightweight checkout
+      lightweight(true)
+      // Script Path
+      scriptPath('nuxeo-web-ui/Jenkinsfiles/server-web-ui.groovy')
+    }
+  }
+  parameters {
+    booleanParam {
+      name('SERVER_BUILD')
+      defaultValue(true)
+      description('Use latest build of Nuxeo server')
+    }
+    booleanParam {
+      name('WEB_UI_BUILD')
+      defaultValue(false)
+      description('Use latest build of WebUI')
+    }
+  }
+  properties {
+    {{- .Values.jobs.serverBuildWebUIRelease.triggers | nindent 4 }}
+  }
+}

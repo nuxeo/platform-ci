@@ -1,0 +1,33 @@
+- id: "nuxeo-web-ui-ftests"
+  name: "nuxeo-web-ui-ftests"
+  label: "nuxeo-web-ui-ftests"
+  imagePullSecrets:
+  - name: {{ .Values.podTemplates.imagePullSecretName }}
+  serviceAccount: {{ .Values.podTemplates.serviceAccount }}
+  nodeUsageMode:  {{ .Values.podTemplates.nodeUsageMode }}
+  containers:
+  {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
+  - args: ""
+    command: ""
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-java11-chrome-nodejs14:latest"
+    alwaysPullImage: true
+    name: "ftests"
+    privileged: {{ .Values.podTemplates.privileged }}
+    resourceLimitCpu: "3"
+    resourceLimitMemory: "6Gi"
+    resourceRequestCpu: "1.5"
+    resourceRequestMemory: "4Gi"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
+  envVars:
+  {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.javaEnvVars | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.mavenEnvVars | nindent 2 -}}
+  volumes:
+  {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.mavenSettingsVolumes | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.mavenRepositoryVolumes | nindent 2 -}}
+  nodeSelector: {{ .Values.podTemplates.nodeSelector }}
+  yamlMergeStrategy: {{ .Values.podTemplates.yamlMergeStrategy }}
+  yaml: |
+    {{- .Values.podTemplates.yaml | nindent 4 -}}

@@ -34,5 +34,12 @@ jobs:
         triggers {
         }
       }
+  serverBuildWebUIRelease:
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+        }
+      }
 # Don't run in platform-staging namespace to avoid double key rotation
 awsCredentialsRotation: false

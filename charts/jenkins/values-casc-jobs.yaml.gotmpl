@@ -29,6 +29,11 @@ controller:
         - script: > {{ tpl (readFile "jobs/explorer/customers/nuxeo-explorer-customers.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ readFile "jobs/explorer/customers/trigger-exports.groovy" | nindent 12 }}
         - script: >
+            folder('integration-tests')
+        - script: >
+            folder('integration-tests/nuxeo-server-web-ui')
+        - script: > {{ tpl (readFile "jobs/integration-tests/nuxeo-server-web-ui/server-build-web-ui-release.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('java-client')
         - script: > {{ tpl (readFile "jobs/java-client/nuxeo-java-client.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/java-client/release-nuxeo-java-client.groovy.gotmpl") . | nindent 12 }}
