@@ -89,13 +89,7 @@ resources:
   requests:
     cpu: 160m
     memory: 128Mi
-# Fix long volume attach/mount times
-# See https://github.com/jenkinsci/helm-charts/blob/main/charts/jenkins/README.md#long-volume-attachmount-times
-securityContext:
-  runAsNonRoot: true
-  runAsUser: 1000
-  supplementalGroups:
-  - 1000
+securityContext: {}
 service:
   annotations: {}
   type: ClusterIP
