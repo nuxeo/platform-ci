@@ -6,7 +6,7 @@ controller:
   # Use a fixed version, instead of the `lts` moving tag, to avoid automatic upgrades when the pod is restarted.
   # This happens typically when the Kubernetes node pool is upgraded by GCP and is not wanted since there can be some
   # breaking changes in the Jenkins LTS image.
-  tag: 2.319.3
+  tag: 2.319.2
   resources:
     requests:
       cpu: "200m"
@@ -35,7 +35,8 @@ controller:
   - configuration-as-code
   - git
   - job-dsl
-  - kubernetes
+  - kubernetes:1.30.3
+  - kubernetes-client-api:5.4.1
   - kubernetes-credentials-provider
   - workflow-aggregator
   - workflow-job
