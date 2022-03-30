@@ -13,7 +13,9 @@ podTemplates:
     resourceRequestCpu: "100m"
     resourceRequestMemory: "128Mi"
     workingDir: "/home/jenkins"
-  - image: docker:dind
+  - args: ""
+    command: ""
+    image: docker:dind
     name: dind-daemon
     privileged: true
     resourceRequestCpu: "20m"
