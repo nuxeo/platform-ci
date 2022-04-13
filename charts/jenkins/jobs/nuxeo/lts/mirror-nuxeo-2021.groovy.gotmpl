@@ -31,4 +31,7 @@ pipelineJob('nuxeo/lts/mirror-nuxeo-2021') {
       scriptPath('Jenkinsfiles/mirror-nuxeo-lts.groovy')
     }
   }
+  properties {
+    {{- .Values.jobs.mirrorNuxeoLTS.triggers | nindent 4 }}
+  }
 }
