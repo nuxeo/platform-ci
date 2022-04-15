@@ -34,6 +34,7 @@ controller:
             folder('integration-tests/nuxeo-server-web-ui')
         - script: > {{ tpl (readFile "jobs/integration-tests/nuxeo-server-web-ui/server-build-web-ui-release.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/integration-tests/nuxeo-server-web-ui/server-release-web-ui-build.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/integration-tests/nuxeo-server-web-ui/server-build-web-ui-build.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('java-client')
         - script: > {{ tpl (readFile "jobs/java-client/nuxeo-java-client.groovy.gotmpl") . | nindent 12 }}
