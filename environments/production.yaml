@@ -45,7 +45,7 @@ jobs:
           }
         }
       }
-  serverBuildWebUIRelease:
+  serverWebUIIntegrationTests:
     triggers: |-
       pipelineTriggers {
         // Build Triggers
