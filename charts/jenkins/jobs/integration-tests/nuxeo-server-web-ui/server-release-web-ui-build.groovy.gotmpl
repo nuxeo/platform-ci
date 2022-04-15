@@ -1,6 +1,6 @@
-pipelineJob('integration-tests/nuxeo-server-web-ui/server-build-web-ui-release') {
+pipelineJob('integration-tests/nuxeo-server-web-ui/server-release-web-ui-build') {
   // Description
-  description('Automatically validate the next Nuxeo version with the latest promoted Web UI version')
+  description('Automatically validate the latest promoted Nuxeo version with the next Web UI version')
   definition {
     // Definition
     cpsScm {
@@ -34,12 +34,12 @@ pipelineJob('integration-tests/nuxeo-server-web-ui/server-build-web-ui-release')
   parameters {
     booleanParam {
       name('SERVER_BUILD')
-      defaultValue(true)
+      defaultValue(false)
       description('Use latest build of Nuxeo server')
     }
     booleanParam {
       name('WEB_UI_BUILD')
-      defaultValue(false)
+      defaultValue(true)
       description('Use latest build of WebUI')
     }
   }
