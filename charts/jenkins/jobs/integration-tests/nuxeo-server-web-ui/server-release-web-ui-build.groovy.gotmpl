@@ -42,6 +42,11 @@ pipelineJob('integration-tests/nuxeo-server-web-ui/server-release-web-ui-build')
       defaultValue(true)
       description('Use latest build of WebUI')
     }
+    string {
+      name('WEB_UI_BRANCH')
+      defaultValue('maintenance-3.0.x')
+      description('Which branch to run the WebUI ftests')
+    }
   }
   properties {
     {{- .Values.jobs.serverWebUIIntegrationTests.triggers | nindent 4 }}
