@@ -4,8 +4,9 @@ repositories:
 
 helmDefaults:
   atomic: true
-  # 4 minutes, greater than Jenkins' startup probe maximum time: 3 minutes.
-  timeout: 240
+  # Jenkins init container could take among 2 to 4 minutes to apply the configuration
+  # Jenkins' startup probe wait for 3 minutes
+  timeout: 480
   wait: true
 
 releases:
