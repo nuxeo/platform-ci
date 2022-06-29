@@ -38,7 +38,7 @@ pipelineJob('nev/pull-push-docker-image') {
     }
     choice {
       name('TO_CLUSTER')
-      choices(['*', 'io',  'va', 'oh'])
+      choices(['*', 'io', 'oh',  'uk', 'va'])
       description('The Openshift cluster to push images')
     }
     booleanParam {
