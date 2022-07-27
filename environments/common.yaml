@@ -20,6 +20,7 @@ podTemplates:
     privileged: true
     resourceRequestCpu: "20m"
     resourceRequestMemory: "512Mi"
+    workingDir: "/home/jenkins"
   envVars:
   - envVar:
       key: DOCKER_CERT_PATH
