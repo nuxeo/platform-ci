@@ -16,6 +16,13 @@ pipelineJob('nev/pull-push-docker-image') {
           }
           // Branches to build
           branches('*/main')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/platform-ci-tools')
+            }
+          }
         }
       }
       // Lightweight checkout
@@ -27,13 +34,12 @@ pipelineJob('nev/pull-push-docker-image') {
   parameters {
     string {
       name('NEV_VERSION')
-      defaultValue('1.0.0')
-      description('The NEV version to pull/push')
+      description('The NEV version to pull/push (for example 2.0.0)')
       trim(true)
     }
     choice {
       name('FROM_REGISTRY')
-      choices(['docker-arender.packages.nuxeo.com', 'docker.platform.dev.nuxeo.com'])
+      choices(['docker-arender.packages.nuxeo.com', {{- .Values.docker.registry | quote -}}])
       description('The Docker registry to pull images')
     }
     choice {
