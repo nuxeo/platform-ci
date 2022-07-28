@@ -1,0 +1,56 @@
+pipelineJob('nev/deploy-nev-stack') {
+  // Description
+  description('Deploy the NEV stack to Openshift')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/platform-ci-tools')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('*/main')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/platform-ci-tools')
+            }
+          }
+        }
+      }
+      // Lightweight checkout
+      lightweight(true)
+      // Script Path
+      scriptPath('Jenkinsfiles/nev/deploy-nev-stack.groovy')
+    }
+  }
+  parameters {
+    choice {
+      name('TO_ENVIRONMENT')
+      choices(['va/qa', 'io/dev', 'io/kleturc'])
+      description('The Openshift environment to deploy NEV')
+    }
+    string {
+      name('NEV_VERSION')
+      description('The NEV version to deploy (for example 2.0.0)')
+      trim(true)
+    }
+    booleanParam {
+      name('PUSH_DOCKER_IMAGES')
+      defaultValue(false)
+      description('Whether or not to push Docker images to Openshift cluster before deploying')
+    }
+    choice {
+      name('FROM_REGISTRY')
+      choices(['docker-arender.packages.nuxeo.com', {{- .Values.docker.registry | quote -}}])
+      description('The Docker registry to pull images if PUSH_DOCKER_IMAGES is enabled')
+    }
+  }
+}
