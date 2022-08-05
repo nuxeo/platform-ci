@@ -165,6 +165,27 @@ EOF
 
 The AWS credentials are rotated with the [AWS IAM key rotate tool](https://github.com/nuxeo-cloud/aws-iam-credential-rotate). The cron job schedule is configurable with the `cronjob.schedule` value.
 
+Create the secret containing the Datadog API Key:
+
+```shell
+(
+cat << EOF
+apiVersion: v1
+kind: Secret
+type: Opaque
+data:
+  api-key: ********
+metadata:
+  annotations:
+    meta.helm.sh/release-name: datadog
+    meta.helm.sh/release-namespace: $NAMESPACE
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  name: datadog-nxio-api
+EOF
+) | kubectl apply --namespace=$NAMESPACE -f -
+```
+
 #### Misc
 
 Create the `ClusterRoleBinding` required for the `ServiceAccount` used by Jenkins, typically to create namespaces:

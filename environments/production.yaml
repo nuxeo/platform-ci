@@ -1,5 +1,7 @@
 namespace: platform
 dryrun: false
+datadog:
+  enabled: true
 docker:
   registry: docker.platform.dev.nuxeo.com
 github:
