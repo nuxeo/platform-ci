@@ -1,0 +1,27 @@
+nameOverride: platform
+datadog:
+  apiKeyExistingSecret: datadog-nxio-api
+  tags:
+  - "staging:dev"
+  - "project:jenkins-platform"
+clusterAgent:
+  nodeSelector:
+    team: platform
+  tolerations:
+  - key: team
+    operator: Equal
+    value: platform
+    effect: NoSchedule
+agents:
+  nodeSelector:
+    team: platform
+    usage: benchmark
+  tolerations:
+  - key: team
+    operator: Equal
+    value: platform
+    effect: NoSchedule
+  - key: usage
+    operator: Equal
+    value: benchmark
+    effect: NoSchedule

@@ -1,5 +1,7 @@
 namespace: platform-staging
 dryrun: true
+datadog:
+  enabled: false
 docker:
   registry: docker.platform-staging.dev.nuxeo.com
 github:
