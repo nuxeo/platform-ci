@@ -14,8 +14,8 @@
     name: "maven"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "2"
-    resourceLimitMemory: "3Gi"
-    resourceRequestCpu: "1"
+    resourceLimitMemory: "2Gi"
+    resourceRequestCpu: "2"
     resourceRequestMemory: "2Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
@@ -35,6 +35,7 @@
   {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.javaEnvVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.mavenEnvVars | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.redisEnvVars | nindent 2 -}}
   volumes:
   {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
   {{- toYaml .Values.podTemplates.mavenSettingsVolumes | nindent 2 -}}
