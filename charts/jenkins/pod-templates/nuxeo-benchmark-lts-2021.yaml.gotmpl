@@ -14,14 +14,14 @@
     name: "maven"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "2"
-    resourceLimitMemory: "3Gi"
-    resourceRequestCpu: "1"
+    resourceLimitMemory: "2Gi"
+    resourceRequestCpu: "2"
     resourceRequestMemory: "2Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   - args: ""
     command: ""
-    image: "bitnami/redis:6.2"
+    image: "redis:6.2.7"
     alwaysPullImage: true
     name: "redis"
     privileged: {{ .Values.podTemplates.privileged }}
