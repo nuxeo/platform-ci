@@ -21,7 +21,7 @@
     workingDir: {{ .Values.podTemplates.workingDir }}
   - args: ""
     command: ""
-    image: "redis:6.2.7"
+    image: "bitnami/redis:6.2"
     alwaysPullImage: true
     name: "redis"
     privileged: {{ .Values.podTemplates.privileged }}
@@ -35,6 +35,7 @@
   {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.javaEnvVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.mavenEnvVars | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.redisEnvVars | nindent 2 -}}
   volumes:
   {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
   {{- toYaml .Values.podTemplates.mavenSettingsVolumes | nindent 2 -}}
