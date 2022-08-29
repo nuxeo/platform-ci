@@ -11,18 +11,26 @@ agent:
       {{- tpl (readFile "pod-templates/nodejs.yaml.gotmpl") . | nindent 6 }}
     nuxeo-jsf-lts-2021: |
       {{- tpl (readFile "pod-templates/nuxeo-jsf-lts-2021.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-jsf-lts-2023: |
+      {{- tpl (readFile "pod-templates/nuxeo-jsf-lts-2023.yaml.gotmpl") . | nindent 6 }}
     nuxeo-openshift: |
       {{- tpl (readFile "pod-templates/nuxeo-openshift.yaml.gotmpl") . | nindent 6 }}
     nuxeo-package-10: |
       {{- tpl (readFile "pod-templates/nuxeo-package-10.yaml.gotmpl") . | nindent 6 }}
     nuxeo-package-lts-2021: |
       {{- tpl (readFile "pod-templates/nuxeo-package-lts-2021.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-package-lts-2023: |
+      {{- tpl (readFile "pod-templates/nuxeo-package-lts-2023.yaml.gotmpl") . | nindent 6 }}
     nuxeo-benchmark-lts-2021: |
       {{- tpl (readFile "pod-templates/nuxeo-benchmark-lts-2021.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-benchmark-lts-2023: |
+      {{- tpl (readFile "pod-templates/nuxeo-benchmark-lts-2023.yaml.gotmpl") . | nindent 6 }}
     nuxeo-platform-10: |
       {{- tpl (readFile "pod-templates/nuxeo-platform-10.yaml.gotmpl") . | nindent 6 }}
     nuxeo-platform-lts-2021: |
       {{- tpl (readFile "pod-templates/nuxeo-platform-lts-2021.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-platform-lts-2023: |
+      {{- tpl (readFile "pod-templates/nuxeo-platform-lts-2023.yaml.gotmpl") . | nindent 6 }}
     nuxeo-web-ui-ftests: |
       {{- tpl (readFile "pod-templates/nuxeo-web-ui-ftests.yaml.gotmpl") . | nindent 6 }}
 serviceAccountAgent:
