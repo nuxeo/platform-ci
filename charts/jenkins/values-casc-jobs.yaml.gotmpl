@@ -83,6 +83,11 @@ controller:
         - script: >
             folder('nuxeo/lts/2023')
         - script: > {{ readFile "jobs/nuxeo/lts/2023/nuxeo-hf-2023.groovy" | nindent 12 }}
+        - script: > {{ readFile "jobs/nuxeo/lts/2023/publish-nuxeo-hf-release-notes-2023.groovy" | nindent 12 }}
+        - script: > {{ readFile "jobs/nuxeo/lts/2023/release-jira-2023.groovy" | nindent 12 }}
+        - script: > {{ readFile "jobs/nuxeo/lts/2023/release-nuxeo-2023.groovy" | nindent 12 }}
+        - script: > {{ readFile "jobs/nuxeo/lts/2023/release-nuxeo-hf-2023.groovy" | nindent 12 }}
+        - script: > {{ readFile "jobs/nuxeo/lts/2023/release-nuxeo-jsf-ui-2023.groovy" | nindent 12 }}
         - script: >
             folder('nuxeo-sample-multi-projects')
         - script: > {{ tpl (readFile "jobs/nuxeo-sample-multi-projects/common.groovy.gotmpl") . | nindent 12 }}
