@@ -1,0 +1,48 @@
+pipelineJob('nuxeo/lts/2023/nuxeo-hf-2023') {
+  // Description
+  description('Continuous build of hotfix for nuxeo LTS 2023.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/integration-scripts-priv')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('*/2023')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/integration-scripts-priv')
+            }
+          }
+        }
+      }
+      // Lightweight checkout
+      lightweight(true)
+      // Script Path
+      scriptPath('Jenkinsfiles/build-hf.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('NUXEO_BRANCH')
+      defaultValue('2023')
+      description('Branch to hotfix.')
+      trim(true)
+    }
+    string {
+      name('NUXEO_BUILD_VERSION')
+      defaultValue('')
+      description('Nuxeo server build version to hotfix.')
+      trim(true)
+    }
+  }
+}
