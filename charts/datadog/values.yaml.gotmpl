@@ -2,6 +2,7 @@ nameOverride: platform
 datadog:
   apiKeyExistingSecret: datadog-nxio-api
   tags:
+  - "environment:benchmark"
   - "staging:dev"
   - "project:jenkins-platform"
 clusterAgent:
