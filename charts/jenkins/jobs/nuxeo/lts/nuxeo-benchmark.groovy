@@ -44,7 +44,7 @@ pipelineJob('nuxeo/lts/nuxeo-benchmark') {
       description('Version of the Nuxeo Server to bench.')
       trim(true)
     }
-    integer {
+    string {
       name('NUXEO_NB_APP_NODE')
       defaultValue('1')
       description('Number of nuxeo app node.')
