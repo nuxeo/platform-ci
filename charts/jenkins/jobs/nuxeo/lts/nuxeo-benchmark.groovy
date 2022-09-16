@@ -44,6 +44,18 @@ pipelineJob('nuxeo/lts/nuxeo-benchmark') {
       description('Version of the Nuxeo Server to bench.')
       trim(true)
     }
+    integer {
+      name('NUXEO_NB_APP_NODE')
+      defaultValue('1')
+      description('Number of nuxeo app node.')
+      trim(true)
+    }
+    string {
+      name('NUXEO_NB_WORKER_NODE')
+      defaultValue('1')
+      description('Number of nuxeo worker node.')
+      trim(true)
+    }
     booleanParam {
       name('DEBUG')
       defaultValue(false)
