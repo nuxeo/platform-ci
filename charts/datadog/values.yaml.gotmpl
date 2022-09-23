@@ -5,6 +5,9 @@ datadog:
   - "environment:benchmark"
   - "staging:dev"
   - "project:jenkins-platform"
+  logs:
+    # by default the log collection is disabled on all container, see containerCollectAll
+    enabled: true
 clusterAgent:
   nodeSelector:
     team: platform
