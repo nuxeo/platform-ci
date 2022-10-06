@@ -35,14 +35,19 @@ pipelineJob('nuxeo/lts/nuxeo-benchmark') {
     string {
       name('NUXEO_BRANCH')
       defaultValue('2021')
-      description('Branch to bench.')
+      description('Branch from which to retrieve pipeline definition and benchmark tests.')
       trim(true)
     }
     string {
-      name('NUXEO_BUILD_VERSION')
-      defaultValue('2021.x')
-      description('Version of the Nuxeo Server to bench.')
+      name('NUXEO_DOCKER_IMAGE')
+      defaultValue('docker-private.packages.nuxeo.com/nuxeo/nuxeo:2021')
+      description('Nuxeo Docker image to bench.')
       trim(true)
+    }
+    booleanParam {
+      name('INSTALL_NEEDED_PACKAGES')
+      defaultValue(true)
+      description('Whether or not to install needed Nuxeo packages during Nuxeo startup')
     }
     string {
       name('NUXEO_NB_APP_NODE')
