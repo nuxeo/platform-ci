@@ -66,6 +66,12 @@ pipelineJob('nuxeo/lts/nuxeo-benchmark') {
       defaultValue(false)
       description('Whether or not to sleep before destroying the stack')
     }
+    string {
+      name('NUXEO_SHA')
+      defaultValue('')
+      description('Git commit sha of the nuxeo/lts/nuxeo upstream build.')
+      trim(true)
+    }
   }
   properties {
     disableConcurrentBuilds {
