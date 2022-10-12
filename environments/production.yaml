@@ -43,9 +43,12 @@ jobs:
         // Build Triggers
         triggers {
           // Build periodically
-          cron {
+          parameterizedCron {
             // Schedule
-            spec('H 1 * * *')
+            parameterizedSpecification('''
+              H 1 * * * % NUXEO_LTS_BRANCH=2021
+              H 1 * * * % NUXEO_LTS_BRANCH=2023
+            ''')
           }
         }
       }
