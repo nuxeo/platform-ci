@@ -90,16 +90,6 @@ controller:
         - script: > {{ readFile "jobs/nuxeo/lts/2023/release-nuxeo-hf-2023.groovy" | nindent 12 }}
         - script: > {{ readFile "jobs/nuxeo/lts/2023/release-nuxeo-jsf-ui-2023.groovy" | nindent 12 }}
         - script: >
-            folder('nuxeo-sample-multi-projects')
-        - script: > {{ tpl (readFile "jobs/nuxeo-sample-multi-projects/common.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo-sample-multi-projects/final1.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo-sample-multi-projects/final2.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo-sample-multi-projects/release-common.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo-sample-multi-projects/release-final1.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo-sample-multi-projects/release-final2.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo-sample-multi-projects/release-vertical.groovy" | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo-sample-multi-projects/vertical.groovy.gotmpl") . | nindent 12 }}
-        - script: >
             folder('replication')
         - script: > {{ tpl (readFile "jobs/replication/nuxeo-replication.groovy.gotmpl") . | nindent 12 }}
         - script: >
