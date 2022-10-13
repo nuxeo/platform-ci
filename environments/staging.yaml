@@ -26,8 +26,10 @@ jobs:
     }
   cleanupExports:
     triggers: |-
-      // Build Triggers
-      triggers {
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+        }
       }
   mirrorNuxeoLTS:
     triggers: |-
@@ -41,6 +43,18 @@ jobs:
       pipelineTriggers {
         // Build Triggers
         triggers {
+        }
+      }
+  properties:
+    buildDiscarder: |-
+      buildDiscarder {
+        strategy {
+          logRotator {
+            daysToKeepStr('7')
+            numToKeepStr('3')
+            artifactDaysToKeepStr('')
+            artifactNumToKeepStr('3')
+          }
         }
       }
 # Don't run in platform-staging namespace to avoid double key rotation

@@ -1,6 +1,6 @@
-pipelineJob('nuxeo/lts/publish-nuxeo-hf-release-notes-2021') {
+pipelineJob('nuxeo/lts/release-nuxeo-hf-2021') {
   // Description
-  description('Update Hotfix package description with the JIRA release notes.')
+  description('Promote a given Nuxeo hotfix package version as a release')
   definition {
     // Definition
     cpsScm {
@@ -28,7 +28,7 @@ pipelineJob('nuxeo/lts/publish-nuxeo-hf-release-notes-2021') {
       // Lightweight checkout
       lightweight(true)
       // Script Path
-      scriptPath('Jenkinsfiles/publish-hf-release-notes.groovy')
+      scriptPath('Jenkinsfiles/release-hf.groovy')
     }
   }
   parameters {
@@ -38,5 +38,10 @@ pipelineJob('nuxeo/lts/publish-nuxeo-hf-release-notes-2021') {
       description('Version of the promoted Nuxeo Server build.')
       trim(true)
     }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
   }
 }

@@ -53,4 +53,8 @@ pipelineJob('nev/pull-push-docker-image') {
       description('Whether or not the version to pull/push is before the repository split.')
     }
   }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/platform-ci-tools')
+  }
 }

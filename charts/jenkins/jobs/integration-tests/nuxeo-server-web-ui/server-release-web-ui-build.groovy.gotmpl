@@ -49,6 +49,9 @@ pipelineJob('integration-tests/nuxeo-server-web-ui/server-release-web-ui-build')
     }
   }
   properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-integration-tests')
     {{- .Values.jobs.serverWebUIIntegrationTests.triggers | nindent 4 }}
   }
 }

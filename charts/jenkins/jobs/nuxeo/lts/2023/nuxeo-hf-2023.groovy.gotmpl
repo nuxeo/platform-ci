@@ -1,6 +1,6 @@
-pipelineJob('nuxeo/lts/mirror-nuxeo-2021') {
+pipelineJob('nuxeo/lts/2023/nuxeo-hf-2023') {
   // Description
-  description('Mirror the 2021 branch of nuxeo/nuxeo-lts repository to nuxeo/nuxeo with a delay of 90 days.')
+  description('Continuous build of hotfix for nuxeo LTS 2023.')
   definition {
     // Definition
     cpsScm {
@@ -10,17 +10,17 @@ pipelineJob('nuxeo/lts/mirror-nuxeo-2021') {
           // Repositories
           remote {
             // Repository URL
-            url('https://github.com/nuxeo/platform-ci-tools')
+            url('https://github.com/nuxeo/integration-scripts-priv')
             // Credentials
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('*/main')
+          branches('*/2023')
           browser {
             // Repository browser
             githubWeb {
               // URL
-              repoUrl('https://github.com/nuxeo/platform-ci-tools')
+              repoUrl('https://github.com/nuxeo/integration-scripts-priv')
             }
           }
         }
@@ -28,21 +28,26 @@ pipelineJob('nuxeo/lts/mirror-nuxeo-2021') {
       // Lightweight checkout
       lightweight(true)
       // Script Path
-      scriptPath('Jenkinsfiles/mirror-nuxeo-lts.groovy')
+      scriptPath('Jenkinsfiles/build-hf.groovy')
     }
   }
   parameters {
     string {
-      name('NUXEO_LTS_BRANCH')
-      defaultValue('2021')
-      description('Branch to mirror.')
+      name('NUXEO_BRANCH')
+      defaultValue('2023')
+      description('Branch to hotfix.')
+      trim(true)
+    }
+    string {
+      name('NUXEO_BUILD_VERSION')
+      defaultValue('')
+      description('Nuxeo server build version to hotfix.')
       trim(true)
     }
   }
   properties {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
-    githubProjectUrl('https://github.com/nuxeo/platform-ci-tools')
-    {{- .Values.jobs.mirrorNuxeoLTS.triggers | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
   }
 }

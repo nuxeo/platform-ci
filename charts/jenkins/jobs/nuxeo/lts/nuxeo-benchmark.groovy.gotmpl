@@ -74,8 +74,8 @@ pipelineJob('nuxeo/lts/nuxeo-benchmark') {
     }
   }
   properties {
-    disableConcurrentBuilds {
-      abortPrevious(false)
-    }
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-lts')
   }
 }

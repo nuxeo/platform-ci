@@ -31,9 +31,6 @@ pipelineJob('nuxeo/lts/2023/mirror-nuxeo-2023') {
       scriptPath('Jenkinsfiles/mirror-nuxeo-lts.groovy')
     }
   }
-  properties {
-    {{- .Values.jobs.mirrorNuxeoLTS.triggers | nindent 4 }}
-  }
   parameters {
     string {
       name('NUXEO_LTS_BRANCH')
@@ -41,5 +38,11 @@ pipelineJob('nuxeo/lts/2023/mirror-nuxeo-2023') {
       description('Branch to mirror.')
       trim(true)
     }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/platform-ci-tools')
+    {{- .Values.jobs.mirrorNuxeoLTS.triggers | nindent 4 }}
   }
 }

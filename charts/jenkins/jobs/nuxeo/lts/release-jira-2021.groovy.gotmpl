@@ -1,6 +1,6 @@
-pipelineJob('nuxeo/lts/2023/release-nuxeo-hf-2023') {
+pipelineJob('nuxeo/lts/release-jira-2021') {
   // Description
-  description('Promote a given Nuxeo hotfix package version as a release')
+  description('Release a given Nuxeo Server version in JIRA')
   definition {
     // Definition
     cpsScm {
@@ -15,7 +15,7 @@ pipelineJob('nuxeo/lts/2023/release-nuxeo-hf-2023') {
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('*/2023')
+          branches('*/2021')
           browser {
             // Repository browser
             githubWeb {
@@ -28,7 +28,7 @@ pipelineJob('nuxeo/lts/2023/release-nuxeo-hf-2023') {
       // Lightweight checkout
       lightweight(true)
       // Script Path
-      scriptPath('Jenkinsfiles/release-hf.groovy')
+      scriptPath('Jenkinsfiles/release-jira.groovy')
     }
   }
   parameters {
@@ -38,5 +38,10 @@ pipelineJob('nuxeo/lts/2023/release-nuxeo-hf-2023') {
       description('Version of the promoted Nuxeo Server build.')
       trim(true)
     }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
   }
 }

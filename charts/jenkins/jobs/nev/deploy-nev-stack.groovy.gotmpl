@@ -53,4 +53,8 @@ pipelineJob('nev/deploy-nev-stack') {
       description('The Docker registry to pull images if PUSH_DOCKER_IMAGES is enabled')
     }
   }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/platform-ci-tools')
+  }
 }

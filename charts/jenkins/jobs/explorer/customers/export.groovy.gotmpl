@@ -1,0 +1,136 @@
+pipelineJob('explorer/customers/export') {
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-explorer-customers')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('*/feat-SUPINT-1863-init-export-logic')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-explorer-customers')
+            }
+          }
+        }
+      }
+      // Lightweight checkout
+      lightweight(true)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/export.groovy')
+    }
+  }
+  parameters {
+    // package build params
+    text {
+      name('CUSTOM_PACKAGES')
+      defaultValue('')
+      description('The list of packages to install for snapshot and export.\nSample: \'nuxeo-csv nuxeo-quota-1.0.0\'.')
+    }
+    text {
+      name('CUSTOM_TEMPLATES')
+      defaultValue('')
+      description('The list of templates to install for snapshot and export.\nUseful for disablement of features preventing export.')
+    }
+    string {
+      name('CONNECT_CLID_KEY')
+      defaultValue('explorer-clid')
+      description('Key for retrieval of the clid used for custom packages install.')
+      trim(true)
+    }
+    // export params
+    string {
+      name('SNAPSHOT_NAME')
+      defaultValue('export')
+      description('Name for the export snapshot. Combination of name and version is a unique identifier on the target Explorer site.')
+      trim(true)
+    }
+    string {
+      name('SNAPSHOT_VERSION')
+      defaultValue('1.0.0')
+      description('Version for the export snapshot. Combination of name and version is a unique identifier on the target Explorer site.')
+      trim(true)
+    }
+    text {
+      name('EXCLUDED_BUNDLES')
+      defaultValue('')
+      description('The list of bundles to exclude from export.')
+    }
+    booleanParam {
+      name('USE_MONGO')
+      defaultValue(false)
+      description('Deploy using MongoDB.')
+    }
+    booleanParam {
+      name('USE_MONGO')
+      defaultValue(true)
+      description('Include references when filtering export.')
+    }
+    text {
+      name('REFERENCE_PACKAGES')
+      defaultValue('custom-explorer platform-explorer adobe-connector-package amazon-s3-online-storage cas2-authentication easyshare nuxeo-ai-aws nuxeo-ai-core nuxeo-arender nuxeo-agenda nuxeo-csv nuxeo-dam nuxeo-datadog-reporter nuxeo-diff nuxeo-diff-pictures nuxeo-drive nuxeo-jsf-ui nuxeo-imap-connector nuxeo-liveconnect nuxeo-management-rest-api nuxeo-multi-tenant nuxeo-pclm-package nuxeo-platform-3d nuxeo-platform-importer nuxeo-platform-user-registration nuxeo-quota nuxeo-retention nuxeo-showcase-content nuxeo-signature nuxeo-spreadsheet nuxeo-template-rendering nuxeo-virtualnavigation nuxeo-vision nuxeo-web-ui nuxeo-wopi marketplace-disable-studio-snapshot-validation saml2-authentication shibboleth-authentication')
+      description('The list of reference packages usually exclude from export.')
+    }
+    booleanParam {
+      name('FULL_EXPORT')
+      defaultValue(false)
+      description('Do not filter export on custom packages.')
+    }
+    booleanParam {
+      name('INCLUDE_CUSTOM_PACKAGES')
+      defaultValue(false)
+      description('Include custom packages when filtering export (even when they are known referenced packages).')
+    }
+    // build params
+    string {
+      name('NUXEO_IMAGE_VERSION')
+      defaultValue('10.10-HF45')
+      description('Version of the target Nuxeo Image.')
+      trim(true)
+    }
+    string {
+      name('EXPLORER_PACKAGE_VERSION')
+      defaultValue('18.0.3')
+      description('Version of the Explorer package to be used (should be compatible with Nuxeo version).')
+      trim(true)
+    }
+    string {
+      name('EXPLORER_CUSTOMERS_PACKAGE_VERSION')
+      defaultValue('1.0.0')
+      description('Version of the Explorer customers package to be used (should be compatible with Nuxeo version, to be left empty to use a new build).')
+      trim(true)
+    }
+    // upload params
+    booleanParam {
+      name('UPLOAD_EXPORT')
+      defaultValue(true)
+      description('Upload export to target Explorer site (export zip will be saved as a build artifact anyway).')
+    }
+    string {
+      name('UPLOAD_URL')
+      defaultValue('https://preview-nuxeo-explorer-customers.platform.dev.nuxeo.com/nuxeo')
+      description('URL of the target Explorer site.')
+      trim(true)
+    }
+    string {
+      name('UPLOAD_CREDS_KEY')
+      defaultValue('explorer-preview-maintenance')
+      description('CREDs key for authentication on the target Explorer site.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-explorer-customers')
+  }
+}

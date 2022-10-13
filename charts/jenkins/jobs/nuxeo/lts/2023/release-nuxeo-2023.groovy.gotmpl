@@ -1,6 +1,6 @@
-pipelineJob('nuxeo/lts/draft-release-upgrade-notes-2021') {
+pipelineJob('nuxeo/lts/2023/release-nuxeo-2023') {
   // Description
-  description('Draft release and upgrade notes for a Nuxeo Server released version')
+  description('Promote a given Nuxeo Server build version as a release')
   definition {
     // Definition
     cpsScm {
@@ -10,17 +10,17 @@ pipelineJob('nuxeo/lts/draft-release-upgrade-notes-2021') {
           // Repositories
           remote {
             // Repository URL
-            url('https://github.com/nuxeo/integration-scripts-priv')
+            url('https://github.com/nuxeo/nuxeo-lts')
             // Credentials
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('*/2021')
+          branches('*/2023')
           browser {
             // Repository browser
             githubWeb {
               // URL
-              repoUrl('https://github.com/nuxeo/integration-scripts-priv')
+              repoUrl('https://github.com/nuxeo/nuxeo-lts')
             }
           }
         }
@@ -28,15 +28,20 @@ pipelineJob('nuxeo/lts/draft-release-upgrade-notes-2021') {
       // Lightweight checkout
       lightweight(true)
       // Script Path
-      scriptPath('Jenkinsfiles/draft-release-upgrade-notes.groovy')
+      scriptPath('ci/Jenkinsfiles/release.groovy')
     }
   }
   parameters {
     string {
       name('NUXEO_BUILD_VERSION')
       defaultValue('')
-      description('Version of the promoted Nuxeo Server build.')
+      description('Version of the Nuxeo Server build to promote.')
       trim(true)
     }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-lts')
   }
 }

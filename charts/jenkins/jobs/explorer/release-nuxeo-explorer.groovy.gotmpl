@@ -1,0 +1,95 @@
+pipelineJob('explorer/release-nuxeo-explorer') {
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-explorer')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('*/master')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-explorer')
+            }
+          }
+        }
+      }
+      // Lightweight checkout
+      lightweight(true)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/release.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('BRANCH_NAME')
+      defaultValue('master')
+      description('The branch to release')
+      trim(true)
+    }
+    string {
+      name('RELEASE_VERSION')
+      defaultValue('')
+      description('Release Explorer version (optional)')
+      trim(true)
+    }
+    string {
+      name('NEXT_VERSION')
+      defaultValue('')
+      description('Next Explorer version (next minor version if unset)')
+      trim(true)
+    }
+    string {
+      name('NUXEO_VERSION')
+      defaultValue('')
+      description('Version of the Nuxeo Server dependency (unchanged if unset)')
+      trim(true)
+    }
+    booleanParam {
+      name('NUXEO_VERSION_IS_PROMOTED')
+      defaultValue(true)
+      description('Uncheck if releasing a RC version, against a non-promoted Nuxeo build')
+    }
+    string {
+      name('NEXT_NUXEO_VERSION')
+      defaultValue('')
+      description('Next Version of the Nuxeo Server dependency (unchanged if unset)')
+      trim(true)
+    }
+    string {
+      name('JIRA_ISSUE')
+      defaultValue('')
+      description('Id of the Jira issue for this release')
+      trim(true)
+    }
+    booleanParam {
+      name('SKIP_TESTS')
+      defaultValue(false)
+      description('Skip all tests')
+    }
+    booleanParam {
+      name('SKIP_FUNCTIONAL_TESTS')
+      defaultValue(false)
+      description('Skip functional tests')
+    }
+    booleanParam {
+      name('DRY_RUN')
+      defaultValue(true)
+      description('Dry run')
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-explorer')
+  }
+}

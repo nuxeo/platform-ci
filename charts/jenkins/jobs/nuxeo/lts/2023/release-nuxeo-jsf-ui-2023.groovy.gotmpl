@@ -1,6 +1,6 @@
-pipelineJob('nuxeo/lts/release-nuxeo-2021') {
+pipelineJob('nuxeo/lts/2023/release-nuxeo-jsf-ui-2023') {
   // Description
-  description('Promote a given Nuxeo Server build version as a release')
+  description('Release Nuxeo JSF UI')
   definition {
     // Definition
     cpsScm {
@@ -10,17 +10,17 @@ pipelineJob('nuxeo/lts/release-nuxeo-2021') {
           // Repositories
           remote {
             // Repository URL
-            url('https://github.com/nuxeo/nuxeo-lts')
+            url('https://github.com/nuxeo/nuxeo-jsf-ui-lts')
             // Credentials
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('*/2021')
+          branches('*/2023')
           browser {
             // Repository browser
             githubWeb {
               // URL
-              repoUrl('https://github.com/nuxeo/nuxeo-lts')
+              repoUrl('https://github.com/nuxeo/nuxeo-jsf-ui-lts')
             }
           }
         }
@@ -35,8 +35,13 @@ pipelineJob('nuxeo/lts/release-nuxeo-2021') {
     string {
       name('NUXEO_BUILD_VERSION')
       defaultValue('')
-      description('Version of the Nuxeo Server build to promote.')
+      description('Version of the promoted Nuxeo Server build.')
       trim(true)
     }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-jsf-ui-lts')
   }
 }
