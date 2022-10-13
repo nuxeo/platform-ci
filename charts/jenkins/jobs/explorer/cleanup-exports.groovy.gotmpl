@@ -29,5 +29,30 @@ pipelineJob('explorer/cleanup-exports') {
       scriptPath('ci/Jenkinsfiles/cleanup-exports.groovy')
     }
   }
-  {{- .Values.jobs.cleanupExports.triggers | nindent 2 }}
+  parameters {
+    string {
+      name('NUMBER_KEEP')
+      defaultValue('15')
+      description('Number of exports to keep.')
+      trim(true)
+    }
+    string {
+      name('TARGET_URL')
+      defaultValue('https://explorer.beta.nuxeocloud.com/nuxeo')
+      description('Target Explorer instance to cleanup.')
+      trim(true)
+    }
+    string {
+      name('TARGET_CREDS_ID')
+      defaultValue('explorer-beta-nco')
+      description('Target Explorer instance credentials id.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-explorer')
+    {{- .Values.jobs.cleanupExports.triggers | nindent 4 }}
+  }
 }

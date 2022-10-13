@@ -27,12 +27,14 @@ jobs:
     }
   cleanupExports:
     triggers: |-
-      // Build Triggers
-      triggers {
-        // Build periodically
-        cron {
-          // Schedule
-          spec('H H(8-10) * * *')
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+          // Build periodically
+          cron {
+            // Schedule
+            spec('H H(8-10) * * *')
+          }
         }
       }
   mirrorNuxeoLTS:
@@ -56,6 +58,18 @@ jobs:
           cron {
             // Schedule
             spec('H 1 * * *')
+          }
+        }
+      }
+  properties:
+    buildDiscarder: |-
+      buildDiscarder {
+        strategy {
+          logRotator {
+            daysToKeepStr('60')
+            numToKeepStr('60')
+            artifactDaysToKeepStr('')
+            artifactNumToKeepStr('5')
           }
         }
       }

@@ -1,4 +1,4 @@
-pipelineJob('explorer/customers/export') {
+pipelineJob('explorer/customers/trigger-exports') {
   definition {
     // Definition
     cpsScm {
@@ -26,7 +26,12 @@ pipelineJob('explorer/customers/export') {
       // Lightweight checkout
       lightweight(true)
       // Script Path
-      scriptPath('ci/Jenkinsfiles/export.groovy')
+      scriptPath('ci/Jenkinsfiles/trigger-exports.groovy')
     }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-explorer-customers')
   }
 }

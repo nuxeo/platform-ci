@@ -142,3 +142,8 @@ jobs:
       discardOldItems {
       }
     }
+  properties:
+    disableConcurrentBuilds: |-
+      disableConcurrentBuilds {
+        abortPrevious(false)
+      }

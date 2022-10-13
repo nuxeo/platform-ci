@@ -24,4 +24,17 @@ pipelineJob('ci/libreoffice-uploader') {
       scriptPath('Jenkinsfiles/libreoffice.groovy')
     }
   }
+  parameters {
+    string {
+      name('LIBREOFFICE_VERSION')
+      defaultValue('7.1.1')
+      description('Libreoffice version to download from documentfoundation.org and then to upload to packages.nuxeo.com.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/platform-ci-tools')
+  }
 }

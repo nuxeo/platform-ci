@@ -29,7 +29,23 @@ pipelineJob('explorer/trigger-export-on-build') {
       scriptPath('ci/Jenkinsfiles/trigger-export-on-build.groovy')
     }
   }
+  parameters {
+    string {
+      name('NUXEO_VERSION')
+      defaultValue('')
+      description('Version of the target Nuxeo Server Image.\nSample: \'2021.22.4\'.\nWill be ignored if jobs is triggered from upstream build.')
+      trim(true)
+    }
+    text {
+      name('DEFAULT_PACKAGE_LIST')
+      defaultValue('')
+      description('The list of packages to install for snapshot.\nSample: \'nuxeo-csv nuxeo-quota-1.0.0\'.\nWill override the default job triggered job value if not empty.')
+    }
+  }
   properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-explorer')
     pipelineTriggers {
       triggers {
         upstream {

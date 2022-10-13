@@ -7,7 +7,7 @@ controller:
         - script: >
             folder('ci')
         - script: > {{ tpl (readFile "jobs/ci/jx-platform-builders.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ readFile "jobs/ci/libreoffice-uploader.groovy" | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/ci/libreoffice-uploader.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/ci/platform-builder-base.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/ci/platform-ci.groovy.gotmpl") . | nindent 12 }}
         - script: >
@@ -16,18 +16,18 @@ controller:
         - script: >
             folder('explorer')
         - script: > {{ tpl (readFile "jobs/explorer/cleanup-exports.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ readFile "jobs/explorer/export-platform-explorer-reference.groovy" | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/explorer/export-platform-explorer-reference.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/explorer/nuxeo-explorer.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ readFile "jobs/explorer/release-nuxeo-explorer-for-10.10.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/explorer/release-nuxeo-explorer.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/explorer/test-trigger.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/explorer/trigger-export-on-build.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/explorer/trigger-export-on-promotion.groovy" | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/explorer/release-nuxeo-explorer.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/explorer/release-nuxeo-explorer-for-10.10.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/explorer/test-trigger.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/explorer/trigger-export-on-build.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/explorer/trigger-export-on-promotion.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('explorer/customers')
-        - script: > {{ readFile "jobs/explorer/customers/export.groovy" | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/explorer/customers/export.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/explorer/customers/nuxeo-explorer-customers.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ readFile "jobs/explorer/customers/trigger-exports.groovy" | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/explorer/customers/trigger-exports.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('integration-tests')
         - script: >
@@ -44,8 +44,8 @@ controller:
         - script: > {{ tpl (readFile "jobs/misc/team-platform-report.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('nev')
-        - script: > {{ readFile "jobs/nev/arender-helm-chart-updater.groovy" | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/arender-helm-chart.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nev/arender-helm-chart-updater.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/arender-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/deploy-nev-stack.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/nuxeo-arender-common.groovy.gotmpl") . | nindent 12 }}
@@ -68,27 +68,27 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/check-release-date.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/check-release-notes-rephrasing.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/check-tomcat-update.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/draft-release-upgrade-notes-2021.groovy" | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/draft-release-upgrade-notes-2021.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/mirror-nuxeo-2021.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/nuxeo-benchmark.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/nuxeo-hf-2021.groovy" | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-benchmark.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-hf-2021.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-javadoc.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-jsf-ui.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/publish-nuxeo-hf-release-notes-2021.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/release-jira-2021.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/release-nuxeo-2021.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/release-nuxeo-hf-2021.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/release-nuxeo-jsf-ui-2021.groovy" | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/publish-nuxeo-hf-release-notes-2021.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-jira-2021.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo-2021.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo-hf-2021.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo-jsf-ui-2021.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('nuxeo/lts/2023')
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/mirror-nuxeo-2023.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/2023/nuxeo-hf-2023.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/2023/publish-nuxeo-hf-release-notes-2023.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/2023/release-jira-2023.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/2023/release-nuxeo-2023.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/2023/release-nuxeo-hf-2023.groovy" | nindent 12 }}
-        - script: > {{ readFile "jobs/nuxeo/lts/2023/release-nuxeo-jsf-ui-2023.groovy" | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/nuxeo-hf-2023.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/publish-nuxeo-hf-release-notes-2023.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/release-jira-2023.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/release-nuxeo-2023.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/release-nuxeo-hf-2023.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/release-nuxeo-jsf-ui-2023.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('replication')
         - script: > {{ tpl (readFile "jobs/replication/nuxeo-replication.groovy.gotmpl") . | nindent 12 }}
