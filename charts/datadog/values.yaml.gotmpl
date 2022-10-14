@@ -8,6 +8,8 @@ datadog:
   logs:
     # by default the log collection is disabled on all container, see containerCollectAll
     enabled: true
+  dogstatsd:
+    useHostPort: true
 clusterAgent:
   nodeSelector:
     team: platform
