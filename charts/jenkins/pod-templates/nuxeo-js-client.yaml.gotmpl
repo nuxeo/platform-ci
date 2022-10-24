@@ -1,0 +1,41 @@
+- id: "nuxeo-js-client"
+  name: "nuxeo-js-client"
+  label: "jenkins-nuxeo-js-client"
+  imagePullSecrets:
+  - name: {{ .Values.podTemplates.imagePullSecretName }}
+  serviceAccount: {{ .Values.podTemplates.serviceAccount }}
+  nodeUsageMode:  {{ .Values.podTemplates.nodeUsageMode }}
+  containers:
+  {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
+  - args: ""
+    command: ""
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-nodejs16:latest"
+    alwaysPullImage: true
+    name: "nodejs-active"
+    privileged: {{ .Values.podTemplates.privileged }}
+    resourceLimitCpu: "2"
+    resourceLimitMemory: "2Gi"
+    resourceRequestCpu: "1"
+    resourceRequestMemory: "1Gi"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
+  - args: ""
+    command: ""
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-nodejs14:latest"
+    alwaysPullImage: true
+    name: "nodejs-maintenance"
+    privileged: {{ .Values.podTemplates.privileged }}
+    resourceLimitCpu: "2"
+    resourceLimitMemory: "2Gi"
+    resourceRequestCpu: "1"
+    resourceRequestMemory: "1Gi"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
+  envVars:
+  {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
+  volumes:
+  {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
+  nodeSelector: {{ .Values.podTemplates.nodeSelector }}
+  yamlMergeStrategy: {{ .Values.podTemplates.yamlMergeStrategy }}
+  yaml: |
+    {{- .Values.podTemplates.yaml | nindent 4 -}}
