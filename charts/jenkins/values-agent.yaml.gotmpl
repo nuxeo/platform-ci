@@ -9,6 +9,8 @@ agent:
       {{- tpl (readFile "pod-templates/base.yaml.gotmpl") . | nindent 6 }}
     nodejs: |
       {{- tpl (readFile "pod-templates/nodejs.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-js-client: |
+      {{- tpl (readFile "pod-templates/nuxeo-js-client.yaml.gotmpl") . | nindent 6 }}
     nuxeo-jsf-lts-2021: |
       {{- tpl (readFile "pod-templates/nuxeo-jsf-lts-2021.yaml.gotmpl") . | nindent 6 }}
     nuxeo-jsf-lts-2023: |
