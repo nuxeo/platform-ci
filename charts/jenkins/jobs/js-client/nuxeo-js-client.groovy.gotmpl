@@ -1,0 +1,40 @@
+multibranchPipelineJob('js-client/nuxeo-js-client') {
+  // Description
+  description('Nuxeo JS Client')
+  // Branch Sources
+  branchSources {
+    branchSource {
+      source {
+        // GitHub
+        github {
+          id('js-client/nuxeo-js-client')
+          // Credentials
+          credentialsId('github-app')
+          // Repository
+          repoOwner('nuxeo')
+          repository('nuxeo-js-client')
+          repositoryUrl('https://github.com/nuxeo/nuxeo-js-client')
+          configuredByUrl(false)
+          // Behaviors
+          traits {
+            {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            {{- .Values.jobs.traits.masterHeadRegexFilter | nindent 12 }}
+          }
+        }
+      }
+      {{- .Values.jobs.strategy | nindent 6 }}
+    }
+  }
+  // Build Configuration
+  factory {
+    // Mode: by Jenkinsfile
+    workflowBranchProjectFactory {
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/build.groovy')
+    }
+  }
+  {{- .Values.jobs.triggers | nindent 2 }}
+  {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
+}
