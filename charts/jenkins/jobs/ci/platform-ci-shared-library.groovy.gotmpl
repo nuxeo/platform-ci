@@ -1,0 +1,40 @@
+multibranchPipelineJob('ci/platform-ci-shared-library') {
+  // Description
+  description('Nuxeo Platform CI Shared Library')
+  // Branch Sources
+  branchSources {
+    branchSource {
+      source {
+        // GitHub
+        github {
+          id('ci/platform-ci-shared-library')
+          // Credentials
+          credentialsId('github-branch-source')
+          // Repository
+          repoOwner('nuxeo')
+          repository('platform-ci-shared-library')
+          repositoryUrl('https://github.com/nuxeo/platform-ci-shared-library')
+          configuredByUrl(false)
+          // Behaviors
+          traits {
+            {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            {{- .Values.jobs.traits.mainHeadRegexFilter | nindent 12 }}
+          }
+        }
+      }
+      {{- .Values.jobs.strategy | nindent 6 }}
+    }
+  }
+  // Build Configuration
+  factory {
+    // Mode: by Jenkinsfile
+    workflowBranchProjectFactory {
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/build.groovy')
+    }
+  }
+  {{- .Values.jobs.triggers | nindent 2 }}
+  {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
+}
