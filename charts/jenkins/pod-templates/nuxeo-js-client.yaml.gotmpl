@@ -33,6 +33,9 @@
     workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:
   {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
+  - envVar:
+      key: DEFAULT_CONTAINER
+      value: "nodejs-active"
   volumes:
   {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
   nodeSelector: {{ .Values.podTemplates.nodeSelector }}
