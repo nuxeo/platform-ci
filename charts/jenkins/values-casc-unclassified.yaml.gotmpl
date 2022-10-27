@@ -12,6 +12,29 @@ controller:
             configs:
             - credentialsId: {{ .Values.github.credentialsId | quote }}
               name: "nuxeo"
+          globalLibraries:
+            libraries:
+            - cachingConfiguration:
+                excludedVersionsStr: "PR-"
+                refreshTimeMinutes: 60
+              defaultVersion: "main"
+              includeInChangesets: true
+              name: "platform-ci-shared-library"
+              retriever:
+                modernSCM:
+                  scm:
+                    github:
+                      configuredByUrl: true
+                      credentialsId: "jx-pipeline-git-github-git"
+                      repoOwner: "nuxeo"
+                      repository: "platform-ci-shared-library"
+                      repositoryUrl: "https://github.com/nuxeo/platform-ci-shared-library"
+                      traits:
+                      - gitHubBranchDiscovery:
+                          strategyId: 1
+                      - gitHubPullRequestDiscovery:
+                          strategyId: 2
+                      - "gitHubTagDiscovery"
           jiraGlobalConfiguration:
             sites:
             - credentialsId: "jira"
