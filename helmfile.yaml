@@ -19,7 +19,7 @@ releases:
   - charts/jenkins-extra/values.yaml.gotmpl
 - name: jenkins
   chart: jenkins/jenkins
-  version: ~3.3.4
+  version: ~4.2.13
   namespace: {{ .Values.namespace }}
   needs:
   - {{ .Values.namespace }}/jenkins-extra
