@@ -72,7 +72,6 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/check-release-date.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/check-release-notes-rephrasing.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/check-tomcat-update.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/lts/draft-release-upgrade-notes-2021.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/mirror-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-benchmark.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-hf-2021.groovy.gotmpl") . | nindent 12 }}
