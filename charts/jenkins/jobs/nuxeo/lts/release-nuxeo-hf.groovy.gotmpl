@@ -1,4 +1,4 @@
-pipelineJob('nuxeo/lts/release-nuxeo-hf-2021') {
+pipelineJob('nuxeo/lts/release-nuxeo-hf') {
   // Description
   description('Promote a given Nuxeo hotfix package version as a release')
   definition {
@@ -15,7 +15,7 @@ pipelineJob('nuxeo/lts/release-nuxeo-hf-2021') {
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('*/2021')
+          branches('^${NUXEO_BRANCH}')
           browser {
             // Repository browser
             githubWeb {
@@ -25,13 +25,18 @@ pipelineJob('nuxeo/lts/release-nuxeo-hf-2021') {
           }
         }
       }
-      // Lightweight checkout
-      lightweight(true)
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
       // Script Path
       scriptPath('Jenkinsfiles/release-hf.groovy')
     }
   }
   parameters {
+    string {
+      name('NUXEO_BRANCH')
+      description('Branch to promote a given Nuxeo hotfix package version as a release.')
+      trim(true)
+    }
     string {
       name('NUXEO_BUILD_VERSION')
       defaultValue('')
