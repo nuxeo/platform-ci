@@ -78,7 +78,7 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-javadoc.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-jsf-ui.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/lts/publish-nuxeo-hf-release-notes-2021.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/publish-nuxeo-hf-release-notes.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-jira.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo-hf.groovy.gotmpl") . | nindent 12 }}
@@ -86,7 +86,6 @@ controller:
         - script: >
             folder('nuxeo/lts/2023')
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/nuxeo-hf-2023.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/publish-nuxeo-hf-release-notes-2023.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('replication')
         - script: > {{ tpl (readFile "jobs/replication/nuxeo-replication.groovy.gotmpl") . | nindent 12 }}

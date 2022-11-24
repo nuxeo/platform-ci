@@ -1,4 +1,4 @@
-pipelineJob('nuxeo/lts/publish-nuxeo-hf-release-notes-2021') {
+pipelineJob('nuxeo/lts/publish-nuxeo-hf-release-notes') {
   // Description
   description('Update Hotfix package description with the JIRA release notes.')
   definition {
@@ -15,7 +15,7 @@ pipelineJob('nuxeo/lts/publish-nuxeo-hf-release-notes-2021') {
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('*/2021')
+          branches('^${NUXEO_BRANCH}')
           browser {
             // Repository browser
             githubWeb {
@@ -25,13 +25,18 @@ pipelineJob('nuxeo/lts/publish-nuxeo-hf-release-notes-2021') {
           }
         }
       }
-      // Lightweight checkout
-      lightweight(true)
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
       // Script Path
       scriptPath('Jenkinsfiles/publish-hf-release-notes.groovy')
     }
   }
   parameters {
+    string {
+      name('NUXEO_BRANCH')
+      description('Branch to update Hotfix package description with the JIRA release notes.')
+      trim(true)
+    }
     string {
       name('NUXEO_BUILD_VERSION')
       defaultValue('')
