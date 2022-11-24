@@ -80,7 +80,7 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/publish-nuxeo-hf-release-notes-2021.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-jira-2021.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo-2021.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo-hf-2021.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo-jsf-ui-2021.groovy.gotmpl") . | nindent 12 }}
         - script: >
@@ -88,7 +88,6 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/nuxeo-hf-2023.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/publish-nuxeo-hf-release-notes-2023.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/release-jira-2023.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/release-nuxeo-2023.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/release-nuxeo-hf-2023.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/2023/release-nuxeo-jsf-ui-2023.groovy.gotmpl") . | nindent 12 }}
         - script: >
