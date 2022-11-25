@@ -1,4 +1,4 @@
-pipelineJob('nuxeo/lts/release-nuxeo-2021') {
+pipelineJob('nuxeo/lts/release-nuxeo') {
   // Description
   description('Promote a given Nuxeo Server build version as a release')
   definition {
@@ -34,7 +34,7 @@ pipelineJob('nuxeo/lts/release-nuxeo-2021') {
   parameters {
     string {
       name('NUXEO_BRANCH')
-      description('Branch to promote a given Nuxeo Server build version as a release.')
+      description('Branch to release.')
       trim(true)
     }
     string {

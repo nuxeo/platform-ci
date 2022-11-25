@@ -34,7 +34,7 @@ pipelineJob('nuxeo/lts/publish-nuxeo-hf-release-notes') {
   parameters {
     string {
       name('NUXEO_BRANCH')
-      description('Branch to update Hotfix package description with the JIRA release notes.')
+      description('Branch to release.')
       trim(true)
     }
     string {

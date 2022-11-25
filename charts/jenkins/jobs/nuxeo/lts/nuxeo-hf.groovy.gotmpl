@@ -1,6 +1,6 @@
-pipelineJob('nuxeo/lts/nuxeo-hf-2021') {
+pipelineJob('nuxeo/lts/nuxeo-hf') {
   // Description
-  description('Continuous build of hotfix for nuxeo LTS 2021.')
+  description('Continuous build of hotfix for nuxeo LTS.')
   definition {
     // Definition
     cpsScm {
@@ -15,7 +15,7 @@ pipelineJob('nuxeo/lts/nuxeo-hf-2021') {
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('*/2021')
+          branches('^${NUXEO_BRANCH}')
           browser {
             // Repository browser
             githubWeb {
@@ -25,8 +25,8 @@ pipelineJob('nuxeo/lts/nuxeo-hf-2021') {
           }
         }
       }
-      // Lightweight checkout
-      lightweight(true)
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
       // Script Path
       scriptPath('Jenkinsfiles/build-hf.groovy')
     }
@@ -34,7 +34,6 @@ pipelineJob('nuxeo/lts/nuxeo-hf-2021') {
   parameters {
     string {
       name('NUXEO_BRANCH')
-      defaultValue('2021')
       description('Branch to hotfix.')
       trim(true)
     }
