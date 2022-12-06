@@ -1,6 +1,8 @@
 repositories:
 - name: datadog
   url: https://helm.datadoghq.com
+- name: nfs-ganesha
+  url: https://kubernetes-sigs.github.io/nfs-ganesha-server-and-external-provisioner
 - name: jenkins
   url: https://charts.jenkins.io
 
@@ -52,6 +54,13 @@ releases:
   namespace: {{ .Values.namespace }}
   values:
   - charts/datadog/values.yaml.gotmpl
+- name: nfs-server-provisioner
+  chart: nfs-ganesha/nfs-server-provisioner
+  version: ~1.4.0
+  condition: nfs.enabled
+  namespace: {{ .Values.namespace }}
+  values:
+    - charts/nfs-server-provisioner/values.yaml.gotmpl
 
 environments:
   # The default environment is used for staging.
