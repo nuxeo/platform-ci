@@ -66,3 +66,5 @@ jobs:
       }
 # Don't run in platform-staging namespace to avoid double key rotation
 awsCredentialsRotation: false
+nfs:
+  enabled: false

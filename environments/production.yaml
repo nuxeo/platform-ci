@@ -92,3 +92,5 @@ jobs:
         }
       }
 awsCredentialsRotation: true
+nfs:
+  enabled: true
