@@ -9,7 +9,7 @@
   {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
   - args: "cat"
     command: "/bin/sh -c"
-    image: "{{ .Values.docker.registry }}/nuxeo/builder-base:latest"
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-base-rockylinux9:latest"
     alwaysPullImage: true
     name: "base"
     privileged: {{ .Values.podTemplates.privileged }}
