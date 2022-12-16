@@ -24,6 +24,13 @@ jobs:
     // Scan Repository Triggers
     triggers {
     }
+  arenderHelmChartUpdater:
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+        }
+      }
   benchmarkNuxeoLTS:
     triggers: |-
       pipelineTriggers {

@@ -25,6 +25,18 @@ jobs:
         interval('1d')
       }
     }
+  arenderHelmChartUpdater:
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+          // Build periodically
+          cron {
+            // Schedule
+            spec('H 2 * * 1')
+          }
+        }
+      }
   benchmarkNuxeoLTS:
     triggers: |-
       pipelineTriggers {
