@@ -24,14 +24,14 @@ jobs:
     // Scan Repository Triggers
     triggers {
     }
-  cleanupExports:
+  benchmarkNuxeoLTS:
     triggers: |-
       pipelineTriggers {
         // Build Triggers
         triggers {
         }
       }
-  benchmarkNuxeoLTS:
+  cleanupExports:
     triggers: |-
       pipelineTriggers {
         // Build Triggers
