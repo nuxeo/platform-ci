@@ -28,5 +28,6 @@ pipelineJob('nev/arender-helm-chart-updater') {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
     githubProjectUrl('https://github.com/nuxeo/arender-helm-chart')
+    {{- .Values.jobs.arenderHelmChartUpdater.triggers | nindent 4 }}
   }
 }
