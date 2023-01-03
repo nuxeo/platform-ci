@@ -16,27 +16,10 @@
  * Contributors:
  *     Antoine Taillefer <ataillefer@nuxeo.com>
  */
- properties([
-  [$class: 'GithubProjectProperty', projectUrlStr: 'https://github.com/nuxeo/platform-ci/'],
-  [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60', numToKeepStr: '60', artifactNumToKeepStr: '5']],
-  disableConcurrentBuilds(),
-])
-
-void setGitHubBuildStatus(String context, String message, String state) {
-  step([
-    $class: 'GitHubCommitStatusSetter',
-    reposSource: [$class: 'ManuallyEnteredRepositorySource', url: 'https://github.com/nuxeo/platform-ci'],
-    contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: context],
-    statusResultSource: [$class: 'ConditionalStatusResultSource', results: [[$class: 'AnyBuildResult', message: message, state: state]]],
-  ])
-}
-
-String getReleaseVersion() {
-  return sh(returnStdout: true, script: 'jx-release-version')
-}
+library identifier: "platform-ci-shared-library@v0.0.11"
 
 def isStaging() {
-  return BRANCH_NAME =~ /PR-.*/ || env.DRY_RUN == 'true'
+  return nxUtils.isPullRequest() || nxUtils.isDryRun()
 }
 
 def getTargetNamespace() {
@@ -47,30 +30,14 @@ def getHelmfileEnvironment() {
   return isStaging() ? 'default' : 'production'
 }
 
-void helmfileTemplate(environment, outputDir) {
-  sh """
-    helmfile deps
-    helmfile --environment ${environment} template --output-dir ${outputDir}
-  """
-}
-
-void helmfileSync(environment) {
-  sh """
-    helmfile deps
-    helmfile --environment ${environment} sync
-  """
-}
-
-def getSecretData(secret, key) {
-  return sh(
-    script: "kubectl -n ${NAMESPACE} get secret ${secret} -o=jsonpath='{.data.${key}}' | base64 --decode",
-    returnStdout: true
-  )
-}
-
 pipeline {
   agent {
     label 'jenkins-base'
+  }
+  options {
+    buildDiscarder(logRotator(daysToKeepStr: '60', numToKeepStr: '60', artifactNumToKeepStr: '5'))
+    disableConcurrentBuilds(abortPrevious: true)
+    githubProjectProperty(projectUrlStr: 'https://github.com/nuxeo/platform-ci')
   }
   environment {
     NEXUS_SECRET = 'nexus'
@@ -82,45 +49,39 @@ pipeline {
   stages {
     stage('Update CI') {
       steps {
-        setGitHubBuildStatus('update-ci', 'Update Platform CI', 'PENDING')
         container('base') {
-          echo """
-          ----------------------------------------------------------------------
-          Synchronize K8s cluster state with Helmfile: Jenkins
-          Namespace: ${NAMESPACE}
-          ----------------------------------------------------------------------"""
-          echo "Override Helm 2 with Helm 3 since `--helm-binary /usr/bin/helm3` doesn't seem to work in `helmfile deps`"
-          sh 'mv /usr/bin/helm3 /usr/bin/helm'
-          echo 'Helm 3 version:'
-          sh 'helm version'
-
-          echo 'Helmfile version:'
-          sh 'helmfile version'
-
-          echo 'synchronize cluster state'
-          helmfileTemplate("${HELMFILE_ENVIRONMENT}", 'target')
-          withCredentials([
-            usernamePassword(credentialsId: 'packages.nuxeo.com-auth', usernameVariable: 'PACKAGES_USERNAME', passwordVariable: 'PACKAGES_PASSWORD'),
-            usernamePassword(credentialsId: 'connect-prod', usernameVariable: 'CONNECT_USERNAME', passwordVariable: 'CONNECT_PASSWORD'),
-          ]) {
+          nxWithGitHubStatus(context: 'update-ci', message: 'Update Platform CI') {
             script {
-              // not using usernamePassword since we need to fetch credentials from the target namespace, e.g. platform-staging if on a PR
-              def nexusUsername = getSecretData("${NEXUS_SECRET}", 'username')
-              def nexusPassword = getSecretData("${NEXUS_SECRET}", 'password')
-              def chartmuseumUsername = getSecretData("${CHARTMUSEUM_SECRET}", 'BASIC_AUTH_USER')
-              def chartmuseumPassword = getSecretData("${CHARTMUSEUM_SECRET}", 'BASIC_AUTH_PASS')
-              // not using usernamePassword to avoid displaying the access key id in the Jenkins credentials view
-              def awsAccessKeyId = getSecretData("${AWS_CREDENTIALS_SECRET}", 'access_key_id')
-              def awsSecretAccessKey = getSecretData("${AWS_CREDENTIALS_SECRET}", 'secret_access_key')
-              withEnv([
+              echo """
+              ----------------------------------------------------------------------
+              Synchronize K8s cluster state with Helmfile: Jenkins
+              Namespace: ${NAMESPACE}
+              ----------------------------------------------------------------------"""
+              echo 'Helmfile version:'
+              sh 'helmfile version'
+
+              echo 'synchronize cluster state'
+              nxHelmfile.template(namespace: env.NAMESPACE, file: 'helmfile.yaml', environment: env.HELMFILE_ENVIRONMENT, outputDir: 'target')
+              withCredentials([
+                usernamePassword(credentialsId: 'packages.nuxeo.com-auth', usernameVariable: 'PACKAGES_USERNAME', passwordVariable: 'PACKAGES_PASSWORD'),
+                usernamePassword(credentialsId: 'connect-prod', usernameVariable: 'CONNECT_USERNAME', passwordVariable: 'CONNECT_PASSWORD'),
+              ]) {
+                // not using usernamePassword since we need to fetch credentials from the target namespace, e.g. platform-staging if on a PR
+                def nexusUsername = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.NEXUS_SECRET, key: 'username')
+                def nexusPassword = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.NEXUS_SECRET, key: 'password')
+                def chartmuseumUsername = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.CHARTMUSEUM_SECRET, key: 'BASIC_AUTH_USER')
+                def chartmuseumPassword = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.CHARTMUSEUM_SECRET, key: 'BASIC_AUTH_PASS')
+                // not using usernamePassword to avoid displaying the access key id in the Jenkins credentials view
+                def awsAccessKeyId = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.AWS_CREDENTIALS_SECRET, key: 'access_key_id')
+                def awsSecretAccessKey = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.AWS_CREDENTIALS_SECRET, key: 'secret_access_key')
+                nxHelmfile.deploy(namespace: env.NAMESPACE, file: 'helmfile.yaml', environment: env.HELMFILE_ENVIRONMENT, envVars: [
                   "NEXUS_USERNAME=${nexusUsername}",
                   "NEXUS_PASSWORD=${nexusPassword}",
                   "CHARTMUSEUM_USERNAME=${chartmuseumUsername}",
                   "CHARTMUSEUM_PASSWORD=${chartmuseumPassword}",
                   "AWS_ACCESS_KEY_ID=${awsAccessKeyId}",
                   "AWS_SECRET_ACCESS_KEY=${awsSecretAccessKey}",
-                ]) {
-                helmfileSync("${HELMFILE_ENVIRONMENT}")
+                ])
               }
             }
           }
@@ -130,45 +91,31 @@ pipeline {
         always {
           archiveArtifacts allowEmptyArchive: true, artifacts: 'helmfile.lock, target/**/*.yaml'
         }
-        success {
-          setGitHubBuildStatus('update-ci', 'Update Platform CI', 'SUCCESS')
-        }
-        failure {
-          setGitHubBuildStatus('update-ci', 'Update Platform CI', 'FAILURE')
-        }
       }
     }
     stage('Git release') {
       when {
         branch 'master'
       }
+      environment {
+        VERSION = nxUtils.getVersion()
+      }
       steps {
-        setGitHubBuildStatus('git-release', 'Perform Git release', 'PENDING')
         container('base') {
-          withEnv(["VERSION=${getReleaseVersion()}"]) {
-            sh """
-              # ensure we're not on a detached head
-              git checkout master
-
-              # create the Git credentials
-              jx step git credentials
-              git config credential.helper store
-
-              # Git tag
-              jx step tag -v ${VERSION}
-            """
+          nxWithGitHubStatus(context: 'git-release', message: 'Perform Git release') {
+            script {
+              // ensure we're not on a detached head
+              sh "git checkout master"
+              nxGit.tagPush()
+            }
           }
         }
       }
       post {
         always {
-          step([$class: 'JiraIssueUpdater', issueSelector: [$class: 'DefaultIssueSelector'], scm: scm])
-        }
-        success {
-          setGitHubBuildStatus('git-release', 'Perform Git release', 'SUCCESS')
-        }
-        failure {
-          setGitHubBuildStatus('git-release', 'Perform Git release', 'FAILURE')
+          script {
+            nxJira.updateIssues()
+          }
         }
       }
     }
