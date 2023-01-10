@@ -12,6 +12,10 @@ controller:
         - script: > {{ tpl (readFile "jobs/ci/platform-ci.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/ci/platform-ci-shared-library.groovy.gotmpl") . | nindent 12 }}
         - script: >
+            folder('coldstorage')
+        - script: > {{ tpl (readFile "jobs/coldstorage/nuxeo-coldstorage.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/coldstorage/release-nuxeo-coldstorage.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('compound-documents')
         - script: > {{ tpl (readFile "jobs/compound-documents/nuxeo-compound-documents.groovy.gotmpl") . | nindent 12 }}
         - script: >
