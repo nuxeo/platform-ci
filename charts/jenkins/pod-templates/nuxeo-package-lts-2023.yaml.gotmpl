@@ -19,6 +19,18 @@
     resourceRequestMemory: "2Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
+  - args: ""
+    command: ""
+    image: mcr.microsoft.com/playwright:v1.13.1
+    alwaysPullImage: true
+    name: "playwright"
+    privileged: {{ .Values.podTemplates.privileged }}
+    resourceLimitCpu: "1"
+    resourceLimitMemory: "1Gi"
+    resourceRequestCpu: "500m"
+    resourceRequestMemory: "250Mi"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:
   {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.javaEnvVars | nindent 2 -}}
