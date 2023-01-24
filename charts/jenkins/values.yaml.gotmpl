@@ -68,10 +68,13 @@ controller:
   overwritePlugins: true
   scriptApproval:
   - "method java.time.DayOfWeek getValue"
+  - "method java.time.chrono.ChronoLocalDate isBefore java.time.chrono.ChronoLocalDate"
+  - "method java.time.chrono.ChronoZonedDateTime toLocalDate"
   - "method java.time.temporal.TemporalUnit between java.time.temporal.Temporal java.time.temporal.Temporal"
   - "method java.util.Properties getProperty java.lang.String"
   - "staticField java.time.temporal.ChronoUnit DAYS"
   - "staticMethod hudson.Functions printThrowable java.lang.Throwable"
+  - "staticMethod java.time.ZonedDateTime parse java.lang.CharSequence"
   - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods find java.lang.Object groovy.lang.Closure"
   initScripts:
   # Set custom agent pod labels.
