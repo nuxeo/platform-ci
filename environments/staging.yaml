@@ -52,6 +52,13 @@ jobs:
         triggers {
         }
       }
+  scanDockerImageNuxeoLTS:
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+        }
+      }
   serverWebUIIntegrationTests:
     triggers: |-
       pipelineTriggers {
