@@ -79,6 +79,21 @@ jobs:
           }
         }
       }
+  scanDockerImageNuxeoLTS:
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+          // Build periodically
+          parameterizedCron {
+            // Schedule
+            parameterizedSpecification('''
+              H 2 * * * % NUXEO_BRANCH=2021
+              H 2 * * * % NUXEO_BRANCH=2023
+            ''')
+          }
+        }
+      }
   serverWebUIIntegrationTests:
     triggers: |-
       pipelineTriggers {

@@ -1,0 +1,47 @@
+pipelineJob('nuxeo/lts/scan-docker-image') {
+  // Description
+  description('Scan the latest nuxeo/nuxeo Docker image for the given branch.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-lts')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('^${NUXEO_BRANCH}')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-lts')
+            }
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/docker-scan.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('NUXEO_BRANCH')
+      description('Branch to scan.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-lts')
+    {{- .Values.jobs.scanDockerImageNuxeoLTS.triggers | nindent 4 }}
+  }
+}
