@@ -45,7 +45,7 @@ pipelineJob('nuxeo/lts/nuxeo-hf') {
     }
   }
   properties {
-    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.nuxeoHF.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
     githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
   }
