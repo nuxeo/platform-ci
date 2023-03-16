@@ -1,6 +1,6 @@
-pipelineJob('nuxeo/lts/release-nuxeo') {
+pipelineJob('nuxeo/lts/promote-nuxeo-server') {
   // Description
-  description('Release Nuxeo')
+  description('Promote a given Nuxeo Server build version as a release')
   definition {
     // Definition
     cpsScm {
@@ -10,7 +10,7 @@ pipelineJob('nuxeo/lts/release-nuxeo') {
           // Repositories
           remote {
             // Repository URL
-            url('https://github.com/nuxeo/integration-scripts-priv')
+            url('https://github.com/nuxeo/nuxeo-lts')
             // Credentials
             credentials('github-branch-source')
           }
@@ -20,7 +20,7 @@ pipelineJob('nuxeo/lts/release-nuxeo') {
             // Repository browser
             githubWeb {
               // URL
-              repoUrl('https://github.com/nuxeo/integration-scripts-priv')
+              repoUrl('https://github.com/nuxeo/nuxeo-lts')
             }
           }
         }
@@ -28,7 +28,7 @@ pipelineJob('nuxeo/lts/release-nuxeo') {
       // no lightweight checkout in order to make branch parameter work
       lightweight(false)
       // Script Path
-      scriptPath('Jenkinsfiles/release-nuxeo.groovy')
+      scriptPath('ci/Jenkinsfiles/release.groovy')
     }
   }
   parameters {
@@ -45,8 +45,8 @@ pipelineJob('nuxeo/lts/release-nuxeo') {
     }
   }
   properties {
-    {{- .Values.jobs.properties.buildDiscarderIndefinite | nindent 4 }}
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
-    githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-lts')
   }
 }

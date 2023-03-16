@@ -78,18 +78,17 @@ jobs:
           }
         }
       }
-    nuxeoHF:
-      buildDiscarder: |-
-        buildDiscarder {
-          strategy {
-            logRotator {
-              daysToKeepStr('7')
-              numToKeepStr('3')
-              artifactDaysToKeepStr('')
-              artifactNumToKeepStr('3')
-            }
+    buildDiscarderIndefinite: |-
+      buildDiscarder {
+        strategy {
+          logRotator {
+            daysToKeepStr('7')
+            numToKeepStr('3')
+            artifactDaysToKeepStr('')
+            artifactNumToKeepStr('3')
           }
         }
+      }
 # Don't run in platform-staging namespace to avoid double key rotation
 awsCredentialsRotation: false
 nfs:
