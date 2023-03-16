@@ -83,6 +83,7 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-javadoc.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-jsf-ui.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/promote-nuxeo-server.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/publish-nuxeo-hf-release-notes.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-jira.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo.groovy.gotmpl") . | nindent 12 }}

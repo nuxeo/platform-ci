@@ -118,18 +118,17 @@ jobs:
           }
         }
       }
-    nuxeoHF:
-      buildDiscarder: |-
-        buildDiscarder {
-          strategy {
-            logRotator {
-              daysToKeepStr('')
-              numToKeepStr('')
-              artifactDaysToKeepStr('')
-              artifactNumToKeepStr('')
-            }
+    buildDiscarderIndefinite: |-
+      buildDiscarder {
+        strategy {
+          logRotator {
+            daysToKeepStr('')
+            numToKeepStr('')
+            artifactDaysToKeepStr('')
+            artifactNumToKeepStr('')
           }
         }
+      }
 awsCredentialsRotation: true
 nfs:
   enabled: true
