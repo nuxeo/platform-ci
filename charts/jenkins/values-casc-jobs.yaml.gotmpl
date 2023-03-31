@@ -79,6 +79,7 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/check-tomcat-update.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/mirror-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-benchmark.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-es-7.17.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-hf.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-javadoc.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/nuxeo-jsf-ui.groovy.gotmpl") . | nindent 12 }}

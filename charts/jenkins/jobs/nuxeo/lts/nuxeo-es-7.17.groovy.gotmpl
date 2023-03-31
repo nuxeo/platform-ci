@@ -1,0 +1,46 @@
+pipelineJob('nuxeo/lts/nuxeo-es-7.17') {
+  // Description
+  description('Test Nuxeo against Elasticsearch 7.17')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-lts')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('^${NUXEO_BRANCH}')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-lts')
+            }
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/build-compat-es-7.17.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('NUXEO_BRANCH')
+      description('Branch to test.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-lts')
+  }
+}
