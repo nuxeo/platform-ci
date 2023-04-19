@@ -1,6 +1,6 @@
-pipelineJob('nuxeo/lts/nuxeo-es-7.17') {
+pipelineJob('nuxeo/lts/nuxeo-es') {
   // Description
-  description('Test Nuxeo against Elasticsearch 7.17')
+  description('Test Nuxeo against Elasticsearch')
   definition {
     // Definition
     cpsScm {
@@ -28,7 +28,7 @@ pipelineJob('nuxeo/lts/nuxeo-es-7.17') {
       // no lightweight checkout in order to make branch parameter work
       lightweight(false)
       // Script Path
-      scriptPath('ci/Jenkinsfiles/build-compat-es-7.17.groovy')
+      scriptPath('ci/Jenkinsfiles/build-compat-es.groovy')
     }
   }
   parameters {
@@ -37,10 +37,14 @@ pipelineJob('nuxeo/lts/nuxeo-es-7.17') {
       description('Branch to test.')
       trim(true)
     }
+    string {
+      name('ELASTICSEARCH_IMAGE_TAG')
+      description('Elasticsearch version to test against.')
+      trim(true)
+    }
   }
   properties {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
-    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
     githubProjectUrl('https://github.com/nuxeo/nuxeo-lts')
   }
 }
