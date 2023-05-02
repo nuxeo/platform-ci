@@ -44,8 +44,6 @@ persistence:
   storageClass: standard
   # use existing pvc since volume cloning isn't available on GKE 1.19
   existingClaim: jenkins-x-nexus
-securityContext:
-  fsGroup: 2000
 ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
