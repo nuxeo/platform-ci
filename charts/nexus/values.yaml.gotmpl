@@ -3,6 +3,8 @@
 # Declare variables to be passed into your templates.
 namespace: {{ .Values.namespace }}
 replicaCount: 1
+podDisruptionBudget:
+  minAvailable: 1
 image:
   repository: docker-internal.packages.nuxeo.com/jenkins-x/nexus
   tag: 0.1.41
