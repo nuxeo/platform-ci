@@ -26,7 +26,6 @@ A Helm chart for Kubernetes
 | readinessProbe.periodSeconds | int | `30` |  |
 | replicaCount | int | `1` |  |
 | resources | string | `nil` |  |
-| securityContext.fsGroup | int | `2000` |  |
 | service.annotations."fabric8.io/expose" | string | `"true"` |  |
 | service.externalPort | int | `80` |  |
 | service.internalPort | int | `8081` |  |
