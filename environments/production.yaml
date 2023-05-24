@@ -1,5 +1,7 @@
 namespace: platform
 dryrun: false
+ingressNginx:
+  enabled: true
 datadog:
   enabled: true
 docker:
