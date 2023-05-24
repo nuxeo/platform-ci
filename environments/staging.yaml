@@ -2,6 +2,8 @@ namespace: platform-staging
 dryrun: true
 ingressNginx:
   enabled: false
+certManager:
+  enabled: false
 datadog:
   enabled: false
 docker:

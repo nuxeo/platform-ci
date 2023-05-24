@@ -2,6 +2,8 @@ namespace: platform
 dryrun: false
 ingressNginx:
   enabled: true
+certManager:
+  enabled: true
 datadog:
   enabled: true
 docker:
