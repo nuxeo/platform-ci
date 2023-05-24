@@ -131,8 +131,6 @@ controller:
     effect: NoSchedule
   ingress:
     enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
     hostName: jenkins.{{ .Values.namespace }}.dev.nuxeo.com
     tls:
     - hosts:
