@@ -1,6 +1,8 @@
 repositories:
 - name: ingress-nginx
   url: https://kubernetes.github.io/ingress-nginx
+- name: jetstack
+  url: https://charts.jetstack.io
 - name: datadog
   url: https://helm.datadoghq.com
 - name: nfs-ganesha
@@ -23,6 +25,13 @@ releases:
   namespace: ingress-nginx
   values:
   - charts/ingress-nginx/values.yaml
+- name: cert-manager
+  chart: jetstack/cert-manager
+  version: ~v1.12.0
+  condition: certManager.enabled
+  namespace: cert-manager
+  values:
+  - charts/cert-manager/values.yaml
 - name: jenkins-extra
   chart: ./charts/jenkins-extra
   namespace: {{ .Values.namespace }}
