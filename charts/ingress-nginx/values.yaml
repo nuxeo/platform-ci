@@ -1,3 +1,4 @@
 controller:
   allowSnippetAnnotations: false
-  ingressClassResource.default: true
+  ingressClassResource:
+    default: true
