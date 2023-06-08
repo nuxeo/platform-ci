@@ -58,6 +58,7 @@ ingress:
     secretName: {{ .Values.namespace }}-tls
 nodeSelector:
   team: platform
+  runtime: containerd
 persistence:
   accessMode: ReadWriteOnce
   enabled: true
@@ -103,4 +104,8 @@ tolerations:
 - key: team
   operator: Equal
   value: platform
+  effect: NoSchedule
+- key: runtime
+  operator: Equal
+  value: containerd
   effect: NoSchedule

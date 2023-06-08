@@ -124,10 +124,15 @@ controller:
         - "USER:Job/ViewStatus:anonymous"
   nodeSelector:
     team: platform
+    runtime: containerd
   tolerations:
   - key: team
     operator: Equal
     value: platform
+    effect: NoSchedule
+  - key: runtime
+    operator: Equal
+    value: containerd
     effect: NoSchedule
   ingress:
     enabled: true

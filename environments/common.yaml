@@ -89,7 +89,7 @@ podTemplates:
   - emptyDirVolume:
       memory: false
       mountPath: "/root/.mvnrepository"
-  nodeSelector: "team=platform"
+  nodeSelector: "team=platform,runtime=containerd"
   yamlMergeStrategy: "override"
   yaml: |-
     apiVersion: v1
@@ -99,6 +99,10 @@ podTemplates:
       - key: team
         operator: Equal
         value: platform
+        effect: NoSchedule
+      - key: runtime
+        operator: Equal
+        value: containerd
         effect: NoSchedule
 jobs:
   traits:
