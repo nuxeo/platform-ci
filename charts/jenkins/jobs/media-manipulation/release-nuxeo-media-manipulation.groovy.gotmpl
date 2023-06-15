@@ -1,0 +1,51 @@
+pipelineJob('media-manipulation/release-nuxeo-media-manipulation') {
+  // Description
+  description('Promote a given Nuxeo Media Manipulation build version as a release.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-media-manipulation')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('^${BRANCH}')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-media-manipulation')
+            }
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/release.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('BRANCH')
+      description('Branch to release.')
+      trim(true)
+    }
+    string {
+      name('BUILD_VERSION')
+      description('Version of the Nuxeo Media Manipulation build to promote.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-media-manipulation')
+  }
+}
