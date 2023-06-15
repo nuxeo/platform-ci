@@ -117,6 +117,12 @@ jobs:
     disableStatusUpdateTrait: |-
       // Disable GitHub Notifications
       disableStatusUpdateTrait()
+    gitHubStatusChecks: |
+      // Status Checks Properties
+      gitHubStatusChecks {
+        // Skip publishing status checks
+        skip(true)
+      }
     masterHeadRegexFilter: |-
       // Filter by name (with regular expression)
       headRegexFilter {

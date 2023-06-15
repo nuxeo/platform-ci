@@ -18,6 +18,7 @@ multibranchPipelineJob('explorer/customers/nuxeo-explorer-customers') {
             {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubStatusChecks | nindent 12 }}
             // Filter by name (with regular expression)
             headRegexFilter {
               // Regular expression

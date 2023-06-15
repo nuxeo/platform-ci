@@ -19,6 +19,7 @@ multibranchPipelineJob('nev/release-nuxeo-arender-common') {
           traits {
             {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubStatusChecks | nindent 12 }}
             {{- .Values.jobs.traits.mainHeadRegexFilter | nindent 12 }}
           }
         }

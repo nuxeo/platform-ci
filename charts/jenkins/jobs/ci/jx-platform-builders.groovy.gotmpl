@@ -20,6 +20,7 @@ multibranchPipelineJob('ci/jx-platform-builders') {
             {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubStatusChecks | nindent 12 }}
             {{- .Values.jobs.traits.masterHeadRegexFilter | nindent 12 }}
           }
         }
