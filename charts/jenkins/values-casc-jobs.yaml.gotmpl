@@ -49,6 +49,10 @@ controller:
         - script: > {{ tpl (readFile "jobs/js-client/nuxeo-js-client.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/js-client/release-nuxeo-js-client.groovy.gotmpl") . | nindent 12 }}
         - script: >
+            folder('media-manipulation')
+        - script: > {{ tpl (readFile "jobs/media-manipulation/nuxeo-media-manipulation.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/media-manipulation/release-nuxeo-media-manipulation.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('misc')
         - script: > {{ tpl (readFile "jobs/misc/team-platform-report.groovy.gotmpl") . | nindent 12 }}
         - script: >
