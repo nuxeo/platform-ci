@@ -103,6 +103,10 @@ controller:
         - script: > {{ tpl (readFile "jobs/retention/nuxeo-retention.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/retention/release-nuxeo-retention.groovy.gotmpl") . | nindent 12 }}
         - script: >
+            folder('salesforce')
+        - script: > {{ tpl (readFile "jobs/salesforce/nuxeo-salesforce.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/salesforce/release-nuxeo-salesforce.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('simflofy')
         - script: > {{ tpl (readFile "jobs/simflofy/nuxeo-simflofy.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/simflofy/release-nuxeo-simflofy.groovy.gotmpl") . | nindent 12 }}

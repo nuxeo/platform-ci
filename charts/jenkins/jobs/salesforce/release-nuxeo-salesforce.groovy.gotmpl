@@ -1,0 +1,51 @@
+pipelineJob('salesforce/release-nuxeo-salesforce') {
+  // Description
+  description('Promote a given Nuxeo Salesforce build version as a release.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-salesforce')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('^${BRANCH}')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-salesforce')
+            }
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/release.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('BRANCH')
+      description('Branch to release.')
+      trim(true)
+    }
+    string {
+      name('BUILD_VERSION')
+      description('Version of the Nuxeo Salesforce build to promote.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-salesforce')
+  }
+}
