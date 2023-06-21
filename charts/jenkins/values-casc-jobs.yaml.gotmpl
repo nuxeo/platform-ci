@@ -5,6 +5,10 @@ controller:
       casc-jobs: |
         jobs:
         - script: >
+            folder('aspera')
+        - script: > {{ tpl (readFile "jobs/aspera/nuxeo-aspera-connector.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/aspera/release-nuxeo-aspera-connector.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('ci')
         - script: > {{ tpl (readFile "jobs/ci/jx-platform-builders.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/ci/libreoffice-uploader.groovy.gotmpl") . | nindent 12 }}
