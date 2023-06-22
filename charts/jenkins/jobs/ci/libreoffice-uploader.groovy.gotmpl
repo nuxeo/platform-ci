@@ -16,6 +16,9 @@ pipelineJob('ci/libreoffice-uploader') {
           }
           // Branches to build
           branches('*/main')
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
         }
       }
       // Lightweight checkout

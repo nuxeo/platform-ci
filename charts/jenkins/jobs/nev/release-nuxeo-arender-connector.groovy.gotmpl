@@ -23,6 +23,9 @@ pipelineJob('nev/release-nuxeo-arender-connector') {
               repoUrl('https://github.com/nuxeo/nuxeo-arender-connector')
             }
           }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
         }
       }
       // no lightweight checkout in order to make branch parameter work

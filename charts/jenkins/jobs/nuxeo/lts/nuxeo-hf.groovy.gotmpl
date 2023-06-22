@@ -23,6 +23,9 @@ pipelineJob('nuxeo/lts/nuxeo-hf') {
               repoUrl('https://github.com/nuxeo/integration-scripts-priv')
             }
           }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
         }
       }
       // no lightweight checkout in order to make branch parameter work
