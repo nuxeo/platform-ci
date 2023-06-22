@@ -10,7 +10,7 @@ controller:
                 recursive: true
           gitHubPluginConfig:
             configs:
-            - credentialsId: {{ .Values.github.credentialsId | quote }}
+            - credentialsId: "github"
               name: "nuxeo"
           globalLibraries:
             libraries:

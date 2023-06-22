@@ -8,8 +8,6 @@ datadog:
   enabled: false
 docker:
   registry: docker.platform-staging.dev.nuxeo.com
-github:
-  credentialsId: ""
 jira:
   url: https://jira-preprod.nuxeo.com/
 jobs:

@@ -8,8 +8,6 @@ datadog:
   enabled: true
 docker:
   registry: docker.platform.dev.nuxeo.com
-github:
-  credentialsId: "github"
 jira:
   url: https://jira.nuxeo.com/
 jobs:
