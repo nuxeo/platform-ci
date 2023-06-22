@@ -10,6 +10,7 @@ controller:
         - script: > {{ tpl (readFile "jobs/aspera/release-nuxeo-aspera-connector.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('ci')
+        - script: > {{ tpl (readFile "jobs/ci/delete-previews.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/ci/jx-platform-builders.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/ci/libreoffice-uploader.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/ci/platform-builder-base.groovy.gotmpl") . | nindent 12 }}
