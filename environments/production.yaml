@@ -108,6 +108,18 @@ jobs:
           }
         }
       }
+  deletePreviewNamespaces:
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+          // Build periodically
+          cron {
+            // Schedule
+            spec('H 1 * * *')
+          }
+        }
+      }
   properties:
     buildDiscarder: |-
       buildDiscarder {

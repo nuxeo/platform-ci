@@ -1,0 +1,36 @@
+pipelineJob('ci/delete-previews') {
+  // Description
+  description('Cron job to delete the pull request preview Kubernetes namespaces')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/platform-ci-tools')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('*/main')
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // Lightweight checkout
+      lightweight(true)
+      // Script Path
+      scriptPath('Jenkinsfiles/delete-previews.groovy')
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    {{- .Values.jobs.deletePreviewNamespaces.triggers | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/platform-ci-tools')
+  }
+}
