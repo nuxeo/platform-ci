@@ -23,6 +23,9 @@ pipelineJob('media-manipulation/release-nuxeo-media-manipulation') {
               repoUrl('https://github.com/nuxeo/nuxeo-media-manipulation')
             }
           }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
         }
       }
       // no lightweight checkout in order to make branch parameter work

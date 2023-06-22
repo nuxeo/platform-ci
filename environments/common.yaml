@@ -153,3 +153,10 @@ jobs:
       disableConcurrentBuilds {
         abortPrevious(false)
       }
+  extensions:
+    gitSCMStatusChecksExtension: |-
+      // Status Checks Properties
+      gitSCMStatusChecksExtension {
+        // Skip publishing status checks
+        skip(true)
+      }

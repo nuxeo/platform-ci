@@ -23,6 +23,9 @@ pipelineJob('nev/pull-push-docker-image') {
               repoUrl('https://github.com/nuxeo/platform-ci-tools')
             }
           }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
         }
       }
       // Lightweight checkout

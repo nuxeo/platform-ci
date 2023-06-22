@@ -23,6 +23,9 @@ pipelineJob('integration-tests/nuxeo-server-web-ui/server-release-web-ui-build')
               repoUrl('https://github.com/nuxeo/nuxeo-integration-tests')
             }
           }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
         }
       }
       // Lightweight checkout
