@@ -116,7 +116,7 @@ jobs:
           // Build periodically
           cron {
             // Schedule
-            spec('H 1 * * *')
+            spec('H 1 * * 6')
           }
         }
       }
