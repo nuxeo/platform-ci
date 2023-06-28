@@ -101,7 +101,7 @@ controller:
         clientSecret: "${gitHubOAuthSecret}"
         oauthScopes: "read:org,user:email,repo"
     authorizationStrategy: |-
-      globalMatrix:
+      projectMatrix:
         permissions:
         - "GROUP:Credentials/View:nuxeo*Developers"
         - "GROUP:Job/Build:nuxeo*Developers"
@@ -116,7 +116,7 @@ controller:
         - "GROUP:Metrics/ThreadDump:nuxeo*Developers"
         - "GROUP:Metrics/View:nuxeo*Developers"
         - "GROUP:Overall/Administer:nuxeo*platform"
-        - "GROUP:Overall/Read:nuxeo*Developers"
+        - "GROUP:Overall/Read:authenticated"
         - "GROUP:Overall/SystemRead:nuxeo*Developers"
         - "GROUP:Run/Replay:nuxeo*Developers"
         - "GROUP:Run/Update:nuxeo*Developers"
