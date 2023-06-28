@@ -1,0 +1,19 @@
+folder('frameio') {
+  properties {
+    authorizationMatrix {
+      inheritanceStrategy {
+        inheriting()
+      }
+      permissions([
+        {{- range .Values.jobs.folder.permissions.read.frameio }}
+        "USER:Job/Build:{{ . }}",
+        "USER:Job/Cancel:{{ . }}",
+        "USER:Job/Discover:{{ . }}",
+        "USER:Job/ExtendedRead:{{ . }}",
+        "USER:Job/Read:{{ . }}",
+        "USER:Job/Workspace:{{ . }}",
+        {{- end }}
+      ])
+    }
+  }
+}

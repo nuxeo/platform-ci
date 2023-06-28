@@ -160,3 +160,8 @@ jobs:
         // Skip publishing status checks
         skip(true)
       }
+  folder:
+    permissions:
+      read:
+        frameio:
+        - tgrandguillotte
