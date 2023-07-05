@@ -10,14 +10,6 @@ datadog:
     enabled: true
   dogstatsd:
     useHostPort: true
-clusterAgent:
-  nodeSelector:
-    team: platform
-  tolerations:
-  - key: team
-    operator: Equal
-    value: platform
-    effect: NoSchedule
 agents:
   localService:
     forceLocalServiceEnabled: true
