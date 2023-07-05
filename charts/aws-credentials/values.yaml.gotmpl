@@ -1,7 +1,7 @@
 cronjob:
   suspend: {{ not .Values.awsCredentialsRotation }}
-  # Everyday at midnight
-  schedule: "0 0 * * *"
+  # Every Sunday at midnight
+  schedule: "0 0 * * 0"
   image: nuxeo/aws-iam-credential-rotate
 secret:
   namespace: {{ .Values.namespace }}
