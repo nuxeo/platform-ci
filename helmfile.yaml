@@ -67,7 +67,7 @@ releases:
     - charts/aws-credentials/values.yaml.gotmpl
 - name: datadog
   chart: datadog/datadog
-  version: ~2.37.1
+  version: ~3.32.7
   condition: datadog.enabled
   namespace: {{ .Values.namespace }}
   values:
