@@ -1,10 +1,3 @@
 storageClass:
-  name: {{ .Values.namespace }}-nfs
-  provisionerName: cluster.local/{{ .Values.namespace }}-nfs
-nodeSelector:
-  team: platform
-tolerations:
-- key: team
-  operator: Equal
-  value: platform
-  effect: NoSchedule
+  name: nfs
+  provisionerName: cluster.local/nfs

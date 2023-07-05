@@ -76,7 +76,7 @@ releases:
   chart: nfs-ganesha/nfs-server-provisioner
   version: ~1.4.0
   condition: nfs.enabled
-  namespace: {{ .Values.namespace }}
+  namespace: nfs-server-provisioner
   values:
     - charts/nfs-server-provisioner/values.yaml.gotmpl
 
