@@ -74,7 +74,7 @@ releases:
   - charts/datadog/values.yaml.gotmpl
 - name: nfs-server-provisioner
   chart: nfs-ganesha/nfs-server-provisioner
-  version: ~1.4.0
+  version: ~1.8.0
   condition: nfs.enabled
   namespace: nfs-server-provisioner
   values:
