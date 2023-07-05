@@ -21,6 +21,9 @@ pipelineJob('explorer/customers/export') {
               repoUrl('https://github.com/nuxeo/nuxeo-explorer-customers')
             }
           }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
         }
       }
       // Lightweight checkout

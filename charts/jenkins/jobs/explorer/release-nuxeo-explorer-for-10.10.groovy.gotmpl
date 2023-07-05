@@ -21,6 +21,9 @@ pipelineJob('explorer/release-nuxeo-explorer-for-10.10') {
               repoUrl('https://github.com/nuxeo/nuxeo-explorer')
             }
           }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
         }
       }
       // Lightweight checkout

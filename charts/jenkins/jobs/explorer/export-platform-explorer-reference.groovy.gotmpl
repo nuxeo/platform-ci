@@ -21,6 +21,9 @@ pipelineJob('explorer/export-platform-explorer-reference') {
               repoUrl('https://github.com/nuxeo/nuxeo-explorer')
             }
           }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
         }
       }
       // Lightweight checkout
