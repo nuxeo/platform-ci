@@ -3,7 +3,6 @@ datadog:
   apiKeyExistingSecret: datadog-nxio-api
   clusterName: gke-jx-prod
   tags:
-  - "environment:benchmark"
   - "staging:dev"
   - "project:jenkins-platform"
   logs:
@@ -16,7 +15,6 @@ agents:
     forceLocalServiceEnabled: true
   nodeSelector:
     team: platform
-    usage: benchmark
   tolerations:
   - key: team
     operator: Equal
