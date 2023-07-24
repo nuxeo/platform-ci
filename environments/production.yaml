@@ -10,6 +10,11 @@ docker:
   registry: docker.platform.dev.nuxeo.com
 jira:
   url: https://jira.nuxeo.com/
+podTemplates:
+  yaml:
+    metadata:
+      labels:
+        dev.nuxeo.com/initiator: jenkins-platform
 jobs:
   strategy: |-
     // Property strategy

@@ -2,9 +2,23 @@ nameOverride: platform
 datadog:
   apiKeyExistingSecret: datadog-nxio-api
   clusterName: gke-jx-prod
+  # Datadog uses the tags below as their default:
+  # host      Correlation between metrics, traces, processes, and logs.
+  # device    Segregation of metrics, traces, processes, and logs by device or disk.
+  # source    Span filtering and automated pipeline creation for Log Management.
+  # service   Scoping of application specific data across metrics, traces, and logs.
+  # env       Scoping of application specific data across metrics, traces, and logs.
+  # version   Scoping of application specific data across metrics, traces, and logs.
   tags:
   - "staging:dev"
-  - "project:jenkins-platform"
+  podLabelsAsTags:
+    dev.nuxeo.com/app: source
+    dev.nuxeo.com/base_branch: base_branch
+    dev.nuxeo.com/branch: branch
+    dev.nuxeo.com/initiator: project
+    dev.nuxeo.com/repository: repository
+    dev.nuxeo.com/team: team
+    dev.nuxeo.com/usage: usage
   logs:
     # by default the log collection is disabled on all container, see containerCollectAll
     enabled: true
