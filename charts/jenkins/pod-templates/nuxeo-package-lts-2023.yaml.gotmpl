@@ -44,4 +44,4 @@
   nodeSelector: {{ .Values.podTemplates.nodeSelector }}
   yamlMergeStrategy: {{ .Values.podTemplates.yamlMergeStrategy }}
   yaml: |
-    {{- .Values.podTemplates.yaml | nindent 4 -}}
+    {{- .Values.podTemplates.yaml | toYaml | nindent 4 -}}

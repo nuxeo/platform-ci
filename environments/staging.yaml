@@ -10,6 +10,11 @@ docker:
   registry: docker.platform-staging.dev.nuxeo.com
 jira:
   url: https://jira-preprod.nuxeo.com/
+podTemplates:
+  yaml:
+    metadata:
+      labels:
+        dev.nuxeo.com/initiator: jenkins-platform-staging
 jobs:
   strategy: |-
     // Property strategy

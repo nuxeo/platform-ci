@@ -91,9 +91,13 @@ podTemplates:
       mountPath: "/root/.mvnrepository"
   nodeSelector: "team=platform"
   yamlMergeStrategy: "override"
-  yaml: |-
+  yaml:
     apiVersion: v1
     kind: Pod
+    metadata:
+      labels:
+        dev.nuxeo.com/resource: pod
+        dev.nuxeo.com/usage: jenkins-build
     spec:
       tolerations:
       - key: team

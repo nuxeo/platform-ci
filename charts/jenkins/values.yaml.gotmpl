@@ -76,22 +76,6 @@ controller:
   - "staticMethod hudson.Functions printThrowable java.lang.Throwable"
   - "staticMethod java.time.ZonedDateTime parse java.lang.CharSequence"
   - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods find java.lang.Object groovy.lang.Closure"
-  initScripts:
-  # Set custom agent pod labels.
-  - |
-    import jenkins.model.*;
-    import org.csanchez.jenkins.plugins.kubernetes.*;
-
-    if (!Jenkins.instance.clouds) {
-        return;
-    };
-    def kubernetesCloud = Jenkins.instance.clouds.get(0);
-
-    def podLabels = kubernetesCloud.getPodLabels();
-    def customLabels = [new PodLabel('team', 'platform'), new PodLabel('resource', 'pod'), new PodLabel('usage', 'build')];
-    if (customLabels.disjoint(podLabels)) {
-      kubernetesCloud.setPodLabels(customLabels);
-    }
   JCasC:
     securityRealm: |-
       github:
