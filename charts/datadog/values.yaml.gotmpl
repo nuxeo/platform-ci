@@ -11,6 +11,8 @@ datadog:
   # version   Scoping of application specific data across metrics, traces, and logs.
   tags:
   - "staging:dev"
+  nodeLabelsAsTags:
+    cloud.google.com/gke-nodepool: nodepool
   podLabelsAsTags:
     dev.nuxeo.com/app: source
     dev.nuxeo.com/base_branch: base_branch
