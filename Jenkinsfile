@@ -16,7 +16,7 @@
  * Contributors:
  *     Antoine Taillefer <ataillefer@nuxeo.com>
  */
-library identifier: "platform-ci-shared-library@v0.0.20"
+library identifier: "platform-ci-shared-library@v0.0.26"
 
 def isStaging() {
   return nxUtils.isPullRequest() || nxUtils.isDryRun()
@@ -47,6 +47,15 @@ pipeline {
     HELMFILE_ENVIRONMENT = getHelmfileEnvironment()
   }
   stages {
+    stage('Set labels') {
+      steps {
+        container('base') {
+          script {
+            nxK8s.setPodLabels()
+          }
+        }
+      }
+    }
     stage('Update CI') {
       steps {
         container('base') {
