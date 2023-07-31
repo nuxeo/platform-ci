@@ -8,17 +8,17 @@ pipelineJob('explorer/cleanup-exports') {
           // Repositories
           remote {
             // Repository URL
-            url('https://github.com/nuxeo/nuxeo-explorer')
+            url('https://github.com/nuxeo/platform-ci-tools')
             // Credentials
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('*/master')
+          branches('*/main')
           browser {
             // Repository browser
             githubWeb {
               // URL
-              repoUrl('https://github.com/nuxeo/nuxeo-explorer')
+              repoUrl('https://github.com/nuxeo/platform-ci-tools')
             }
           }
           extensions {
@@ -29,7 +29,7 @@ pipelineJob('explorer/cleanup-exports') {
       // Lightweight checkout
       lightweight(true)
       // Script Path
-      scriptPath('ci/Jenkinsfiles/cleanup-exports.groovy')
+      scriptPath('Jenkinsfiles/explorer/cleanup-exports.groovy')
     }
   }
   parameters {
@@ -55,7 +55,7 @@ pipelineJob('explorer/cleanup-exports') {
   properties {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
-    githubProjectUrl('https://github.com/nuxeo/nuxeo-explorer')
+    githubProjectUrl('https://github.com/nuxeo/platform-ci-tools')
     {{- .Values.jobs.cleanupExports.triggers | nindent 4 }}
   }
 }

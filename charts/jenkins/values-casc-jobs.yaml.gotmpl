@@ -30,9 +30,6 @@ controller:
         - script: > {{ tpl (readFile "jobs/explorer/nuxeo-explorer.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/explorer/release-nuxeo-explorer.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/explorer/release-nuxeo-explorer-for-10.10.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/explorer/test-trigger.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/explorer/trigger-export-on-build.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/explorer/trigger-export-on-promotion.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('explorer/customers')
         - script: > {{ tpl (readFile "jobs/explorer/customers/export.groovy.gotmpl") . | nindent 12 }}
