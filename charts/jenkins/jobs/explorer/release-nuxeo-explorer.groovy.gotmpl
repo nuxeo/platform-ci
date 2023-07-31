@@ -1,4 +1,6 @@
 pipelineJob('explorer/release-nuxeo-explorer') {
+  // Description
+  description('Promote a given Nuxeo Explorer build version as a release.')
   definition {
     // Definition
     cpsScm {
@@ -13,7 +15,7 @@ pipelineJob('explorer/release-nuxeo-explorer') {
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('*/master')
+          branches('^${BRANCH}')
           browser {
             // Repository browser
             githubWeb {
@@ -26,68 +28,22 @@ pipelineJob('explorer/release-nuxeo-explorer') {
           }
         }
       }
-      // Lightweight checkout
-      lightweight(true)
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
       // Script Path
       scriptPath('ci/Jenkinsfiles/release.groovy')
     }
   }
   parameters {
     string {
-      name('BRANCH_NAME')
-      defaultValue('master')
-      description('The branch to release')
+      name('BRANCH')
+      description('Branch to release.')
       trim(true)
     }
     string {
-      name('RELEASE_VERSION')
-      defaultValue('')
-      description('Release Explorer version (optional)')
+      name('BUILD_VERSION')
+      description('Version of the Nuxeo Explorer build to promote.')
       trim(true)
-    }
-    string {
-      name('NEXT_VERSION')
-      defaultValue('')
-      description('Next Explorer version (next minor version if unset)')
-      trim(true)
-    }
-    string {
-      name('NUXEO_VERSION')
-      defaultValue('')
-      description('Version of the Nuxeo Server dependency (unchanged if unset)')
-      trim(true)
-    }
-    booleanParam {
-      name('NUXEO_VERSION_IS_PROMOTED')
-      defaultValue(true)
-      description('Uncheck if releasing a RC version, against a non-promoted Nuxeo build')
-    }
-    string {
-      name('NEXT_NUXEO_VERSION')
-      defaultValue('')
-      description('Next Version of the Nuxeo Server dependency (unchanged if unset)')
-      trim(true)
-    }
-    string {
-      name('JIRA_ISSUE')
-      defaultValue('')
-      description('Id of the Jira issue for this release')
-      trim(true)
-    }
-    booleanParam {
-      name('SKIP_TESTS')
-      defaultValue(false)
-      description('Skip all tests')
-    }
-    booleanParam {
-      name('SKIP_FUNCTIONAL_TESTS')
-      defaultValue(false)
-      description('Skip functional tests')
-    }
-    booleanParam {
-      name('DRY_RUN')
-      defaultValue(true)
-      description('Dry run')
     }
   }
   properties {

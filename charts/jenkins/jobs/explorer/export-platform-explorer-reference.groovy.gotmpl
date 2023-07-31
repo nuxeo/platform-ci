@@ -8,17 +8,17 @@ pipelineJob('explorer/export-platform-explorer-reference') {
           // Repositories
           remote {
             // Repository URL
-            url('https://github.com/nuxeo/nuxeo-explorer')
+            url('https://github.com/nuxeo/platform-ci-tools')
             // Credentials
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('*/master')
+          branches('*/main')
           browser {
             // Repository browser
             githubWeb {
               // URL
-              repoUrl('https://github.com/nuxeo/nuxeo-explorer')
+              repoUrl('https://github.com/nuxeo/platform-ci-tools')
             }
           }
           extensions {
@@ -29,70 +29,14 @@ pipelineJob('explorer/export-platform-explorer-reference') {
       // Lightweight checkout
       lightweight(true)
       // Script Path
-      scriptPath('ci/Jenkinsfiles/export.groovy')
+      scriptPath('Jenkinsfiles/explorer/export.groovy')
     }
   }
   parameters {
-    // build params
     string {
       name('NUXEO_VERSION')
       defaultValue('')
-      description('Mandatory Version of the target Nuxeo Server Image.\nSample: \'2021.22.4\' or \'2021.22\'.')
-      trim(true)
-    }
-    string {
-      name('NUXEO_EXPLORER_VERSION')
-      defaultValue('')
-      description('Optional Version of the Explorer package to be used (should be compatible with Nuxeo version).\nSample: \'20.0.0-RC2\' or \'20.0.0\'.')
-      trim(true)
-    }
-    booleanParam {
-      name('DOWNLOAD_PACKAGES_FROM_PROD')
-      defaultValue(false)
-      description('Download packages from production (otherwise, preprod will be used)')
-    }
-    text {
-      name('DEFAULT_PACKAGE_LIST')
-      defaultValue('easyshare nuxeo-csv nuxeo-drive nuxeo-imap-connector nuxeo-multi-tenant nuxeo-platform-importer nuxeo-quota nuxeo-signature nuxeo-template-rendering shibboleth-authentication nuxeo-liveconnect nuxeo-platform-3d')
-      description('The list of packages to install for snapshot.\nSample: \'nuxeo-csv nuxeo-quota-1.0.0\'.')
-    }
-    text {
-      name('ADDITIONAL_PACKAGE_LIST')
-      defaultValue('cas2-authentication nuxeo-diff nuxeo-platform-user-registration nuxeo-virtualnavigation nuxeo-web-ui nuxeo-jsf-ui nuxeo-arender')
-      description('The additional list of packages to install for snapshot.\nThis list will only be taken into account when DOWNLOAD_PACKAGES_FROM_PROD option is checked (promoted Nuxeo version use case).')
-    }
-    // export params
-    string {
-      name('SNAPSHOT_NAME')
-      defaultValue('Nuxeo Platform')
-      description('Name of the distribution that will be exported.')
-      trim(true)
-    }
-    booleanParam {
-      name('PERFORM_JSON_EXPORT')
-      defaultValue(false)
-      description('Perform download of json export on top of zip export (content will be archived).')
-    }
-    // upload params
-    booleanParam {
-      name('UPLOAD_EXPORT')
-      defaultValue(true)
-      description('Upload export to target Explorer site (snapshot will be archived anyway).')
-    }
-    booleanParam {
-      name('UPLOAD_TO_PROD')
-      defaultValue(false)
-      description('Upload export to production Explorer site (otherwise, beta instance will be used).')
-    }
-    booleanParam {
-      name('UPLOAD_AS_PROMOTED')
-      defaultValue(false)
-      description('Upload export as a promoted version (this will impact aliases used for uploaded snapshot).')
-    }
-    string {
-      name('UPLOAD_ALIASES')
-      defaultValue('')
-      description('Additional aliases to setup on the uploaded snapshot.\nSample: \'firstAlias\nsecondAlias\'.')
+      description('Mandatory Version of the target Nuxeo Server Image.\nA build version, aka \'2021.40.2\', will be uploaded to explorer.beta.nuxeocloud.com\nA promoted version, aka \'2021.40\', will be uploaded to explorer.nuxeo.com')
       trim(true)
     }
   }
@@ -100,5 +44,13 @@ pipelineJob('explorer/export-platform-explorer-reference') {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
     githubProjectUrl('https://github.com/nuxeo/nuxeo-explorer')
+    pipelineTriggers {
+      triggers {
+        upstream {
+          upstreamProjects('/nuxeo/lts/nuxeo/2021')
+          threshold('SUCCESS')
+        }
+      }
+    }
   }
 }

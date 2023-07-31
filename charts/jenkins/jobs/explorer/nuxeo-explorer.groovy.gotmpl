@@ -24,7 +24,7 @@ multibranchPipelineJob('explorer/nuxeo-explorer') {
             // Filter by name (with regular expression)
             headRegexFilter {
               // Regular expression
-              regex('master|21\\.0.*|18\\.0.*|PR-.*')
+              regex('18\\.0.*|\\d*.?\\d+|PR-.*')
             }
           }
         }
