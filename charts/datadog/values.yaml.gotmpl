@@ -28,14 +28,16 @@ datadog:
     useHostPort: true
   kubeStateMetricsCore:
     labelsAsTags:
-      cloud.google.com/gke-nodepool: nodepool
-      dev.nuxeo.com/app: source
-      dev.nuxeo.com/base_branch: base_branch
-      dev.nuxeo.com/branch: branch
-      dev.nuxeo.com/initiator: project
-      dev.nuxeo.com/repository: repository
-      dev.nuxeo.com/team: team
-      dev.nuxeo.com/usage: usage
+      node:
+       cloud.google.com/gke-nodepool: nodepool
+      pod:
+        dev.nuxeo.com/app: source
+        dev.nuxeo.com/base_branch: base_branch
+        dev.nuxeo.com/branch: branch
+        dev.nuxeo.com/initiator: project
+        dev.nuxeo.com/repository: repository
+        dev.nuxeo.com/team: team
+        dev.nuxeo.com/usage: usage
 agents:
   localService:
     forceLocalServiceEnabled: true
