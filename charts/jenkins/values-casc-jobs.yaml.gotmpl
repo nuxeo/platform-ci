@@ -99,6 +99,7 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-jira.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo-hf.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo-javadoc.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/release-nuxeo-jsf-ui.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/scan-docker-image.groovy.gotmpl") . | nindent 12 }}
         - script: >
