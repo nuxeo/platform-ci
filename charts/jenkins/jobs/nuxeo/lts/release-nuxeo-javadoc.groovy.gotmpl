@@ -1,0 +1,49 @@
+pipelineJob('nuxeo/lts/release-nuxeo-javadoc') {
+  // Description
+  description('Deploy Nuxeo Javadoc')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-lts')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('^${NUXEO_BRANCH}')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-lts')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/release-javadoc.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('NUXEO_BRANCH')
+      description('Branch to deploy Javadoc.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-lts')
+  }
+}

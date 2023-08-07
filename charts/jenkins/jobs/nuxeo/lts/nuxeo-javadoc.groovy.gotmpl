@@ -37,7 +37,7 @@ multibranchPipelineJob('nuxeo/lts/nuxeo-javadoc') {
     // Mode: by Jenkinsfile
     workflowBranchProjectFactory {
       // Script Path
-      scriptPath('ci/Jenkinsfiles/javadoc.groovy')
+      scriptPath('ci/Jenkinsfiles/build-javadoc.groovy')
     }
   }
   {{- .Values.jobs.triggers | nindent 2 }}
