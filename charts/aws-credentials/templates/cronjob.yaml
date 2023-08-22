@@ -1,4 +1,4 @@
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: aws-credentials-rotator
@@ -16,7 +16,6 @@ spec:
           - name: aws-credentials-rotator
             image: {{ .Values.cronjob.image }}
           restartPolicy: Never
-          serviceAccount: aws-credentials-updater
           serviceAccountName: aws-credentials-updater
           nodeSelector:
             team: platform
