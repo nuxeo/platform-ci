@@ -26,9 +26,9 @@
     name: "maven-mongodb"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
-    resourceLimitMemory: "4Gi"
+    resourceLimitMemory: "8Gi"
     resourceRequestCpu: "4"
-    resourceRequestMemory: "4Gi"
+    resourceRequestMemory: "8Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   - args: ""
@@ -38,9 +38,9 @@
     name: "maven-postgresql"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
-    resourceLimitMemory: "4Gi"
+    resourceLimitMemory: "8Gi"
     resourceRequestCpu: "4"
-    resourceRequestMemory: "4Gi"
+    resourceRequestMemory: "8Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:

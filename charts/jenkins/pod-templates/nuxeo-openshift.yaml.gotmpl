@@ -15,8 +15,8 @@
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "1"
     resourceLimitMemory: "1Gi"
-    resourceRequestCpu: "200m"
-    resourceRequestMemory: "256Mi"
+    resourceRequestCpu: "250m"
+    resourceRequestMemory: "1Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:

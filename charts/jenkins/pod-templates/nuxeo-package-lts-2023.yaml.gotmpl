@@ -13,10 +13,10 @@
     alwaysPullImage: true
     name: "maven"
     privileged: {{ .Values.podTemplates.privileged }}
-    resourceLimitCpu: "3"
-    resourceLimitMemory: "3Gi"
-    resourceRequestCpu: "1.5"
-    resourceRequestMemory: "2Gi"
+    resourceLimitCpu: "4"
+    resourceLimitMemory: "8Gi"
+    resourceRequestCpu: "2"
+    resourceRequestMemory: "8Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   - args: ""
@@ -26,9 +26,9 @@
     name: "playwright"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "2"
-    resourceLimitMemory: "1Gi"
+    resourceLimitMemory: "4Gi"
     resourceRequestCpu: "1"
-    resourceRequestMemory: "512Mi"
+    resourceRequestMemory: "4Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:
