@@ -56,11 +56,7 @@ podTemplates:
   - envVar:
       key: "JAVA_TOOL_OPTIONS"
       value: "-Dsun.zip.disableMemoryMapping=true
-        -XX:+UseParallelGC
-        -XX:MinHeapFreeRatio=5
-        -XX:MaxHeapFreeRatio=10
-        -XX:GCTimeRatio=4
-        -XX:AdaptiveSizePolicyWeight=90"
+        -XX:+UseG1GC"
   mavenEnvVars:
   - envVar:
       key: "MAVEN_OPTS"
