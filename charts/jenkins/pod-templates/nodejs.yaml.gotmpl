@@ -14,9 +14,9 @@
     name: "nodejs"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "2"
-    resourceLimitMemory: "2048Mi"
-    resourceRequestCpu: "400m"
-    resourceRequestMemory: "512Mi"
+    resourceLimitMemory: "2Gi"
+    resourceRequestCpu: "500m"
+    resourceRequestMemory: "2Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:

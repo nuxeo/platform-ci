@@ -26,9 +26,9 @@
     name: "playwright"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "1"
-    resourceLimitMemory: "1Gi"
+    resourceLimitMemory: "2Gi"
     resourceRequestCpu: "500m"
-    resourceRequestMemory: "250Mi"
+    resourceRequestMemory: "2Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:
