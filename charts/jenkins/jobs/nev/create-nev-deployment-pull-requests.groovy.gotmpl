@@ -1,0 +1,63 @@
+pipelineJob('nev/create-nev-deployment-pull-requests') {
+  // Description
+  description('Create Pull Requests to arender-deployment repository for NEV deployment')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/platform-ci-tools')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('*/main')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/platform-ci-tools')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // Lightweight checkout
+      lightweight(true)
+      // Script Path
+      scriptPath('Jenkinsfiles/nev/create-deployment-pull-requests.groovy')
+    }
+  }
+  parameters {
+    choice {
+      name('TARGET_ENVIRONMENT')
+      choices(['dev', 'uat'])
+      description('The EKS environment to deploy to.')
+    }
+    string {
+      name('NEV_DOCKER_VERSION')
+      description('The NEV Docker Images version to deploy (for example 2.0.0).\nCan not be used with NEV_CHART_VERSION')
+      trim(true)
+    }
+    choice {
+      name('FROM_DOCKER_REGISTRY')
+      choices(['docker-arender.packages.nuxeo.com', {{- .Values.docker.registry | quote -}}])
+      description('The Docker registry to pull images from')
+    }
+    string {
+      name('NEV_CHART_VERSION')
+      description('The NEV Chart version to deploy (for example 1.0.0).\nCan not be used with NEV_DOCKER_VERSION')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/platform-ci-tools')
+  }
+}
