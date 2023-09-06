@@ -19,6 +19,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.nexus.nexusPort }}
+      targetPort: {{ .Values.nexus.nexusTargetPort }}
       protocol: TCP
       name: nexus-ui
   selector:
@@ -35,7 +36,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "nexus.fullname" $ | trunc 49 }}-docker-{{ $registry.port }}
+  name: {{ $registry.name }}
 {{- if $.Values.service.annotations }}
   annotations:
 {{ toYaml $.Values.service.annotations | indent 4 }}
@@ -51,8 +52,9 @@ spec:
   type: {{ $.Values.service.type }}
   ports:
     - port: {{ $registry.port }}
+      targetPort: {{ $registry.targetPort }}
       protocol: TCP
-      name: docker-{{ $registry.port }}
+      name: {{ $registry.name  }}
   selector:
     {{- include "nexus.selectorLabels" $ | nindent 4 }}
     {{- if $.Values.nexus.extraSelectorLabels }}

@@ -1,7 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "nexus.fullname" . -}}
 {{- $svcPort := .Values.nexus.nexusPort -}}
-{{- $ingressPath := .Values.ingress.path -}}
+{{- $ingressPath := .Values.ingress.hostPath -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -35,13 +35,13 @@ spec:
     - host: {{ .Values.ingress.hostRepo }}
       http:
         paths:
-          - path: {{ .Values.ingress.hostPath }}
+          - path: {{ $ingressPath }}
             pathType: Prefix
             backend:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: 8081
+                  number: {{ $svcPort }}
 
 {{ if .Values.nexus.docker.enabled }}
 {{ range $registry := .Values.nexus.docker.registries }}
@@ -49,7 +49,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName | trunc 49 }}-docker-{{ $registry.port }}
+  name: {{ $registry.name }}
   labels:
     {{- include "nexus.labels" $ | nindent 4 }}
     {{- if $.Values.nexus.extraLabels }}
@@ -57,7 +57,7 @@ metadata:
         {{ toYaml . | indent 4 }}
       {{- end }}
     {{- end }}
-    {{- with $.Values.ingress.annotations }}
+    {{- with $registry.ingress.annotations }}
   annotations:
       {{- toYaml . | nindent 4 }}
     {{- end }}
@@ -67,17 +67,17 @@ spec:
   {{- end }}
   tls:
     - hosts:
-      - {{ $registry.host | quote }}
-      secretName: {{ $registry.secretName }}
+      - {{ $registry.ingress.host | quote }}
+      secretName: {{ $registry.ingress.secretName }}
   rules:
-    - host: {{ $registry.host }}
+    - host: {{ $registry.ingress.host }}
       http:
         paths:
-          - path: /
+          - path: {{ $registry.ingress.path }}
             pathType: Prefix
             backend:
               service:
-                name: {{ $fullName | trunc 49 }}-docker-{{ $registry.port }}
+                name: {{ $registry.name }}
                 port:
                   number: {{ $registry.port }}
 {{- end }} {{- /* range of nexus.docker.registries */ -}}

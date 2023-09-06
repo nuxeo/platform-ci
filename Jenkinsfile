@@ -76,8 +76,8 @@ pipeline {
                 usernamePassword(credentialsId: 'connect-prod', usernameVariable: 'CONNECT_USERNAME', passwordVariable: 'CONNECT_PASSWORD'),
               ]) {
                 // not using usernamePassword since we need to fetch credentials from the target namespace, e.g. platform-staging if on a PR
-                def nexusUsername = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.NEXUS_SECRET, key: 'username')
-                def nexusPassword = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.NEXUS_SECRET, key: 'password')
+                def nexusUsername = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.NEXUS_SECRET, key: 'admin\\.username')
+                def nexusPassword = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.NEXUS_SECRET, key: 'admin\\.password')
                 def chartmuseumUsername = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.CHARTMUSEUM_SECRET, key: 'BASIC_AUTH_USER')
                 def chartmuseumPassword = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.CHARTMUSEUM_SECRET, key: 'BASIC_AUTH_PASS')
                 // not using usernamePassword to avoid displaying the access key id in the Jenkins credentials view

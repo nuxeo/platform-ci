@@ -81,17 +81,11 @@ spec:
             {{ toYaml .Values.nexus.resources | nindent 12 }}
           ports:
             - name: nexus-ui
-              containerPort: {{ .Values.nexus.nexusPort }}
-            {{- if .Values.nexus.docker.enabled }}
-            {{- range .Values.nexus.docker.registries }}
-            - name: docker-{{ .port }}
-              containerPort: {{ .port }}
-            {{- end }}
-            {{- end }}
+              containerPort: {{ .Values.nexus.nexusTargetPort }}
           livenessProbe:
             httpGet:
               path: {{ .Values.nexus.livenessProbe.path }}
-              port: {{ .Values.nexus.nexusPort }}
+              port: {{ .Values.nexus.nexusTargetPort }}
             initialDelaySeconds: {{ .Values.nexus.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.nexus.livenessProbe.periodSeconds }}
             failureThreshold: {{ .Values.nexus.livenessProbe.failureThreshold }}
@@ -101,7 +95,7 @@ spec:
           readinessProbe:
             httpGet:
               path: {{ .Values.nexus.readinessProbe.path }}
-              port: {{ .Values.nexus.nexusPort }}
+              port: {{ .Values.nexus.nexusTargetPort }}
             initialDelaySeconds: {{ .Values.nexus.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.nexus.readinessProbe.periodSeconds }}
             failureThreshold: {{ .Values.nexus.readinessProbe.failureThreshold }}
@@ -123,6 +117,7 @@ spec:
             {{- if .Values.secret.enabled }}
             - mountPath: {{ .Values.secret.mountPath }}
               name: {{ template "nexus.name" . }}-secret
+              subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}
             {{- end }}
             {{- if .Values.deployment.additionalVolumeMounts}}
@@ -159,7 +154,7 @@ spec:
         {{- if .Values.secret.enabled }}
         - name: {{ template "nexus.name" . }}-secret
           secret:
-            secretName: {{ template "nexus.name" . }}-secret
+            secretName: {{ template "nexus.name" . }}
         {{- end }}
         {{- if .Values.deployment.additionalVolumes }}
           {{ toYaml .Values.deployment.additionalVolumes | nindent 8 }}
