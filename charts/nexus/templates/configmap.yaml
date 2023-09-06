@@ -1,8 +1,8 @@
-{{- if .Values.secret.enabled -}}
+{{- if .Values.config.enabled -}}
 apiVersion: v1
-kind: Secret
+kind: ConfigMap
 metadata:
-  name: {{ template "nexus.name" . }}-secret
+  name: {{ template "nexus.name" . }}-conf
   labels:
 {{ include "nexus.labels" . | indent 4 }}
     {{- if .Values.nexus.extraLabels }}
@@ -11,5 +11,5 @@ metadata:
       {{- end }}
     {{- end }}
 data:
-{{ toYaml .Values.secret.data | indent 2 }}
-{{- end}}
+{{ toYaml .Values.config.data | indent 2 }}
+{{- end }}
