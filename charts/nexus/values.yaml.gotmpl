@@ -1,4 +1,5 @@
 # See https://github.com/sonatype/nxrm3-helm-repository/blob/59.0.0/nexus-repository-manager/values.yaml (latest tag available)
+namespace: {{ .Values.namespace }}
 statefulset:
   # This is not supported
   enabled: false
@@ -6,7 +7,7 @@ deploymentStrategy: Recreate
 image:
   # Sonatype Official Public Image
   repository: sonatype/nexus3
-  tag: 3.59.0
+  tag: 3.60.0
   pullPolicy: IfNotPresent
 imagePullSecrets:
 # for image registries that require login, specify the name of the existing
@@ -15,43 +16,52 @@ imagePullSecrets:
 
 nexus:
   docker:
-    enabled: false
-    # registries:
-    #   - host: chart.local
-    #     port: 5000
-    #     secretName: registry-secret
+    enabled: true
+    registries:
+    - name: docker
+      port: 80
+      targetPort: 8081
+      ingress:
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          nginx.ingress.kubernetes.io/rewrite-target: "/repository/docker-registry/$1"
+        host: docker.{{ .Values.namespace }}.dev.nuxeo.com
+        path: "/(.*)"
+        secretName: {{ .Values.namespace }}-tls
   env:
-  # minimum recommended memory settings for a small, person instance from
-  # https://help.sonatype.com/repomanager3/product-information/system-requirements
+  # See https://help.sonatype.com/repomanager3/product-information/sonatype-nexus-repository-system-requirements#SonatypeNexusRepositorySystemRequirements-ExampleMaximumMemoryConfigurations.
+  # Consider we have 16GB memory available, according to the memory resources below.
+  # Fix system status warning about available CPUs: "The host system is allocating a maximum of 1 cores to the application. A minimum of 4 is recommended.",
+  # by specifying the active processor count.
   - name: INSTALL4J_ADD_VM_PARAMS
     value: |-
-      -Xms2703M -Xmx2703M
-      -XX:MaxDirectMemorySize=2703M
+      -Xms4G -Xmx4G
+      -XX:MaxDirectMemorySize=6717M
       -XX:+UnlockExperimentalVMOptions
       -XX:+UseCGroupMemoryLimitForHeap
       -Djava.util.prefs.userRoot=/nexus-data/javaprefs
+      -XX:ActiveProcessorCount=4
   - name: NEXUS_SECURITY_RANDOMPASSWORD
-    value: "true"
+    value: "false"
   properties:
     override: false
     data:
       nexus.scripts.allowCreation: true
       # See this article for ldap configuratioon options https://support.sonatype.com/hc/en-us/articles/216597138-Setting-Advanced-LDAP-Connection-Properties-in-Nexus-Repository-Manager
       # nexus.ldap.env.java.naming.security.authentication: simple
-  # nodeSelector:
-  #   cloud.google.com/gke-nodepool: default-pool
+  nodeSelector:
+    team: platform
   resources:
-  # minimum recommended memory settings for a small, person instance from
-  # https://help.sonatype.com/repomanager3/product-information/system-requirements
-  #   requests:
-  #     cpu: 4
-  #     memory: 8Gi
-  #   limits:
-  #     cpu: 4
-  #     memory: 8Gi
+    # Ratio: node CPU (16) and memory (64) / 4
+    requests:
+      cpu: 4
+      memory: 16Gi
+    limits:
+      memory: 16Gi
 
   # The ports should only be changed if the nexus image uses a different port
-  nexusPort: 8081
+  nexusPort: 80
+  nexusTargetPort: 8081
 
   # Default the pods UID and GID to match the nexus3 container.
   # Customize or remove these values from the securityContext as appropriate for
@@ -107,16 +117,16 @@ deployment:
   additionalVolumeMounts:
 
 ingress:
-  enabled: false
+  enabled: true
   ingressClassName: nginx
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
   hostPath: /
-  hostRepo: repo.demo
-  # tls:
-  #   - secretName: nexus-local-tls
-  #     hosts:
-  #       - repo.demo
+  hostRepo: nexus.{{ .Values.namespace }}.dev.nuxeo.com
+  tls:
+  - secretName: {{ .Values.namespace }}-tls
+    hosts:
+    - nexus.{{ .Values.namespace }}.dev.nuxeo.com
 
 
 service:
@@ -127,20 +137,6 @@ service:
   type: ClusterIP
 
 
-route:
-  enabled: false
-  name: docker
-  portName: docker
-  labels:
-  annotations:
-  # path: /docker
-
-nexusProxyRoute:
-  enabled: false
-  labels:
-  annotations:
-  # path: /nexus
-
 persistence:
   enabled: true
   accessMode: ReadWriteOnce
@@ -150,16 +146,20 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  # existingClaim:
+  existingClaim: jenkins-x-nexus
   # annotations:
   #  "helm.sh/resource-policy": keep
   # storageClass: "-"
-  storageSize: 8Gi
+  storageSize: 500Gi
   # If PersistentDisk already exists you can create a PV for it by including the 2 following keypairs.
   # pdName: nexus-data-disk
   # fsType: ext4
 
-tolerations: []
+tolerations:
+- key: team
+  operator: Equal
+  value: platform
+  effect: NoSchedule
 
 # Enable configmap and add data in configmap
 config:
@@ -169,10 +169,13 @@ config:
 
 # # To use an additional secret, set enable to true and add data
 secret:
-  enabled: false
-  mountPath: /etc/secret-volume
+  enabled: true
+  mountPath: /nexus-data/admin.password
+  subPath: admin.password
   readOnly: true
-  data: []
+  data:
+    admin.username: {{ env "NEXUS_USERNAME" | b64enc | default "admin" }}
+    admin.password: {{ env "NEXUS_PASSWORD" | b64enc | default "admin123" }}
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -182,3 +185,7 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
+
+podDisruptionBudget:
+  annotations: {}
+  minAvailable: 1

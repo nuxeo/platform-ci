@@ -98,8 +98,8 @@ apiVersion: v1
 kind: Secret
 type: Opaque
 data:
-  password: ********
-  username: ********
+  admin.password: ********
+  admin.username: ********
 metadata:
   annotations:
     meta.helm.sh/release-name: nexus
@@ -108,7 +108,8 @@ metadata:
     app.kubernetes.io/instance: nexus
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nexus
-    helm.sh/chart: nexus-0.1.41
+    app.kubernetes.io/version: 3.59.0
+    helm.sh/chart: nexus-59.0.0
     jenkins.io/credentials-type: usernamePassword
   name: nexus
 EOF
