@@ -6,7 +6,7 @@ controller:
   # Use a fixed version, instead of the `lts` moving tag, to avoid automatic upgrades when the pod is restarted.
   # This happens typically when the Kubernetes node pool is upgraded by GCP and is not wanted since there can be some
   # breaking changes in the Jenkins LTS image.
-  tag: 2.387.1-jdk17
+  tag: 2.414.1-jdk17
   adminSecret: false
   resources:
     requests:
@@ -86,26 +86,38 @@ controller:
         oauthScopes: "read:org,user:email,repo"
     authorizationStrategy: |-
       projectMatrix:
-        permissions:
-        - "GROUP:Credentials/View:nuxeo*Developers"
-        - "GROUP:Job/Build:nuxeo*Developers"
-        - "GROUP:Job/Cancel:nuxeo*Developers"
-        - "GROUP:Job/Discover:nuxeo*Developers"
-        - "GROUP:Job/ExtendedRead:nuxeo*Developers"
-        - "GROUP:Job/Read:nuxeo*Developers"
-        - "GROUP:Job/ViewStatus:authenticated"
-        - "GROUP:Job/Workspace:nuxeo*Developers"
-        - "GROUP:Lockable Resources/View:nuxeo*Developers"
-        - "GROUP:Metrics/HealthCheck:nuxeo*Developers"
-        - "GROUP:Metrics/ThreadDump:nuxeo*Developers"
-        - "GROUP:Metrics/View:nuxeo*Developers"
-        - "GROUP:Overall/Administer:nuxeo*platform"
-        - "GROUP:Overall/Read:authenticated"
-        - "GROUP:Overall/SystemRead:nuxeo*Developers"
-        - "GROUP:Run/Replay:nuxeo*Developers"
-        - "GROUP:Run/Update:nuxeo*Developers"
-        - "GROUP:View/Read:nuxeo*Developers"
-        - "USER:Job/ViewStatus:anonymous"
+        entries:
+        - group:
+            name: "authenticated"
+            permissions:
+            - "Job/ViewStatus"
+            - "Overall/Read"
+        - group:
+            name: "nuxeo*Developers"
+            permissions:
+            - "Credentials/View"
+            - "Job/Build"
+            - "Job/Cancel"
+            - "Job/Discover"
+            - "Job/ExtendedRead"
+            - "Job/Read"
+            - "Job/Workspace"
+            - "Lockable Resources/View"
+            - "Metrics/HealthCheck"
+            - "Metrics/ThreadDump"
+            - "Metrics/View"
+            - "Overall/SystemRead"
+            - "Run/Replay"
+            - "Run/Update"
+            - "View/Read"
+        - group:
+            name: "nuxeo*platform"
+            permissions:
+            - "Overall/Administer"
+        - user:
+            name: "anonymous"
+            permissions:
+            - "Job/ViewStatus"
   nodeSelector:
     team: platform
   tolerations:

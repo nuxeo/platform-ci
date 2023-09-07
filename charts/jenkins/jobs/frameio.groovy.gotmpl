@@ -4,16 +4,21 @@ folder('frameio') {
       inheritanceStrategy {
         inheriting()
       }
-      permissions([
+      entries {
         {{- range .Values.jobs.folder.permissions.read.frameio }}
-        "USER:Job/Build:{{ . }}",
-        "USER:Job/Cancel:{{ . }}",
-        "USER:Job/Discover:{{ . }}",
-        "USER:Job/ExtendedRead:{{ . }}",
-        "USER:Job/Read:{{ . }}",
-        "USER:Job/Workspace:{{ . }}",
+        user {
+          name('{{ . }}')
+          permissions([
+            'Job/Build',
+            'Job/Cancel',
+            'Job/Discover',
+            'Job/ExtendedRead',
+            'Job/Read',
+            'Job/Workspace',
+          ])
+        }
         {{- end }}
-      ])
+      }
     }
   }
 }
