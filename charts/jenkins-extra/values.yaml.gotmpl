@@ -9,6 +9,14 @@ configMap:
             "docker-registry-default.apps.va.nuxeocloud.com"
           ]
       }
+  skaffold:
+    config: |-
+      global:
+        # this option allows to prefix our images with the target docker registry
+        default-repo: {{ .Values.docker.registry }}
+        # this options allows the prefix mechanism to not replace the '/' by '_' in 'nuxeo/builder-base' 
+        multi-level-repo: true
+      kubeContexts: []
 secret:
   mavenSettings:
     labels: {}
