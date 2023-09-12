@@ -70,6 +70,7 @@ nexus:
     runAsUser: 200
     runAsGroup: 200
     fsGroup: 200
+    fsGroupChangePolicy: OnRootMismatch
   podAnnotations: {}
   livenessProbe:
     initialDelaySeconds: 30
