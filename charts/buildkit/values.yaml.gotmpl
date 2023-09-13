@@ -1,0 +1,62 @@
+namespace: {{ .Values.namespace }}
+annotations:
+  buildx.docker.com/platform: linux/amd64,linux/arm64
+replicas: 2
+strategy:
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+  type: RollingUpdate
+buildkitd:
+  image:
+    repository: moby/buildkit
+    tag: buildx-stable-1
+    pullPolicy: IfNotPresent
+  readinessProbe:
+    command:
+    - buildctl
+    - debug
+    - workers
+    initialDelaySeconds: 0
+    failureThreshold: 3
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  resources:
+    requests:
+      cpu: "2"
+      memory: "8Gi"
+    limits:
+      memory: "8Gi"
+  securityContext:
+    privileged: true
+qemu:
+  image:
+    repository: tonistiigi/binfmt
+    tag: latest
+    pullPolicy: Always
+  args:
+  - --install
+  - all
+  resources: {}
+  securityContext:
+    privileged: true
+nodeSelector:
+  team: platform
+tolerations:
+- key: team
+  operator: Equal
+  value: platform
+  effect: NoSchedule
+config:
+  buildkitd: |-
+#    debug = true
+#
+#    [log]
+#      # log formatter: json or text
+#      format = "text"
+#
+#    # registry configures a new Docker register used for cache import or output.
+#    [registry."docker.io"]
+#      # mirror configuration to handle path in case a mirror registry requires a /project path rather than just a host:port
+#      mirrors = ["yourmirror.local:5000", "core.harbor.domain/proxy.docker.io"]

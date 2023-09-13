@@ -17,6 +17,40 @@ configMap:
         # this options allows the prefix mechanism to not replace the '/' by '_' in 'nuxeo/builder-base' 
         multi-level-repo: true
       kubeContexts: []
+  dockerBuildx:
+    annotations:
+      buildx.docker.com/platform: linux/amd64,linux/arm64
+    skaffoldBuilderMultiplatform: |-
+      {
+        "Name": "skaffold-builder-multiplatform",
+        "Driver": "kubernetes",
+        "Nodes": [
+          {
+            "Name": "skaffold-builder-multiplatform",
+            "Platforms": [
+              {
+                "architecture": "amd64",
+                "os": "linux"
+              },
+              {
+                "architecture": "arm64",
+                "os": "linux"
+              }
+            ],
+            "Flags": null,
+            "DriverOpts": {
+              "namespace": "{{ .Values.namespace }}"
+            }
+          }
+        ]
+      }
+    # The Key corresponds to the DOCKER_HOST environment variables set in the pod templates
+    currentInstance: |-
+      {
+        "Key": "tcp://localhost:2376",
+        "Name": "skaffold-builder-multiplatform",
+        "Global":false
+      }
 secret:
   mavenSettings:
     labels: {}
