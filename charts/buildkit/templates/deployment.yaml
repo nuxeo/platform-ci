@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skaffold-builder-multiplatform
+  labels:
+    app.kubernetes.io/name: skaffold-builder-multiplatform
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app: skaffold-builder-multiplatform
+  annotations:
+    meta.helm.sh/release-name: "{{ .Release.Name }}"
+    meta.helm.sh/release-namespace: {{ .Values.namespace }}
+    {{- with .Values.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: skaffold-builder-multiplatform
+      app.kubernetes.io/instance: "{{ .Release.Name }}"
+      app: skaffold-builder-multiplatform
+  {{- with .Values.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.annotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        app.kubernetes.io/name: skaffold-builder-multiplatform
+        app.kubernetes.io/instance: "{{ .Release.Name }}"
+        app: skaffold-builder-multiplatform
+    spec:
+      containers:
+      - image: "{{ .Values.buildkitd.image.repository }}:{{ .Values.buildkitd.image.tag }}"
+        imagePullPolicy: {{ .Values.buildkitd.image.pullPolicy }}
+        name: buildkitd
+        readinessProbe:
+          exec:
+            command: {{ toYaml .Values.buildkitd.readinessProbe.command | nindent 12 }}
+          initialDelaySeconds: {{ .Values.buildkitd.readinessProbe.initialDelaySeconds }}
+          failureThreshold: {{ .Values.buildkitd.readinessProbe.failureThreshold }}
+          periodSeconds: {{ .Values.buildkitd.readinessProbe.periodSeconds }}
+          successThreshold: {{ .Values.buildkitd.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.buildkitd.readinessProbe.timeoutSeconds }}
+        {{- with .Values.buildkitd.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.buildkitd.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        volumeMounts:
+        - mountPath: /etc/buildkit
+          name: buildkitd-config
+        - mountPath: /var/lib/buildkit
+          name: buildkitd-data
+      initContainers:
+      - args: {{ toYaml .Values.qemu.args | nindent 8 }} 
+        image: "{{ .Values.qemu.image.repository }}:{{ .Values.qemu.image.tag }}"
+        imagePullPolicy: {{ .Values.qemu.image.pullPolicy }}
+        name: qemu
+        {{- with .Values.qemu.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.qemu.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+      - name: buildkitd-config
+        configMap:
+          name: buildkitd-config
+      - name: buildkitd-data
+        emptyDir: {}

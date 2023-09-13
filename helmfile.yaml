@@ -37,6 +37,11 @@ releases:
   namespace: {{ .Values.namespace }}
   values:
   - charts/jenkins-extra/values.yaml.gotmpl
+- name: buildkit
+  chart: ./charts/buildkit
+  namespace: {{ .Values.namespace }}
+  values:
+  - charts/buildkit/values.yaml.gotmpl
 - name: jenkins
   chart: jenkins/jenkins
   version: ~4.2.13

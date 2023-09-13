@@ -1,0 +1,4 @@
+apiVersion: v1
+name: buildkit
+description: Buildkit deployment
+version: 1.0.0

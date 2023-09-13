@@ -87,6 +87,14 @@ podTemplates:
       configMapName: "skaffold"
       mountPath: "/home/jenkins/.skaffold/config"
       subPath: "config"
+  - configMapVolume:
+      configMapName: "docker-buildx"
+      mountPath: "/home/jenkins/.buildx/instances/skaffold-builder-multiplatform"
+      subPath: "skaffold-builder-multiplatform"
+  - configMapVolume:
+      configMapName: "docker-buildx"
+      mountPath: "/home/jenkins/.buildx/current"
+      subPath: "current"
   - secretVolume:
       mountPath: "/home/jenkins/.docker"
       secretName: "jenkins-docker-cfg"
