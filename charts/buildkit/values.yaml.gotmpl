@@ -1,7 +1,6 @@
 namespace: {{ .Values.namespace }}
 annotations:
   buildx.docker.com/platform: linux/amd64,linux/arm64
-replicas: 2
 strategy:
   rollingUpdate:
     maxSurge: 25%
@@ -60,3 +59,11 @@ config:
 #    [registry."docker.io"]
 #      # mirror configuration to handle path in case a mirror registry requires a /project path rather than just a host:port
 #      mirrors = ["yourmirror.local:5000", "core.harbor.domain/proxy.docker.io"]
+horizontalPodAutoscaler:
+  minReplicas: 1
+  maxReplicas: 4
+  metrics:
+    cpu:
+      averageUtilization: 80
+    memory:
+      averageUtilization: 80
