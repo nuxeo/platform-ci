@@ -39,6 +39,7 @@ configMap:
             ],
             "Flags": null,
             "DriverOpts": {
+              "loadbalance": "random",
               "namespace": "{{ .Values.namespace }}"
             }
           }
