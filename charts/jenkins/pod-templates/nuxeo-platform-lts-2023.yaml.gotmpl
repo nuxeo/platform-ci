@@ -54,6 +54,7 @@
   {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
   {{- toYaml .Values.podTemplates.mavenSettingsVolumes | nindent 2 -}}
   {{- toYaml .Values.podTemplates.mavenRepositoryVolumes | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.googleCloudCredentialsVolumes | nindent 2 -}}
   nodeSelector: {{ .Values.podTemplates.nodeSelector }}
   yamlMergeStrategy: {{ .Values.podTemplates.yamlMergeStrategy }}
   yaml: |
