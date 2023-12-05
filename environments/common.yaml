@@ -106,6 +106,10 @@ podTemplates:
   - emptyDirVolume:
       memory: false
       mountPath: "/root/.mvnrepository"
+  googleCloudCredentialsVolumes:
+  - secretVolume:
+      mountPath: "/home/jenkins/.config/gcloud"
+      secretName: "google-cloud"
   nodeSelector: "team=platform"
   yamlMergeStrategy: "override"
   yaml:
