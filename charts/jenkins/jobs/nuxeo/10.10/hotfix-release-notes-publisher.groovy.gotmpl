@@ -1,0 +1,50 @@
+pipelineJob('nuxeo/10.10/hotfix-release-notes-publisher') {
+  // Description
+  description('Job to upload the hotifx release notes.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/integration-scripts-priv')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('10.10')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/integration-scripts-priv')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('Jenkinsfiles/publish-hf-release-notes.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('HF_NUMBER')
+      defaultValue('')
+      description('A specific HF number (leave blank for latest HF)')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
+  }
+}
