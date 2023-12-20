@@ -87,6 +87,9 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/rest-api-compatibility-tests.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('nuxeo/10.10')
+        - script: > {{ tpl (readFile "jobs/nuxeo/10.10/hotfix-docker-build.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/10.10/hotfix-release-create-tickets.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nuxeo/10.10/hotfix-staging-build.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/10.10/nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('nuxeo/lts')
