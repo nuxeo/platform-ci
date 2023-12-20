@@ -1,0 +1,62 @@
+pipelineJob('nuxeo/10.10/hotfix-release-move-components') {
+  // Description
+  description('Job to move Maven artifacts from staging to release.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/integration-scripts-priv')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('10.10')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/integration-scripts-priv')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('Jenkinsfiles/release-hf-move-components.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('NEXUS_HOST')
+      defaultValue('')
+      description('The Nexus host to move the components to')
+      trim(true)
+    }
+    string {
+      name('NEXUS_REPOSITORY')
+      defaultValue('')
+      description('The Nexus repository to move the components to')
+      trim(true)
+    }
+    string {
+      name('NEXUS_TAG')
+      defaultValue('')
+      description('The Nexus tag set on the components to move')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
+  }
+}

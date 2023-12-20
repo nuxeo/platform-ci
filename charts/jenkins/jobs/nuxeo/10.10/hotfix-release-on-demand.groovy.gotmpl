@@ -1,0 +1,53 @@
+pipelineJob('nuxeo/10.10/hotfix-release-on-demand') {
+  // Description
+  description('Job to release the staged build of a hotfix.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/integration-scripts-priv')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('10.10')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/integration-scripts-priv')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('Jenkinsfiles/release-hf-from-staging.groovy')
+    }
+  }
+  parameters {
+    choiceParam {
+      name('RELEASE_CYCLE')
+      description('Number of weeks between 2 hotfix releases')
+      choices(['2', '3', '4'])
+    }
+    booleanParam {
+      name('safetyFlag')
+      description('Check this box only if YOU ARE SURE you want to RELEASE A HOTFIX.')
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
+  }
+}
