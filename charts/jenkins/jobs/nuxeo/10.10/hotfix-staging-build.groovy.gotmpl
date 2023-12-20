@@ -1,0 +1,48 @@
+pipelineJob('nuxeo/10.10/hotfix-staging-build') {
+  // Description
+  description('Nuxeo hotfix staging build. It runs on demand.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/integration-scripts-priv')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('10.10')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/integration-scripts-priv')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('Jenkinsfiles/build-hotfix-staging.groovy')
+    }
+  }
+  parameters {
+    booleanParam {
+      name('OVERRIDE_RELEASE_DATE_CHECK')
+      description('Check this box only if YOU ARE SURE you want to OVERRIDE the release date check and force a new build.')
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
+  }
+}

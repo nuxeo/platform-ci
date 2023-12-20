@@ -1,0 +1,50 @@
+pipelineJob('nuxeo/10.10/hotfix-release-check') {
+  // Description
+  description('Create hotfix release tickets.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/integration-scripts-priv')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('10.10')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/integration-scripts-priv')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('Jenkinsfiles/create-hotfix-release-tickets.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('TARGET_HF')
+      defaultValue('')
+      description('The HF number for building Nuxeo')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
+  }
+}
