@@ -14,9 +14,9 @@
     name: "maven"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "4"
-    resourceLimitMemory: "8Gi"
+    resourceLimitMemory: "10Gi"
     resourceRequestCpu: "2"
-    resourceRequestMemory: "8Gi"
+    resourceRequestMemory: "10Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:
