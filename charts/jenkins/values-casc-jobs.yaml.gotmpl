@@ -5,6 +5,10 @@ controller:
       casc-jobs: |
         jobs:
         - script: >
+            folder('3d-viewer')
+        - script: > {{ tpl (readFile "jobs/3d-viewer/nuxeo-3d-viewer.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/3d-viewer/release-nuxeo-3d-viewer.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('api-playground')
         - script: > {{ tpl (readFile "jobs/api-playground/nuxeo-api-playground.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/api-playground/release-nuxeo-api-playground.groovy.gotmpl") . | nindent 12 }}

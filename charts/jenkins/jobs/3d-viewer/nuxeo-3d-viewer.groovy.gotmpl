@@ -1,0 +1,46 @@
+multibranchPipelineJob('3d-viewer/nuxeo-3d-viewer') {
+  // Description
+  description('Nuxeo 3D Viewer')
+  // Branch Sources
+  branchSources {
+    branchSource {
+      source {
+        // GitHub
+        github {
+          id('3d-viewer/nuxeo-3d-viewer')
+          // Credentials
+          credentialsId('github-branch-source')
+          // Repository
+          repoOwner('nuxeo')
+          repository('nuxeo-3d-viewer')
+          repositoryUrl('https://github.com/nuxeo/nuxeo-3d-viewer')
+          configuredByUrl(false)
+          // Behaviors
+          traits {
+            {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubStatusChecks | nindent 12 }}
+            // TODO use .Values.jobs.traits.ltsHeadRegexFilter
+            // Filter by name (with regular expression)
+            headRegexFilter {
+              // Regular expression
+              regex('lts-2023|PR-.*')
+            }
+          }
+        }
+      }
+      {{- .Values.jobs.strategy | nindent 6 }}
+    }
+  }
+  // Build Configuration
+  factory {
+    // Mode: by Jenkinsfile
+    workflowBranchProjectFactory {
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/build.groovy')
+    }
+  }
+  {{- .Values.jobs.triggers | nindent 2 }}
+  {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
+}
