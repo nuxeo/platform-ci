@@ -16,6 +16,7 @@ podTemplates:
   - args: ""
     command: ""
     image: docker:dind
+    alwaysPullImage: true
     name: dind-daemon
     privileged: true
     resourceRequestCpu: "20m"

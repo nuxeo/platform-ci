@@ -10,7 +10,7 @@ buildkitd:
   image:
     repository: moby/buildkit
     tag: buildx-stable-1
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   readinessProbe:
     command:
     - buildctl
