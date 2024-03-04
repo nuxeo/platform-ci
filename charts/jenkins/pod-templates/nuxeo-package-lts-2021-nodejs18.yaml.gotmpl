@@ -1,0 +1,47 @@
+- id: "nuxeo-package-lts-2021-nodejs18"
+  name: "nuxeo-package-lts-2021-nodejs18"
+  label: "jenkins-nuxeo-package-lts-2021-nodejs18"
+  imagePullSecrets:
+  - name: {{ .Values.podTemplates.imagePullSecretName }}
+  serviceAccount: {{ .Values.podTemplates.serviceAccount }}
+  nodeUsageMode:  {{ .Values.podTemplates.nodeUsageMode }}
+  containers:
+  {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
+  - args: ""
+    command: ""
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-java11-chrome-nodejs18:latest"
+    alwaysPullImage: true
+    name: "maven"
+    privileged: {{ .Values.podTemplates.privileged }}
+    resourceLimitCpu: "4"
+    resourceLimitMemory: "8Gi"
+    resourceRequestCpu: "2"
+    resourceRequestMemory: "8Gi"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
+  - args: ""
+    command: ""
+    image: mcr.microsoft.com/playwright:v1.13.1
+    alwaysPullImage: true
+    name: "playwright"
+    privileged: {{ .Values.podTemplates.privileged }}
+    resourceLimitCpu: "2"
+    resourceLimitMemory: "4Gi"
+    resourceRequestCpu: "1"
+    resourceRequestMemory: "4Gi"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
+  envVars:
+  {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.javaEnvVars | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.mavenEnvVars | nindent 2 -}}
+  - envVar:
+      key: DEFAULT_CONTAINER
+      value: "maven"
+  volumes:
+  {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.mavenSettingsVolumes | nindent 2 -}}
+  nodeSelector: {{ .Values.podTemplates.nodeSelector }}
+  yamlMergeStrategy: {{ .Values.podTemplates.yamlMergeStrategy }}
+  yaml: |
+    {{- .Values.podTemplates.yaml | toYaml | nindent 4 -}}
