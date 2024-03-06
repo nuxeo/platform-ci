@@ -52,6 +52,9 @@ configMap:
         "Name": "skaffold-builder-multiplatform",
         "Global":false
       }
+  redis:
+    config: |-
+      no-appendfsync-on-rewrite yes
 secret:
   mavenSettings:
     labels: {}
