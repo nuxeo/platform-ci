@@ -75,6 +75,9 @@ podTemplates:
   - envVar:
       key: "ALLOW_EMPTY_PASSWORD"
       value: "yes"
+  - envVar:
+      key: "REDIS_AOF_ENABLED"
+      value: "no"
   volumes:
   - emptyDirVolume:
       mountPath: /certs
