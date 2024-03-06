@@ -96,6 +96,9 @@ podTemplates:
       configMapName: "docker-buildx"
       mountPath: "/home/jenkins/.buildx/current"
       subPath: "current"
+  - configMapVolume:
+      configMapName: "redis-conf"
+      mountPath: "/opt/bitnami/redis/mounted-etc"
   - secretVolume:
       mountPath: "/home/jenkins/.docker"
       secretName: "jenkins-docker-cfg"
