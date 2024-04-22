@@ -13,9 +13,9 @@
     alwaysPullImage: true
     name: "maven"
     privileged: {{ .Values.podTemplates.privileged }}
-    resourceLimitCpu: "2"
+    resourceLimitCpu: "4"
     resourceLimitMemory: "4Gi"
-    resourceRequestCpu: "2"
+    resourceRequestCpu: "4"
     resourceRequestMemory: "4Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
