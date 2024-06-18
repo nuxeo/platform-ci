@@ -49,16 +49,30 @@ tolerations:
   effect: NoSchedule
 config:
   buildkitd: |-
-#    debug = true
-#
-#    [log]
-#      # log formatter: json or text
-#      format = "text"
-#
-#    # registry configures a new Docker register used for cache import or output.
-#    [registry."docker.io"]
-#      # mirror configuration to handle path in case a mirror registry requires a /project path rather than just a host:port
-#      mirrors = ["yourmirror.local:5000", "core.harbor.domain/proxy.docker.io"]
+    #debug = true
+    [worker.oci]
+      enabled = true
+      gc = true
+
+      # limit the number of parallel build steps that can run at the same time
+      max-parallelism = 4
+
+      # configure GC policies
+      # policy taken from https://docs.docker.com/build/buildkit/toml-configuration/
+      [[worker.oci.gcpolicy]]
+        # keepBytes can be an integer number of bytes (e.g. 512000000), a string
+        # with a unit (e.g. "512MB"), or a string percentage of the total disk
+        # space (e.g. "10%")
+        keepBytes = "512MB"
+        # keepDuration can be an integer number of seconds (e.g. 172800), or a
+        # string duration (e.g. "48h")
+        keepDuration = "48h"
+        filters = [ "type==source.local", "type==exec.cachemount", "type==source.git.checkout"]
+
+      [[worker.oci.gcpolicy]]
+        all = true
+        keepBytes = "4GB"
+
 horizontalPodAutoscaler:
   minReplicas: 1
   maxReplicas: 4
