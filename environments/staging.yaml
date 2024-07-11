@@ -10,6 +10,9 @@ docker:
   registry: docker.platform-staging.dev.nuxeo.com
 jira:
   url: https://jira-preprod.nuxeo.com/
+nexus:
+  persistence:
+    storageSize: 256Gi
 podTemplates:
   yaml:
     metadata:

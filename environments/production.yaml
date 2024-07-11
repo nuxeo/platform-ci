@@ -10,6 +10,9 @@ docker:
   registry: docker.platform.dev.nuxeo.com
 jira:
   url: https://jira.nuxeo.com/
+nexus:
+  persistence:
+    storageSize: 600Gi
 podTemplates:
   yaml:
     metadata:
