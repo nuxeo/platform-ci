@@ -13,6 +13,10 @@ jira:
 nexus:
   persistence:
     storageSize: 600Gi
+  resources:
+    # Ratio: node CPU (32) and memory (64) / 2
+    cpu: 2
+    memory: 32Gi
 podTemplates:
   yaml:
     metadata:

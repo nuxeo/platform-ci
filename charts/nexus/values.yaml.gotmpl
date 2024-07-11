@@ -52,12 +52,11 @@ nexus:
   nodeSelector:
     team: platform
   resources:
-    # Ratio: node CPU (16) and memory (64) / 4
     requests:
-      cpu: 4
-      memory: 16Gi
+      cpu: {{ .Values.nexus.resources.cpu }}
+      memory: {{ .Values.nexus.resources.memory }}
     limits:
-      memory: 16Gi
+      memory: {{ .Values.nexus.resources.memory }}
 
   # The ports should only be changed if the nexus image uses a different port
   nexusPort: 80
