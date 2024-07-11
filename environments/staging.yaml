@@ -16,7 +16,7 @@ nexus:
   resources:
     # Ratio: node CPU (8) and memory (64) / 8
     cpu: 1
-    memory: 8Gi
+    memory: 8
 podTemplates:
   yaml:
     metadata:

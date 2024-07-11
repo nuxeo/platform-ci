@@ -35,8 +35,9 @@ nexus:
   # by specifying the active processor count.
   - name: INSTALL4J_ADD_VM_PARAMS
     value: |-
-      -Xms4G -Xmx4G
-      -XX:MaxDirectMemorySize=6717M
+      -Xms{{ div .Values.nexus.resources.memory 4 }}G -Xmx{{ div .Values.nexus.resources.memory 4 }}G
+      -XX:MaxDirectMemorySize={{ ceil (mulf (subf (divf 2 3) (divf 25 100)) (mul .Values.nexus.resources.memory 1024)) }}M
+      -XX:+UseG1GC
       -XX:+UnlockExperimentalVMOptions
       -XX:+UseCGroupMemoryLimitForHeap
       -Djava.util.prefs.userRoot=/nexus-data/javaprefs
@@ -54,9 +55,9 @@ nexus:
   resources:
     requests:
       cpu: {{ .Values.nexus.resources.cpu }}
-      memory: {{ .Values.nexus.resources.memory }}
+      memory: {{ .Values.nexus.resources.memory }}Gi
     limits:
-      memory: {{ .Values.nexus.resources.memory }}
+      memory: {{ .Values.nexus.resources.memory }}Gi
 
   # The ports should only be changed if the nexus image uses a different port
   nexusPort: 80
