@@ -24,7 +24,7 @@ multibranchPipelineJob('nuxeo/nuxeo-helm-chart') {
             // Filter by name (with regular expression)
             headRegexFilter {
               // Regular expression
-              regex('master|0.x|1.0.x_10.10|PR-.*')
+              regex('master|PR-.*')
             }
           }
         }
