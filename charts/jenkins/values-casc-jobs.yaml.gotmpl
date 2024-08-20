@@ -85,7 +85,6 @@ controller:
         - script: > {{ tpl (readFile "jobs/nev/release-nuxeo-arender-connector.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('nuxeo')
-        - script: > {{ tpl (readFile "jobs/nuxeo/nuxeo-customer-project-sample.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/nuxeo-helm-chart.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/nuxeo-wopi-demos.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/rest-api-compatibility-tests.groovy.gotmpl") . | nindent 12 }}
