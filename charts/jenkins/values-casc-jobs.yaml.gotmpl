@@ -38,7 +38,6 @@ controller:
         - script: > {{ tpl (readFile "jobs/explorer/export-platform-explorer-reference.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/explorer/nuxeo-explorer.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/explorer/release-nuxeo-explorer.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/explorer/release-nuxeo-explorer-for-10.10.groovy.gotmpl") . | nindent 12 }}
         - script: >
             {{- tpl (readFile "jobs/frameio.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/frameio/nuxeo-frameio.groovy.gotmpl") . | nindent 12 }}
