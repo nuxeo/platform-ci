@@ -8,7 +8,7 @@ Configuration as code for the Nuxeo Platform CI in Kubernetes.
 
 Jenkins is installed with the [Jenkins Helm chart](https://github.com/jenkinsci/helm-charts/tree/main/charts/jenkins).
 
-The Jenkins Helm chart is deployed with [Helmfile](https://github.com/roboll/helmfile) and configured with a set of custom values overriding the [default](https://github.com/jenkinsci/helm-charts/blob/main/charts/jenkins/values.yaml) ones, defined in the `./charts/jenkins/values*.yaml.gotmpl` files.
+The Jenkins Helm chart is deployed with [Helmfile](https://github.com/helmfile/helmfile) and configured with a set of custom values overriding the [default](https://github.com/jenkinsci/helm-charts/blob/main/charts/jenkins/values.yaml) ones, defined in the `./charts/jenkins/values*.yaml.gotmpl` files.
 
 This configuration mostly includes:
 
@@ -31,15 +31,15 @@ When [synchronizing the Kubernetes cluster](#kubernetes-cluster-synchronization)
 
 Nexus is used as:
 
-- An internal Docker [registry](https://docker.platform.dev.nuxeo.com/) for the images built by Kaniko in the Jenkins pipelines.
+- An internal Docker [registry](https://nexus.platform.dev.nuxeo.com/#browse/browse:docker-registry) for the images built in the Jenkins pipelines.
 - An internal Maven proxy [repository](https://nexus.platform.dev.nuxeo.com/repository/maven-upstream/) to the main upstream [repository](https://packages.nuxeo.com/repository/maven-internal-build/).
 
 ## Requirements
 
 - [Helm 3](https://helm.sh/docs/intro/install/)
-- [Helmfile](https://github.com/roboll/helmfile#installation)
+- [Helmfile](https://helmfile.readthedocs.io/en/latest/#installation)
 - [Helm Diff plugin](https://github.com/databus23/helm-diff#install)
-- [Kustomize](https://kubernetes-sigs.github.io/kustomize/installation/)
+- [Kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/)
 
 ## Installation
 
@@ -78,11 +78,11 @@ type: Opaque
 metadata:
   name: jenkins-casc
 data:
+  gitHubAppKey: ********
   gitHubOAuthClientId: ********
   gitHubOAuthSecret: ********
-  gitHubUser: ********
   gitHubToken: ********
-  gitHubAppKey: ********
+  gitHubUser: ********
   jiraPassword: ********
   slackToken: ********
 EOF
@@ -108,8 +108,8 @@ metadata:
     app.kubernetes.io/instance: nexus
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nexus
-    app.kubernetes.io/version: 3.59.0
-    helm.sh/chart: nexus-59.0.0
+    app.kubernetes.io/version: 3.60.0
+    helm.sh/chart: nexus-60.0.0
     jenkins.io/credentials-type: usernamePassword
   name: nexus
 EOF
@@ -150,13 +150,13 @@ cat << EOF
 apiVersion: v1
 kind: Secret
 metadata:
-  name: aws-credentials
   annotations:
     meta.helm.sh/release-name: aws-credentials
     meta.helm.sh/release-namespace: $NAMESPACE
   labels:
     "app.kubernetes.io/managed-by": Helm
     aws-rotate-key: "true"
+  name: aws-credentials
 stringData:
   access_key_id: ********
   secret_access_key: ********
