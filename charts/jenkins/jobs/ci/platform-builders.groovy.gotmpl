@@ -1,19 +1,19 @@
-multibranchPipelineJob('ci/jx-platform-builders') {
+multibranchPipelineJob('ci/platform-builders') {
   // Description
-  description('Jenkins X Builders for Nuxeo CI/CD')
+  description('Jenkins Builders for Nuxeo Platform CI')
   // Branch Sources
   branchSources {
     branchSource {
       source {
         // GitHub
         github {
-          id('ci/jx-platform-builders')
+          id('ci/platform-builders')
           // Credentials
           credentialsId('github-branch-source')
           // Repository
           repoOwner('nuxeo')
-          repository('jx-platform-builders')
-          repositoryUrl('https://github.com/nuxeo/jx-platform-builders')
+          repository('platform-builders')
+          repositoryUrl('https://github.com/nuxeo/platform-builders')
           configuredByUrl(false)
           // Behaviors
           traits {
