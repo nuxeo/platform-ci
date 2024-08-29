@@ -1,6 +1,11 @@
 namespace: {{ .Values.namespace }}
 annotations:
+  ad.datadoghq.com/buildkitd.logs: '[{"service":"skaffold-builder"}]'
+  ad.datadoghq.com/tags: '{"service":"skaffold-builder"}'
   buildx.docker.com/platform: linux/amd64,linux/arm64
+  dev.nuxeo.com/initiator: 'jenkins-{{ .Values.namespace }}'
+  dev.nuxeo.com/repository: platform-ci
+  dev.nuxeo.com/team: platform
 strategy:
   rollingUpdate:
     maxSurge: 25%
@@ -49,7 +54,15 @@ tolerations:
   effect: NoSchedule
 config:
   buildkitd: |-
-    #debug = true
+    # debug enables additional debug logging
+    # debug = true
+    # trace enables additional trace logging (very verbose, with potential performance impacts)
+    # trace = true
+
+    [log]
+      # log formatter: json or text
+      format = "json"
+
     [worker.oci]
       enabled = true
       gc = true
