@@ -62,6 +62,13 @@ config:
     [log]
       # log formatter: json or text
       format = "json"
+    
+    # config for build history API that stores information about completed build commands
+    [history]
+      # maxAge is the maximum age of history entries to keep, in seconds.
+      maxAge = 21600
+      # maxEntries is the maximum number of history entries to keep.
+      maxEntries = 10
 
     [worker.oci]
       enabled = true
