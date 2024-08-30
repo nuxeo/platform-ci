@@ -119,6 +119,6 @@ horizontalPodAutoscaler:
   maxReplicas: {{ .Values.buildKit.hpa.maxReplicas }}
   metrics:
     cpu:
-      averageUtilization: 80
+      averageUtilization: 100
     memory:
       averageUtilization: 50
