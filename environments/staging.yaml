@@ -2,6 +2,10 @@ namespace: platform-staging
 dryrun: true
 ingressNginx:
   enabled: false
+buildKit:
+  hpa:
+    minReplicas: 1
+    maxReplicas: 4
 certManager:
   enabled: false
 datadog:
