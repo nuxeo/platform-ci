@@ -115,8 +115,8 @@ config:
         keepBytes = "10GB"
 
 horizontalPodAutoscaler:
-  minReplicas: 1
-  maxReplicas: 4
+  minReplicas: {{ .Values.buildKit.hpa.minReplicas }}
+  maxReplicas: {{ .Values.buildKit.hpa.maxReplicas }}
   metrics:
     cpu:
       averageUtilization: 80
