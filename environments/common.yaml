@@ -58,7 +58,7 @@ podTemplates:
       value: "http://jenkins:8080"
   - envVar:
       key: SKAFFOLD_BUILD_CONCURRENCY
-      value: "0"
+      value: "1"
   - envVar:
       key: SKAFFOLD_CONFIG
       value: "/home/jenkins/.skaffold/config"
