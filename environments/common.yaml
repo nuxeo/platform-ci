@@ -81,10 +81,6 @@ podTemplates:
   - emptyDirVolume:
       mountPath: /var/lib/docker
   - configMapVolume:
-      configMapName: "docker-dind-daemon"
-      mountPath: "/etc/docker/daemon.json"
-      subPath: "daemon.json"
-  - configMapVolume:
       configMapName: "skaffold"
       mountPath: "/home/jenkins/.skaffold/config"
       subPath: "config"
