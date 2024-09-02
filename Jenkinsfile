@@ -16,7 +16,7 @@
  * Contributors:
  *     Antoine Taillefer <ataillefer@nuxeo.com>
  */
-library identifier: "platform-ci-shared-library@v0.0.26"
+library identifier: "platform-ci-shared-library@v0.0.38"
 
 def isStaging() {
   return nxUtils.isPullRequest() || nxUtils.isDryRun()
