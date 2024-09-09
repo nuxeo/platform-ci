@@ -16,7 +16,7 @@
  * Contributors:
  *     Antoine Taillefer <ataillefer@nuxeo.com>
  */
-library identifier: "platform-ci-shared-library@v0.0.38"
+library identifier: "platform-ci-shared-library@v0.0.40"
 
 def isStaging() {
   return nxUtils.isPullRequest() || nxUtils.isDryRun()
@@ -70,7 +70,7 @@ pipeline {
               sh 'helmfile version'
 
               echo 'synchronize cluster state'
-              nxHelmfile.template(noNamespace: true, file: 'helmfile.yaml', environment: env.HELMFILE_ENVIRONMENT, outputDir: 'target')
+              nxHelmfile.template(noNamespace: true, environment: env.HELMFILE_ENVIRONMENT, outputDir: 'target')
               withCredentials([
                 usernamePassword(credentialsId: 'packages.nuxeo.com-auth', usernameVariable: 'PACKAGES_USERNAME', passwordVariable: 'PACKAGES_PASSWORD'),
                 usernamePassword(credentialsId: 'connect-prod', usernameVariable: 'CONNECT_USERNAME', passwordVariable: 'CONNECT_PASSWORD'),
@@ -83,7 +83,7 @@ pipeline {
                 // not using usernamePassword to avoid displaying the access key id in the Jenkins credentials view
                 def awsAccessKeyId = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.AWS_CREDENTIALS_SECRET, key: 'access_key_id')
                 def awsSecretAccessKey = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.AWS_CREDENTIALS_SECRET, key: 'secret_access_key')
-                nxHelmfile.deploy(noNamespace: true, file: 'helmfile.yaml', environment: env.HELMFILE_ENVIRONMENT, envVars: [
+                nxHelmfile.deploy(noNamespace: true, environment: env.HELMFILE_ENVIRONMENT, envVars: [
                   "NEXUS_USERNAME=${nexusUsername}",
                   "NEXUS_PASSWORD=${nexusPassword}",
                   "CHARTMUSEUM_USERNAME=${chartmuseumUsername}",
