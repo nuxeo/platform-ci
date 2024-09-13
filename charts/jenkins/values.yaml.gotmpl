@@ -134,7 +134,7 @@ controller:
       secretName: {{ .Values.namespace }}-tls
 # Secrets made available in `JCasC` through `${SECRET_KEY_NAME}`, requires an existing `jenkins-casc` secret.
 persistence:
-  size: "60Gi"
+  size: "500Gi"
   volumes:
   - name: jenkins-casc-secrets
     secret:
