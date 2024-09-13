@@ -16,7 +16,7 @@ jira:
   url: https://jira.nuxeo.com/
 nexus:
   persistence:
-    storageSize: 600Gi
+    storageSize: 1Ti
   resources:
     # Ratio: node CPU (32) and memory (64) / 2
     cpu: 2
