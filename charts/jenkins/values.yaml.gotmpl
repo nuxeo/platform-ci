@@ -67,6 +67,7 @@ controller:
   # Always override the installed plugins with the values of 'controller.installPlugins' on upgrade or redeployment.
   overwritePlugins: true
   scriptApproval:
+  - "method java.lang.String compareToIgnoreCase"
   - "method java.time.DayOfWeek getValue"
   - "method java.time.chrono.ChronoLocalDate isBefore java.time.chrono.ChronoLocalDate"
   - "method java.time.chrono.ChronoZonedDateTime toLocalDate"
