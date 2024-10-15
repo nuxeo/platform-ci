@@ -9,7 +9,7 @@
   {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
   - args: ""
     command: ""
-    image: "{{ .Values.docker.registry }}/nuxeo/builder-java21-firefox42:latest"
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-java21:latest"
     alwaysPullImage: true
     name: "maven"
     privileged: {{ .Values.podTemplates.privileged }}
