@@ -1,3 +1,5 @@
+jira:
+  url: https://hyland.atlassian.net/
 podTemplates:
   workingDir: "/home/jenkins"
   imagePullSecretName: "kubernetes-docker-cfg"

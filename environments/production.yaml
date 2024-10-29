@@ -12,8 +12,6 @@ datadog:
   enabled: true
 docker:
   registry: docker.platform.dev.nuxeo.com
-jira:
-  url: https://jira.nuxeo.com/
 nexus:
   persistence:
     storageSize: 1Ti
