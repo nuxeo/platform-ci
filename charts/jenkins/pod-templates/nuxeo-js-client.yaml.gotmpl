@@ -26,9 +26,9 @@
     name: "nodejs-maintenance"
     privileged: {{ .Values.podTemplates.privileged }}
     resourceLimitCpu: "2"
-    resourceLimitMemory: "2Gi"
+    resourceLimitMemory: "4Gi"
     resourceRequestCpu: "1"
-    resourceRequestMemory: "2Gi"
+    resourceRequestMemory: "4Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:
