@@ -25,7 +25,7 @@ multibranchPipelineJob('media-manipulation/nuxeo-media-manipulation') {
             // Filter by name (with regular expression)
             headRegexFilter {
               // Regular expression
-              regex('lts-2023|PR-.*')
+              regex('lts-\\d+|PR-.*')
             }
           }
         }
