@@ -25,7 +25,7 @@ multibranchPipelineJob('3d-viewer/nuxeo-3d-viewer') {
             // Filter by name (with regular expression)
             headRegexFilter {
               // Regular expression
-              regex('lts-2023|PR-.*')
+              regex('lts-\\d+|PR-.*')
             }
           }
         }
