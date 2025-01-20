@@ -1,0 +1,64 @@
+pipelineJob('nev/deploy-nev-preview') {
+  // Description
+  description('Deploy Nuxeo Enhanced Viewer preview')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/platform-ci-tools')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('*/main')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/platform-ci-tools')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // Lightweight checkout
+      lightweight(true)
+      // Script Path
+      scriptPath('Jenkinsfiles/nev/deploy-nev-preview.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('BRANCH_NAME')
+      description('Name of the branch after which to look for an existing preview namespace in Kubernetes. In this case, the namespace gets updated with the non empty version parameters below.')
+      trim(true)
+    }
+    string {
+      name('NEV_CHART_VERSION')
+      description('Version of the Nuxeo Enhanced Viewer Helm chart to deploy (for example 1.0.13).')
+      trim(true)
+    }
+    string {
+      name('ARENDER_NUXEO_VERSION')
+      description('Version of the ARender Nuxeo application to deploy (for example 2.3.5).')
+      trim(true)
+    }
+    string {
+      name('NUXEO_ARENDER_CONNECTOR_VERSION')
+      description('Version of the Nuxeo Enhanced Viewer Connector package to install in Nuxeo (for example 2023.2.1).')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/platform-ci-tools')
+  }
+}
