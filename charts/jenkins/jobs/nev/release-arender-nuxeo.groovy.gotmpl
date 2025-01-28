@@ -23,7 +23,7 @@ multibranchPipelineJob('nev/release-arender-nuxeo') {
             // Filter by name (with regular expression)
             headRegexFilter {
               // Regular expression
-              regex('main|^(?!2\\.0)\\d*.?\\d+')
+              regex('2.3|202\\d+')
             }
             gitLFSPullTrait()
           }
