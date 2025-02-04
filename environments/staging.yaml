@@ -47,6 +47,13 @@ jobs:
         triggers {
         }
       }
+  arenderScanDockerImages:
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+        }
+      }
   benchmarkNuxeoLTS:
     triggers: |-
       pipelineTriggers {
