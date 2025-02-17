@@ -12,9 +12,10 @@ repositories:
 
 helmDefaults:
   atomic: true
+  # Jenkins could take 5m to start the init container
   # Jenkins init container could take among 2 to 4 minutes to apply the configuration
   # Jenkins' startup probe wait for 3 minutes
-  timeout: 480
+  timeout: 900
   wait: true
 
 releases:
