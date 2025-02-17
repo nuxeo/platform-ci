@@ -101,7 +101,7 @@ jobs:
           }
         }
       }
-    buildDiscarderIndefinite: |-
+    buildDiscarderLongTime: |-
       buildDiscarder {
         strategy {
           logRotator {
