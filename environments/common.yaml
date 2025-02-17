@@ -10,7 +10,8 @@ podTemplates:
   containers:
   - args: "^${computer.jnlpmac} ^${computer.name}"
     command: ""
-    image: "jenkins/inbound-agent:4.13.3-1"
+    image: "jenkins/inbound-agent:latest"
+    alwaysPullImage: true
     name: "jnlp"
     resourceRequestCpu: "100m"
     resourceRequestMemory: "128Mi"
