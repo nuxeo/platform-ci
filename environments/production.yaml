@@ -148,11 +148,11 @@ jobs:
           }
         }
       }
-    buildDiscarderIndefinite: |-
+    buildDiscarderLongTime: |-
       buildDiscarder {
         strategy {
           logRotator {
-            daysToKeepStr('')
+            daysToKeepStr('365')
             numToKeepStr('')
             artifactDaysToKeepStr('')
             artifactNumToKeepStr('')
