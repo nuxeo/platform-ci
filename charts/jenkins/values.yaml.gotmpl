@@ -2,21 +2,22 @@
 controller:
   # Disable rendering controller test resources when using `helm template`.
   testEnabled: false
-  image: jenkins/jenkins
-  # Use a fixed version, instead of the `lts` moving tag, to avoid automatic upgrades when the pod is restarted.
-  # This happens typically when the Kubernetes node pool is upgraded by GCP and is not wanted since there can be some
-  # breaking changes in the Jenkins LTS image.
-  tag: 2.492.1
-  adminSecret: false
+  image:
+    repository: jenkins/jenkins
+    # Use a fixed version, instead of the `lts` moving tag, to avoid automatic upgrades when the pod is restarted.
+    # This happens typically when the Kubernetes node pool is upgraded by GCP and is not wanted since there can be some
+    # breaking changes in the Jenkins LTS image.
+    tag: 2.492.1
+  admin:
+    createSecret: false
   resources:
     requests:
       cpu: "2"
       memory: "12Gi"
     limits:
       memory: "12Gi"
-  containerEnv:
-  - name: SECRETS
-    value: /run/secrets/jenkins-casc
+  # Secrets made available in `JCasC` through `${SECRET_KEY_NAME}`, requires an existing `jenkins-casc` secret.
+  existingSecret: jenkins-casc
   # Among others, enable permissions for the extended-read-permission plugin.
   javaOpts: >
     -XX:InitialRAMPercentage=50
@@ -24,7 +25,7 @@ controller:
     -Djenkins.install.runSetupWizard=false
     -Djava.awt.headless=true
     -Dhudson.security.ExtendedReadPermission=true
-    -Djenkins.security.SystemReadPermission=true  
+    -Djenkins.security.SystemReadPermission=true
   probes:
     # Allow 3 minutes for the Jenkins startup.
     startupProbe:
@@ -133,14 +134,5 @@ controller:
     - hosts:
       - jenkins.{{ .Values.namespace }}.dev.nuxeo.com
       secretName: {{ .Values.namespace }}-tls
-# Secrets made available in `JCasC` through `${SECRET_KEY_NAME}`, requires an existing `jenkins-casc` secret.
 persistence:
   size: "500Gi"
-  volumes:
-  - name: jenkins-casc-secrets
-    secret:
-      secretName: jenkins-casc
-  mounts:
-  - name: jenkins-casc-secrets
-    mountPath: /run/secrets/jenkins-casc
-    readOnly: true
