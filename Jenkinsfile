@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2021 Nuxeo (http://nuxeo.com/) and others.
+ * (C) Copyright 2025 Nuxeo (http://nuxeo.com/) and others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  * Contributors:
  *     Antoine Taillefer <ataillefer@nuxeo.com>
  */
-library identifier: "platform-ci-shared-library@v0.0.40"
+library identifier: "platform-ci-shared-library@v0.0.47"
 
 def isStaging() {
   return nxUtils.isPullRequest() || nxUtils.isDryRun()
@@ -102,20 +102,17 @@ pipeline {
         }
       }
     }
-    stage('Git release') {
-      when {
-        branch 'master'
-      }
+    stage('Release Project') {
       environment {
+        // override the DRY_RUN environment variable to propagate the behavior to pull requests
+        DRY_RUN = "${nxUtils.isDryRun() || nxUtils.isPullRequest()}"
         VERSION = nxUtils.getVersion()
       }
       steps {
         container('base') {
-          nxWithGitHubStatus(context: 'git-release', message: 'Perform Git release') {
+          nxWithGitHubStatus(context: 'release', message: 'Perform project release') {
             script {
-              // ensure we're not on a detached head
-              sh "git checkout master"
-              nxGit.tagPush()
+              nxProject.release(jql: "project IN (NXBT, NXP, SUPINT) AND updated >= -2w")
             }
           }
         }
