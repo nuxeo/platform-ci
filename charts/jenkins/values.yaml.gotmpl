@@ -7,7 +7,7 @@ controller:
     # Use a fixed version, instead of the `lts` moving tag, to avoid automatic upgrades when the pod is restarted.
     # This happens typically when the Kubernetes node pool is upgraded by GCP and is not wanted since there can be some
     # breaking changes in the Jenkins LTS image.
-    tag: 2.492.1
+    tag: 2.492.2
   admin:
     createSecret: false
   resources:
@@ -35,6 +35,8 @@ controller:
   installLatestPlugins: true
   installPlugins:
   - configuration-as-code
+  # transitive dependency of git plugin
+  - eddsa-api
   - git
   - job-dsl
   - kubernetes
