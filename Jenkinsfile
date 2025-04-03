@@ -16,7 +16,7 @@
  * Contributors:
  *     Antoine Taillefer <ataillefer@nuxeo.com>
  */
-library identifier: "platform-ci-shared-library@v0.0.49"
+library identifier: "platform-ci-shared-library@v0.0.52"
 
 def isStaging() {
   return nxUtils.isPullRequest() || nxUtils.isDryRun()
@@ -112,7 +112,14 @@ pipeline {
         container('base') {
           nxWithGitHubStatus(context: 'release', message: 'Perform project release') {
             script {
-              nxProject.release(jql: "project IN (NXBT, NXP, SUPINT) AND updated >= -2w")
+              def issuesFetchers = [
+                  [
+                      type           : 'jira',
+                      jql            : "project IN (NXBT, NXP, SUPINT) AND updated >= -2w",
+                      computeCommits : true,
+                  ],
+              ]
+              nxProject.release(issuesFetchers: issuesFetchers)
             }
           }
         }

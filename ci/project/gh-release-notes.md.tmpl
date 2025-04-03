@@ -2,7 +2,7 @@
 {{- if .issues -}}
 ### {{ .type }}
 {{ range .issues }}
-- {{ .key }} - {{ .title }}
+- {{ .key }} - {{ .title | title }}
   {{- $regex := print "^" .key "[^a-zA-Z]+" -}}
   {{ range .commits }}
   * {{ regexReplaceAll $regex .message "" }} ({{ .ref }})
