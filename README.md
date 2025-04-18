@@ -85,6 +85,7 @@ data:
   gitHubUser: ********
   jiraPassword: ********
   slackToken: ********
+  teamsWebhookUrl: ********
 EOF
 ) | kubectl apply --namespace=$NAMESPACE -f -
 ```
