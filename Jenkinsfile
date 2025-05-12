@@ -113,11 +113,14 @@ pipeline {
           nxWithGitHubStatus(context: 'release', message: 'Perform project release') {
             script {
               def issuesFetchers = [
-                  [
-                      type           : 'jira',
-                      jql            : "project IN (NXBT, NXP, SUPINT) AND updated >= -2w",
-                      computeCommits : true,
-                  ],
+                [
+                  type: 'github_dependabot',
+                ],
+                [
+                  type           : 'jira',
+                  jql            : "project IN (NXBT, NXP, SUPINT) AND updated >= -2w",
+                  computeCommits : true,
+                ],
               ]
               nxProject.release(issuesFetchers: issuesFetchers)
             }
