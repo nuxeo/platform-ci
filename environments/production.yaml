@@ -62,7 +62,6 @@ jobs:
           parameterizedCron {
             // Schedule
             parameterizedSpecification('''
-              H 1 * * 1 % NUXEO_BRANCH=2021 ; NUXEO_DOCKER_IMAGE=docker-private.packages.nuxeo.com/nuxeo/nuxeo-benchmark:2021.x ; INSTALL_NEEDED_PACKAGES=false
               H 1 * * 1 % NUXEO_BRANCH=2023 ; NUXEO_DOCKER_IMAGE=docker-private.packages.nuxeo.com/nuxeo/nuxeo-benchmark:2023.x ; INSTALL_NEEDED_PACKAGES=false
               H 1 * * 1 % NUXEO_BRANCH=2025 ; NUXEO_DOCKER_IMAGE=docker-private.packages.nuxeo.com/nuxeo/nuxeo-benchmark:2025.x ; INSTALL_NEEDED_PACKAGES=false
             ''')
@@ -90,7 +89,6 @@ jobs:
           parameterizedCron {
             // Schedule
             parameterizedSpecification('''
-              H 1 * * * % NUXEO_LTS_BRANCH=2021
               H 1 * * * % NUXEO_LTS_BRANCH=2023
               H 1 * * * % NUXEO_LTS_BRANCH=2025
             ''')
@@ -106,7 +104,6 @@ jobs:
           parameterizedCron {
             // Schedule
             parameterizedSpecification('''
-              H 2 * * * % NUXEO_BRANCH=2021
               H 2 * * * % NUXEO_BRANCH=2023
               H 2 * * * % NUXEO_BRANCH=2025
             ''')
