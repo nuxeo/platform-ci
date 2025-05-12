@@ -37,13 +37,13 @@ pipelineJob('nuxeo/lts/nuxeo-benchmark') {
   parameters {
     string {
       name('NUXEO_BRANCH')
-      defaultValue('2021')
+      defaultValue('2023')
       description('Branch from which to retrieve pipeline definition and benchmark tests.')
       trim(true)
     }
     string {
       name('NUXEO_DOCKER_IMAGE')
-      defaultValue('docker-private.packages.nuxeo.com/nuxeo/nuxeo:2021')
+      defaultValue('docker-private.packages.nuxeo.com/nuxeo/nuxeo:2023')
       description('Nuxeo Docker image to bench.')
       trim(true)
     }
