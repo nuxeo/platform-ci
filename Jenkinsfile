@@ -16,7 +16,7 @@
  * Contributors:
  *     Antoine Taillefer <ataillefer@nuxeo.com>
  */
-library identifier: "platform-ci-shared-library@v0.0.53"
+library identifier: "platform-ci-shared-library@v0.0.55"
 
 def isStaging() {
   return nxUtils.isPullRequest() || nxUtils.isDryRun()
@@ -45,6 +45,7 @@ pipeline {
     AWS_CREDENTIALS_SECRET = 'aws-credentials'
     NAMESPACE = getTargetNamespace()
     HELMFILE_ENVIRONMENT = getHelmfileEnvironment()
+    VERSION = nxUtils.getVersion()
   }
   stages {
     stage('Set labels') {
@@ -106,7 +107,6 @@ pipeline {
       environment {
         // override the DRY_RUN environment variable to propagate the behavior to pull requests
         DRY_RUN = "${nxUtils.isDryRun() || nxUtils.isPullRequest()}"
-        VERSION = nxUtils.getVersion()
       }
       steps {
         container('base') {
@@ -124,11 +124,17 @@ pipeline {
           }
         }
       }
-      post {
-        always {
-          script {
-            nxJira.updateIssues()
-          }
+    }
+  }
+  post {
+    always {
+      script {
+        if (nxUtils.isPullRequest()) {
+          nxUtils.setBuildDescription()
+        } else {
+          nxUtils.setReleaseDescription()
+          nxJira.updateIssues()
+          nxUtils.notifyReleaseStatusIfNecessary()
         }
       }
     }
