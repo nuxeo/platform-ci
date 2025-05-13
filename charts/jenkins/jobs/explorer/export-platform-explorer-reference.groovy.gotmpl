@@ -44,13 +44,5 @@ pipelineJob('explorer/export-platform-explorer-reference') {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
     githubProjectUrl('https://github.com/nuxeo/nuxeo-explorer')
-    pipelineTriggers {
-      triggers {
-        upstream {
-          upstreamProjects('/nuxeo/lts/nuxeo/2023,/nuxeo/lts/nuxeo/2025')
-          threshold('SUCCESS')
-        }
-      }
-    }
   }
 }
