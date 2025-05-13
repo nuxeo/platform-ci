@@ -32,6 +32,26 @@ jobs:
       allBranchesSame {
       }
     }
+  traits:
+    releaseGitHubPullRequestDiscovery: |-
+    releaseMasterHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('master')
+      }
+    releaseLtsHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('2023|2025')
+      }
+    releaseMainHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('main')
+      }
   triggers: |-
     // Scan Repository Triggers
     triggers {

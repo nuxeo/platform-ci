@@ -18,12 +18,13 @@ multibranchPipelineJob('nev/release-arender-nuxeo') {
           // Behaviors
           traits {
             {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.releaseGitHubPullRequestDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
             {{- .Values.jobs.traits.gitHubStatusChecks | nindent 12 }}
             // Filter by name (with regular expression)
             headRegexFilter {
               // Regular expression
-              regex('2.3|202\\d+')
+              regex('2.3|202\\d+|PR-.*')
             }
             gitLFSPullTrait()
           }

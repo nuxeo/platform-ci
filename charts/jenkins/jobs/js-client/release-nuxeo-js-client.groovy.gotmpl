@@ -18,12 +18,9 @@ multibranchPipelineJob('js-client/release-nuxeo-js-client') {
           // Behaviors
           traits {
             {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.releaseGitHubPullRequestDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
-            // Filter by name (with regular expression)
-            headRegexFilter {
-              // Regular expression
-              regex('master')
-            }
+            {{- .Values.jobs.traits.releaseMasterHeadRegexFilter | nindent 12 }}
           }
         }
       }

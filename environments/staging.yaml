@@ -36,6 +36,31 @@ jobs:
         }
       }
     }
+  traits:
+    releaseGitHubPullRequestDiscovery: |-
+      // Discover pull requests from origin
+      gitHubPullRequestDiscovery {
+        // Strategy: The current pull request revision
+        strategyId(2)
+      }
+    releaseMasterHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('master|PR-.*')
+      }
+    releaseLtsHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('2023|2025|PR-.*')
+      }
+    releaseMainHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('main|PR-.*')
+      }
   triggers: |-
     // Scan Repository Triggers
     triggers {
