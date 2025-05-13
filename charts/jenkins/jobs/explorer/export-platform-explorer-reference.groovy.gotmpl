@@ -39,6 +39,12 @@ pipelineJob('explorer/export-platform-explorer-reference') {
       description('Mandatory Version of the target Nuxeo Server Image.\nA build version, aka \'2021.40.2\', will be uploaded to explorer.beta.nuxeocloud.com\nA promoted version, aka \'2021.40\', will be uploaded to explorer.nuxeo.com')
       trim(true)
     }
+    text {
+      name('EXPORT_PACKAGE_LIST')
+      defaultValue('cas2-authentication\neasyshare\nnuxeo-arender\nnuxeo-aspera\nnuxeo-coldstorage\nnuxeo-csv\nnuxeo-diff\nnuxeo-drive\nnuxeo-imap-connector\nnuxeo-jsf-ui\nnuxeo-liveconnect\nnuxeo-multi-tenant\nnuxeo-platform-3d\nnuxeo-platform-importer\nnuxeo-platform-user-registration\nnuxeo-quota\nnuxeo-retention\nnuxeo-salesforce\nnuxeo-signature\nnuxeo-template-rendering\nnuxeo-virtualnavigation\nnuxeo-web-ui\nshibboleth-authentication')
+      description('The packages to install to the Nuxeo instance to export the distribution.\nAn interesting value for testing would be:\n```\neasyshare\nnuxeo-csv\nnuxeo-drive\nnuxeo-imap-connector\nnuxeo-liveconnect\nnuxeo-multi-tenant\nnuxeo-platform-3d\nnuxeo-platform-importer\nnuxeo-quota\nnuxeo-signature\nnuxeo-template-rendering\nshibboleth-authentication\n```')
+      trim(false)
+    }
   }
   properties {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
