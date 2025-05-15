@@ -160,6 +160,12 @@ jobs:
         // Regular expression
         regex('2023|2025|PR-.*')
       }
+    packageLtsHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('lts-2023|lts-2025|PR-.*')
+      }
     mainHeadRegexFilter: |-
       // Filter by name (with regular expression)
       headRegexFilter {

@@ -21,11 +21,7 @@ multibranchPipelineJob('aspera/nuxeo-aspera-connector') {
             {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
             {{- .Values.jobs.traits.gitHubStatusChecks | nindent 12 }}
-            // Filter by name (with regular expression)
-            headRegexFilter {
-              // Regular expression
-              regex('10.10|lts-\\d*.?\\d+|PR-.*')
-            }
+            {{- .Values.jobs.traits.packageLtsHeadRegexFilter | nindent 12 }}
           }
         }
       }

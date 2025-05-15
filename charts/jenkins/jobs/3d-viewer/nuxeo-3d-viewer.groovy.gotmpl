@@ -21,12 +21,7 @@ multibranchPipelineJob('3d-viewer/nuxeo-3d-viewer') {
             {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
             {{- .Values.jobs.traits.gitHubStatusChecks | nindent 12 }}
-            // TODO use .Values.jobs.traits.ltsHeadRegexFilter
-            // Filter by name (with regular expression)
-            headRegexFilter {
-              // Regular expression
-              regex('lts-\\d+|PR-.*')
-            }
+            {{- .Values.jobs.traits.packageLtsHeadRegexFilter | nindent 12 }}
           }
         }
       }
