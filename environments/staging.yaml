@@ -12,6 +12,11 @@ datadog:
   enabled: false
 docker:
   registry: docker.platform-staging.dev.nuxeo.com
+node:
+  dist:
+    registry: https://nexus.platform-staging.dev.nuxeo.com/repository/nodejs-upstream/
+  npm:
+    registry: https://nexus.platform-staging.dev.nuxeo.com/repository/npmjs-registry/
 nexus:
   persistence:
     storageSize: 256Gi

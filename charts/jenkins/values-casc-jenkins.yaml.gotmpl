@@ -45,6 +45,10 @@ controller:
                 value: "https://nos-preprod-connect.nuxeocloud.com/nuxeo/site/"
               - key: "DOCKER_REGISTRY"
                 value: {{ .Values.docker.registry | quote }}
+              - key: "NODE_DIST_REGISTRY"
+                value: {{ .Values.node.dist.registry | quote }}
+              - key: "NPM_REGISTRY"
+                value: {{ .Values.node.npm.registry | quote }}
               - key: "DRY_RUN"
                 value: {{ .Values.dryrun | quote }}
               - key: "PRIVATE_DOCKER_REGISTRY"
