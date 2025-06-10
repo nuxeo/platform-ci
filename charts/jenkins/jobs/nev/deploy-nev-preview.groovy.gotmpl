@@ -55,6 +55,17 @@ pipelineJob('nev/deploy-nev-preview') {
       description('Version of the Nuxeo Enhanced Viewer Connector package to install in Nuxeo (for example 2023.2.1).')
       trim(true)
     }
+    // technical parameters
+    hidden {
+      name('GITHUB_STATUS_REPOSITORY_URL')
+      defaultValue('')
+      description('The GitHub repository URL to set the status to')
+    }
+    hidden {
+      name('GITHUB_STATUS_COMMIT_SHA')
+      defaultValue('')
+      description('The Git commit SHA to set the status to')
+    }
   }
   properties {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
