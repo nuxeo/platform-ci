@@ -35,12 +35,14 @@
   {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.javaEnvVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.mavenEnvVars | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.npmEnvVars | nindent 2 -}}
   - envVar:
       key: DEFAULT_CONTAINER
       value: "maven"
   volumes:
   {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
   {{- toYaml .Values.podTemplates.mavenSettingsVolumes | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.npmrcVolumes | nindent 2 -}}
   nodeSelector: {{ .Values.podTemplates.nodeSelector }}
   yamlMergeStrategy: {{ .Values.podTemplates.yamlMergeStrategy }}
   yaml: |

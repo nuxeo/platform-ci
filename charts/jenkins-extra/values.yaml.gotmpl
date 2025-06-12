@@ -99,3 +99,9 @@ secret:
           </profile>
         </profiles>
       </settings>
+  npmrc:
+    labels: {}
+    annotations: {}
+    registrySettings: |-
+      registry=https://{{ .Values.node.npm.registry }}
+      //{{ .Values.node.npm.registry }}:_authToken={{ env "NPM_INTERNAL_TOKEN" }}

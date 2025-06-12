@@ -74,6 +74,10 @@ podTemplates:
   - envVar:
       key: "MAVEN_OPTS"
       value: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+  npmEnvVars:
+  - envVar:
+      key: "NPM_CONFIG_USERCONFIG"
+      value: "/home/jenkins/.npm/npmrc"
   redisEnvVars:
   - envVar:
       key: "ALLOW_EMPTY_PASSWORD"
@@ -106,6 +110,10 @@ podTemplates:
   - emptyDirVolume:
       memory: false
       mountPath: "/root/.mvnrepository"
+  npmrcVolumes:
+  - secretVolume:
+      mountPath: "/home/jenkins/.npm"
+      secretName: "jenkins-npmrc"
   googleCloudCredentialsVolumes:
   - secretVolume:
       mountPath: "/home/jenkins/.config/gcloud"
