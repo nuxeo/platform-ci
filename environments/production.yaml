@@ -14,9 +14,9 @@ docker:
   registry: docker.platform.dev.nuxeo.com
 node:
   dist:
-    registry: https://nexus.platform.dev.nuxeo.com/repository/nodejs-upstream/
+    registry: nexus.platform.dev.nuxeo.com/repository/nodejs-upstream/
   npm:
-    registry: https://nexus.platform.dev.nuxeo.com/repository/npmjs-registry/
+    registry: nexus.platform.dev.nuxeo.com/repository/npmjs-registry/
 nexus:
   persistence:
     storageSize: 1Ti
