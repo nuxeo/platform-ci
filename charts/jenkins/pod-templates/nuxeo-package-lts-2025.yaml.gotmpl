@@ -35,6 +35,7 @@
   {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.javaEnvVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.mavenEnvVars | nindent 2 -}}
+  {{- toYaml .Values.podTemplates.npmrcEnvVars | nindent 2 -}}
   - envVar:
       key: DEFAULT_CONTAINER
       value: "maven"
