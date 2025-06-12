@@ -79,6 +79,7 @@ pipeline {
                 // not using usernamePassword since we need to fetch credentials from the target namespace, e.g. platform-staging if on a PR
                 def nexusUsername = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.NEXUS_SECRET, key: 'admin\\.username')
                 def nexusPassword = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.NEXUS_SECRET, key: 'admin\\.password')
+                def nexusNpmToken = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.NEXUS_SECRET, key: 'npmjs\\.token')
                 def chartmuseumUsername = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.CHARTMUSEUM_SECRET, key: 'BASIC_AUTH_USER')
                 def chartmuseumPassword = nxK8s.getSecretData(namespace: env.NAMESPACE, name: env.CHARTMUSEUM_SECRET, key: 'BASIC_AUTH_PASS')
                 // not using usernamePassword to avoid displaying the access key id in the Jenkins credentials view
@@ -87,6 +88,7 @@ pipeline {
                 nxHelmfile.deploy(noNamespace: true, environment: env.HELMFILE_ENVIRONMENT, envVars: [
                   "NEXUS_USERNAME=${nexusUsername}",
                   "NEXUS_PASSWORD=${nexusPassword}",
+                  "NPM_INTERNAL_TOKEN=${nexusNpmToken}",
                   "CHARTMUSEUM_USERNAME=${chartmuseumUsername}",
                   "CHARTMUSEUM_PASSWORD=${chartmuseumPassword}",
                   "AWS_ACCESS_KEY_ID=${awsAccessKeyId}",
