@@ -76,7 +76,7 @@ podTemplates:
       value: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
   npmrcEnvVars:
   - secretEnvVar:
-      key: "NPMJS_TOKEN"
+      key: "NPM_TOKEN"
       secretName: "nexus"
       secretKey: "npmjs.token"
   redisEnvVars:

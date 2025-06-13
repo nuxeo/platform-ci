@@ -47,7 +47,7 @@ configMap:
     annotations: {}
     registrySettings: |-
       registry=https://{{ .Values.node.npm.registry }}
-      //{{ .Values.node.npm.registry }}:_authToken=${NPMJS_TOKEN}
+      //{{ .Values.node.npm.registry }}:_authToken=$NPM_TOKEN
 secret:
   mavenSettings:
     labels: {}
