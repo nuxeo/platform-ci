@@ -42,6 +42,12 @@ configMap:
         "Name": "skaffold-builder-multiplatform",
         "Global":false
       }
+  npmrc:
+    labels: {}
+    annotations: {}
+    registrySettings: |-
+      registry=https://{{ .Values.node.npm.registry }}
+      //{{ .Values.node.npm.registry }}:_authToken=$NPM_TOKEN
 secret:
   mavenSettings:
     labels: {}

@@ -74,6 +74,11 @@ podTemplates:
   - envVar:
       key: "MAVEN_OPTS"
       value: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+  npmrcEnvVars:
+  - secretEnvVar:
+      key: "NPM_TOKEN"
+      secretName: "nexus"
+      secretKey: "npmjs.token"
   redisEnvVars:
   - envVar:
       key: "ALLOW_EMPTY_PASSWORD"
@@ -95,6 +100,10 @@ podTemplates:
       configMapName: "docker-buildx"
       mountPath: "/home/jenkins/.buildx/current"
       subPath: "current"
+  - configMapVolume:
+      configMapName: "jenkins-npmrc"
+      mountPath: "/root/.npmrc"
+      subPath: ".npmrc"
   - secretVolume:
       mountPath: "/home/jenkins/.docker"
       secretName: "jenkins-docker-cfg"
