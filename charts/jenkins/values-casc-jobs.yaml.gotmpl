@@ -72,15 +72,6 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/nuxeo-wopi-demos.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/rest-api-compatibility-tests.groovy.gotmpl") . | nindent 12 }}
         - script: >
-            folder('nuxeo/10.10')
-        - script: > {{ tpl (readFile "jobs/nuxeo/10.10/hotfix-docker-build.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/10.10/hotfix-release-create-tickets.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/10.10/hotfix-release-move-components.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/10.10/hotfix-release-notes-publisher.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/10.10/hotfix-release-on-demand.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/10.10/hotfix-staging-build.groovy.gotmpl") . | nindent 12 }}
-        - script: > {{ tpl (readFile "jobs/nuxeo/10.10/nuxeo.groovy.gotmpl") . | nindent 12 }}
-        - script: >
             folder('nuxeo/lts')
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/check-release-date.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/check-release-notes-rephrasing.groovy.gotmpl") . | nindent 12 }}
