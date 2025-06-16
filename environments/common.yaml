@@ -166,6 +166,12 @@ jobs:
         // Regular expression
         regex('lts-2023|lts-2025|PR-.*')
       }
+    arenderHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('202\\d+|202\\d+-safari|PR-.*')
+      }
     mainHeadRegexFilter: |-
       // Filter by name (with regular expression)
       headRegexFilter {
