@@ -41,7 +41,5 @@ agent:
       {{- tpl (readFile "pod-templates/nuxeo-platform-lts-2023.yaml.gotmpl") . | nindent 6 }}
     nuxeo-platform-lts-2025: |
       {{- tpl (readFile "pod-templates/nuxeo-platform-lts-2025.yaml.gotmpl") . | nindent 6 }}
-    nuxeo-web-ui-ftests: |
-      {{- tpl (readFile "pod-templates/nuxeo-web-ui-ftests.yaml.gotmpl") . | nindent 6 }}
 serviceAccountAgent:
   name: {{ .Values.podTemplates.serviceAccount }}
