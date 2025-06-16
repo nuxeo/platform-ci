@@ -148,6 +148,12 @@ jobs:
         // Skip publishing status checks
         skip(true)
       }
+    prHeadRegexFilter: |-
+      // Filter by name (with regular expression)
+      headRegexFilter {
+        // Regular expression
+        regex('PR-.*')
+      }
     masterHeadRegexFilter: |-
       // Filter by name (with regular expression)
       headRegexFilter {

@@ -21,11 +21,7 @@ multibranchPipelineJob('api-playground/nuxeo-api-playground') {
             {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
             {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
             {{- .Values.jobs.traits.gitHubStatusChecks | nindent 12 }}
-            // Filter by name (with regular expression)
-            headRegexFilter {
-              // Regular expression
-              regex('\\d+|PR-.*')
-            }
+            {{- .Values.jobs.traits.ltsHeadRegexFilter | nindent 12 }}
           }
         }
       }
