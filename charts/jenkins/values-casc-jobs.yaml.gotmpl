@@ -62,9 +62,6 @@ controller:
         - script: > {{ tpl (readFile "jobs/media-manipulation/nuxeo-media-manipulation.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/media-manipulation/release-nuxeo-media-manipulation.groovy.gotmpl") . | nindent 12 }}
         - script: >
-            folder('misc')
-        - script: > {{ tpl (readFile "jobs/misc/team-platform-report.groovy.gotmpl") . | nindent 12 }}
-        - script: >
             folder('nev')
         - script: > {{ tpl (readFile "jobs/nev/arender-helm-chart.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/arender-helm-chart-updater.groovy.gotmpl") . | nindent 12 }}
