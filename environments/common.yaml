@@ -147,6 +147,17 @@ jobs:
         // Strategy: The current pull request revision
         strategyId(2)
       }
+    gitHubForkDiscovery: |-
+      // Discover pull requests from forks
+      gitHubForkDiscovery {
+        // Strategy: The current pull request revision
+        strategyId(2)
+        // Trust
+        trust {
+          // From users with Admin or Write permission
+          gitHubTrustPermissions()
+        }
+      }
     disableStatusUpdateTrait: |-
       // Disable GitHub Notifications
       disableStatusUpdateTrait()
