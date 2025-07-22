@@ -1,0 +1,49 @@
+pipelineJob('nuxeo/gcp-marketplace/upgrade-nuxeo-gcp-marketplace') {
+  // Description
+  description('Upgrade Nuxeo in the Nuxeo Kubernetes Application for Google Cloud Marketplace.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-gcp-marketplace')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('main')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-gcp-marketplace')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/upgrade-nuxeo-gcp-marketplace.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('NUXEO_RELEASE_VERSION')
+      description('Version of the Nuxeo release to upgrade the Nuxeo Docker image to.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-gcp-marketplace')
+  }
+}
