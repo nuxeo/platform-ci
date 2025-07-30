@@ -1,0 +1,32 @@
+- id: "nuxeo-gcp"
+  name: "nuxeo-gcp"
+  label: "jenkins-nuxeo-gcp"
+  imagePullSecrets:
+  - name: {{ .Values.podTemplates.imagePullSecretName }}
+  serviceAccount: {{ .Values.podTemplates.serviceAccount }}
+  nodeUsageMode:  {{ .Values.podTemplates.nodeUsageMode }}
+  containers:
+  {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
+  - args: "cat"
+    command: "/bin/sh -c"
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-base-oraclelinux9:latest"
+    alwaysPullImage: true
+    name: "base"
+    privileged: {{ .Values.podTemplates.privileged }}
+    resourceLimitCpu: "1"
+    resourceLimitMemory: "1Gi"
+    resourceRequestCpu: "250m"
+    resourceRequestMemory: "1Gi"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
+  envVars:
+  {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
+  - envVar:
+      key: DEFAULT_CONTAINER
+      value: "base"
+  volumes:
+  {{- toYaml .Values.podTemplates.volumes | nindent 2 -}}
+  nodeSelector: {{ .Values.podTemplates.gcpNodeSelector }}
+  yamlMergeStrategy: {{ .Values.podTemplates.yamlMergeStrategy }}
+  yaml: |
+    {{- .Values.podTemplates.gcpYaml | toYaml | nindent 4 -}}
