@@ -119,6 +119,7 @@ podTemplates:
       mountPath: "/home/jenkins/.config/gcloud"
       secretName: "google-cloud"
   nodeSelector: "team=platform"
+  gcpNodeSelector: "team=platform,access-scope=full"
   yamlMergeStrategy: "override"
   yaml:
     apiVersion: v1
@@ -132,6 +133,23 @@ podTemplates:
       - key: team
         operator: Equal
         value: platform
+        effect: NoSchedule
+  gcpYaml:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      labels:
+        dev.nuxeo.com/resource: pod
+        dev.nuxeo.com/usage: jenkins-build
+    spec:
+      tolerations:
+      - key: team
+        operator: Equal
+        value: platform
+        effect: NoSchedule
+      - key: access-scope
+        operator: Equal
+        value: full
         effect: NoSchedule
 jobs:
   traits:
