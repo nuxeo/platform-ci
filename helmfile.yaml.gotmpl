@@ -1,3 +1,14 @@
+environments:
+  # The default environment is used for staging.
+  default:
+    values:
+    - environments/common.yaml
+    - environments/staging.yaml
+  production:
+    values:
+    - environments/common.yaml
+    - environments/production.yaml
+---
 repositories:
 - name: ingress-nginx
   url: https://kubernetes.github.io/ingress-nginx
@@ -86,13 +97,3 @@ releases:
   values:
     - charts/nfs-server-provisioner/values.yaml.gotmpl
 
-environments:
-  # The default environment is used for staging.
-  default:
-    values:
-    - environments/common.yaml
-    - environments/staging.yaml
-  production:
-    values:
-    - environments/common.yaml
-    - environments/production.yaml
