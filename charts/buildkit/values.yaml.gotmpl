@@ -124,3 +124,16 @@ horizontalPodAutoscaler:
       averageUtilization: 150
     memory:
       averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 3600
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 900
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 300
