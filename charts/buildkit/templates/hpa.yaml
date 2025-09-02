@@ -34,3 +34,14 @@ spec:
       target:
         type: Utilization
         averageUtilization: {{ .Values.horizontalPodAutoscaler.metrics.memory.averageUtilization }}
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: {{ .Values.horizontalPodAutoscaler.behavior.scaleDown.stabilizationWindowSeconds }}
+      {{- with .Values.horizontalPodAutoscaler.behavior.scaleDown.policies }}
+      policies: {{- toYaml . | nindent 6 }}
+      {{- end }}
+    scaleUp:
+      stabilizationWindowSeconds: {{ .Values.horizontalPodAutoscaler.behavior.scaleUp.stabilizationWindowSeconds }}
+      {{- with .Values.horizontalPodAutoscaler.behavior.scaleUp.policies }}
+      policies: {{- toYaml . | nindent 6 }}
+      {{- end }}
