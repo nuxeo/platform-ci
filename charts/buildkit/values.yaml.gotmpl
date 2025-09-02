@@ -119,6 +119,8 @@ horizontalPodAutoscaler:
   maxReplicas: {{ .Values.buildKit.hpa.maxReplicas }}
   metrics:
     cpu:
-      averageUtilization: 100
+      # sample use case: currentReplicas = 1, currentMetricValue = 300 (observed regularly at Docker build start)
+      # desiredReplicas = 1 X 300 / 150 = 2, sounds good to add 1 replica in this case
+      averageUtilization: 150
     memory:
-      averageUtilization: 50
+      averageUtilization: 80
