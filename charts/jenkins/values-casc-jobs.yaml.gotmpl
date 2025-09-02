@@ -33,6 +33,10 @@ controller:
         - script: > {{ tpl (readFile "jobs/compound-documents/nuxeo-compound-documents.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/compound-documents/release-nuxeo-compound-documents.groovy.gotmpl") . | nindent 12 }}
         - script: >
+            folder('elasticsearch9')
+        - script: > {{ tpl (readFile "jobs/elasticsearch9/nuxeo-elasticsearch9.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/elasticsearch9/release-nuxeo-elasticsearch9.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('explorer')
         - script: > {{ tpl (readFile "jobs/explorer/cleanup-exports.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/explorer/export-platform-explorer-reference.groovy.gotmpl") . | nindent 12 }}
