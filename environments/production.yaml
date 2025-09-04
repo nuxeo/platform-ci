@@ -115,7 +115,6 @@ jobs:
             // Schedule
             parameterizedSpecification('''
               H 1 * * * % NUXEO_LTS_BRANCH=2023
-              H 1 * * * % NUXEO_LTS_BRANCH=2025
             ''')
           }
         }
