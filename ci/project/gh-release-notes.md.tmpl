@@ -1,19 +1,5 @@
-{{- define "print-issue-block" -}}
-{{- if .issues -}}
-### {{ .type }}
-{{ range .issues }}
-- {{ .key }} - {{ .title | title }}
-  {{- $regex := print "^" .key "[^a-zA-Z]+" -}}
-  {{ range .commits }}
-  * {{ regexReplaceAll $regex .message "" }} ({{ .ref }})
-  {{- end }}
-{{- end }}
-
-{{ end -}}
-{{- end -}}
-
 {{- $groupByType := groupBy "type" .Issues -}}
-{{- template "print-issue-block" (dict "type" "New Features" "issues" (index $groupByType "New Feature")) }}
-{{- template "print-issue-block" (dict "type" "Improvements" "issues" (index $groupByType "Improvement")) }}
-{{- template "print-issue-block" (dict "type" "Bugs" "issues" (index $groupByType "Bug")) }}
-{{- template "print-issue-block" (dict "type" "Tasks" "issues" (concat (index $groupByType "Task") (index $groupByType "Clean up"))) }}
+{{- template "print-issue-block-with-commits" (dict "type" "New Features" "issues" (index $groupByType "New Feature")) }}
+{{- template "print-issue-block-with-commits" (dict "type" "Improvements" "issues" (index $groupByType "Improvement")) }}
+{{- template "print-issue-block-with-commits" (dict "type" "Bugs" "issues" (index $groupByType "Bug")) }}
+{{- template "print-issue-block-with-commits" (dict "type" "Tasks" "issues" (concat (index $groupByType "Task") (index $groupByType "Clean up"))) }}
