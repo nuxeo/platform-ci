@@ -9,6 +9,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app: skaffold-builder-multiplatform
   annotations:
+    checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     meta.helm.sh/release-name: "{{ .Release.Name }}"
     meta.helm.sh/release-namespace: {{ .Values.namespace }}
     {{- with .Values.annotations }}
