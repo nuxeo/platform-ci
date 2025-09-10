@@ -4,8 +4,8 @@ ingressNginx:
   enabled: true
 buildKit:
   hpa:
-    minReplicas: 4
-    maxReplicas: 8
+    minReplicas: 2
+    maxReplicas: 16
 certManager:
   enabled: true
 datadog:
