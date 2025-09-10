@@ -83,8 +83,26 @@ config:
 
     [worker.oci]
       enabled = true
+      # gc enables/disables garbage collection
       gc = true
-      gckeepstorage = "10GB"
+      
+      # reservedSpace is the minimum amount of disk space guaranteed to be
+      # retained by this buildkit worker - any usage below this threshold will not
+      # be reclaimed during garbage collection.
+      # all disk space parameters can be an integer number of bytes (e.g.
+      # 512000000), a string with a unit (e.g. "512MB"), or a string percentage
+      # of the total disk space (e.g. "10%")
+      reservedSpace = "30%"
+      
+      # maxUsedSpace is the maximum amount of disk space that may be used by
+      # this buildkit worker - any usage above this threshold will be reclaimed
+      # during garbage collection.
+      maxUsedSpace = "60%"
+      
+      # minFreeSpace is the target amount of free disk space that the garbage
+      # collector will attempt to leave - however, it will never be bought below
+      # reservedSpace.
+      minFreeSpace = "20GB"
 
       # limit the number of parallel build steps that can run at the same time
       max-parallelism = 4
@@ -92,10 +110,21 @@ config:
       # configure GC policies
       # policy inspired from https://docs.docker.com/build/buildkit/toml-configuration/
       [[worker.oci.gcpolicy]]
-        # keepBytes can be an integer number of bytes (e.g. 512000000), a string
-        # with a unit (e.g. "512MB"), or a string percentage of the total disk
-        # space (e.g. "10%")
-        keepBytes = "2GB"
+        # reservedSpace is the minimum amount of disk space guaranteed to be
+        # retained by this policy - any usage below this threshold will not be
+        # reclaimed during # garbage collection.
+        reservedSpace = "512MB"
+        
+        # maxUsedSpace is the maximum amount of disk space that may be used by this
+        # policy - any usage above this threshold will be reclaimed during garbage
+        # collection.
+        maxUsedSpace = "1GB"
+        
+        # minFreeSpace is the target amount of free disk space that the garbage
+        # collector will attempt to leave - however, it will never be bought below
+        # reservedSpace.
+        minFreeSpace = "10GB"
+        
         # keepDuration can be an integer number of seconds (e.g. 172800), or a
         # string duration (e.g. "48h")
         keepDuration = "12h"
@@ -103,16 +132,12 @@ config:
 
       [[worker.oci.gcpolicy]]
         all = false
-        keepBytes = "2GB"
+        reservedSpace = "2GB"
         keepDuration = "24h"
-    
-      [[worker.oci.gcpolicy]]
-        all = false
-        keepBytes = "10GB"
         
       [[worker.oci.gcpolicy]]
         all = true
-        keepBytes = "10GB"
+        reservedSpace = "10GB"
 
 horizontalPodAutoscaler:
   minReplicas: {{ .Values.buildKit.hpa.minReplicas }}
