@@ -31,6 +31,8 @@
     resourceRequestMemory: "4Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
+    envVars:
+    {{- toYaml .Values.podTemplates.playwrightEnvVars | nindent 4 }}
   envVars:
   {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.javaEnvVars | nindent 2 -}}

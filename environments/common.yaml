@@ -78,6 +78,13 @@ podTemplates:
   - envVar:
       key: "NPM_CONFIG_USERCONFIG"
       value: "/home/jenkins/.npm/npmrc"
+  playwrightEnvVars:
+  - envVar:
+      key: "LANG"
+      value: "en_US"
+  - envVar:
+      key: "LC_ALL"
+      value: "en_US"
   redisEnvVars:
   - envVar:
       key: "ALLOW_EMPTY_PASSWORD"
