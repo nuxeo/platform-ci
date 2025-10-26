@@ -36,6 +36,8 @@ spec:
         app.kubernetes.io/instance: "{{ .Release.Name }}"
         app: skaffold-builder-multiplatform
     spec:
+      # 40 minutes, should cover all kinds of Docker builds in the CI
+      terminationGracePeriodSeconds: 2400
       containers:
       - image: "{{ .Values.buildkitd.image.repository }}:{{ .Values.buildkitd.image.tag }}"
         imagePullPolicy: {{ .Values.buildkitd.image.pullPolicy }}
@@ -44,6 +46,10 @@ spec:
         # Allow buildkit to report metrics to K8s Metrics Server, see https://github.com/moby/buildkit/issues/4407
         - name: BUILDKIT_SETUP_CGROUPV2_ROOT
           value: "false"
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "/usr/local/bin/buildkit-prestop.sh"]
         readinessProbe:
           exec:
             command: {{ toYaml .Values.buildkitd.readinessProbe.command | nindent 12 }}
@@ -63,6 +69,9 @@ spec:
         volumeMounts:
         - mountPath: /etc/buildkit
           name: buildkitd-config
+        - mountPath: /usr/local/bin/buildkit-prestop.sh
+          name: prestop-script
+          subPath: buildkit-prestop.sh
         - mountPath: /var/lib/buildkit
           name: buildkitd-data
       initContainers:
@@ -90,5 +99,9 @@ spec:
       - name: buildkitd-config
         configMap:
           name: buildkitd-config
+      - name: prestop-script
+        configMap:
+          name: buildkit-prestop-script
+          defaultMode: 0777  # Ensure the script is executable
       - name: buildkitd-data
         emptyDir: {}

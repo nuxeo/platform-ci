@@ -138,6 +138,7 @@ config:
       [[worker.oci.gcpolicy]]
         all = true
         reservedSpace = "10GB"
+  preStop: |- {{ readFile "scripts/buildkit-prestop.sh" | nindent 4 }}
 
 horizontalPodAutoscaler:
   minReplicas: {{ .Values.buildKit.hpa.minReplicas }}
