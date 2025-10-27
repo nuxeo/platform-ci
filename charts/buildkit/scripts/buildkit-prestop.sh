@@ -30,7 +30,7 @@
 # we will check multiple times just to be sure that we're not missing any builds.
 
 # Variables (change these as needed)
-CHECK_FREQUENCY_MS=500                      # How often we should for running build processes (in milliseconds)
+CHECK_FREQUENCY_MS=5000                     # How often we should for running build processes (in milliseconds)
 WAIT_UNTIL_NO_BUILDS_SEEN_FOR_X_SECONDS=10  # If no build processes are seen for this many seconds, we assume that all builds have stopped
 BUILDKITD_PORT=1234                         # Port on which buildkitd is listening for buildx clients
 LOG_FORMAT="json"                           # Log format to use (either "json" or "text")
@@ -75,7 +75,11 @@ times=0
 
 # Loop until we see zero active connections REQUIRED_CHECK_COUNT consecutive times
 while true; do
-    ACTIVE_CONNECTIONS=$(netstat -tnp | grep buildkitd | grep ":${BUILDKITD_PORT}" | grep -c ESTABLISHED)
+    # Using `netstat -tnp` doesn't seem to work: it displays no buildkitd entry for TCP sockets
+    # Limiting the flags to `netstat -np` returns the following:
+    # Proto RefCnt Flags       Type       State         I-Node PID/Program name    Path
+    # unix  3      [ ]         STREAM     CONNECTED     33821321 1/buildkitd         /run/buildkit/buildkitd.sock
+    ACTIVE_CONNECTIONS=$(netstat -np | grep buildkitd | grep -c CONNECTED)
     print_debug "Active connections to buildkitd: $ACTIVE_CONNECTIONS"
     if [ "$ACTIVE_CONNECTIONS" -gt 0 ]; then
         times=0
