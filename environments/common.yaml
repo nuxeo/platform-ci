@@ -73,7 +73,9 @@ podTemplates:
   mavenEnvVars:
   - envVar:
       key: "MAVEN_OPTS"
-      value: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+      value: >-
+        -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+        -Daether.syncContext.named.time=600
   npmEnvVars:
   - envVar:
       key: "NPM_CONFIG_USERCONFIG"
