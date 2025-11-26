@@ -109,6 +109,10 @@ controller:
         - script: > {{ tpl (readFile "jobs/retention/nuxeo-retention.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/retention/release-nuxeo-retention.groovy.gotmpl") . | nindent 12 }}
         - script: >
+            folder('s3-management')
+        - script: > {{ tpl (readFile "jobs/s3-management/nuxeo-amazon-s3-management.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/s3-management/release-nuxeo-amazon-s3-management.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('salesforce')
         - script: > {{ tpl (readFile "jobs/salesforce/nuxeo-salesforce.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/salesforce/release-nuxeo-salesforce.groovy.gotmpl") . | nindent 12 }}
