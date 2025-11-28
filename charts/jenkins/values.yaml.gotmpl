@@ -95,50 +95,16 @@ controller:
         entries:
         - group:
             name: "nuxeo*Developers"
-            permissions:
-            - "Credentials/View"
-            - "Job/Build"
-            - "Job/Cancel"
-            - "Job/Discover"
-            - "Job/ExtendedRead"
-            - "Job/Read"
-            - "Job/Workspace"
-            - "Lockable Resources/View"
-            - "Metrics/HealthCheck"
-            - "Metrics/ThreadDump"
-            - "Metrics/View"
-            - "Overall/Read"
-            - "Overall/SystemRead"
-            - "Run/Replay"
-            - "Run/Update"
-            - "View/Read"
+            permissions: {{ toYaml .Values.authorization.permissions.developers | nindent 12 }}
         - group:
             name: "nuxeo*devops"
-            permissions:
-            - "Credentials/View"
-            - "Job/Build"
-            - "Job/Cancel"
-            - "Job/Discover"
-            - "Job/ExtendedRead"
-            - "Job/Read"
-            - "Job/Workspace"
-            - "Lockable Resources/View"
-            - "Metrics/HealthCheck"
-            - "Metrics/ThreadDump"
-            - "Metrics/View"
-            - "Overall/Read"
-            - "Overall/SystemRead"
-            - "Run/Replay"
-            - "Run/Update"
-            - "View/Read"
+            permissions: {{ toYaml .Values.authorization.permissions.developers | nindent 12 }}
         - group:
             name: "nuxeo*platform"
-            permissions:
-            - "Overall/Administer"
+            permissions: {{ toYaml .Values.authorization.permissions.administrators | nindent 12 }}
         - user:
             name: "anonymous"
-            permissions:
-            - "Job/ViewStatus"
+            permissions: {{ toYaml .Values.authorization.permissions.anonymous | nindent 12 }}
   nodeSelector:
     team: platform
   tolerations:

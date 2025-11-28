@@ -1,3 +1,26 @@
+authorization:
+  permissions:
+    developers:
+    - "Credentials/View"
+    - "Job/Build"
+    - "Job/Cancel"
+    - "Job/Discover"
+    - "Job/ExtendedRead"
+    - "Job/Read"
+    - "Job/Workspace"
+    - "Lockable Resources/View"
+    - "Metrics/HealthCheck"
+    - "Metrics/ThreadDump"
+    - "Metrics/View"
+    - "Overall/Read"
+    - "Overall/SystemRead"
+    - "Run/Replay"
+    - "Run/Update"
+    - "View/Read"
+    administrators:
+    - "Overall/Administer"
+    anonymous:
+    - "Job/ViewStatus"
 jira:
   url: https://hyland.atlassian.net/
 podTemplates:
