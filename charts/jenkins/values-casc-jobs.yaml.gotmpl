@@ -70,6 +70,7 @@ controller:
         - script: > {{ tpl (readFile "jobs/nev/release-arender-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/release-nuxeo-arender-common.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/release-nuxeo-arender-connector.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nev/scan-docker-images.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('nuxeo')
         - script: > {{ tpl (readFile "jobs/nuxeo/nuxeo-helm-chart.groovy.gotmpl") . | nindent 12 }}
