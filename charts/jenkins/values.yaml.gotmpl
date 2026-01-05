@@ -97,7 +97,7 @@ controller:
             name: "nuxeo*Developers"
             permissions: {{ toYaml .Values.authorization.permissions.developers | nindent 12 }}
         - group:
-            name: "nuxeo*devops"
+            name: "nuxeo*ops-readiness-performance"
             permissions: {{ toYaml .Values.authorization.permissions.developers | nindent 12 }}
         - group:
             name: "nuxeo*platform"
