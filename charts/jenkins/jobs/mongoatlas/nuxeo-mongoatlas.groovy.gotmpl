@@ -1,0 +1,41 @@
+multibranchPipelineJob('mongoatlas/nuxeo-mongoatlas') {
+  // Description
+  description('Nuxeo Mongo Atlas')
+  // Branch Sources
+  branchSources {
+    branchSource {
+      source {
+        // GitHub
+        github {
+          id('mongoatlas/nuxeo-mongoatlas')
+          // Credentials
+          credentialsId('github-branch-source')
+          // Repository
+          repoOwner('nuxeo')
+          repository('nuxeo-mongoatlas')
+          repositoryUrl('https://github.com/nuxeo/nuxeo-mongoatlas')
+          configuredByUrl(false)
+          // Behaviors
+          traits {
+            {{- .Values.jobs.traits.gitHubBranchDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubPullRequestDiscovery | nindent 12 }}
+            {{- .Values.jobs.traits.disableStatusUpdateTrait | nindent 12 }}
+            {{- .Values.jobs.traits.gitHubStatusChecks | nindent 12 }}
+            {{- .Values.jobs.traits.packageLtsHeadRegexFilter | nindent 12 }}
+          }
+        }
+      }
+      {{- .Values.jobs.strategy | nindent 6 }}
+    }
+  }
+  // Build Configuration
+  factory {
+    // Mode: by Jenkinsfile
+    workflowBranchProjectFactory {
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/build.groovy')
+    }
+  }
+  {{- .Values.jobs.triggers | nindent 2 }}
+  {{- .Values.jobs.orphanedItemStrategy | nindent 2 }}
+}
