@@ -9,7 +9,7 @@
   {{- toYaml .Values.podTemplates.containers | nindent 2 -}}
   - args: ""
     command: ""
-    image: "{{ .Values.docker.registry }}/nuxeo/builder-nodejs16:latest"
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-nodejs24:latest"
     alwaysPullImage: true
     name: "nodejs-active"
     privileged: {{ .Values.podTemplates.privileged }}
@@ -21,7 +21,7 @@
     workingDir: {{ .Values.podTemplates.workingDir }}
   - args: ""
     command: ""
-    image: "{{ .Values.docker.registry }}/nuxeo/builder-nodejs14:latest"
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-nodejs20:latest"
     alwaysPullImage: true
     name: "nodejs-maintenance"
     privileged: {{ .Values.podTemplates.privileged }}
