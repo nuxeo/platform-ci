@@ -18,6 +18,11 @@ controller:
       memory: "12Gi"
   # Secrets made available in `JCasC` through `${SECRET_KEY_NAME}`, requires an existing `jenkins-casc` secret.
   existingSecret: jenkins-casc
+  # Raise Jetty's keep-alive window to 10 minutes (600 000 ms).
+  # The MCP Server plugin sends keep-alive pings every 30 s; Jetty's default of 30 s creates a
+  # race condition that terminates SSE connections just before the next ping arrives.
+  # See https://plugins.jenkins.io/mcp-server/#plugin-content-production-deployment
+  jenkinsOpts: "--httpKeepAliveTimeout=600000"
   # Among others, enable permissions for the extended-read-permission plugin.
   javaOpts: >
     -XX:InitialRAMPercentage=50
@@ -116,6 +121,19 @@ controller:
   ingress:
     enabled: true
     hostName: jenkins.{{ .Values.namespace }}.dev.nuxeo.com
+    # Raise proxy timeouts to 600 s for the whole Jenkins ingress so that long-lived MCP SSE
+    # connections are not cut by Nginx before Jetty's keep-alive window (also 600 s).
+    # Buffering is disabled for MCP paths via the configuration snippet below.
+    # See https://plugins.jenkins.io/mcp-server/#plugin-content-production-deployment
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        location ~ ^/(mcp-server|mcp-health)/ {
+          proxy_request_buffering off;
+          proxy_buffering off;
+          proxy_set_header Connection "";
+        }
     tls:
     - hosts:
       - jenkins.{{ .Values.namespace }}.dev.nuxeo.com
