@@ -120,7 +120,7 @@ jobs:
           }
         }
       }
-  scanDockerImageNuxeoLTS:
+  scan:
     triggers: |-
       pipelineTriggers {
         // Build Triggers
