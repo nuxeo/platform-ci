@@ -122,7 +122,7 @@ jobs:
           }
         }
       }
-  scanDockerImageNuxeoLTS:
+  scan:
     # TODO add a trigger to run on Nuxeo LTS 2027 when stable
     triggers: |-
       pipelineTriggers {

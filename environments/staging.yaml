@@ -98,7 +98,7 @@ jobs:
         triggers {
         }
       }
-  scanDockerImageNuxeoLTS:
+  scan:
     triggers: |-
       pipelineTriggers {
         // Build Triggers

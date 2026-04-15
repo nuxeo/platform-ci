@@ -1,6 +1,6 @@
-pipelineJob('nuxeo/lts/scan-docker-image') {
+pipelineJob('opensearch2/scan-nuxeo-opensearch2') {
   // Description
-  description('Scan the latest nuxeo/nuxeo Docker image for the given branch.')
+  description('Scan the latest build and release of the nuxeo-opensearch2 packages for the given branch.')
   definition {
     // Definition
     cpsScm {
@@ -10,7 +10,7 @@ pipelineJob('nuxeo/lts/scan-docker-image') {
           // Repositories
           remote {
             // Repository URL
-            url('https://github.com/nuxeo/nuxeo-lts')
+            url('https://github.com/nuxeo/nuxeo-opensearch2')
             // Credentials
             credentials('github-branch-source')
           }
@@ -20,7 +20,7 @@ pipelineJob('nuxeo/lts/scan-docker-image') {
             // Repository browser
             githubWeb {
               // URL
-              repoUrl('https://github.com/nuxeo/nuxeo-lts')
+              repoUrl('https://github.com/nuxeo/nuxeo-opensearch2')
             }
           }
           extensions {
@@ -31,7 +31,7 @@ pipelineJob('nuxeo/lts/scan-docker-image') {
       // no lightweight checkout in order to make branch parameter work
       lightweight(false)
       // Script Path
-      scriptPath('ci/Jenkinsfiles/docker-scan.groovy')
+      scriptPath('ci/Jenkinsfiles/scan.groovy')
     }
   }
   parameters {
@@ -44,7 +44,7 @@ pipelineJob('nuxeo/lts/scan-docker-image') {
   properties {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
-    githubProjectUrl('https://github.com/nuxeo/nuxeo-lts')
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-opensearch2')
     {{- .Values.jobs.scan.triggers | nindent 4 }}
   }
 }
