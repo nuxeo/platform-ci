@@ -123,17 +123,10 @@ controller:
     hostName: jenkins.{{ .Values.namespace }}.dev.nuxeo.com
     # Raise proxy timeouts to 600 s for the whole Jenkins ingress so that long-lived MCP SSE
     # connections are not cut by Nginx before Jetty's keep-alive window (also 600 s).
-    # Buffering is disabled for MCP paths via the configuration snippet below.
     # See https://plugins.jenkins.io/mcp-server/#plugin-content-production-deployment
     annotations:
       nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        location ~ ^/(mcp-server|mcp-health)/ {
-          proxy_request_buffering off;
-          proxy_buffering off;
-          proxy_set_header Connection "";
-        }
     tls:
     - hosts:
       - jenkins.{{ .Values.namespace }}.dev.nuxeo.com
