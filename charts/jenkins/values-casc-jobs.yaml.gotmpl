@@ -107,6 +107,7 @@ controller:
             folder('opensearch2')
         - script: > {{ tpl (readFile "jobs/opensearch2/nuxeo-opensearch2.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/opensearch2/release-nuxeo-opensearch2.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/opensearch2/scan-nuxeo-opensearch2.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('retention')
         - script: > {{ tpl (readFile "jobs/retention/nuxeo-retention.groovy.gotmpl") . | nindent 12 }}
