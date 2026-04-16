@@ -11,10 +11,14 @@ agent:
       {{- tpl (readFile "pod-templates/nodejs.yaml.gotmpl") . | nindent 6 }}
     nuxeo-api-playground-lts-2025: |
       {{- tpl (readFile "pod-templates/nuxeo-api-playground-lts-2025.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-api-playground-lts-2027: |
+      {{- tpl (readFile "pod-templates/nuxeo-api-playground-lts-2027.yaml.gotmpl") . | nindent 6 }}
     nuxeo-benchmark-lts-2023: |
       {{- tpl (readFile "pod-templates/nuxeo-benchmark-lts-2023.yaml.gotmpl") . | nindent 6 }}
     nuxeo-benchmark-lts-2025: |
       {{- tpl (readFile "pod-templates/nuxeo-benchmark-lts-2025.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-benchmark-lts-2027: |
+      {{- tpl (readFile "pod-templates/nuxeo-benchmark-lts-2027.yaml.gotmpl") . | nindent 6 }}
     nuxeo-gcp: |
       {{- tpl (readFile "pod-templates/nuxeo-gcp.yaml.gotmpl") . | nindent 6 }}
     nuxeo-js-client: |
@@ -25,9 +29,13 @@ agent:
       {{- tpl (readFile "pod-templates/nuxeo-package-lts-2023.yaml.gotmpl") . | nindent 6 }}
     nuxeo-package-lts-2025: |
       {{- tpl (readFile "pod-templates/nuxeo-package-lts-2025.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-package-lts-2027: |
+      {{- tpl (readFile "pod-templates/nuxeo-package-lts-2027.yaml.gotmpl") . | nindent 6 }}
     nuxeo-platform-lts-2023: |
       {{- tpl (readFile "pod-templates/nuxeo-platform-lts-2023.yaml.gotmpl") . | nindent 6 }}
     nuxeo-platform-lts-2025: |
       {{- tpl (readFile "pod-templates/nuxeo-platform-lts-2025.yaml.gotmpl") . | nindent 6 }}
+    nuxeo-platform-lts-2027: |
+      {{- tpl (readFile "pod-templates/nuxeo-platform-lts-2027.yaml.gotmpl") . | nindent 6 }}
 serviceAccountAgent:
   name: {{ .Values.podTemplates.serviceAccount }}
