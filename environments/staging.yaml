@@ -58,7 +58,7 @@ jobs:
       // Filter by name (with regular expression)
       headRegexFilter {
         // Regular expression
-        regex('2023|2025|PR-.*')
+        regex('2023|2025|2027|PR-.*')
       }
     releaseMainHeadRegexFilter: |-
       // Filter by name (with regular expression)

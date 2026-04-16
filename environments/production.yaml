@@ -49,7 +49,7 @@ jobs:
       // Filter by name (with regular expression)
       headRegexFilter {
         // Regular expression
-        regex('2023|2025')
+        regex('2023|2025|2027')
       }
     releaseMainHeadRegexFilter: |-
       // Filter by name (with regular expression)
@@ -79,6 +79,7 @@ jobs:
         }
       }
   benchmarkNuxeoLTS:
+    # TODO add a trigger to run on Nuxeo LTS 2027 when stable
     triggers: |-
       pipelineTriggers {
         // Build Triggers
@@ -106,6 +107,7 @@ jobs:
         }
       }
   mirrorNuxeoLTS:
+    # TODO add a trigger to run on Nuxeo LTS 2027 when stable
     triggers: |-
       pipelineTriggers {
         // Build Triggers
@@ -121,6 +123,7 @@ jobs:
         }
       }
   scanDockerImageNuxeoLTS:
+    # TODO add a trigger to run on Nuxeo LTS 2027 when stable
     triggers: |-
       pipelineTriggers {
         // Build Triggers
