@@ -60,6 +60,7 @@ releases:
   namespace: {{ .Values.namespace }}
   needs:
   - {{ .Values.namespace }}/jenkins-extra
+  postRenderer: charts/jenkins/scripts/post-renderer.sh
   values:
   - charts/jenkins/values.yaml.gotmpl
   - charts/jenkins/values-agent.yaml.gotmpl
