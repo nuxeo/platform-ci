@@ -30,7 +30,7 @@ pipelineJob('ci/libreoffice-uploader') {
   parameters {
     string {
       name('LIBREOFFICE_VERSION')
-      defaultValue('7.1.1')
+      defaultValue('26.2.2')
       description('Libreoffice version to download from documentfoundation.org and then to upload to packages.nuxeo.com.')
       trim(true)
     }
