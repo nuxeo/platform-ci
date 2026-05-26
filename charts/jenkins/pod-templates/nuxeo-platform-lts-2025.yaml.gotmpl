@@ -43,6 +43,18 @@
     resourceRequestMemory: "8Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
+  - args: ""
+    command: ""
+    image: "{{ .Values.docker.registry }}/nuxeo/builder-java21:latest"
+    alwaysPullImage: true
+    name: "maven-documentdb"
+    privileged: {{ .Values.podTemplates.privileged }}
+    resourceLimitCpu: "4"
+    resourceLimitMemory: "8Gi"
+    resourceRequestCpu: "4"
+    resourceRequestMemory: "8Gi"
+    ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
+    workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:
   {{- toYaml .Values.podTemplates.envVars | nindent 2 -}}
   {{- toYaml .Values.podTemplates.javaEnvVars | nindent 2 -}}
