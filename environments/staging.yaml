@@ -105,13 +105,6 @@ jobs:
         triggers {
         }
       }
-  serverWebUIIntegrationTests:
-    triggers: |-
-      pipelineTriggers {
-        // Build Triggers
-        triggers {
-        }
-      }
   deletePreviewNamespaces:
     triggers: |-
       pipelineTriggers {
