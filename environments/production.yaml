@@ -132,8 +132,8 @@ jobs:
           parameterizedCron {
             // Schedule
             parameterizedSpecification('''
-              H 2 * * * % NUXEO_BRANCH=2023
-              H 2 * * * % NUXEO_BRANCH=2025
+              H 0 * * * % NUXEO_BRANCH=2023
+              H 0 * * * % NUXEO_BRANCH=2025
             ''')
           }
         }
