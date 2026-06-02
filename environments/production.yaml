@@ -138,18 +138,6 @@ jobs:
           }
         }
       }
-  serverWebUIIntegrationTests:
-    triggers: |-
-      pipelineTriggers {
-        // Build Triggers
-        triggers {
-          // Build periodically
-          cron {
-            // Schedule
-            spec('H 1 * * *')
-          }
-        }
-      }
   deletePreviewNamespaces:
     triggers: |-
       pipelineTriggers {
