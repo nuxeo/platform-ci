@@ -98,7 +98,14 @@ jobs:
         triggers {
         }
       }
-  scan:
+  scanNuxeoLTS:
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+        }
+      }
+  scanPackageLTS2025AndAbove:
     triggers: |-
       pipelineTriggers {
         // Build Triggers

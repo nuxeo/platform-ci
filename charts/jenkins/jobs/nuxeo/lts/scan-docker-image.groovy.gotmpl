@@ -45,6 +45,6 @@ pipelineJob('nuxeo/lts/scan-docker-image') {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
     githubProjectUrl('https://github.com/nuxeo/nuxeo-lts')
-    {{- .Values.jobs.scan.triggers | nindent 4 }}
+    {{- .Values.jobs.scanNuxeoLTS.triggers | nindent 4 }}
   }
 }
