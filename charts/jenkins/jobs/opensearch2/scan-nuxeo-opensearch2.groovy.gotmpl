@@ -45,6 +45,6 @@ pipelineJob('opensearch2/scan-nuxeo-opensearch2') {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
     githubProjectUrl('https://github.com/nuxeo/nuxeo-opensearch2')
-    {{- .Values.jobs.scan.triggers | nindent 4 }}
+    {{- .Values.jobs.scanPackageLTS2025AndAbove.triggers | nindent 4 }}
   }
 }
