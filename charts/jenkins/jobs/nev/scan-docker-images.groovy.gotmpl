@@ -1,0 +1,51 @@
+pipelineJob('nev/scan-docker-images') {
+  // Description
+  description('Scan the latest NEV Docker images for the given branch.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/arender-nuxeo')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('^${BRANCH}')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/arender-nuxeo')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+            lfs()
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/docker-scan.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('BRANCH')
+      description('Branch to scan.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/arender-nuxeo')
+    {{- .Values.jobs.arenderScanDockerImages.triggers | nindent 4 }}
+  }
+}
