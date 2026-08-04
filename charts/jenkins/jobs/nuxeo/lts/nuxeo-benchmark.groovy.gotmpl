@@ -69,6 +69,11 @@ pipelineJob('nuxeo/lts/nuxeo-benchmark') {
       defaultValue(false)
       description('Whether or not to sleep before destroying the stack')
     }
+    booleanParam {
+      name('USE_VERSITYGW')
+      defaultValue(false)
+      description('Whether to use a local Versity S3 instead of remote AWS S3 for blob storage')
+    }
     // technical parameters
     hidden {
       name('GITHUB_STATUS_REPOSITORY_URL')
