@@ -71,7 +71,7 @@ pipelineJob('nuxeo/lts/nuxeo-benchmark') {
     }
     booleanParam {
       name('USE_VERSITYGW')
-      defaultValue(false)
+      defaultValue(true)
       description('Whether to use a local Versity S3 instead of remote AWS S3 for blob storage')
     }
     // technical parameters
