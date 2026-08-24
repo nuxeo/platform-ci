@@ -8,8 +8,6 @@ buildKit:
     maxReplicas: 4
 certManager:
   enabled: false
-datadog:
-  enabled: false
 docker:
   registry: docker.platform-staging.dev.nuxeo.com
 node:

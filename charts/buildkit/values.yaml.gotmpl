@@ -1,7 +1,5 @@
 namespace: {{ .Values.namespace }}
 annotations:
-  ad.datadoghq.com/buildkitd.logs: '[{"service":"skaffold-builder"}]'
-  ad.datadoghq.com/tags: '{"service":"skaffold-builder"}'
   buildx.docker.com/platform: linux/amd64,linux/arm64
   dev.nuxeo.com/initiator: 'jenkins-{{ .Values.namespace }}'
   dev.nuxeo.com/repository: platform-ci
