@@ -14,8 +14,6 @@ repositories:
   url: https://kubernetes.github.io/ingress-nginx
 - name: jetstack
   url: https://charts.jetstack.io
-- name: datadog
-  url: https://helm.datadoghq.com
 - name: nfs-ganesha
   url: https://kubernetes-sigs.github.io/nfs-ganesha-server-and-external-provisioner
 - name: jenkins
@@ -83,13 +81,6 @@ releases:
   namespace: {{ .Values.namespace }}
   values:
     - charts/aws-credentials/values.yaml.gotmpl
-- name: datadog
-  chart: datadog/datadog
-  version: ~3.32.7
-  condition: datadog.enabled
-  namespace: {{ .Values.namespace }}
-  values:
-  - charts/datadog/values.yaml.gotmpl
 - name: nfs-server-provisioner
   chart: nfs-ganesha/nfs-server-provisioner
   version: ~1.8.0
