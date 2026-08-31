@@ -25,6 +25,10 @@ nexus:
         annotations:
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/rewrite-target: "/repository/docker-registry/$1"
+          # Large image-layer PUTs (~0.9 GB) can take Nexus >60s to ingest and checksum,
+          # tripping nginx's default 60s proxy read/send timeout.
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
         host: docker.{{ .Values.namespace }}.dev.nuxeo.com
         path: "/(.*)"
         secretName: {{ .Values.namespace }}-tls
