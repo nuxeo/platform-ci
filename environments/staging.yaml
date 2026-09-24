@@ -110,6 +110,20 @@ jobs:
         triggers {
         }
       }
+  scanPackageLTS2023AndAbove:
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+        }
+      }
+  scanPackage2023AndAbove:
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+        }
+      }
   deletePreviewNamespaces:
     triggers: |-
       pipelineTriggers {

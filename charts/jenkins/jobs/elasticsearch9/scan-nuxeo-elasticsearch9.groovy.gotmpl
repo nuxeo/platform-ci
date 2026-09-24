@@ -1,0 +1,50 @@
+pipelineJob('elasticsearch9/scan-nuxeo-elasticsearch9') {
+  // Description
+  description('Scan the latest build and release of the nuxeo-elasticsearch9 packages for the given branch.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-elasticsearch9')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('^${NUXEO_BRANCH}')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-elasticsearch9')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/scan.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('NUXEO_BRANCH')
+      description('Branch to scan.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-elasticsearch9')
+    {{- .Values.jobs.scanPackageLTS2025AndAbove.triggers | nindent 4 }}
+  }
+}

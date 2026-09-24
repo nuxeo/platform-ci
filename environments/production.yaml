@@ -151,6 +151,38 @@ jobs:
           }
         }
       }
+  scanPackageLTS2023AndAbove:
+    # TODO add a trigger to run on LTS 2027 when stable
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+          // Build periodically
+          parameterizedCron {
+            // Schedule
+            parameterizedSpecification('''
+              H 2 * * * % NUXEO_BRANCH=lts-2023
+              H 2 * * * % NUXEO_BRANCH=lts-2025
+            ''')
+          }
+        }
+      }
+  scanPackage2023AndAbove:
+    # TODO add a trigger to run on LTS 2027 when stable
+    triggers: |-
+      pipelineTriggers {
+        // Build Triggers
+        triggers {
+          // Build periodically
+          parameterizedCron {
+            // Schedule
+            parameterizedSpecification('''
+              H 2 * * * % NUXEO_BRANCH=2023
+              H 2 * * * % NUXEO_BRANCH=2025
+            ''')
+          }
+        }
+      }
   deletePreviewNamespaces:
     triggers: |-
       pipelineTriggers {
