@@ -1,6 +1,6 @@
-pipelineJob('retention/release-nuxeo-retention') {
+pipelineJob('retention/scan-nuxeo-retention') {
   // Description
-  description('Promote a given Nuxeo Retention build version as a release.')
+  description('Scan the latest build and release of the nuxeo-retention package for the given branch.')
   definition {
     // Definition
     cpsScm {
@@ -15,7 +15,7 @@ pipelineJob('retention/release-nuxeo-retention') {
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('^${BRANCH}')
+          branches('^${NUXEO_BRANCH}')
           browser {
             // Repository browser
             githubWeb {
@@ -31,18 +31,13 @@ pipelineJob('retention/release-nuxeo-retention') {
       // no lightweight checkout in order to make branch parameter work
       lightweight(false)
       // Script Path
-      scriptPath('ci/Jenkinsfiles/release.groovy')
+      scriptPath('ci/Jenkinsfiles/scan.groovy')
     }
   }
   parameters {
     string {
-      name('BRANCH')
-      description('Branch to release.')
-      trim(true)
-    }
-    string {
-      name('BUILD_VERSION')
-      description('Version of the Nuxeo Retention build to promote.')
+      name('NUXEO_BRANCH')
+      description('Branch to scan.')
       trim(true)
     }
   }
@@ -50,5 +45,6 @@ pipelineJob('retention/release-nuxeo-retention') {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
     githubProjectUrl('https://github.com/nuxeo/nuxeo-retention')
+    {{- .Values.jobs.scanPackageLTS2023AndAbove.triggers | nindent 4 }}
   }
 }

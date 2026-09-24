@@ -1,6 +1,6 @@
-pipelineJob('retention/release-nuxeo-retention') {
+pipelineJob('s3-management/scan-nuxeo-amazon-s3-management') {
   // Description
-  description('Promote a given Nuxeo Retention build version as a release.')
+  description('Scan the latest build and release of the nuxeo-amazon-s3-management package for the given branch.')
   definition {
     // Definition
     cpsScm {
@@ -10,17 +10,17 @@ pipelineJob('retention/release-nuxeo-retention') {
           // Repositories
           remote {
             // Repository URL
-            url('https://github.com/nuxeo/nuxeo-retention')
+            url('https://github.com/nuxeo/nuxeo-amazon-s3-management')
             // Credentials
             credentials('github-branch-source')
           }
           // Branches to build
-          branches('^${BRANCH}')
+          branches('^${NUXEO_BRANCH}')
           browser {
             // Repository browser
             githubWeb {
               // URL
-              repoUrl('https://github.com/nuxeo/nuxeo-retention')
+              repoUrl('https://github.com/nuxeo/nuxeo-amazon-s3-management')
             }
           }
           extensions {
@@ -31,24 +31,20 @@ pipelineJob('retention/release-nuxeo-retention') {
       // no lightweight checkout in order to make branch parameter work
       lightweight(false)
       // Script Path
-      scriptPath('ci/Jenkinsfiles/release.groovy')
+      scriptPath('ci/Jenkinsfiles/scan.groovy')
     }
   }
   parameters {
     string {
-      name('BRANCH')
-      description('Branch to release.')
-      trim(true)
-    }
-    string {
-      name('BUILD_VERSION')
-      description('Version of the Nuxeo Retention build to promote.')
+      name('NUXEO_BRANCH')
+      description('Branch to scan.')
       trim(true)
     }
   }
   properties {
     {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
     {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
-    githubProjectUrl('https://github.com/nuxeo/nuxeo-retention')
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-amazon-s3-management')
+    {{- .Values.jobs.scanPackageLTS2023AndAbove.triggers | nindent 4 }}
   }
 }

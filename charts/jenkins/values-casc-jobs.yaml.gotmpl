@@ -12,6 +12,7 @@ controller:
             folder('api-playground')
         - script: > {{ tpl (readFile "jobs/api-playground/nuxeo-api-playground.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/api-playground/release-nuxeo-api-playground.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/api-playground/scan-nuxeo-api-playground.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('aspera')
         - script: > {{ tpl (readFile "jobs/aspera/nuxeo-aspera-connector.groovy.gotmpl") . | nindent 12 }}
@@ -28,6 +29,7 @@ controller:
             folder('coldstorage')
         - script: > {{ tpl (readFile "jobs/coldstorage/nuxeo-coldstorage.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/coldstorage/release-nuxeo-coldstorage.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/coldstorage/scan-nuxeo-coldstorage.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('compound-documents')
         - script: > {{ tpl (readFile "jobs/compound-documents/nuxeo-compound-documents.groovy.gotmpl") . | nindent 12 }}
@@ -36,12 +38,14 @@ controller:
             folder('elasticsearch9')
         - script: > {{ tpl (readFile "jobs/elasticsearch9/nuxeo-elasticsearch9.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/elasticsearch9/release-nuxeo-elasticsearch9.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/elasticsearch9/scan-nuxeo-elasticsearch9.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('explorer')
         - script: > {{ tpl (readFile "jobs/explorer/cleanup-exports.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/explorer/export-platform-explorer-reference.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/explorer/nuxeo-explorer.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/explorer/release-nuxeo-explorer.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/explorer/scan-nuxeo-explorer.groovy.gotmpl") . | nindent 12 }}
         - script: >
             {{- tpl (readFile "jobs/frameio.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/frameio/nuxeo-frameio.groovy.gotmpl") . | nindent 12 }}
@@ -62,6 +66,7 @@ controller:
             folder('mongoatlas')
         - script: > {{ tpl (readFile "jobs/mongoatlas/nuxeo-mongoatlas.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/mongoatlas/release-nuxeo-mongoatlas.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/mongoatlas/scan-nuxeo-mongoatlas.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('nev')
         - script: > {{ tpl (readFile "jobs/nev/arender-helm-chart.groovy.gotmpl") . | nindent 12 }}
@@ -74,6 +79,7 @@ controller:
         - script: > {{ tpl (readFile "jobs/nev/release-arender-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/release-nuxeo-arender-common.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nev/release-nuxeo-arender-connector.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/nev/scan-nuxeo-arender-connector.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('nuxeo')
         - script: > {{ tpl (readFile "jobs/nuxeo/nuxeo-helm-chart.groovy.gotmpl") . | nindent 12 }}
@@ -112,10 +118,12 @@ controller:
             folder('retention')
         - script: > {{ tpl (readFile "jobs/retention/nuxeo-retention.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/retention/release-nuxeo-retention.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/retention/scan-nuxeo-retention.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('s3-management')
         - script: > {{ tpl (readFile "jobs/s3-management/nuxeo-amazon-s3-management.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/s3-management/release-nuxeo-amazon-s3-management.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/s3-management/scan-nuxeo-amazon-s3-management.groovy.gotmpl") . | nindent 12 }}
         - script: >
             folder('salesforce')
         - script: > {{ tpl (readFile "jobs/salesforce/nuxeo-salesforce.groovy.gotmpl") . | nindent 12 }}
