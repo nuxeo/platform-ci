@@ -111,6 +111,10 @@ controller:
         - user:
             name: "anonymous"
             permissions: {{ toYaml .Values.authorization.permissions.anonymous | nindent 12 }}
+  # The cluster autoscaler must not evict the controller during node scale-down: restarting it
+  # may terminate the agent pods of in-flight builds, failing them.
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
   nodeSelector:
     team: platform
   tolerations:
