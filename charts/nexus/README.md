@@ -201,8 +201,6 @@ The following table lists the configurable parameters of the Nexus chart and the
 | `persistence.enabled`                      | Set false to eliminate persistent storage                                                    | `true`                                                                                                                                          |
 | `persistence.existingClaim`                | Specify the name of an existing persistent volume claim to use instead of creating a new one | nil                                                                                                                                             |
 | `persistence.storageSize`                  | Size of the storage the chart will request                                                   | `8Gi`                                                                                                                                           |
-| `podDisruptionBudget.annotations`          | PodDisruptionBudget annotations                                                              | `{}`                                                                                                                                            |
-| `podDisruptionBudget.minAvailable`         | PodDisruptionBudget `minAvailable`                                                           | `1`                                                                                                                                             |
 
 ### Persistence
 

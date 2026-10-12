@@ -75,7 +75,11 @@ nexus:
     runAsGroup: 200
     fsGroup: 200
     fsGroupChangePolicy: OnRootMismatch
-  podAnnotations: {}
+  # The cluster autoscaler must not evict Nexus during node scale-down: every build resolving
+  # artifacts fails while it restarts. Deliberately an annotation rather than a PodDisruptionBudget,
+  # which would stall node-upgrade drains until the GKE timeout and lose the pod anyway.
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
   livenessProbe:
     initialDelaySeconds: 30
     periodSeconds: 30
@@ -190,7 +194,3 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
-
-podDisruptionBudget:
-  annotations: {}
-  minAvailable: 1
