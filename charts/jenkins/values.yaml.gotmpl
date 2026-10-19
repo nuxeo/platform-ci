@@ -24,6 +24,10 @@ controller:
   # See https://plugins.jenkins.io/mcp-server/#plugin-content-production-deployment
   jenkinsOpts: "--httpKeepAliveTimeout=600000"
   # Among others, enable permissions for the extended-read-permission plugin.
+  # `keepUndefinedParameters=false` only silences the SECURITY-170 warning logged when a downstream
+  # build is triggered with a parameter the target job doesn't declare. Parameters are still filtered
+  # out. Never set it to `true`, nor use `safeParameters`: both let undefined parameters reach the
+  # build environment, which is a privilege escalation from trigger-only permissions.
   javaOpts: >
     -XX:InitialRAMPercentage=50
     -XX:MaxRAMPercentage=50
@@ -31,6 +35,7 @@ controller:
     -Djava.awt.headless=true
     -Dhudson.security.ExtendedReadPermission=true
     -Djenkins.security.SystemReadPermission=true
+    -Dhudson.model.ParametersAction.keepUndefinedParameters=false
   probes:
     # Allow 3 minutes for the Jenkins startup.
     startupProbe:
