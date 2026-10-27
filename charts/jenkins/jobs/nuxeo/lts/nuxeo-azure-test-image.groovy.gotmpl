@@ -1,0 +1,54 @@
+pipelineJob('nuxeo/lts/nuxeo-azure-test-image') {
+  // Description
+  description('Build the Nuxeo image for automated tests on Azure')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/integration-scripts-priv')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('^${NUXEO_BRANCH}')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/integration-scripts-priv')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('Jenkinsfiles/nuxeo-azure-test-image.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('NUXEO_BRANCH')
+      description('Released branch.')
+      trim(true)
+    }
+    string {
+      name('NUXEO_RELEASE_VERSION')
+      description('Version of the Nuxeo Server release to build the image from.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/integration-scripts-priv')
+  }
+}
