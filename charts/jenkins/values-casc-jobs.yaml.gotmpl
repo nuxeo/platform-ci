@@ -63,6 +63,9 @@ controller:
         - script: > {{ tpl (readFile "jobs/media-manipulation/nuxeo-media-manipulation.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/media-manipulation/release-nuxeo-media-manipulation.groovy.gotmpl") . | nindent 12 }}
         - script: >
+            folder('mcp-server')
+        - script: > {{ tpl (readFile "jobs/mcp-server/nuxeo-mcp-server.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('mongoatlas')
         - script: > {{ tpl (readFile "jobs/mongoatlas/nuxeo-mongoatlas.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/mongoatlas/release-nuxeo-mongoatlas.groovy.gotmpl") . | nindent 12 }}
