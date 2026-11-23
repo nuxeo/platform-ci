@@ -111,6 +111,10 @@ controller:
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/scan-nuxeo.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/nuxeo/lts/update-pentest-instance.groovy.gotmpl") . | nindent 12 }}
         - script: >
+            folder('one-time-packages')
+        - script: > {{ tpl (readFile "jobs/one-time-packages/nuxeo-one-time-packages.groovy.gotmpl") . | nindent 12 }}
+        - script: > {{ tpl (readFile "jobs/one-time-packages/release-nuxeo-one-time-packages.groovy.gotmpl") . | nindent 12 }}
+        - script: >
             folder('opensearch2')
         - script: > {{ tpl (readFile "jobs/opensearch2/nuxeo-opensearch2.groovy.gotmpl") . | nindent 12 }}
         - script: > {{ tpl (readFile "jobs/opensearch2/release-nuxeo-opensearch2.groovy.gotmpl") . | nindent 12 }}

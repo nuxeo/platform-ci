@@ -1,0 +1,54 @@
+pipelineJob('one-time-packages/release-nuxeo-one-time-packages') {
+  // Description
+  description('Release a Nuxeo one-time package of a given branch.')
+  definition {
+    // Definition
+    cpsScm {
+      scm {
+        // SCM
+        git {
+          // Repositories
+          remote {
+            // Repository URL
+            url('https://github.com/nuxeo/nuxeo-one-time-packages')
+            // Credentials
+            credentials('github-branch-source')
+          }
+          // Branches to build
+          branches('^${BRANCH}')
+          browser {
+            // Repository browser
+            githubWeb {
+              // URL
+              repoUrl('https://github.com/nuxeo/nuxeo-one-time-packages')
+            }
+          }
+          extensions {
+            {{- .Values.jobs.extensions.gitSCMStatusChecksExtension | nindent 12 }}
+          }
+        }
+      }
+      // no lightweight checkout in order to make branch parameter work
+      lightweight(false)
+      // Script Path
+      scriptPath('ci/Jenkinsfiles/release.groovy')
+    }
+  }
+  parameters {
+    string {
+      name('BRANCH')
+      description('Branch to release the package from, e.g. lts-2023.')
+      trim(true)
+    }
+    string {
+      name('PACKAGE')
+      description('Directory of the package to release, at the root of the branch.')
+      trim(true)
+    }
+  }
+  properties {
+    {{- .Values.jobs.properties.buildDiscarder | nindent 4 }}
+    {{- .Values.jobs.properties.disableConcurrentBuilds | nindent 4 }}
+    githubProjectUrl('https://github.com/nuxeo/nuxeo-one-time-packages')
+  }
+}
