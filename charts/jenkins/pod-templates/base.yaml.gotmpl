@@ -13,10 +13,10 @@
     alwaysPullImage: true
     name: "base"
     privileged: {{ .Values.podTemplates.privileged }}
-    resourceLimitCpu: "1"
-    resourceLimitMemory: "1Gi"
-    resourceRequestCpu: "250m"
-    resourceRequestMemory: "1Gi"
+    resourceLimitCpu: "2"
+    resourceLimitMemory: "2Gi"
+    resourceRequestCpu: "1"
+    resourceRequestMemory: "2Gi"
     ttyEnabled: {{ .Values.podTemplates.ttyEnabled }}
     workingDir: {{ .Values.podTemplates.workingDir }}
   envVars:
